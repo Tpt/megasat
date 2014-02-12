@@ -126,22 +126,22 @@ Formule* Formule::resoudre_seau(const Formule* seau, int id) const
 
     unsigned int i=0;
     unsigned int j=0;
-    for(unordered_set<Clause*>::iterator it=pos.begin();it!=pos.end();++it,++i)///On double-boucle pour faire toutes les résolutions...
+    for(unordered_set<Clause*>::iterator it=pos.begin(); it!=pos.end(); ++it,++i) ///On double-boucle pour faire toutes les résolutions...
     {
         printf("c ["); /// Affichage !
         unsigned int l=0;
-        for(;l<i*50/pos.size();++l)
+        for(; l<i*50/pos.size(); ++l)
             printf("#");
-        for(;l<50;++l)
+        for(; l<50; ++l)
             printf(" ");
         printf("] %d%%",i*100/pos.size());
         j=0;
-        for(unordered_set<Clause*>::iterator jt=neg.begin();jt!=neg.end();++jt,++j)
+        for(unordered_set<Clause*>::iterator jt=neg.begin(); jt!=neg.end(); ++jt,++j)
         {
             work=resolution(*it, *jt, id);
             if(work->isVide()) ///Si on a une clause si, c'est fini et on interromp avec une exception.
             {
-                for(l=0;l<58;++l) ///Gestion du cas particulier
+                for(l=0; l<58; ++l) ///Gestion du cas particulier
                     printf("\b");
                 if(i*100/pos.size()==100)
                     printf("\b");
@@ -156,14 +156,14 @@ Formule* Formule::resoudre_seau(const Formule* seau, int id) const
                 sortie->addClause(work);
             }
         }
-        for(l=0;l<58;++l) ///Suite de l'affichage
+        for(l=0; l<58; ++l) ///Suite de l'affichage
             printf("\b");
         if(i*100/pos.size()==100)
             printf("\b");
     }
     printf("c ["); ///Et fin de la magnifique interface utilisateur !
     int l=0;
-    for(;l<50;++l)
+    for(; l<50; ++l)
         printf("#");
     printf("] 100%%\n");
 
@@ -207,7 +207,7 @@ void Formule::solve()
 {
     vector<Formule*> seaux(0);
 
-    for(int i=0;i<V;++i) /// On crée les seaux.
+    for(int i=0; i<V; ++i) /// On crée les seaux.
         seaux.push_back(new Formule(0,0,vars,lits_pos,lits_neg));
 
     for(Clause* c : clauses) /// On remplit les seaux.
@@ -217,17 +217,17 @@ void Formule::solve()
     try ///Observez bien l'astucieux try/catch !
     {
         cout<<"c "<<"Nombre de seaux : "<<V<<endl;
-        for(int i=V;i>0;--i) ///Les résolutions dans le sens descendant
+        for(int i=V; i>0; --i) ///Les résolutions dans le sens descendant
         {
             cout<<"c "<<"Seau "<<i<<" :"<<endl;
             fusionner(resoudre_seau(seaux[i-1],i),seaux);
         }
 
-        for(int i=0;i<V;++i) ///La remonté
+        for(int i=0; i<V; ++i) ///La remonté
             chercher_assignation(seaux[i], i);
 
         cout<<"s SATISFIABLE"<<endl; ///Affiche la solution si aucune exception n'est lancée ie si la formule est satisfiable
-        for(int i=0;i<V;++i)
+        for(int i=0; i<V; ++i)
         {
             if(vars[i]->getVal())
                 cout<<"v "<<i+1<<endl;
@@ -243,7 +243,7 @@ void Formule::solve()
 
 void Formule::init_lits()
 {
-    for(int i=0;i<V;++i)
+    for(int i=0; i<V; ++i)
     {
         vars.push_back(new Variable(i+1));
         lits_neg.push_back(new Literal(vars[i],false));
@@ -269,7 +269,8 @@ Formule::Formule(string filename) : V(0), C(0) , clauses(unordered_set<Clause*>(
     do
     {
         getline(file,s);
-    }while(s[0]=='c');
+    }
+    while(s[0]=='c');
 
     istringstream ss(s);
     ss>>s;
@@ -277,7 +278,7 @@ Formule::Formule(string filename) : V(0), C(0) , clauses(unordered_set<Clause*>(
     ss>>V;
     ss>>C;
     init_lits();
-    for(int i=0;i<C;++i)
+    for(int i=0; i<C; ++i)
     {
         getline(file,s);
         if(s[0]=='c')

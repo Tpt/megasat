@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     if(argc == 1)
     {
         cerr << "resol: fatal error: no input files\nresolution terminated." << endl << endl;
-       return EXIT_FAILURE;
+        return EXIT_FAILURE;
     }
 
     Formule formule( argv[1] );

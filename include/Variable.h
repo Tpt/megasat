@@ -5,7 +5,7 @@
 
 class Variable
 {
-    public:
+public:
     Variable();
     Variable(int id_e);
     ~Variable();
@@ -17,7 +17,7 @@ class Variable
     bool getVal() const;
     void setVal(bool e);
 
-    private:
+private:
     int id;         /// Le numéro de la variable
     bool assigned;  /// Si la variable a déjà été assignée
     bool val;       /// La valeur assignée. a ne pas prendre en compte si assigned==false.

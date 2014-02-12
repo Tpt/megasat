@@ -82,7 +82,7 @@ bool Clause::isTautologie() const ///Test simplement si un literal apparait avec
             found_neg[-l->getId()-1]=true;
     }
 
-    for(int i=0;i<V;++i)
+    for(int i=0; i<V; ++i)
         if(found_neg[i] && found_pos[i])
             return true;
 
