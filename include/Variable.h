@@ -18,13 +18,13 @@ class Variable
     void setVal(bool e);
 
     private:
-    int id;         /// Le numéro de la variable
-    bool assigned;  /// Si la variable a déjà été assignée
-    bool val;       /// La valeur assignée. a ne pas prendre en compte si assigned==false.
+    int id;         /// Le numÃ©ro de la variable
+    bool assigned;  /// Si la variable a dÃ©jÃ  Ã©tÃ© assignÃ©e
+    bool val;       /// La valeur assignÃ©e. a ne pas prendre en compte si assigned==false.
 };
 
-bool operator<(int const a, Variable const& b); /** Ok, un peu overkill mais c'était sympa de ne pas se poser la question en codant **/
-bool operator<(Variable const &a, int const b); /** Tout ceci sert à avoir un ordre arbitraire sur les variables comme dévrit dans le sujet **/
+bool operator<(int const a, Variable const& b); /** Ok, un peu overkill mais c'Ã©tait sympa de ne pas se poser la question en codant **/
+bool operator<(Variable const &a, int const b); /** Tout ceci sert Ã  avoir un ordre arbitraire sur les variables comme dÃ©vrit dans le sujet **/
 bool operator<(Variable const &a, Variable const& b); /** En particulier pour ordonner les seaux. **/
 bool operator>(int const a, Variable const& b);
 bool operator>(Variable const &a, int const b);
