@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
     if(argc==1)
     {
-        cout<<"resol: fatal error: no input files\nresolution terminated."<<endl<<endl;
+        cerr<<"resol: fatal error: no input files\nresolution terminated."<<endl<<endl;
         exit(EXIT_FAILURE);
     }
 

@@ -13,11 +13,11 @@ CFormule::~CFormule() ///Pas franchement utile.
         delete c;
 }
 
-vector<CVariable*> getVars() const{
+vector<CVariable*> CFormule::getVars() const{
     return vars;
 }
 
-CVariable* getVar(int id) const{
+CVariable* CFormule::getVar(int id) const{
     return vars[id];
 }
 

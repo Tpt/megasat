@@ -24,3 +24,6 @@
 *.cbp
 *.depend
 *.layout
+
+#XCode
+*.xcodeproj
