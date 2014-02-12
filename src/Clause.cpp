@@ -4,7 +4,7 @@
 
 using namespace std;
 
-bool egalite_clauses(Clause const* a, Clause const* b) ///Ca aurait pu être utile
+bool egalite_clauses(Clause const* a, Clause const* b) ///Ca aurait pu Ãªtre utile
 {
     return (*a==*b);
 }
@@ -15,8 +15,8 @@ bool comp(const Literal* a, const Literal* b) ///Idem
 }
 
 bool comp_lit(const Literal* a, const Literal* b) /**Un peu subtil, a servi par le passe.
-Avant de me mettre aux unordered_set, j'ai utilisé des set. Et avant cela des vector.
-Et pour gagner un peu de temps, j'avais le bon gout de trier mes vectors Selon cet ordre ou le précédent.
+Avant de me mettre aux unordered_set, j'ai utilisÃ© des set. Et avant cela des vector.
+Et pour gagner un peu de temps, j'avais le bon gout de trier mes vectors Selon cet ordre ou le prÃ©cÃ©dent.
 **/
 {
     if(a->getAbsId()==b->getAbsId())
@@ -39,7 +39,7 @@ void Clause::print() const ///Pour le debugage
     cout<<endl;
 }
 
-void Clause::supprimer(Literal* l) ///Supprime toutes les occurences d'un litéral.
+void Clause::supprimer(Literal* l) ///Supprime toutes les occurences d'un litÃ©ral.
 {
     literaux.erase(l);
     n=literaux.size();
@@ -60,7 +60,7 @@ int Clause::polariteLiteral(Literal* l1, Literal* l2) const ///Utile pour distin
 }
 
 void Clause::fusionner(Clause* c) /** Fusionne la clause avec une autre.
-L'utilisation des pointeurs sur les literaux assure (grace à la méthode insert) qu'il n'y a pas de doublons.
+L'utilisation des pointeurs sur les literaux assure (grace Ã  la mÃ©thode insert) qu'il n'y a pas de doublons.
 **/
 {
     unordered_set<Literal*> lit(c->getLiteraux());
@@ -69,7 +69,7 @@ L'utilisation des pointeurs sur les literaux assure (grace à la méthode insert) 
         literaux.insert(l);
 }
 
-bool Clause::isTautologie() const ///Test simplement si un literal apparait avec les deux polatités.
+bool Clause::isTautologie() const ///Test simplement si un literal apparait avec les deux polatitÃ©s.
 {
     vector<bool> found_pos(V,false);
     vector<bool> found_neg(V,false);
@@ -89,8 +89,8 @@ bool Clause::isTautologie() const ///Test simplement si un literal apparait avec
     return false;
 }
 
-void Clause::literalPresent(int id, bool& found_pos, bool& found_neg) const /**Test la présence d'une variable et de sa négation.
-On obtient le retour grace aux références en argument. On obtient ainsi la polarite.
+void Clause::literalPresent(int id, bool& found_pos, bool& found_neg) const /**Test la prÃ©sence d'une variable et de sa nÃ©gation.
+On obtient le retour grace aux rÃ©fÃ©rences en argument. On obtient ainsi la polarite.
 **/
 {
     for(Literal* l : literaux)
@@ -102,7 +102,7 @@ On obtient le retour grace aux références en argument. On obtient ainsi la polar
     }
 }
 
-void Clause::literauxPresents(vector<bool>& found_pos, vector<bool>& found_neg) const /** Idem que précédemment mais avec
+void Clause::literauxPresents(vector<bool>& found_pos, vector<bool>& found_neg) const /** Idem que prÃ©cÃ©demment mais avec
 toutes les variables
 **/
 {
@@ -129,8 +129,8 @@ int Clause::indiceMax() const ///Donne l'indice maximum des variables de la clau
 int Clause::eval() const /**Evalue une clause
 Renvoie 0 si la clause est fausse.
 1 si la clause est vraie.
-2 si une variable n'est pas encore initialisée.
-NB : 1 peut être renvoyé alors que certaines variables ne sont pas encore définies.
+2 si une variable n'est pas encore initialisÃ©e.
+NB : 1 peut Ãªtre renvoyÃ© alors que certaines variables ne sont pas encore dÃ©finies.
 **/
 {
     for(Literal* l : literaux)
@@ -143,7 +143,7 @@ NB : 1 peut être renvoyé alors que certaines variables ne sont pas encore défini
     return 0;
 }
 
-bool Clause::estSurclause(const Clause* c) const ///Test si la clause est une surclause de la clause donnée en argument.
+bool Clause::estSurclause(const Clause* c) const ///Test si la clause est une surclause de la clause donnÃ©e en argument.
 {
     unordered_set<Literal*> lit(c->getLiteraux());
 
