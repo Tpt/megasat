@@ -1,117 +1,117 @@
-#include "CFormule.h"
+#include "Formule.h"
 #include<cstdio>
 #include<cstdlib>
 
 using namespace std;
 
-CFormule::CFormule() : V(0), C(0) , clauses(unordered_set<CClause*>()), vars(vector<CVariable*>()), lits_pos(vector<CLiteral*>()), lits_neg(vector<CLiteral*>())
+Formule::Formule() : V(0), C(0) , clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
 {}
 
-CFormule::~CFormule() ///Pas franchement utile.
+Formule::~Formule() ///Pas franchement utile.
 {
-    for(CClause* c : clauses)
+    for(Clause* c : clauses)
         delete c;
 }
 
-vector<CVariable*> CFormule::getVars() const{
+vector<Variable*> Formule::getVars() const{
     return vars;
 }
 
-CVariable* CFormule::getVar(int id) const{
+Variable* Formule::getVar(int id) const{
     return vars[id];
 }
 
-void CFormule::print() const
+void Formule::print() const
 {
-    for(CClause* c : clauses)
+    for(Clause* c : clauses)
         c->print();
 
     cout<<endl;
 }
 
-int CFormule::size() const
+int Formule::size() const
 {
     return C;
 }
 
-bool CFormule::isVide() const
+bool Formule::isVide() const
 {
     return C==0;
 }
 
-bool CFormule::isThereClauseVide() const
+bool Formule::isThereClauseVide() const
 {
-    for(CClause* c : clauses)
+    for(Clause* c : clauses)
         if(c->size()==0)
             return true;
     return false;
 }
 
-void CFormule::addClause(CClause* c) ///malgré la structure d'ensemble, le test est indispensable. En effet c est un pointeur et non l'élément
+void Formule::addClause(Clause* c) ///malgré la structure d'ensemble, le test est indispensable. En effet c est un pointeur et non l'élément
 {
     if(!contient(c))
         clauses.insert(c);
     C=clauses.size();
 }
 
-void CFormule::addClauses(const unordered_set<CClause*>& c) ///Le précédent en boucle
+void Formule::addClauses(const unordered_set<Clause*>& c) ///Le précédent en boucle
 {
-    for(CClause* cl : c)
+    for(Clause* cl : c)
         if(!contient(cl))
             clauses.insert(cl);
 
     C=clauses.size();
 }
 
-CClause* CFormule::resolution(const CClause* c1, CClause* c2, const int id) const
+Clause* Formule::resolution(const Clause* c1, Clause* c2, const int id) const
 {
-    CClause* sortie=new CClause(*c1);
+    Clause* sortie=new Clause(*c1);
     sortie->fusionner(c2);
     sortie->supprimer(lits_pos[id-1]);
     sortie->supprimer(lits_neg[id-1]);
     return sortie;
 }
 
-unordered_set<CClause*> CFormule::getClauses() const
+unordered_set<Clause*> Formule::getClauses() const
 {
     return clauses;
 }
 
-bool CFormule::contient(const CClause* c) const
+bool Formule::contient(const Clause* c) const
 {
-    for(CClause* c_ : clauses)
+    for(Clause* c_ : clauses)
         if(*c_==*c)
             return true;
 
     return false;
 }
 
-void CFormule::supprimer_surclauses(const CClause* cl)
+void Formule::supprimer_surclauses(const Clause* cl)
 {
-    for(CClause* c : clauses)
+    for(Clause* c : clauses)
         if(c->estSurclause(cl))
             clauses.erase(c);
 }
 
-bool CFormule::aSousclauses(const CClause* cl) const
+bool Formule::aSousclauses(const Clause* cl) const
 {
-    for(CClause* c : clauses)
+    for(Clause* c : clauses)
         if(cl->estSurclause(c))
             return true;
 
     return false;
 }
 
-CFormule* CFormule::resoudre_seau(const CFormule* seau, int id) const
+Formule* Formule::resoudre_seau(const Formule* seau, int id) const
 {
-    unordered_set<CClause*> pos;
-    unordered_set<CClause*> neg;
-    unordered_set<CClause*> autres;
-    unordered_set<CClause*> all(seau->getClauses());
-    CFormule* sortie=new CFormule(V,C,vars,lits_pos,lits_neg);
-    CClause* work;
+    unordered_set<Clause*> pos;
+    unordered_set<Clause*> neg;
+    unordered_set<Clause*> autres;
+    unordered_set<Clause*> all(seau->getClauses());
+    Formule* sortie=new Formule(V,C,vars,lits_pos,lits_neg);
+    Clause* work;
 
-    for(CClause* c : all) ///Sépare les polarités
+    for(Clause* c : all) ///Sépare les polarités
     {
         if(c->polariteLiteral(lits_pos[id-1],lits_neg[id-1])==1)
             pos.insert(c);
@@ -124,7 +124,7 @@ CFormule* CFormule::resoudre_seau(const CFormule* seau, int id) const
 
     unsigned int i=0;
     unsigned int j=0;
-    for(unordered_set<CClause*>::iterator it=pos.begin();it!=pos.end();++it,++i)///On double-boucle pour faire toutes les résolutions...
+    for(unordered_set<Clause*>::iterator it=pos.begin();it!=pos.end();++it,++i)///On double-boucle pour faire toutes les résolutions...
     {
         printf("c ["); /// Affichage !
         unsigned int l=0;
@@ -134,7 +134,7 @@ CFormule* CFormule::resoudre_seau(const CFormule* seau, int id) const
             printf(" ");
         printf("] %d%%",i*100/pos.size());
         j=0;
-        for(unordered_set<CClause*>::iterator jt=neg.begin();jt!=neg.end();++jt,++j)
+        for(unordered_set<Clause*>::iterator jt=neg.begin();jt!=neg.end();++jt,++j)
         {
             work=resolution(*it, *jt, id);
             if(work->isVide()) ///Si on a une clause si, c'est fini et on interromp avec une exception.
@@ -168,14 +168,14 @@ CFormule* CFormule::resoudre_seau(const CFormule* seau, int id) const
     return sortie;
 }
 
-int CFormule::eval() const /** Comme à l'accoutumée :
+int Formule::eval() const /** Comme à l'accoutumée :
 0 => Faux
 1 => Vrai
 2 => Non encore défini
 NB : 0 peut être renvoyé alors que certaines variables ne sont pas encore définies.
 **/
 {
-    for(CClause* c : clauses)
+    for(Clause* c : clauses)
     {
         int tmp=c->eval();
         if(tmp==2)
@@ -186,29 +186,29 @@ NB : 0 peut être renvoyé alors que certaines variables ne sont pas encore défini
     return 1;
 }
 
-void CFormule::fusionner(const CFormule* e, vector<CFormule*> seaux) const ///Ajoute les clauses d'une formule dans les bons seaux
+void Formule::fusionner(const Formule* e, vector<Formule*> seaux) const ///Ajoute les clauses d'une formule dans les bons seaux
 {
-    unordered_set<CClause*> t=e->getClauses();
+    unordered_set<Clause*> t=e->getClauses();
 
-    for(CClause* c:t)
+    for(Clause* c:t)
         seaux[c->indiceMax()-1]->addClause(c);
 }
 
-void CFormule::chercher_assignation(CFormule* f, int id) ///On essaie avec l'un et si ça ne marche pas, on prend l'autre...
+void Formule::chercher_assignation(Formule* f, int id) ///On essaie avec l'un et si ça ne marche pas, on prend l'autre...
 {
     vars[id]->setVal(true);
     if(f->eval()!=1)
         vars[id]->setVal(false);
 }
 
-void CFormule::solve()
+void Formule::solve()
 {
-    vector<CFormule*> seaux(0);
+    vector<Formule*> seaux(0);
 
     for(int i=0;i<V;++i) /// On crée les seaux.
-        seaux.push_back(new CFormule(0,0,vars,lits_pos,lits_neg));
+        seaux.push_back(new Formule(0,0,vars,lits_pos,lits_neg));
 
-    for(CClause* c : clauses) /// On remplit les seaux.
+    for(Clause* c : clauses) /// On remplit les seaux.
         if(!c->isTautologie())
             seaux[c->indiceMax()-1]->addClause(c);
 
@@ -239,24 +239,24 @@ void CFormule::solve()
     }
 }
 
-void CFormule::init_lits()
+void Formule::init_lits()
 {
     for(int i=0;i<V;++i)
     {
-        vars.push_back(new CVariable(i+1));
-        lits_neg.push_back(new CLiteral(vars[i],false));
-        lits_pos.push_back(new CLiteral(vars[i],true));
+        vars.push_back(new Variable(i+1));
+        lits_neg.push_back(new Literal(vars[i],false));
+        lits_pos.push_back(new Literal(vars[i],true));
     }
 }
 
-CFormule::CFormule(const CFormule& other) : V(other.V), C(other.C) , clauses(other.clauses), vars(other.vars), lits_pos(other.lits_pos), lits_neg(other.lits_neg)
+Formule::Formule(const Formule& other) : V(other.V), C(other.C) , clauses(other.clauses), vars(other.vars), lits_pos(other.lits_pos), lits_neg(other.lits_neg)
 {}
 
-CFormule::CFormule(string filename) : V(0), C(0) , clauses(unordered_set<CClause*>()), vars(vector<CVariable*>()), lits_pos(vector<CLiteral*>()), lits_neg(vector<CLiteral*>())
+Formule::Formule(string filename) : V(0), C(0) , clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
 {
     string s;
     ifstream file(filename, ios_base::in);
-    unordered_set<CLiteral*> work;
+    unordered_set<Literal*> work;
 
     if(!file.good())
     {
@@ -292,12 +292,12 @@ CFormule::CFormule(string filename) : V(0), C(0) , clauses(unordered_set<CClause
                 else if(tmp<0)
                     work.insert(lits_neg[-tmp-1]);
             }
-            clauses.insert(new CClause(work,V));
+            clauses.insert(new Clause(work,V));
         }
     }
 
     file.close();
 }
 
-CFormule::CFormule(const int V_e, const int C_e, const vector<CVariable*>& vars_e, const vector<CLiteral*>& lits_pos_e, const vector<CLiteral*>& lits_neg_e) : V(V_e), C(C_e) , clauses(unordered_set<CClause*>()), vars(vars_e), lits_pos(lits_pos_e), lits_neg(lits_neg_e)
+Formule::Formule(const int V_e, const int C_e, const vector<Variable*>& vars_e, const vector<Literal*>& lits_pos_e, const vector<Literal*>& lits_neg_e) : V(V_e), C(C_e) , clauses(unordered_set<Clause*>()), vars(vars_e), lits_pos(lits_pos_e), lits_neg(lits_neg_e)
 {}

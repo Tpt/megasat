@@ -1,49 +1,49 @@
-#ifndef CFORMULE_H
-#define CFORMULE_H
+#ifndef FORMULE_H
+#define FORMULE_H
 
 #include<iostream>
 #include<string>
 #include<fstream>
 #include<sstream>
-#include"CClause.h"
+#include"Clause.h"
 
-class CFormule
+class Formule
 {
     public:
-    CFormule();
-    CFormule(std::string filename);
-    ~CFormule();
-    CFormule(const CFormule& other);
-    CFormule(const int V_e, const int C_e, const std::vector<CVariable*>& vars_e, const std::vector<CLiteral*>& lits_pos_e, const std::vector<CLiteral*>& lits_neg_e);
+    Formule();
+    Formule(std::string filename);
+    ~Formule();
+    Formule(const Formule& other);
+    Formule(const int V_e, const int C_e, const std::vector<Variable*>& vars_e, const std::vector<Literal*>& lits_pos_e, const std::vector<Literal*>& lits_neg_e);
     int size() const;
     void solve();
     bool isThereClauseVide() const;
-    void addClause(CClause* c);
-    void addClauses(const std::unordered_set<CClause*>& c);
+    void addClause(Clause* c);
+    void addClauses(const std::unordered_set<Clause*>& c);
     bool isVide() const;
-    std::unordered_set<CClause*> getClauses() const;
+    std::unordered_set<Clause*> getClauses() const;
     int eval() const;
-    void fusionner(const CFormule* e, std::vector<CFormule*> seaux) const;
+    void fusionner(const Formule* e, std::vector<Formule*> seaux) const;
     void print() const;
-    bool contient(const CClause* c) const;
-    void supprimer_surclauses(const CClause* cl);
-    bool aSousclauses(const CClause* cl) const;
-    std::vector<CVariable*> getVars() const;
-    CVariable* getVar(int id) const;
+    bool contient(const Clause* c) const;
+    void supprimer_surclauses(const Clause* cl);
+    bool aSousclauses(const Clause* cl) const;
+    std::vector<Variable*> getVars() const;
+    Variable* getVar(int id) const;
 
     private:
-    CClause* resolution(const CClause* c1, CClause* c2, const int id) const;
-    CFormule* resoudre_seau(const CFormule* seau, int id) const;
+    Clause* resolution(const Clause* c1, Clause* c2, const int id) const;
+    Formule* resoudre_seau(const Formule* seau, int id) const;
     void init_lits();
-    void chercher_assignation(CFormule* f, int id);
+    void chercher_assignation(Formule* f, int id);
 
 
     int V; ///Nombre de variables
     int C; ///Nombre de clauses
-    std::unordered_set<CClause*> clauses;
-    std::vector<CVariable*> vars;
-    std::vector<CLiteral*> lits_pos;
-    std::vector<CLiteral*> lits_neg;
+    std::unordered_set<Clause*> clauses;
+    std::vector<Variable*> vars;
+    std::vector<Literal*> lits_pos;
+    std::vector<Literal*> lits_neg;
 };
 
-#endif // CFORMULE_H
+#endif // FORMULE_H

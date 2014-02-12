@@ -1,6 +1,6 @@
 #include<cstdlib>
 #include<ctime>
-#include"CFormule.h"
+#include"Formule.h"
 
 using namespace std;
 
@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
        return EXIT_FAILURE;
     }
 
-    CFormule formule( argv[1] );
+    Formule formule( argv[1] );
     clock_t t;
     t = clock();
     formule.solve();

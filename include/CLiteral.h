@@ -1,50 +1,50 @@
-#ifndef CLITERAL_H
-#define CLITERAL_H
+#ifndef LITERAL_H
+#define LITERAL_H
 
 #include<cmath>
-#include"CVariable.h"
+#include"Variable.h"
 
-class CLiteral
+class Literal
 {
     public:
-    CLiteral();
-    CLiteral(CVariable* a, bool pol);
-    virtual ~CLiteral();
-    CLiteral(const CLiteral& other);
-    CLiteral& operator=(const CLiteral& other);
+    Literal();
+    Literal(Variable* a, bool pol);
+    virtual ~Literal();
+    Literal(const Literal& other);
+    Literal& operator=(const Literal& other);
     int getId() const;
     int getAbsId() const;
-    bool less(CLiteral const& b) const;
-    bool eless(CLiteral const& b) const;
+    bool less(Literal const& b) const;
+    bool eless(Literal const& b) const;
     bool isAssigned() const;
     bool getVal() const;
     bool getPolarite() const;
-    CVariable* getVar() const;
+    Variable* getVar() const;
     void setVal(bool e);
     void print() const;
 
     private:
-    CVariable* var;     /// Le pointeur vers la variable correspondante.
+    Variable* var;     /// Le pointeur vers la variable correspondante.
     bool polarite;      /// La polarité : si polarite==true, le literal vaut x sinon c'est non(x).
 };
 
-bool operator<(int const a, CLiteral const& b); /** Toujours aussi overkill **/
-bool operator<(CLiteral const& a, int const b);
-bool operator<(CLiteral const& a, CLiteral const& b);
-bool operator>(int const a, CLiteral const& b);
-bool operator>(CLiteral const& a, int const b);
-bool operator>(CLiteral const& a, CLiteral const& b);
-bool operator<=(int const a, CLiteral const& b);
-bool operator<=(CLiteral const& a, int const b);
-bool operator<=(CLiteral const& a, CLiteral const& b);
-bool operator>=(int const a, CLiteral const& b);
-bool operator>=(CLiteral const& a, int const b);
-bool operator>=(CLiteral const& a, CLiteral const& b);
-bool operator==(int const a, CLiteral const& b);
-bool operator==(CLiteral const& a, int const b);
-bool operator==(CLiteral const& a, CLiteral const& b);
-bool operator!=(int const a, CLiteral const& b);
-bool operator!=(CLiteral const& a, int const b);
-bool operator!=(CLiteral const& a, CLiteral const& b);
+bool operator<(int const a, Literal const& b); /** Toujours aussi overkill **/
+bool operator<(Literal const& a, int const b);
+bool operator<(Literal const& a, Literal const& b);
+bool operator>(int const a, Literal const& b);
+bool operator>(Literal const& a, int const b);
+bool operator>(Literal const& a, Literal const& b);
+bool operator<=(int const a, Literal const& b);
+bool operator<=(Literal const& a, int const b);
+bool operator<=(Literal const& a, Literal const& b);
+bool operator>=(int const a, Literal const& b);
+bool operator>=(Literal const& a, int const b);
+bool operator>=(Literal const& a, Literal const& b);
+bool operator==(int const a, Literal const& b);
+bool operator==(Literal const& a, int const b);
+bool operator==(Literal const& a, Literal const& b);
+bool operator!=(int const a, Literal const& b);
+bool operator!=(Literal const& a, int const b);
+bool operator!=(Literal const& a, Literal const& b);
 
-#endif // CLITERAL_H
+#endif // LITERAL_H
