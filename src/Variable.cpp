@@ -39,13 +39,14 @@ int Variable::getId() const
     return id;
 }
 
-Variable::Variable(int id_e) : id(id_e), assigned(false), val(false) {
-}
+Variable::Variable(int id_e) : id(id_e), assigned(false), val(false)
+{}
 
-Variable::Variable(const Variable& other) : id(other.id), assigned(other.assigned), val(other.val) {
-}
+Variable::Variable(const Variable& other) : id(other.id), assigned(other.assigned), val(other.val)
+{}
 
-bool operator<(int const a, Variable const& b) {
+bool operator<(int const a, Variable const& b)
+{
     return a<b.getId();
 }
 
