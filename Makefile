@@ -5,23 +5,23 @@ EXEC=resol
 
 all: $(EXEC)
 
-resol: clause.o formule.o literal.o variable.o main.o
+resol: obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/main.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-clause.o: CClause.cpp
+obj/clause.o: src/Clause.cpp include/Clause.h
 	$(CC) -o $@ -c $< $(NAZI)
 	
-formule.o: CFormule.cpp
+obj/formule.o: src/Formule.cpp
 	$(CC) -o $@ -c $< $(NAZI)
 	
-literal.o: CLiteral.cpp
+obj/literal.o: src/Literal.cpp
 	$(CC) -o $@ -c $< $(NAZI)
 	
-variable.o: CVariable.cpp
+obj/variable.o: src/Variable.cpp
 	$(CC) -o $@ -c $< $(NAZI)
 
-main.o: main.cpp
+obj/main.o: main.cpp
 	$(CC) -o $@ -c $< $(NAZI)
 	
 clean:
-	rm *.o
+	rm obj/*.o
