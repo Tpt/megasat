@@ -1,4 +1,4 @@
-#include "Formule.h"
+#include "../include/Formule.h"
 #include<cstdio>
 #include<cstdlib>
 
@@ -53,7 +53,7 @@ void Formule::addClause(Clause* c) ///malgré la structure d'ensemble, le test e
 {
     if(!contient(c))
         clauses.insert(c);
-    C=clauses.size();
+    C=static_cast<int>(clauses.size());
 }
 
 void Formule::addClauses(const unordered_set<Clause*>& c) ///Le précédent en boucle
@@ -62,7 +62,7 @@ void Formule::addClauses(const unordered_set<Clause*>& c) ///Le précédent en b
         if(!contient(cl))
             clauses.insert(cl);
 
-    C=clauses.size();
+    C=static_cast<int>(clauses.size());
 }
 
 Clause* Formule::resolution(const Clause* c1, Clause* c2, const int id) const
@@ -134,7 +134,7 @@ Formule* Formule::resoudre_seau(const Formule* seau, int id) const
             printf("#");
         for(; l<50; ++l)
             printf(" ");
-        printf("] %d%%",i*100/pos.size());
+        printf("] %d%%",i*100/static_cast<int>(pos.size()));
         j=0;
         for(unordered_set<Clause*>::iterator jt=neg.begin(); jt!=neg.end(); ++jt,++j)
         {

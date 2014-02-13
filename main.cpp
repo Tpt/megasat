@@ -1,6 +1,6 @@
 #include<cstdlib>
 #include<ctime>
-#include"Formule.h"
+#include"include/Formule.h"
 
 using namespace std;
 

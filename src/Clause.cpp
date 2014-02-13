@@ -1,4 +1,4 @@
-#include "Clause.h"
+#include "../include/Clause.h"
 #include<algorithm>
 #include<iostream>
 
@@ -42,7 +42,7 @@ void Clause::print() const ///Pour le debugage
 void Clause::supprimer(Literal* l) ///Supprime toutes les occurences d'un litéral.
 {
     literaux.erase(l);
-    n=literaux.size();
+    n=static_cast<int>(literaux.size());
 }
 
 unordered_set<Literal*> Clause::getLiteraux() const
@@ -174,7 +174,7 @@ Clause::Clause(const Clause& other) : literaux(other.literaux), V(other.V), n(ot
 Clause::Clause() : literaux(unordered_set<Literal*>()), V(0), n(0)
 {}
 
-Clause::Clause(unordered_set<Literal*> e, int V_e) : literaux(e), V(V_e), n(e.size())
+Clause::Clause(unordered_set<Literal*> e, int V_e) : literaux(e), V(V_e), n(static_cast<int>(e.size()))
 {}
 
 bool operator==(Clause const &a_, Clause const& b_)
