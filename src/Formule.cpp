@@ -13,11 +13,13 @@ Formule::~Formule() ///Pas franchement utile.
         delete c;
 }
 
-vector<Variable*> Formule::getVars() const{
+vector<Variable*> Formule::getVars() const
+{
     return vars;
 }
 
-Variable* Formule::getVar(int id) const{
+Variable* Formule::getVar(int id) const
+{
     return vars[id];
 }
 
@@ -36,36 +38,34 @@ int Formule::size() const
 
 bool Formule::isVide() const
 {
-    return C==0;
+    return C == 0;
 }
 
 bool Formule::isThereClauseVide() const
 {
     for(Clause* c : clauses)
-        if(c->size()==0)
+        if(c->isVide())
             return true;
     return false;
 }
 
-void Formule::addClause(Clause* c) ///malgré la structure d'ensemble, le test est indispensable. En effet c est un pointeur et non l'élément
+void Formule::addClause(Clause* c) ///malgrŽ la structure d'ensemble, le test est indispensable. En effet c est un pointeur et non l'ŽlŽment
 {
-    if(!contient(c))
+    if(!contient(c)) {
         clauses.insert(c);
-    C=clauses.size();
+        C++;
+    }
 }
 
-void Formule::addClauses(const unordered_set<Clause*>& c) ///Le précédent en boucle
+void Formule::addClauses(const unordered_set<Clause*>& c)
 {
     for(Clause* cl : c)
-        if(!contient(cl))
-            clauses.insert(cl);
-
-    C=clauses.size();
+        addClause( cl );
 }
 
 Clause* Formule::resolution(const Clause* c1, Clause* c2, const int id) const
 {
-    Clause* sortie=new Clause(*c1);
+    Clause* sortie = new Clause(*c1);
     sortie->fusionner(c2);
     sortie->supprimer(lits_pos[id-1]);
     sortie->supprimer(lits_neg[id-1]);
@@ -80,7 +80,7 @@ unordered_set<Clause*> Formule::getClauses() const
 bool Formule::contient(const Clause* c) const
 {
     for(Clause* c_ : clauses)
-        if(*c_==*c)
+        if(*c_ == *c)
             return true;
 
     return false;

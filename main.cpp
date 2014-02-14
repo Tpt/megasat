@@ -5,7 +5,8 @@
 using namespace std;
 
 int main(int argc, char *argv[]) {
-    if(argc == 1) {
+    if(argc == 1)
+    {
         cerr << "resol: fatal error: no input files\nresolution terminated." << endl << endl;
        return EXIT_FAILURE;
     }
@@ -15,7 +16,7 @@ int main(int argc, char *argv[]) {
     t = clock();
     formule.solve();
     t = clock() - t;
-    printf("c Resolu en : %f secondes\n", static_cast<double>(t) / static_cast<double>(CLOCKS_PER_SEC));
+    cout << "c Resolu en : " << static_cast<double>(t) / static_cast<double>(CLOCKS_PER_SEC) << " secondes" << endl;
 
     return EXIT_SUCCESS;
 }
