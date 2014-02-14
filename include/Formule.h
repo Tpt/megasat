@@ -9,7 +9,7 @@
 
 class Formule
 {
-    public:
+public:
     Formule();
     Formule(std::string filename);
     ~Formule();
@@ -31,7 +31,7 @@ class Formule
     std::vector<Variable*> getVars() const;
     Variable* getVar(int id) const;
 
-    private:
+private:
     Clause* resolution(const Clause* c1, Clause* c2, const int id) const;
     Formule* resoudre_seau(const Formule* seau, int id) const;
     void init_lits();

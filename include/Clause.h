@@ -9,7 +9,7 @@
 
 class Clause
 {
-    public:
+public:
     Clause();
     Clause(std::unordered_set<Literal*> e, int V_e);
     ~Clause();
@@ -29,7 +29,7 @@ class Clause
     int getV() const;
     bool estSurclause(const Clause* c) const;
 
-    private:
+private:
     std::unordered_set<Literal*> literaux;
     int V;
     int n;

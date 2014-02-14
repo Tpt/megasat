@@ -6,7 +6,7 @@
 
 class Literal
 {
-    public:
+public:
     Literal();
     Literal(Variable* a, bool pol);
     virtual ~Literal();
@@ -23,9 +23,9 @@ class Literal
     void setVal(bool e);
     void print() const;
 
-    private:
+private:
     Variable* var;     /// Le pointeur vers la variable correspondante.
-    bool polarite;      /// La polarité : si polarite==true, le literal vaut x sinon c'est non(x).
+    bool polarite;      /// La polaritÃ© : si polarite==true, le literal vaut x sinon c'est non(x).
 };
 
 bool operator<(int const a, Literal const& b); /** Toujours aussi overkill **/

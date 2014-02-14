@@ -1,14 +1,15 @@
 #include<cstdlib>
 #include<ctime>
-#include"Formule.h"
+#include"include/Formule.h"
 
 using namespace std;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     if(argc == 1)
     {
         cerr << "resol: fatal error: no input files\nresolution terminated." << endl << endl;
-       return EXIT_FAILURE;
+        return EXIT_FAILURE;
     }
 
     Formule formule( argv[1] );
