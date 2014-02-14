@@ -14,8 +14,6 @@ public:
     Literal& operator=(const Literal& other);
     int getId() const;
     int getAbsId() const;
-    bool less(Literal const& b) const;
-    bool eless(Literal const& b) const;
     bool isAssigned() const;
     bool getVal() const;
     bool getPolarite() const;
@@ -24,8 +22,8 @@ public:
     void print() const;
 
 private:
-    Variable* var;     /// Le pointeur vers la variable correspondante.
-    bool polarite;      /// La polarité : si polarite==true, le literal vaut x sinon c'est non(x).
+    Variable* var; /// Le pointeur vers la variable correspondante.
+    bool polarite; /// La polarité : si polarite==true, le literal vaut x sinon c'est non(x).
 };
 
 bool operator<(int const a, Literal const& b); /** Toujours aussi overkill **/

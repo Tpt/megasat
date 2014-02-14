@@ -9,7 +9,13 @@ Literal::~Literal()
 Literal::Literal() : var(NULL), polarite(true)
 {}
 
-void Literal::setVal(bool e) /** Agit sur la variable pointee **/
+Literal::Literal(Variable* a, bool pol) : var(a), polarite(pol)
+{}
+
+Literal::Literal(const Literal& other) : var(other.var), polarite(other.polarite)
+{} //TODO: utile???
+
+void Literal::setVal(bool e)
 {
     if(polarite)
         var->setVal(e);
@@ -20,8 +26,8 @@ void Literal::setVal(bool e) /** Agit sur la variable pointee **/
 void Literal::print() const
 {
     if(!polarite)
-        cout<<"-";
-    cout<<var->getId();
+        cout << "-";
+    cout << var->getId();
 }
 
 Variable* Literal::getVar() const
@@ -54,22 +60,6 @@ int Literal::getId() const
     return polarite ? var->getId() : -(var->getId());
 }
 
-bool Literal::less(Literal const& b) const
-{
-    return getAbsId()<b.getAbsId();
-}
-
-bool Literal::eless(Literal const& b) const
-{
-    return getAbsId()<=b.getAbsId();
-}
-
-Literal::Literal(Variable* a, bool pol) : var(a), polarite(pol)
-{}
-
-Literal::Literal(const Literal& other) : var(other.var), polarite(other.polarite)
-{}
-
 Literal& Literal::operator=(const Literal& rhs)
 {
     if (this == &rhs) return *this;
@@ -80,92 +70,93 @@ Literal& Literal::operator=(const Literal& rhs)
     return *this;
 }
 
+
 bool operator<(int const a, Literal const& b)
 {
-    return a<b.getAbsId();
+    return a < b.getAbsId();
 }
 
 bool operator<(Literal const &a, int const b)
 {
-    return a.getAbsId()<b;
+    return a.getAbsId() < b;
 }
 
 bool operator<(Literal const &a, Literal const& b)
 {
-    return a.less(b);
+    return a.getAbsId() < b.getAbsId();
 }
 
 bool operator>(int const a, Literal const& b)
 {
-    return a>b.getAbsId();
+    return a > b.getAbsId();
 }
 
 bool operator>(Literal const &a, int const b)
 {
-    return a.getAbsId()>b;
+    return a.getAbsId() > b;
 }
 
 bool operator>(Literal const &a, Literal const& b)
 {
-    return b.less(a);
+    return a.getAbsId() > b.getAbsId();
 }
 
 bool operator<=(int const a, Literal const& b)
 {
-    return a<=b.getAbsId();
+    return a <= b.getAbsId();
 }
 
 bool operator<=(Literal const &a, int const b)
 {
-    return a.getAbsId()<=b;
+    return a.getAbsId() <= b;
 }
 
 bool operator<=(Literal const &a, Literal const& b)
 {
-    return a.eless(b);
+    return a.getAbsId() <= b.getAbsId();
 }
 
 bool operator>=(int const a, Literal const& b)
 {
-    return a>=b.getAbsId();
+    return a >= b.getAbsId();
 }
 
 bool operator>=(Literal const &a, int const b)
 {
-    return a.getAbsId()<b;
+    return a.getAbsId() >= b;
 }
 
 bool operator>=(Literal const &a, Literal const& b)
 {
-    return b.eless(a);
+    return a.getAbsId() >= b.getAbsId();
 }
 
 bool operator==(int const a, Literal const& b)
 {
-    return b.getId()==a;
+    return b.getId() == a;
 }
 
 bool operator==(Literal const &a, int const b)
 {
-    return a.getId()==b;
+    return a.getId() == b;
 }
 
 bool operator==(Literal const &a, Literal const& b)
 {
-    return a.getId()==b.getId();
+    return a.getId() == b.getId();
 }
 
 bool operator!=(int const a, Literal const& b)
 {
-    return !(a==b);
+    return a != b.getId();
 }
 
 bool operator!=(Literal const &a, int const b)
 {
-    return !(a==b);
+    return a.getId() != b;
 }
 
 bool operator!=(Literal const &a, Literal const& b)
 {
-    return !(a==b);
+    return a.getId() != b.getId();
 }

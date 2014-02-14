@@ -4,29 +4,16 @@
 
 using namespace std;
 
-bool egalite_clauses(Clause const* a, Clause const* b) ///Ca aurait pu être utile
-{
-    return (*a==*b);
-}
-
-bool comp(const Literal* a, const Literal* b) ///Idem
-{
-    return a->getId()<b->getId();
-}
-
-bool comp_lit(const Literal* a, const Literal* b) /**Un peu subtil, a servi par le passe.
-Avant de me mettre aux unordered_set, j'ai utilisé des set. Et avant cela des vector.
-Et pour gagner un peu de temps, j'avais le bon gout de trier mes vectors Selon cet ordre ou le précédent.
-**/
-{
-    if(a->getAbsId()==b->getAbsId())
-        return a->getId()>b->getId();
-
-    return a->getAbsId()<b->getAbsId();
-}
-
-
 Clause::~Clause()
+{}
+
+Clause::Clause() : literaux(unordered_set<Literal*>()), V(0), n(0)
+{}
+
+Clause::Clause(unordered_set<Literal*> e, int V_e) : literaux(e), V(V_e), n(static_cast<int>(e.size()))
+{}
+
+Clause::Clause(const Clause& other) : literaux(other.literaux), V(other.V), n(other.n)
 {}
 
 void Clause::print() const ///Pour le debugage
@@ -34,15 +21,15 @@ void Clause::print() const ///Pour le debugage
     for(Literal* c : literaux)
     {
         c->print();
-        cout<<" ";
+        cout << " ";
     }
-    cout<<endl;
+    cout << endl;
 }
 
 void Clause::supprimer(Literal* l) ///Supprime toutes les occurences d'un litéral.
 {
     literaux.erase(l);
-    n=static_cast<int>(literaux.size());
+    n = static_cast<int>(literaux.size());
 }
 
 unordered_set<Literal*> Clause::getLiteraux() const
@@ -52,11 +39,12 @@ unordered_set<Literal*> Clause::getLiteraux() const
 
 int Clause::polariteLiteral(Literal* l1, Literal* l2) const ///Utile pour distinguer les deux parties pour les mariages.
 {
-    if(literaux.count(l1)!=0)
+    if(literaux.count(l1) != 0)
         return 1;
-    else if(literaux.count(l2)!=0)
+    else if(literaux.count(l2) != 0)
         return -1;
-    return 0;
+    else
+        return 0;
 }
 
 void Clause::fusionner(Clause* c) /** Fusionne la clause avec une autre.
@@ -69,21 +57,21 @@ L'utilisation des pointeurs sur les literaux assure (grace à la méthode insert
         literaux.insert(l);
 }
 
-bool Clause::isTautologie() const ///Test simplement si un literal apparait avec les deux polatités.
+bool Clause::isTautologie() const ///Test simplement si un literal apparait avec les deux polarités.
 {
-    vector<bool> found_pos(V,false);
-    vector<bool> found_neg(V,false);
+    vector<bool> foundPos(V,false);
+    vector<bool> foundNeg(V,false);
 
     for(Literal* l : literaux)
     {
         if(l->getId()>0)
-            found_pos[l->getId()-1]=true;
+            foundPos[l->getId()-1]=true;
         else
-            found_neg[-l->getId()-1]=true;
+            foundNeg[-l->getId()-1]=true;
     }
 
     for(int i=0; i<V; ++i)
-        if(found_neg[i] && found_pos[i])
+        if(foundNeg[i] && foundPos[i])
             return true;
 
     return false;
@@ -96,32 +84,32 @@ On obtient le retour grace aux références en argument. On obtient ainsi la pol
     for(Literal* l : literaux)
     {
         if(l->getPolarite() && l->getId()==id)
-            found_pos=true;
-        else if(l->getId()==id)
-            found_neg=true;
+            found_pos = true;
+        else if(l->getId() == id)
+            found_neg = true;
     }
 }
 
-void Clause::literauxPresents(vector<bool>& found_pos, vector<bool>& found_neg) const /** Idem que précédemment mais avec
+void Clause::literauxPresents(vector<bool>& foundPos, vector<bool>& foundNeg) const /** Idem que précédemment mais avec
 toutes les variables
 **/
 {
     for(Literal* l : literaux)
     {
         if(l->getPolarite())
-            found_pos[l->getId()-1];
+            foundPos[l->getId()-1];
         else
-            found_neg[-l->getId()-1];
+            foundNeg[-l->getId()-1];
     }
 }
 
 int Clause::indiceMax() const ///Donne l'indice maximum des variables de la clause (pour ranger dans les seaux).
 {
-    int sup=0;
+    int sup = 0;
 
     for(Literal* l : literaux)
-        if(*l>sup)
-            sup=l->getAbsId();
+        if(*l > sup)
+            sup = l->getAbsId();
 
     return sup;
 }
@@ -150,7 +138,7 @@ bool Clause::estSurclause(const Clause* c) const ///Test si la clause est une su
     for(Literal* l : literaux)
         lit.erase(l);
 
-    return lit.size()==0;
+    return lit.size() == 0;
 }
 
 int Clause::size() const
@@ -165,34 +153,20 @@ int Clause::getV() const
 
 bool Clause::isVide() const
 {
-    return (n==0);
+    return (n == 0);
 }
 
-Clause::Clause(const Clause& other) : literaux(other.literaux), V(other.V), n(other.n)
-{}
-
-Clause::Clause() : literaux(unordered_set<Literal*>()), V(0), n(0)
-{}
-
-Clause::Clause(unordered_set<Literal*> e, int V_e) : literaux(e), V(V_e), n(static_cast<int>(e.size()))
-{}
-
-bool operator==(Clause const &a_, Clause const& b_)
+bool operator==(Clause const &a, Clause const& b)
 {
-    Clause a(a_);
-    Clause b(b_);
-    if(a.size()!=b.size())
+    if(a.size() != b.size())
         return false;
 
-    unordered_set<Literal*> t(a.getLiteraux());
-    unordered_set<Literal*> u(b.getLiteraux());
+    unordered_set<Literal*> literauxA(a.getLiteraux());
+    unordered_set<Literal*> literauxB(b.getLiteraux());
 
-    for(Literal* l : t)
-        if(u.erase(l)==0)
+    for(Literal* l : literauxA)
+        if(literauxB.erase(l)==0)
             return false;
 
-    if(u.size()!=0)
-        return false;
-
-    return true;
+    return literauxB.size() == 0;
 }

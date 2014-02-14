@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Formule::Formule() : V(0), C(0) , clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
+Formule::Formule() : V(0), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
 {}
 
 Formule::~Formule() ///Pas franchement utile.
@@ -33,12 +33,12 @@ void Formule::print() const
 
 int Formule::size() const
 {
-    return C;
+    return static_cast<int>(clauses.size());
 }
 
 bool Formule::isVide() const
 {
-    return C == 0;
+    return clauses.size() == 0;
 }
 
 bool Formule::isThereClauseVide() const
@@ -49,20 +49,16 @@ bool Formule::isThereClauseVide() const
     return false;
 }
 
-void Formule::addClause(Clause* c) ///malgré la structure d'ensemble, le test est indispensable. En effet c est un pointeur et non l'élément
+void Formule::addClause(Clause* clause) ///malgré la structure d'ensemble, le test est indispensable. En effet c est un pointeur et non l'élément
 {
-    if(!contient(c))
-        clauses.insert(c);
-    C=static_cast<int>(clauses.size());
+    if(!contient(clause))
+        clauses.insert(clause);
 }
 
-void Formule::addClauses(const unordered_set<Clause*>& c) ///Le pr√©c√©dent en boucle
+void Formule::addClauses(const unordered_set<Clause*>& clauses) ///Le précédent en boucle
 {
-    for(Clause* cl : c)
-        if(!contient(cl))
-            clauses.insert(cl);
-
-    C=static_cast<int>(clauses.size());
+    for(Clause* clause : clauses)
+        addClause(clause);
 }
 
 Clause* Formule::resolution(const Clause* c1, Clause* c2, const int id) const
@@ -79,10 +75,10 @@ unordered_set<Clause*> Formule::getClauses() const
     return clauses;
 }
 
-bool Formule::contient(const Clause* c) const
+bool Formule::contient(const Clause* clause) const
 {
-    for(Clause* c_ : clauses)
-        if(*c_ == *c)
+    for(Clause* clause2 : clauses)
+        if(*clause == *clause2)
             return true;
 
     return false;
@@ -110,7 +106,7 @@ Formule* Formule::resoudre_seau(const Formule* seau, int id) const
     unordered_set<Clause*> neg;
     unordered_set<Clause*> autres;
     unordered_set<Clause*> all(seau->getClauses());
-    Formule* sortie=new Formule(V,C,vars,lits_pos,lits_neg);
+    Formule* sortie=new Formule(V,size(),vars,lits_pos,lits_neg);
     Clause* work;
 
     for(Clause* c : all) ///S√©pare les polarit√©s
@@ -170,11 +166,11 @@ Formule* Formule::resoudre_seau(const Formule* seau, int id) const
     return sortie;
 }
 
-int Formule::eval() const /** Comme √† l'accoutum√©e :
+int Formule::eval() const /** Comme à l'accoutumée :
 0 => Faux
 1 => Vrai
-2 => Non encore d√©fini
-NB : 0 peut √™tre renvoy√© alors que certaines variables ne sont pas encore d√©finies.
+2 => Non encore défini
+NB : 0 peut petre renvoyé alors que certaines variables ne sont pas encore définies.
 **/
 {
     for(Clause* c : clauses)
@@ -196,7 +192,7 @@ void Formule::fusionner(const Formule* e, vector<Formule*> seaux) const ///Ajout
         seaux[c->indiceMax()-1]->addClause(c);
 }
 
-void Formule::chercher_assignation(Formule* f, int id) ///On essaie avec l'un et si √ßa ne marche pas, on prend l'autre...
+void Formule::chercher_assignation(Formule* f, int id) ///On essaie avec l'un et si ça ne marche pas, on prend l'autre...
 {
     vars[id]->setVal(true);
     if(f->eval()!=1)
@@ -251,10 +247,10 @@ void Formule::init_lits()
     }
 }
 
-Formule::Formule(const Formule& other) : V(other.V), C(other.C) , clauses(other.clauses), vars(other.vars), lits_pos(other.lits_pos), lits_neg(other.lits_neg)
+Formule::Formule(const Formule& other) : V(other.V), clauses(other.clauses), vars(other.vars), lits_pos(other.lits_pos), lits_neg(other.lits_neg)
 {}
 
-Formule::Formule(string filename) : V(0), C(0) , clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
+Formule::Formule(string filename) : V(0), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
 {
     string s;
     ifstream file(filename, ios_base::in);
@@ -273,6 +269,7 @@ Formule::Formule(string filename) : V(0), C(0) , clauses(unordered_set<Clause*>(
     while(s[0]=='c');
 
     istringstream ss(s);
+    int C;
     ss>>s;
     ss>>s;
     ss>>V;
@@ -302,5 +299,5 @@ Formule::Formule(string filename) : V(0), C(0) , clauses(unordered_set<Clause*>(
     file.close();
 }
 
-Formule::Formule(const int V_e, const int C_e, const vector<Variable*>& vars_e, const vector<Literal*>& lits_pos_e, const vector<Literal*>& lits_neg_e) : V(V_e), C(C_e) , clauses(unordered_set<Clause*>()), vars(vars_e), lits_pos(lits_pos_e), lits_neg(lits_neg_e)
+Formule::Formule(const int V_e, const int C_e, const vector<Variable*>& vars_e, const vector<Literal*>& lits_pos_e, const vector<Literal*>& lits_neg_e) : V(V_e), clauses(unordered_set<Clause*>()), vars(vars_e), lits_pos(lits_pos_e), lits_neg(lits_neg_e)
 {}

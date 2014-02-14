@@ -39,7 +39,6 @@ private:
 
 
     int V; ///Nombre de variables
-    int C; ///Nombre de clauses
     std::unordered_set<Clause*> clauses;
     std::vector<Variable*> vars;
     std::vector<Literal*> lits_pos;
