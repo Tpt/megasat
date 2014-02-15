@@ -7,6 +7,9 @@ using namespace std;
 Formule::Formule() : V(0), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
 {}
 
+Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordered_set<Clause*>()), vars(vector<Variable*>(variableNumber)), lits_pos(vector<Literal*>(variableNumber)), lits_neg(vector<Literal*>(variableNumber))
+{}
+
 Formule::~Formule() ///Pas franchement utile.
 {
     for(Clause* c : clauses)
@@ -21,6 +24,15 @@ vector<Variable*> Formule::getVars() const
 Variable* Formule::getVar(int id) const
 {
     return vars[id];
+}
+
+Literal* Formule::getLiteral(int id) const
+{
+    if(id > 0) {
+        return lits_pos[id - 1];
+    } else {
+        return lits_neg[-id - 1];
+    }
 }
 
 void Formule::print() const

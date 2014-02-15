@@ -11,10 +11,11 @@ class Formule
 {
 public:
     Formule();
+    Formule(const int variableNumber);
     Formule(std::string filename);
-    ~Formule();
     Formule(const Formule& other);
     Formule(const int V_e, const int C_e, const std::vector<Variable*>& vars_e, const std::vector<Literal*>& lits_pos_e, const std::vector<Literal*>& lits_neg_e);
+    ~Formule();
     int size() const;
     void solve();
     bool isThereClauseVide() const;
@@ -30,6 +31,7 @@ public:
     bool aSousclauses(const Clause* cl) const;
     std::vector<Variable*> getVars() const;
     Variable* getVar(int id) const;
+    Literal* getLiteral(int id) const; /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)
 
 private:
     Clause* resolution(const Clause* c1, Clause* c2, const int id) const;

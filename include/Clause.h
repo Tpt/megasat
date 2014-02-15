@@ -11,7 +11,8 @@ class Clause
 {
 public:
     Clause();
-    Clause(std::unordered_set<Literal*> e, int V_e);
+    Clause(int variableNumber);
+    Clause(std::unordered_set<Literal*> literaux, int variableNumber);
     ~Clause();
     Clause(const Clause& other);
     int size() const;
@@ -21,6 +22,7 @@ public:
     void literauxPresents(std::vector<bool>& found_pos, std::vector<bool>& found_neg) const;
     void literalPresent(int id, bool& found_pos, bool& found_neg) const;
     bool isTautologie() const;
+    void addLiteral(Literal* literal);
     void fusionner(Clause* c);
     std::unordered_set<Literal*> getLiteraux() const;
     void supprimer(Literal* l);

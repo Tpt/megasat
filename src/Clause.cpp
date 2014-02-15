@@ -10,7 +10,10 @@ Clause::~Clause()
 Clause::Clause() : literaux(unordered_set<Literal*>()), variableNumber(0)
 {}
 
-Clause::Clause(unordered_set<Literal*> e, int variableNumber) : literaux(e), variableNumber(variableNumber)
+Clause::Clause(int variableNumber) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber)
+{}
+
+Clause::Clause(unordered_set<Literal*> literaux, int variableNumber) : literaux(literaux), variableNumber(variableNumber)
 {}
 
 Clause::Clause(const Clause& other) : literaux(other.literaux), variableNumber(other.variableNumber)
@@ -24,6 +27,11 @@ void Clause::print() const ///Pour le debugage
         cout << " ";
     }
     cout << endl;
+}
+
+void Clause::addLiteral(Literal* l)
+{
+    literaux.insert(l);
 }
 
 void Clause::supprimer(Literal* l) ///Supprime toutes les occurences d'un litéral.
