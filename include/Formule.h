@@ -14,9 +14,11 @@ public:
     Formule(std::string filename);
     ~Formule();
     Formule(const Formule& other);
-    Formule(const int V_e, const int C_e, const std::vector<Variable*>& vars_e, const std::vector<Literal*>& lits_pos_e, const std::vector<Literal*>& lits_neg_e);
+    Formule(const int V_e, const std::vector<Variable*>& vars_e, const std::vector<Literal*>& lits_pos_e, const std::vector<Literal*>& lits_neg_e);
     int size() const;
     void solve();
+    void setLiteral(int id, bool polarite, bool val);
+    void setVar(int id, bool val);
     bool isThereClauseVide() const;
     void addClause(Clause* c);
     void addClauses(const std::unordered_set<Clause*>& c);
@@ -30,12 +32,18 @@ public:
     bool aSousclauses(const Clause* cl) const;
     std::vector<Variable*> getVars() const;
     Variable* getVar(int id) const;
+    void simplifier();
 
 private:
     Clause* resolution(const Clause* c1, Clause* c2, const int id) const;
     Formule* resoudre_seau(const Formule* seau, int id) const;
     void init_lits();
     void chercher_assignation(Formule* f, int id);
+    void compacter();
+    bool simplficationLiteralPur(int id);
+    void supprimerTautologies();
+    bool propagationUnitaire();
+    bool eliminationLiterauxPurs();
 
 
     int V; ///Nombre de variables
