@@ -148,6 +148,17 @@ bool Clause::estSurclause(const Clause* c) const ///Test si la clause est une su
     return lit.size() == 0;
 }
 
+bool Clause::simplificationUnitaire() const
+{
+    if(size() != 1)
+        return false;
+
+    for(Literal* l : literaux) // A refaire !!!!!
+        l->setVal(true);
+
+    return true;
+}
+
 int Clause::size() const
 {
     return static_cast<int>(literaux.size());
@@ -166,6 +177,22 @@ int Clause::getVariableNumber() const
 bool Clause::isVide() const
 {
     return (size() == 0);
+}
+
+bool Clause::contientLiteralVrai() const
+{
+    for(Literal* l : literaux)
+        if(l->isAssigned() && l->getVal())
+            return true;
+
+    return false;
+}
+
+void Clause::supprimerLiterauxFaux()
+{
+    for(Literal* l : literaux)
+        if(l->isAssigned() && (!l->getVal()))
+            literaux.erase(l);
 }
 
 bool operator==(Clause const &a, Clause const& b)

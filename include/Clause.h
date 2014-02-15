@@ -16,6 +16,7 @@ public:
     ~Clause();
     Clause(const Clause& other);
     int size() const;
+    bool simplificationUnitaire() const;
     bool isVide() const;
     int eval() const;
     int indiceMax() const;
@@ -31,6 +32,8 @@ public:
     int getV() const;
     int getVariableNumber() const;
     bool estSurclause(const Clause* c) const;
+    bool contientLiteralVrai() const;
+    void supprimerLiterauxFaux();
 
 private:
     std::unordered_set<Literal*> literaux;
