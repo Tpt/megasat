@@ -27,12 +27,12 @@ public:
     int polariteLiteral(Literal* l1, Literal* l2) const;
     void print() const;
     int getV() const;
+    int getVariableNumber() const;
     bool estSurclause(const Clause* c) const;
 
 private:
     std::unordered_set<Literal*> literaux;
-    int V;
-    int n;
+    int variableNumber;
 };
 
 bool operator==(Clause const& a_, Clause const& b_);

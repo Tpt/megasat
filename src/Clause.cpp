@@ -7,13 +7,13 @@ using namespace std;
 Clause::~Clause()
 {}
 
-Clause::Clause() : literaux(unordered_set<Literal*>()), V(0), n(0)
+Clause::Clause() : literaux(unordered_set<Literal*>()), variableNumber(0)
 {}
 
-Clause::Clause(unordered_set<Literal*> e, int V_e) : literaux(e), V(V_e), n(static_cast<int>(e.size()))
+Clause::Clause(unordered_set<Literal*> e, int variableNumber) : literaux(e), variableNumber(variableNumber)
 {}
 
-Clause::Clause(const Clause& other) : literaux(other.literaux), V(other.V), n(other.n)
+Clause::Clause(const Clause& other) : literaux(other.literaux), variableNumber(other.variableNumber)
 {}
 
 void Clause::print() const ///Pour le debugage
@@ -29,7 +29,6 @@ void Clause::print() const ///Pour le debugage
 void Clause::supprimer(Literal* l) ///Supprime toutes les occurences d'un litéral.
 {
     literaux.erase(l);
-    n = static_cast<int>(literaux.size());
 }
 
 unordered_set<Literal*> Clause::getLiteraux() const
@@ -59,8 +58,8 @@ L'utilisation des pointeurs sur les literaux assure (grace à la méthode insert
 
 bool Clause::isTautologie() const ///Test simplement si un literal apparait avec les deux polarités.
 {
-    vector<bool> foundPos(V,false);
-    vector<bool> foundNeg(V,false);
+    vector<bool> foundPos(variableNumber, false);
+    vector<bool> foundNeg(variableNumber, false);
 
     for(Literal* l : literaux)
     {
@@ -70,7 +69,7 @@ bool Clause::isTautologie() const ///Test simplement si un literal apparait avec
             foundNeg[-l->getId()-1]=true;
     }
 
-    for(int i=0; i<V; ++i)
+    for(int i=0; i < variableNumber; ++i)
         if(foundNeg[i] && foundPos[i])
             return true;
 
@@ -143,17 +142,22 @@ bool Clause::estSurclause(const Clause* c) const ///Test si la clause est une su
 
 int Clause::size() const
 {
-    return n;
+    return static_cast<int>(literaux.size());
 }
 
-int Clause::getV() const
+int Clause::getV() const ///@depreciated
 {
-    return V;
+    return getVariableNumber();
+}
+
+int Clause::getVariableNumber() const
+{
+    return variableNumber;
 }
 
 bool Clause::isVide() const
 {
-    return (n == 0);
+    return (size() == 0);
 }
 
 bool operator==(Clause const &a, Clause const& b)
@@ -165,7 +169,7 @@ bool operator==(Clause const &a, Clause const& b)
     unordered_set<Literal*> literauxB(b.getLiteraux());
 
     for(Literal* l : literauxA)
-        if(literauxB.erase(l)==0)
+        if(literauxB.erase(l) == 0)
             return false;
 
     return literauxB.size() == 0;

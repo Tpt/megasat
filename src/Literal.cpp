@@ -13,7 +13,7 @@ Literal::Literal(Variable* a, bool pol) : var(a), polarite(pol)
 {}
 
 Literal::Literal(const Literal& other) : var(other.var), polarite(other.polarite)
-{} //TODO: utile???
+{}
 
 void Literal::setVal(bool e)
 {
@@ -62,13 +62,14 @@ int Literal::getId() const
 
 Literal& Literal::operator=(const Literal& rhs)
 {
-    if (this == &rhs) return *this;
+    if(this == &rhs)
+        return *this;
 
-    var=rhs.var;
-    polarite=rhs.polarite;
+    var = rhs.var;
+    polarite = rhs.polarite;
 
     return *this;
-}
+} //TODO: utile ???
 
 
 bool operator<(int const a, Literal const& b)

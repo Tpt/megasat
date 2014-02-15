@@ -8,7 +8,7 @@ Variable::~Variable()
 Variable::Variable() : id(0), assigned(false), val(false)
 {}
 
-Variable::Variable(int id_e) : id(id_e), assigned(false), val(false)
+Variable::Variable(int id) : id(id), assigned(false), val(false)
 {}
 
 Variable::Variable(const Variable& other) : id(other.id), assigned(other.assigned), val(other.val)
