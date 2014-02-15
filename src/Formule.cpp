@@ -219,7 +219,7 @@ Formule* Formule::resoudre_seau(const Formule* seau, int id) const
     Formule* sortie=new Formule(V,vars,lits_pos,lits_neg);
     Clause* work;
 
-    for(Clause* c : all) ///SÃ©pare les polaritÃ©s
+    for(Clause* c : all) ///Sépare les polarités
     {
         if(c->polariteLiteral(lits_pos[id-1],lits_neg[id-1])==1)
             pos.insert(c);
@@ -232,7 +232,7 @@ Formule* Formule::resoudre_seau(const Formule* seau, int id) const
 
     unsigned int i=0;
     unsigned int j=0;
-    for(unordered_set<Clause*>::iterator it=pos.begin(); it!=pos.end(); ++it,++i) ///On double-boucle pour faire toutes les rÃ©solutions...
+    for(unordered_set<Clause*>::iterator it=pos.begin(); it!=pos.end(); ++it,++i) ///On double-boucle pour faire toutes les résolutions...
     {
         printf("c ["); /// Affichage !
         unsigned int l=0;
@@ -254,11 +254,11 @@ Formule* Formule::resoudre_seau(const Formule* seau, int id) const
                 printf("\n");
                 throw 1;
             }
-            if(!work->isTautologie()&& !sortie->aSousclauses(work) && !sortie->contient(work) ) /** C'est lÃ  que c'est un peu fin.
-            On ne prend pas les tautologies, les surclauses de clauses dÃ©ja existentes et les doublons.
+            if(!work->isTautologie()&& !sortie->aSousclauses(work) && !sortie->contient(work) ) /** C'est là  que c'est un peu fin.
+            On ne prend pas les tautologies, les surclauses de clauses déja existentes et les doublons.
             **/
             {
-                sortie->supprimer_surclauses(work); /// On enlÃ¨ve toutes les surclauses qui sont nÃ©cessairement vÃ©rifiÃ©es.
+                sortie->supprimer_surclauses(work); /// On enlève toutes les surclauses qui sont nécessairement vérifiées.
                 sortie->addClause(work);
             }
         }
@@ -276,11 +276,11 @@ Formule* Formule::resoudre_seau(const Formule* seau, int id) const
     return sortie;
 }
 
-int Formule::eval() const /** Comme ˆ l'accoutumŽe :
+int Formule::eval() const /** Comme à l'accoutumée :
 0 => Faux
 1 => Vrai
-2 => Non encore dŽfini
-NB : 0 peut petre renvoyŽ alors que certaines variables ne sont pas encore dŽfinies.
+2 => Non encore défini
+NB : 0 peut petre renvoyé alors que certaines variables ne sont pas encore définies.
 **/
 {
     for(Clause* c : clauses)
@@ -302,7 +302,7 @@ void Formule::fusionner(const Formule* e, vector<Formule*> seaux) const ///Ajout
         seaux[c->indiceMax()-1]->addClause(c);
 }
 
-void Formule::chercher_assignation(Formule* f, int id) ///On essaie avec l'un et si a ne marche pas, on prend l'autre...
+void Formule::chercher_assignation(Formule* f, int id) ///On essaie avec l'un et si ça ne marche pas, on prend l'autre...
 {
     vars[id]->setVal(true);
     if(f->eval()!=1)
@@ -313,7 +313,7 @@ void Formule::solve()
 {
     vector<Formule*> seaux(0);
 
-    for(int i=0; i<V; ++i) /// On crÃ©e les seaux.
+    for(int i=0; i<V; ++i) /// On crée les seaux.
         seaux.push_back(new Formule(0,vars,lits_pos,lits_neg));
 
     for(Clause* c : clauses) /// On remplit les seaux.
@@ -323,16 +323,16 @@ void Formule::solve()
     try ///Observez bien l'astucieux try/catch !
     {
         cout<<"c "<<"Nombre de seaux : "<<V<<endl;
-        for(int i=V; i>0; --i) ///Les rÃ©solutions dans le sens descendant
+        for(int i=V; i>0; --i) ///Les résolutions dans le sens descendant
         {
             cout<<"c "<<"Seau "<<i<<" :"<<endl;
             fusionner(resoudre_seau(seaux[i-1],i),seaux);
         }
 
-        for(int i=0; i<V; ++i) ///La remontÃ©
+        for(int i=0; i<V; ++i) ///La remonté
             chercher_assignation(seaux[i], i);
 
-        cout<<"s SATISFIABLE"<<endl; ///Affiche la solution si aucune exception n'est lancÃ©e ie si la formule est satisfiable
+        cout<<"s SATISFIABLE"<<endl; ///Affiche la solution si aucune exception n'est lancée ie si la formule est satisfiable
         for(int i=0; i<V; ++i)
         {
             if(vars[i]->getVal())
