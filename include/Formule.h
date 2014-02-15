@@ -12,7 +12,6 @@ class Formule
 public:
     Formule();
     Formule(const int variableNumber);
-    Formule(std::string filename);
     Formule(const Formule& other);
     Formule(const int V_e, const int C_e, const std::vector<Variable*>& vars_e, const std::vector<Literal*>& lits_pos_e, const std::vector<Literal*>& lits_neg_e);
     ~Formule();

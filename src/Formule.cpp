@@ -262,54 +262,5 @@ void Formule::init_lits()
 Formule::Formule(const Formule& other) : V(other.V), clauses(other.clauses), vars(other.vars), lits_pos(other.lits_pos), lits_neg(other.lits_neg)
 {}
 
-Formule::Formule(string filename) : V(0), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
-{
-    string s;
-    ifstream file(filename, ios_base::in);
-    unordered_set<Literal*> work;
-
-    if(!file.good())
-    {
-        cout<<"resol: fatal error\nresolution terminated."<<endl<<endl;
-        exit(EXIT_FAILURE);
-    }
-
-    do
-    {
-        getline(file,s);
-    }
-    while(s[0]=='c');
-
-    istringstream ss(s);
-    int C;
-    ss>>s;
-    ss>>s;
-    ss>>V;
-    ss>>C;
-    init_lits();
-    for(int i=0; i<C; ++i)
-    {
-        getline(file,s);
-        if(s[0]=='c')
-            --i;
-        else
-        {
-            istringstream ss_(s);
-            int tmp;
-            work.clear();
-            while(ss_ >> tmp)
-            {
-                if(tmp>0)
-                    work.insert(lits_pos[tmp-1]);
-                else if(tmp<0)
-                    work.insert(lits_neg[-tmp-1]);
-            }
-            clauses.insert(new Clause(work,V));
-        }
-    }
-
-    file.close();
-}
-
 Formule::Formule(const int V_e, const int C_e, const vector<Variable*>& vars_e, const vector<Literal*>& lits_pos_e, const vector<Literal*>& lits_neg_e) : V(V_e), clauses(unordered_set<Clause*>()), vars(vars_e), lits_pos(lits_pos_e), lits_neg(lits_neg_e)
 {}
