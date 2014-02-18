@@ -16,6 +16,7 @@ public:
     Formule(const int V_e, const std::vector<Variable*>& vars_e, const std::vector<Literal*>& lits_pos_e, const std::vector<Literal*>& lits_neg_e);
     ~Formule();
     int size() const;
+    int getVariableNumber() const;
     void solve();
     void setLiteral(int id, bool polarite, bool val);
     void setVar(int id, bool val);
@@ -37,7 +38,6 @@ public:
 
 private:
     Clause* resolution(const Clause* c1, Clause* c2, const int id) const;
-    Formule* resoudre_seau(const Formule* seau, int id) const;
     void init_lits();
     void chercher_assignation(Formule* f, int id);
     void compacter();
