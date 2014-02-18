@@ -3,16 +3,7 @@
 
 using namespace std;
 
-Literal::~Literal()
-{}
-
-Literal::Literal() : var(NULL), polarite(true)
-{}
-
-Literal::Literal(Variable* a, bool pol) : var(a), polarite(pol)
-{}
-
-Literal::Literal(const Literal& other) : var(other.var), polarite(other.polarite)
+Literal::Literal(Variable* var_, bool polarite_) : var(var_), polarite(polarite_)
 {}
 
 void Literal::setVal(bool e)

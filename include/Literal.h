@@ -7,10 +7,7 @@
 class Literal
 {
 public:
-    Literal();
-    Literal(Variable* a, bool pol);
-    virtual ~Literal();
-    Literal(const Literal& other);
+    Literal(Variable* var_, bool polarite_);
     Literal& operator=(const Literal& other);
     int getId() const;
     int getAbsId() const;

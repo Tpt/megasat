@@ -4,19 +4,7 @@
 
 using namespace std;
 
-Clause::~Clause()
-{}
-
-Clause::Clause() : literaux(unordered_set<Literal*>()), variableNumber(0)
-{}
-
 Clause::Clause(int variableNumber) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber)
-{}
-
-Clause::Clause(unordered_set<Literal*> literaux, int variableNumber) : literaux(literaux), variableNumber(variableNumber)
-{}
-
-Clause::Clause(const Clause& other) : literaux(other.literaux), variableNumber(other.variableNumber)
 {}
 
 void Clause::print() const ///Pour le debugage
