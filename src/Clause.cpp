@@ -17,9 +17,15 @@ void Clause::print() const ///Pour le debugage
     cout << endl;
 }
 
-void Clause::addLiteral(Literal* l)
+void Clause::addLiteral(Literal* nouveauLiteral)
 {
-    literaux.insert(l);
+    literaux.insert(nouveauLiteral);
+}
+
+void Clause::addLiteraux(std::unordered_set<Literal*> nouveauxLiteraux)
+{
+    for(Literal* l : nouveauxLiteraux)
+        literaux.insert(l);
 }
 
 void Clause::supprimer(Literal* l) ///Supprime toutes les occurences d'un litéral.

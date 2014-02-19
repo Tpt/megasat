@@ -20,6 +20,7 @@ public:
     void literalPresent(int id, bool& found_pos, bool& found_neg) const;
     bool isTautologie() const;
     void addLiteral(Literal* literal);
+    void addLiteraux(std::unordered_set<Literal*> nouveauxLiteraux);
     void fusionner(Clause* c);
     std::unordered_set<Literal*> getLiteraux() const;
     void supprimer(Literal* l);

@@ -41,6 +41,14 @@ bool Literal::getVal() const
     return polarite ? var->getVal() : !var->getVal();
 }
 
+ResultatEvaluation Literal::eval() const
+{
+    if(!var->isAssignee())
+        return INCONNU;
+    return getVal() ? VRAI : FAUX;
+}
+
+
 int Literal::getAbsId() const
 {
     return var->getId();

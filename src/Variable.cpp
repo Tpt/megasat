@@ -26,10 +26,10 @@ int Variable::getId() const
     return id;
 }
 
-ResultatEvaluation Variable::eval() const {
-    if( !assigned ) {
+ResultatEvaluation Variable::eval() const
+{
+    if(!assigned)
         return INCONNU;
-    }
     return val ? VRAI : FAUX;
 }
 

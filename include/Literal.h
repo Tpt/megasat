@@ -17,6 +17,7 @@ public:
     Variable* getVar() const;
     void setVal(bool e);
     void print() const;
+    ResultatEvaluation eval() const;
 
 private:
     Variable* var; /// Le pointeur vers la variable correspondante.

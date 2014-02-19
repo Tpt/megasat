@@ -4,6 +4,34 @@
 
 using namespace std;
 
+Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
+{
+    Clause* w;
+    unordered_set<Literal*> in;
+    unordered_set<Literal*> out;
+    init_lits();
+
+    for(int i=0;i<V;++i)
+        if(formule.vars[i]->isAssignee())
+            vars[i]->setVal(formule.vars[i]->getVal());
+
+    for(Clause* c : formule.clauses)
+    {
+        in=c->getLiteraux();
+        out.clear();
+        w=new Clause(V);
+        for(Literal* l : in)
+        {
+            if(l->getPolarite())
+                out.insert(lits_pos[l->getAbsId()-1]);
+            else
+                out.insert(lits_neg[l->getAbsId()-1]);
+        }
+        w->addLiteraux(out);
+        clauses.insert(w);
+    }
+}
+
 Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordered_set<Clause*>()), vars(vector<Variable*>(variableNumber)), lits_pos(vector<Literal*>(variableNumber)), lits_neg(vector<Literal*>(variableNumber))
 {}
 
