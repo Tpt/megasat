@@ -8,6 +8,7 @@ class Solveur
 {
 public:
     Solveur(Formule Formule);
+    virtual ~Solveur();
     virtual bool isSatifiable() = 0; //retourne si la formule est satifiable
 
 protected:

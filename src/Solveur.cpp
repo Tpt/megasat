@@ -2,3 +2,7 @@
 
 Solveur::Solveur(Formule formule_) : formule(formule_)
 {}
+
+Solveur::~Solveur()
+{}
+

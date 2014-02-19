@@ -14,10 +14,10 @@ public:
     Formule(const int V_e, const std::vector<Variable*>& vars_e, const std::vector<Literal*>& lits_pos_e, const std::vector<Literal*>& lits_neg_e);
     ~Formule();
     int size() const;
-    int getVariableNumber() const;
+    int getNombreDeVariables() const;
     void setLiteral(int id, bool polarite, bool val);
     void setVar(int id, bool val);
-    bool isThereClauseVide() const;
+    bool contientClauseVide() const;
     void addClause(Clause* c);
     void addClauses(const std::unordered_set<Clause*>& c);
     bool isVide() const;
@@ -25,7 +25,7 @@ public:
     int eval() const;
     void print() const;
     bool contient(const Clause* c) const;
-    void supprimer_surclauses(const Clause* cl);
+    void supprimerSurclauses(const Clause* cl);
     bool aSousclauses(const Clause* cl) const;
     std::vector<Variable*> getVars() const;
     Variable* getVar(int id) const;

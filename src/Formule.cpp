@@ -13,7 +13,7 @@ Formule::~Formule() ///Pas franchement utile.
         delete c;
 }
 
-int Formule::getVariableNumber() const
+int Formule::getNombreDeVariables() const
 {
     return V;
 }
@@ -153,7 +153,7 @@ bool Formule::isVide() const
     return clauses.size() == 0;
 }
 
-bool Formule::isThereClauseVide() const
+bool Formule::contientClauseVide() const
 {
     for(Clause* c : clauses)
         if(c->isVide())
@@ -187,7 +187,7 @@ bool Formule::contient(const Clause* clause) const
     return false;
 }
 
-void Formule::supprimer_surclauses(const Clause* cl)
+void Formule::supprimerSurclauses(const Clause* cl)
 {
     for(Clause* c : clauses)
         if(c->estSurclause(cl))

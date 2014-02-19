@@ -4,7 +4,7 @@
 
 using namespace std;
 
-Clause::Clause(int variableNumber) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber)
+Clause::Clause(int variableNumber_) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber_)
 {}
 
 void Clause::print() const ///Pour le debugage
@@ -152,12 +152,7 @@ int Clause::size() const
     return static_cast<int>(literaux.size());
 }
 
-int Clause::getV() const ///@depreciated
-{
-    return getVariableNumber();
-}
-
-int Clause::getVariableNumber() const
+int Clause::getNombreDeVariables() const
 {
     return variableNumber;
 }

@@ -25,8 +25,7 @@ public:
     void supprimer(Literal* l);
     int polariteLiteral(Literal* l1, Literal* l2) const;
     void print() const;
-    int getV() const;
-    int getVariableNumber() const;
+    int getNombreDeVariables() const;
     bool estSurclause(const Clause* c) const;
     bool contientLiteralVrai() const;
     void supprimerLiterauxFaux();
@@ -37,9 +36,5 @@ private:
 };
 
 bool operator==(Clause const& a_, Clause const& b_);
-bool egalite_clauses(Clause const* a, Clause const* b);
-
-bool comp(const Literal* a, const Literal* b);
-bool comp_lit(const Literal* a, const Literal* b);
 
 #endif // CLAUSE_H

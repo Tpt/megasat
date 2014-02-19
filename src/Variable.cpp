@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Variable::Variable(int id) : id(id), assigned(false), val(false)
+Variable::Variable(int id_) : id(id_), assigned(false), val(false)
 {}
 
 void Variable::setVal(bool e)

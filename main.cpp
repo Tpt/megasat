@@ -5,6 +5,7 @@
 #include"include/DavisPutnamSolveur.h"
 
 using namespace std;
+Formule parseCnfFile(string fileName);
 
 Formule parseCnfFile(string fileName)
 {
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
     DavisPutnamSolveur solveur( formule );
     if( solveur.isSatifiable() ) {
         cout << "s SATISFIABLE" << endl;
-        /*for(int i = 0; i < formule.getVariableNumber(); i++)
+        /*for(int i = 0; i < formule.getNombreDeVariables(); i++)
         {
             if(vars[i]->getVal())
                 cout << "v " << i + 1 << endl;
