@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     }
     else
     {
-        cout<<"s UNSATISFIABLE"<<endl;
+        cout << "s UNSATISFIABLE" << endl;
     }
     t = clock() - t;
     cout << "c Resolu en : " << static_cast<double>(t) / static_cast<double>(CLOCKS_PER_SEC) << " secondes" << endl;

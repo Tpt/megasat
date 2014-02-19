@@ -2,7 +2,7 @@
 #include<unordered_set>
 #include "../include/DavisPutnamSolveur.h"
 
-DavisPutnamSolveur::DavisPutnamSolveur(Formule formule_) : Solveur( formule_ )
+DavisPutnamSolveur::DavisPutnamSolveur(Formule &formule_) : Solveur(formule_)
 {}
 
 bool DavisPutnamSolveur::isSatifiable()

@@ -6,7 +6,7 @@
 class DavisPutnamSolveur : public Solveur
 {
 public:
-    DavisPutnamSolveur(Formule Formule);
+    DavisPutnamSolveur(Formule &formule);
     bool isSatifiable(); //retourne si la formule est satifiable
 };
 
