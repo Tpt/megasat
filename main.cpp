@@ -2,6 +2,7 @@
 #include<ctime>
 #include"include/Formule.h"
 #include"include/CnfParser.h"
+#include"include/DavisPutnamSolveur.h"
 
 using namespace std;
 
@@ -32,7 +33,21 @@ int main(int argc, char *argv[])
 
     clock_t t;
     t = clock();
-    formule.solve();
+    DavisPutnamSolveur solveur( formule );
+    if( solveur.isSatifiable() ) {
+        cout << "s SATISFIABLE" << endl;
+        /*for(int i = 0; i < formule.getVariableNumber(); i++)
+        {
+            if(vars[i]->getVal())
+                cout << "v " << i + 1 << endl;
+            else
+                cout <<"v " << -i -1 << endl;
+        }*/
+    }
+    else
+    {
+        cout<<"s UNSATISFIABLE"<<endl;
+    }
     t = clock() - t;
     cout << "c Resolu en : " << static_cast<double>(t) / static_cast<double>(CLOCKS_PER_SEC) << " secondes" << endl;
 
