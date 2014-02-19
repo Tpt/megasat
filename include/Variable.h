@@ -2,6 +2,7 @@
 #define VARIABLE_H
 
 #include<vector>
+#include"ResultatEvaluation.h"
 
 class Variable
 {
@@ -11,6 +12,7 @@ public:
     bool isAssignee() const;
     bool getVal() const;
     void setVal(bool e);
+    ResultatEvaluation eval() const;
 
 private:
     int id;         /// Le numéro de la variable

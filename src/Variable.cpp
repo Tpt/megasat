@@ -26,6 +26,13 @@ int Variable::getId() const
     return id;
 }
 
+ResultatEvaluation Variable::eval() const {
+    if( !assigned ) {
+        return INCONNU;
+    }
+    return val ? VRAI : FAUX;
+}
+
 bool operator<(int const a, Variable const& b)
 {
     return a < b.getId();

@@ -203,22 +203,17 @@ bool Formule::aSousclauses(const Clause* cl) const
     return false;
 }
 
-int Formule::eval() const /** Comme à l'accoutumée :
-0 => Faux
-1 => Vrai
-2 => Non encore défini
-NB : 0 peut petre renvoyé alors que certaines variables ne sont pas encore définies.
-**/
+ResultatEvaluation Formule::eval() const
 {
     for(Clause* c : clauses)
     {
         int tmp=c->eval();
         if(tmp==2)
-            return 2;
+            return INCONNU;
         else if(tmp==0)
-            return 0;
+            return FAUX;
     }
-    return 1;
+    return VRAI;
 }
 
 void Formule::init_lits()

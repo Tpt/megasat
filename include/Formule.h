@@ -22,7 +22,7 @@ public:
     void addClauses(const std::unordered_set<Clause*>& c);
     bool isVide() const;
     std::unordered_set<Clause*> getClauses() const;
-    int eval() const;
+    ResultatEvaluation eval() const;
     void print() const;
     bool contient(const Clause* c) const;
     void supprimerSurclauses(const Clause* cl);

@@ -109,21 +109,16 @@ int Clause::indiceMax() const ///Donne l'indice maximum des variables de la clau
     return sup;
 }
 
-int Clause::eval() const /**Evalue une clause
-Renvoie 0 si la clause est fausse.
-1 si la clause est vraie.
-2 si une variable n'est pas encore initialisée.
-NB : 1 peut être renvoyé alors que certaines variables ne sont pas encore définies.
-**/
+int Clause::eval() const
 {
     for(Literal* l : literaux)
     {
         if(!l->isAssignee())
-            return 2;
+            return INCONNU;
         else if(l->getVal())
-            return 1;
+            return VRAI;
     }
-    return 0;
+    return FAUX;
 }
 
 bool Clause::estSurclause(const Clause* c) const ///Test si la clause est une surclause de la clause donnée en argument.
