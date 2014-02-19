@@ -4,9 +4,6 @@
 
 using namespace std;
 
-Formule::Formule() : V(0), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
-{}
-
 Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordered_set<Clause*>()), vars(vector<Variable*>(variableNumber)), lits_pos(vector<Literal*>(variableNumber)), lits_neg(vector<Literal*>(variableNumber))
 {}
 
@@ -233,9 +230,6 @@ void Formule::init_lits()
         lits_pos.push_back(new Literal(vars[i],true));
     }
 }
-
-Formule::Formule(const Formule& other) : V(other.V), clauses(other.clauses), vars(other.vars), lits_pos(other.lits_pos), lits_neg(other.lits_neg)
-{}
 
 Formule::Formule(const int V_e, const vector<Variable*>& vars_e, const vector<Literal*>& lits_pos_e, const vector<Literal*>& lits_neg_e) : V(V_e), clauses(unordered_set<Clause*>()), vars(vars_e), lits_pos(lits_pos_e), lits_neg(lits_neg_e)
 {}

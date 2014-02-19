@@ -10,11 +10,7 @@
 class Clause
 {
 public:
-    Clause();
     Clause(int variableNumber);
-    Clause(std::unordered_set<Literal*> literaux, int variableNumber);
-    ~Clause();
-    Clause(const Clause& other);
     int size() const;
     bool simplificationUnitaire() const;
     bool isVide() const;

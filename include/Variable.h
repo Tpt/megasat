@@ -6,10 +6,7 @@
 class Variable
 {
 public:
-    Variable();
-    Variable(int id_e);
-    ~Variable();
-    Variable(const Variable& other);
+    Variable(int id_);
     int getId() const;
     bool isAssigned() const;
     bool getVal() const;

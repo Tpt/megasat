@@ -6,6 +6,21 @@
 
 using namespace std;
 
+Formule parseCnfFile(string fileName)
+{
+    CnfParser cnfParser;
+
+    try
+    {
+        return cnfParser.parse(fileName);
+    }
+    catch(ParseError)
+    {
+        cerr << "resol: fatal error: parser error\nresolution terminated." << endl << endl;
+        exit( EXIT_FAILURE );
+    }
+}
+
 int main(int argc, char *argv[])
 {
     if(argc == 1)
@@ -14,18 +29,7 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    CnfParser cnfParser;
-    Formule formule;
-    string fileName = argv[1];
-    try
-    {
-        formule = cnfParser.parse(fileName);
-    }
-    catch(ParseError)
-    {
-        cerr << "resol: fatal error: parser error\nresolution terminated." << endl << endl;
-        return EXIT_FAILURE;
-    }
+    Formule formule = parseCnfFile( argv[1] );
 
     clock_t t;
     t = clock();
@@ -49,4 +53,3 @@ int main(int argc, char *argv[])
 
     return EXIT_SUCCESS;
 }
-    
