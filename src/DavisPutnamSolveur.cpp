@@ -60,9 +60,9 @@ Formule* DavisPutnamSolveur::resoudreSeau(const Formule* seau, int id) const
 
     for(Clause* c : all) ///Sépare les polarités
     {
-        if(c->polariteLiteral(lits_pos[id-1],lits_neg[id-1])==1)
+        if(c->polariteLiteral(id)==1)
             pos.insert(c);
-        else if(c->polariteLiteral(lits_pos[id-1],lits_neg[id-1])==-1)
+        else if(c->polariteLiteral(id)==-1)
             neg.insert(c);
         else
             autres.insert(c);

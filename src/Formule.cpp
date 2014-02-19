@@ -70,7 +70,7 @@ bool Formule::simplificationLiteralPur(int id)
 
     for(Clause* c : clauses)
     {
-        res=c->polariteLiteral(lits_pos[id-1],lits_pos[id-1]);
+        res=c->polariteLiteral(id);
         if(res==1)
             found_pos=true;
         else if(res==-1)

@@ -38,14 +38,19 @@ unordered_set<Literal*> Clause::getLiteraux() const
     return literaux;
 }
 
-int Clause::polariteLiteral(Literal* literalPositif, Literal* literalNegatif) const ///Utile pour distinguer les deux parties pour les mariages.
+int Clause::polariteLiteral(int id) const ///Utile pour distinguer les deux parties pour les mariages.
 {
-    if(literaux.count(literalPositif) != 0)
-        return 1;
-    else if(literaux.count(literalNegatif) != 0)
-        return -1;
-    else
+    bool posTrouve=false;
+    bool negTrouve=false;
+
+    literalPresent(id, posTrouve, negTrouve);
+    if(posTrouve && negTrouve)
+        return 2;
+    if(!posTrouve && !negTrouve)
         return 0;
+    if(posTrouve)
+        return 1;
+    return -1;
 }
 
 void Clause::fusionner(Clause* c) /** Fusionne la clause avec une autre.
@@ -60,34 +65,23 @@ L'utilisation des pointeurs sur les literaux assure (grace à la méthode insert
 
 bool Clause::isTautologie() const ///Test simplement si un literal apparait avec les deux polarités.
 {
-    vector<bool> foundPos(variableNumber, false);
-    vector<bool> foundNeg(variableNumber, false);
-
-    for(Literal* l : literaux)
-    {
-        if(l->getId()>0)
-            foundPos[l->getId()-1]=true;
-        else
-            foundNeg[-l->getId()-1]=true;
-    }
-
-    for(int i=0; i < variableNumber; ++i)
-        if(foundNeg[i] && foundPos[i])
+    for(int i=1; i<variableNumber+1; ++i)
+        if(polariteLiteral(i) == 2)
             return true;
 
     return false;
 }
 
-void Clause::literalPresent(int id, bool& found_pos, bool& found_neg) const /**Test la présence d'une variable et de sa négation.
+void Clause::literalPresent(int id, bool& posTrouve, bool& negTrouve) const /**Test la présence d'une variable et de sa négation.
 On obtient le retour grace aux références en argument. On obtient ainsi la polarite.
 **/
 {
     for(Literal* l : literaux)
     {
-        if(l->getPolarite() && l->getId()==id)
-            found_pos = true;
-        else if(l->getId() == id)
-            found_neg = true;
+        if(l->getId() == id)
+            posTrouve = true;
+        else if(l->getId() == -id)
+            negTrouve = true;
     }
 }
 
@@ -142,8 +136,7 @@ bool Clause::simplificationUnitaire() const
     if(size() != 1)
         return false;
 
-    for(Literal* l : literaux) // A refaire !!!!!
-        l->setVal(true);
+    (*literaux.begin())->setVal(true);
 
     return true;
 }
