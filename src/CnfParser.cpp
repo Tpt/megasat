@@ -2,20 +2,22 @@
 #include <string>
 #include "CnfParser.h"
 
-Formule CnfParser::parse(std::string &fileName)
+using namespace std;
+
+Formule CnfParser::parse(string &fileName)
 {
-	std::filebuf fb;
-    fb.open(fileName, std::ios::in);
-    std::istream fileStream(&fb);
+	filebuf fb;
+    fb.open(fileName, ios::in);
+    istream fileStream(&fb);
 
 	return parse(fileStream);
 }
 
-Formule CnfParser::parse(std::istream &istream)
+Formule CnfParser::parse(istream &istream)
 {
-	std::istringstream headerStream(getNextLine(istream));
-	std::string header1;
-	std::string header2;
+	istringstream headerStream(getNextLine(istream));
+	string header1;
+	string header2;
 	int variableNumber;
 	int clauseNumber;
 	if(!(headerStream >> header1 >> header2 >> variableNumber >> clauseNumber && header1 == "p" && header2 == "cnf"))
@@ -25,7 +27,7 @@ Formule CnfParser::parse(std::istream &istream)
 
 	Formule formula(variableNumber);
 	for(int i = 0; i < clauseNumber; i++) {
-		std::istringstream clauseStream(getNextLine(istream));
+		istringstream clauseStream(getNextLine(istream));
 
         Clause* clause = new Clause(variableNumber);
         int value = 1;
@@ -37,12 +39,12 @@ Formule CnfParser::parse(std::istream &istream)
 	return formula;
 }
 
-std::string CnfParser::getNextLine(std::istream &inputStream)
+string CnfParser::getNextLine(istream &inputStream)
 {
 	while(true)
     {
-		std::string str;
-		std::getline(inputStream, str);
+		string str;
+		getline(inputStream, str);
 		if(str == "")
 			throw ParseError();
         else if(str[0] != 'c') //on n'a pas affaire à un commentaire
