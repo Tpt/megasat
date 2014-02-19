@@ -29,6 +29,8 @@ public:
     void supprimerSurclauses(const Clause* cl);
     bool aSousclauses(const Clause* cl) const;
     std::vector<Variable*> getVars() const;
+    std::vector<Literal*> getLiterauxPositifs() const;
+    std::vector<Literal*> getLiterauxNegatifs() const;
     Variable* getVar(int id) const;
     Literal* getLiteral(int id) const; /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)
     void simplifier();

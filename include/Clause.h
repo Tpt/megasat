@@ -24,7 +24,7 @@ public:
     void fusionner(Clause* c);
     std::unordered_set<Literal*> getLiteraux() const;
     void supprimer(Literal* l);
-    int polariteLiteral(Literal* l1, Literal* l2) const;
+    int polariteLiteral(Literal* literalPositif, Literal* literalNegatif) const;
     void print() const;
     int getNombreDeVariables() const;
     bool estSurclause(const Clause* c) const;

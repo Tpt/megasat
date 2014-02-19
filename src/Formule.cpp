@@ -149,6 +149,17 @@ vector<Variable*> Formule::getVars() const
     return vars;
 }
 
+
+vector<Literal*> Formule::getLiterauxPositifs() const
+{
+    return lits_pos;
+}
+
+vector<Literal*> Formule::getLiterauxNegatifs() const
+{
+    return lits_neg;
+}
+
 Variable* Formule::getVar(int id) const
 {
     return vars[id];
@@ -156,11 +167,10 @@ Variable* Formule::getVar(int id) const
 
 Literal* Formule::getLiteral(int id) const
 {
-    if(id > 0) {
+    if(id > 0)
         return lits_pos[id - 1];
-    } else {
+    else
         return lits_neg[-id - 1];
-    }
 }
 
 void Formule::print() const

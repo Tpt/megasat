@@ -38,11 +38,11 @@ unordered_set<Literal*> Clause::getLiteraux() const
     return literaux;
 }
 
-int Clause::polariteLiteral(Literal* l1, Literal* l2) const ///Utile pour distinguer les deux parties pour les mariages.
+int Clause::polariteLiteral(Literal* literalPositif, Literal* literalNegatif) const ///Utile pour distinguer les deux parties pour les mariages.
 {
-    if(literaux.count(l1) != 0)
+    if(literaux.count(literalPositif) != 0)
         return 1;
-    else if(literaux.count(l2) != 0)
+    else if(literaux.count(literalNegatif) != 0)
         return -1;
     else
         return 0;
