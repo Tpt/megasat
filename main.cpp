@@ -39,13 +39,17 @@ int main(int argc, char *argv[])
         {
             case 'w':
                 avecLiterauxSurveilles = true;
+                break;
+            default:
+                break;
         }
     }
-    do
+    if(optind < argc)
     {
         fileName = argv[optind];
     }
-    while(++optind < argc);
+
+    avecLiterauxSurveilles=avecLiterauxSurveilles;//TODO grotesque
 
     if(fileName == "")
     {
