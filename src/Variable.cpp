@@ -11,7 +11,7 @@ void Variable::setVal(bool e)
     val = e;
 }
 
-bool Variable::isAssigned() const
+bool Variable::isAssignee() const
 {
     return assigned;
 }

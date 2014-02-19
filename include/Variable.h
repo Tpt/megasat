@@ -8,7 +8,7 @@ class Variable
 public:
     Variable(int id_);
     int getId() const;
-    bool isAssigned() const;
+    bool isAssignee() const;
     bool getVal() const;
     void setVal(bool e);
 

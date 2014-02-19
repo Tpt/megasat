@@ -118,7 +118,7 @@ NB : 1 peut être renvoyé alors que certaines variables ne sont pas encore déf
 {
     for(Literal* l : literaux)
     {
-        if(!l->isAssigned())
+        if(!l->isAssignee())
             return 2;
         else if(l->getVal())
             return 1;
@@ -170,7 +170,7 @@ bool Clause::isVide() const
 bool Clause::contientLiteralVrai() const
 {
     for(Literal* l : literaux)
-        if(l->isAssigned() && l->getVal())
+        if(l->isAssignee() && l->getVal())
             return true;
 
     return false;
@@ -179,7 +179,7 @@ bool Clause::contientLiteralVrai() const
 void Clause::supprimerLiterauxFaux()
 {
     for(Literal* l : literaux)
-        if(l->isAssigned() && (!l->getVal()))
+        if(l->isAssignee() && (!l->getVal()))
             literaux.erase(l);
 }
 

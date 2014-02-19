@@ -11,7 +11,7 @@ public:
     Literal& operator=(const Literal& other);
     int getId() const;
     int getAbsId() const;
-    bool isAssigned() const;
+    bool isAssignee() const;
     bool getVal() const;
     bool getPolarite() const;
     Variable* getVar() const;
