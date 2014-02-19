@@ -6,8 +6,10 @@
 class DPLLSolveur : public Solveur
 {
 public:
-    DPLLSolveur(Formule &formule);
+    DPLLSolveur(Formule &formule, bool avecLiterauxSurveilles = true);
     bool isSatifiable();
+private:
+    bool avecLiterauxSuerveilles;
 };
 
 #endif
