@@ -1,5 +1,5 @@
-#ifndef DavisPutnamSolver_H
-#define DavisPutnamSolver_H
+#ifndef DPLLSolveur_H
+#define DPLLSolveur_H
 
 #include"Solveur.h"
 
@@ -9,7 +9,11 @@ public:
     DPLLSolveur(Formule &formule, bool avecLiterauxSurveilles = true);
     bool isSatifiable();
 private:
-    bool avecLiterauxSuerveilles;
+    bool avecLiterauxSurveilles;
+    bool assigneUneVariableEtRetourneSatisfiabilite();
+    bool assigneVariableEtRetourneSatisfiabilite(Variable* var, bool val);
+    bool aClauseVide();
+    Variable* getVariableNonAssignee();
 };
 
 #endif

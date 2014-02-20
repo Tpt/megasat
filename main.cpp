@@ -4,6 +4,7 @@
 #include"include/Formule.h"
 #include"include/CnfParser.h"
 #include"include/DavisPutnamSolveur.h"
+#include"include/DPLLSolveur.h"
 
 using namespace std;
 Formule parseCnfFile(string fileName);
@@ -61,7 +62,7 @@ int main(int argc, char *argv[])
 
     clock_t t;
     t = clock();
-    DavisPutnamSolveur solveur( formule );
+    DPLLSolveur solveur( formule, avecLiterauxSurveilles );
     if( solveur.isSatifiable() ) {
         formule = solveur.getFomule();
         cout << "s SATISFIABLE" << endl;
