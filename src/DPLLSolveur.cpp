@@ -7,8 +7,12 @@ DPLLSolveur::DPLLSolveur(Formule &formule_, bool avecLiterauxSurveilles_) : Solv
 
 bool DPLLSolveur::isSatifiable()
 {
+    formule.simplifier();
+    if(aClauseVide())
+        return false;
     if(formule.isVide())
         return true;
+
     return assigneUneVariableEtRetourneSatisfiabilite();
 }
 
@@ -22,6 +26,8 @@ bool DPLLSolveur::assigneUneVariableEtRetourneSatisfiabilite()
 
     if(assigneVariableEtRetourneSatisfiabilite(var, true))
         return true;
+
+    //backtrack
     formule = save;
     if(assigneVariableEtRetourneSatisfiabilite(var, false))
         return true;
@@ -32,6 +38,7 @@ bool DPLLSolveur::assigneUneVariableEtRetourneSatisfiabilite()
 bool DPLLSolveur::assigneVariableEtRetourneSatisfiabilite(Variable* var, bool val)
 {
     var->setVal(val);
+
     formule.simplifier();
     if(aClauseVide())
         return false;
