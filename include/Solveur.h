@@ -10,6 +10,7 @@ public:
     Solveur(Formule& formule);
     virtual ~Solveur();
     virtual bool isSatifiable() = 0; //retourne si la formule est satifiable
+    Formule getFomule() const;
 
 protected:
     Formule& formule;

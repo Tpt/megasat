@@ -63,6 +63,7 @@ int main(int argc, char *argv[])
     t = clock();
     DavisPutnamSolveur solveur( formule );
     if( solveur.isSatifiable() ) {
+        formule = solveur.getFomule();
         cout << "s SATISFIABLE" << endl;
         for(int i = 0; i < formule.getNombreDeVariables(); i++)
         {
