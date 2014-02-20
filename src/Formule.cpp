@@ -32,8 +32,10 @@ Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<C
     }
 }
 
-Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordered_set<Clause*>()), vars(vector<Variable*>(variableNumber)), lits_pos(vector<Literal*>(variableNumber)), lits_neg(vector<Literal*>(variableNumber))
-{}
+Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
+{
+    init_lits();
+}
 
 Formule::~Formule() ///Pas franchement utile.
 {
