@@ -28,18 +28,23 @@ int main(int argc, char *argv[])
 {
     string fileName = "";
     bool avecLiterauxSurveilles = false;
+    bool utiliserDavisPutnam = false;
 
     static struct option longOptions[] = {
         {"wl", no_argument, 0, 'w'},
+        {"dp", no_argument, 0, 'p'},
         {0, 0, 0, 0}
     };
     int optionIndex = 0, c;
-    while((c = getopt_long (argc, argv, "w", longOptions, &optionIndex)) != -1)
+    while((c = getopt_long (argc, argv, "wp", longOptions, &optionIndex)) != -1)
     {
         switch(c)
         {
             case 'w':
                 avecLiterauxSurveilles = true;
+                break;
+            case 'p':
+                utiliserDavisPutnam = true;
                 break;
             default:
                 break;
@@ -60,13 +65,27 @@ int main(int argc, char *argv[])
 
     clock_t t;
     t = clock();
-    DPLLSolveur solveur( formule, avecLiterauxSurveilles );
-    if( solveur.isSatifiable() ) {
+    bool estSatisfiable = false;
+
+    if(utiliserDavisPutnam)
+    {
+        DavisPutnamSolveur solveur(formule);
+        estSatisfiable = solveur.isSatifiable();
         formule = solveur.getFomule();
+    }
+    else
+    {
+        DPLLSolveur solveur(formule, avecLiterauxSurveilles);
+        estSatisfiable = solveur.isSatifiable();
+        formule = solveur.getFomule();
+    }
+
+    if(estSatisfiable)
+    {
         cout << "s SATISFIABLE" << endl;
         for(int i = 0; i < formule.getNombreDeVariables(); i++)
         {
-            if( formule.getVar(i)->getVal())
+            if(formule.getVar(i)->getVal())
                 cout << "v " << i + 1 << endl;
             else
                 cout << "v " << -i -1 << endl;
