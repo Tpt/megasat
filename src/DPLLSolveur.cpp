@@ -41,6 +41,7 @@ bool DPLLSolveur::assigneUneVariableEtRetourneSatisfiabilite()
 
 bool DPLLSolveur::assigneVariableEtRetourneSatisfiabilite(Variable* var, bool val)
 {
+    std::cout << "assigne " << var->getId() << " a " << val << std::endl;
     var->setVal(val);
 
     formule.simplifier();
