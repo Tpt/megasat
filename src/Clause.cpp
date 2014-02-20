@@ -38,19 +38,19 @@ unordered_set<Literal*> Clause::getLiteraux() const
     return literaux;
 }
 
-int Clause::polariteLiteral(int id) const ///Utile pour distinguer les deux parties pour les mariages.
+Polarite Clause::polariteLiteral(int id) const ///Utile pour distinguer les deux parties pour les mariages.
 {
     bool posTrouve=false;
     bool negTrouve=false;
 
     literalPresent(id, posTrouve, negTrouve);
     if(posTrouve && negTrouve)
-        return 2;
+        return TAUTOLOGIE;
     if(!posTrouve && !negTrouve)
-        return 0;
+        return ABSENT;
     if(posTrouve)
-        return 1;
-    return -1;
+        return POSITIF;
+    return NEGATIF;
 }
 
 void Clause::fusionner(Clause* c) /** Fusionne la clause avec une autre.
@@ -66,7 +66,7 @@ L'utilisation des pointeurs sur les literaux assure (grace à la méthode insert
 bool Clause::isTautologie() const ///Test simplement si un literal apparait avec les deux polarités.
 {
     for(int i=1; i<variableNumber+1; ++i)
-        if(polariteLiteral(i) == 2)
+        if(polariteLiteral(i) == TAUTOLOGIE)
             return true;
 
     return false;

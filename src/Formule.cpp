@@ -58,22 +58,21 @@ void Formule::setVar(int id, bool val)
 
 void Formule::simplifier() ///Arret mortellement dangereux ! Mais garanti 100% safe (a quelques exceptions près).
 {
-    if(eliminationLiterauxPurs() || propagationUnitaire())
-        simplifier();
+    while(eliminationLiterauxPurs() || propagationUnitaire());
 }
 
 bool Formule::simplificationLiteralPur(int id)
 {
     bool found_pos=false;
     bool found_neg=false;
-    int res;
+    Polarite res;
 
     for(Clause* c : clauses)
     {
         res=c->polariteLiteral(id);
-        if(res==1)
+        if(res==POSITIF)
             found_pos=true;
-        else if(res==-1)
+        else if(res==NEGATIF)
             found_neg=true;
     }
 
