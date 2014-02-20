@@ -15,7 +15,7 @@ public:
     ResultatEvaluation eval() const;
 
 private:
-    int id;         /// Le numéro de la variable
+    int id;         /// Le numéro de la variable compté à partir de 1
     bool assigned;  /// Si la variable a déjà été assignée
     bool val;       /// La valeur assignée. a ne pas prendre en compte si assigned==false.
 };

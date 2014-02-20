@@ -17,7 +17,7 @@ public:
     int size() const;
     int getNombreDeVariables() const;
     void setLiteral(int id, bool polarite, bool val);
-    void setVar(int id, bool val);
+    void setVar(int id, bool val); //id est le numéro de la variable compté à partir de 1
     bool contientClauseVide() const;
     void addClause(Clause* c);
     void addClauses(const std::unordered_set<Clause*>& c);

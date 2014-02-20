@@ -125,9 +125,9 @@ void DavisPutnamSolveur::fusionner(const Formule* e, vector<Formule*> seaux) con
 
 void DavisPutnamSolveur::chercherAssignation(Formule* f, int id) ///On essaie avec l'un et si ça ne marche pas, on prend l'autre...
 {
-    formule.setVar(id,true);
-    if(f->eval()!=VRAI)
-        formule.setVar(id,false);
+    formule.setVar(id + 1, true);
+    if(f->eval() != VRAI)
+        formule.setVar(id + 1, false);
 }
 
 
