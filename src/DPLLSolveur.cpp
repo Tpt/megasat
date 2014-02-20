@@ -18,6 +18,10 @@ bool DPLLSolveur::isSatifiable()
 
 bool DPLLSolveur::assigneUneVariableEtRetourneSatisfiabilite()
 {
+    //TODO: remove
+    std::cout << "etat :" << std::endl;
+    formule.print();
+
     Variable* var = getVariableNonAssignee();
     if(var == nullptr)
         return true; //TODO: on a fini???
