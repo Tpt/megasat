@@ -31,8 +31,6 @@ int main(int argc, char *argv[])
 
     for(int i = 1; i < argc; i++)
     {
-        cout << "arg " << argv[i] << endl;
-
         if(strcmp(argv[i], "-wl") == 0)
             avecLiterauxSurveilles = true;
         else if(strcmp(argv[i], "-dp") == 0)
@@ -40,7 +38,7 @@ int main(int argc, char *argv[])
         else
             fileName = argv[i];
     }
-    cout << "file '" << fileName << "'" << endl;
+
     if(fileName == "")
     {
         cerr << "resol: fatal error: no input files\nresolution terminated." << endl << endl;
