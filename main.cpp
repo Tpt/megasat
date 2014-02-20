@@ -50,8 +50,6 @@ int main(int argc, char *argv[])
         fileName = argv[optind];
     }
 
-    avecLiterauxSurveilles=avecLiterauxSurveilles;//TODO grotesque
-
     if(fileName == "")
     {
         cerr << "resol: fatal error: no input files\nresolution terminated." << endl << endl;

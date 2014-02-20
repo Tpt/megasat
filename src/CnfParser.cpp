@@ -1,6 +1,6 @@
 #include <sstream>
 #include <string>
-#include "CnfParser.h"
+#include "../include/CnfParser.h"
 
 using namespace std;
 
