@@ -64,13 +64,13 @@ int main(int argc, char *argv[])
     DavisPutnamSolveur solveur( formule );
     if( solveur.isSatifiable() ) {
         cout << "s SATISFIABLE" << endl;
-        /*for(int i = 0; i < formule.getNombreDeVariables(); i++)
+        for(int i = 0; i < formule.getNombreDeVariables(); i++)
         {
-            if(vars[i]->getVal())
+            if( formule.getVar(i)->getVal())
                 cout << "v " << i + 1 << endl;
             else
-                cout <<"v " << -i -1 << endl;
-        }*/
+                cout << "v " << -i -1 << endl;
+        }
     }
     else
     {
