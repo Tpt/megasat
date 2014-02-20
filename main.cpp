@@ -1,6 +1,5 @@
 #include<cstdlib>
 #include<ctime>
-#include <getopt.h>
 #include"include/Formule.h"
 #include"include/CnfParser.h"
 #include"include/DavisPutnamSolveur.h"
@@ -30,38 +29,25 @@ int main(int argc, char *argv[])
     bool avecLiterauxSurveilles = false;
     bool utiliserDavisPutnam = false;
 
-    static struct option longOptions[] = {
-        {"wl", no_argument, 0, 'w'},
-        {"dp", no_argument, 0, 'p'},
-        {0, 0, 0, 0}
-    };
-    int optionIndex = 0, c;
-    while((c = getopt_long (argc, argv, "wp", longOptions, &optionIndex)) != -1)
+    for(int i = 1; i < argc; i++)
     {
-        switch(c)
-        {
-            case 'w':
-                avecLiterauxSurveilles = true;
-                break;
-            case 'p':
-                utiliserDavisPutnam = true;
-                break;
-            default:
-                break;
-        }
-    }
-    if(optind < argc)
-    {
-        fileName = argv[optind];
-    }
+        cout << "arg " << argv[i] << endl;
 
+        if(strcmp(argv[i], "-wl") == 0)
+            avecLiterauxSurveilles = true;
+        else if(strcmp(argv[i], "-dp") == 0)
+            utiliserDavisPutnam = true;
+        else
+            fileName = argv[i];
+    }
+    cout << "file '" << fileName << "'" << endl;
     if(fileName == "")
     {
         cerr << "resol: fatal error: no input files\nresolution terminated." << endl << endl;
         return EXIT_FAILURE;
     }
 
-    Formule formule = parseCnfFile(argv[1]);
+    Formule formule = parseCnfFile(fileName);
 
     clock_t t;
     t = clock();
