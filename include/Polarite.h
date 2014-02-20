@@ -1,0 +1,12 @@
+#ifndef POLARITE_H_INCLUDED
+#define POLARITE_H_INCLUDED
+
+enum Polarite
+{
+    POSITIF,
+    NEGATIF,
+    ABSENT,
+    TAUTOLOGIE
+};
+
+#endif // POLARITE_H_INCLUDED

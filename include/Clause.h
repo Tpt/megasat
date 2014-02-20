@@ -6,6 +6,7 @@
 #include<sstream>
 #include<unordered_set>
 #include"Literal.h"
+#include"Polarite.h"
 
 class Clause
 {
@@ -24,7 +25,7 @@ public:
     void fusionner(Clause* c);
     std::unordered_set<Literal*> getLiteraux() const;
     void supprimer(Literal* l);
-    int polariteLiteral(int id) const;
+    Polarite polariteLiteral(int id) const;
     void print() const;
     int getNombreDeVariables() const;
     bool estSurclause(const Clause* c) const;
