@@ -7,12 +7,12 @@
 class Solveur
 {
 public:
-    Solveur(Formule Formule);
+    Solveur(Formule& formule);
     virtual ~Solveur();
     virtual bool isSatifiable() = 0; //retourne si la formule est satifiable
 
 protected:
-    Formule formule;
+    Formule& formule;
 };
 
 #endif
