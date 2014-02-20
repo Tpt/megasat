@@ -39,8 +39,6 @@ Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordere
 
 Formule::~Formule() ///Pas franchement utile.
 {
-    for(Clause* c : clauses)
-        delete c;
 }
 
 int Formule::getNombreDeVariables() const
