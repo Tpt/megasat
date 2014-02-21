@@ -8,6 +8,7 @@
 
 using namespace std;
 Formule parseCnfFile(string fileName);
+int Clause::nextUid=0;
 
 Formule parseCnfFile(string fileName)
 {

@@ -12,6 +12,7 @@ class Clause
 {
 public:
     Clause(int variableNumber);
+    Clause(int variableNumber, int uid);
     int size() const;
     bool simplificationUnitaire() const;
     bool isVide() const;
@@ -31,10 +32,15 @@ public:
     bool estSurclause(const Clause* c) const;
     bool contientLiteralVrai() const;
     void supprimerLiterauxFaux();
+    int getUid() const;
+
+    static int genUid();
+    static int nextUid;
 
 private:
     std::unordered_set<Literal*> literaux;
     int variableNumber;
+    int uid;
 };
 
 bool operator==(Clause const& a_, Clause const& b_);

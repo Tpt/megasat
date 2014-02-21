@@ -5,7 +5,10 @@
 
 using namespace std;
 
-Clause::Clause(int variableNumber_) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber_)
+Clause::Clause(int variableNumber_) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber_), uid(Clause::getUid())
+{}
+
+Clause::Clause(int variableNumber_, int uid_) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber_), uid(uid_)
 {}
 
 void Clause::print() const ///Pour le debugage
@@ -179,6 +182,17 @@ void Clause::supprimerLiterauxFaux()
 
     for(Literal* l : literauxFaux)
         literaux.erase( l );
+}
+
+int Clause::getUid() const
+{
+    return uid;
+}
+
+int Clause::genUid()
+{
+    ++Clause::nextUid;
+    return Clause::nextUid;
 }
 
 bool operator==(Clause const &a, Clause const& b)

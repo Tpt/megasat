@@ -20,7 +20,7 @@ Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<C
     {
         in=c->getLiteraux();
         out.clear();
-        w=new Clause(V);
+        w=new Clause(V,c->getUid());
         for(Literal* l : in)
         {
             if(l->getPolarite())
@@ -254,11 +254,15 @@ ResultatEvaluation Formule::eval() const
 
 void Formule::init_lits()
 {
+    vars.resize(V);
+    lits_neg.resize(V);
+    lits_pos.resize(V);
+
     for(int i=0; i<V; ++i)
     {
-        vars.push_back(new Variable(i+1));
-        lits_neg.push_back(new Literal(vars[i],false));
-        lits_pos.push_back(new Literal(vars[i],true));
+        vars[i] = new Variable(i+1);
+        lits_neg[i] = new Literal(vars[i],false);
+        lits_pos[i] = new Literal(vars[i],true);
     }
 }
 
