@@ -109,9 +109,6 @@ bool Formule::eliminationLiterauxPurs()
         if(simplificationLiteralPur(id))
             modif=true;
 
-    if(modif)
-        eliminationLiterauxPurs();
-
     return modif;
 }
 
