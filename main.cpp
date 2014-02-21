@@ -1,4 +1,5 @@
 #include<cstdlib>
+#include<cstring>
 #include<ctime>
 #include"include/Formule.h"
 #include"include/CnfParser.h"
