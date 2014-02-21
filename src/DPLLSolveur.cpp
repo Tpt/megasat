@@ -18,33 +18,35 @@ bool DPLLSolveur::isSatifiable()
 
 bool DPLLSolveur::assigneUneVariableEtRetourneSatisfiabilite()
 {
-    //TODO: remove
-    std::cout << "etat :" << std::endl;
-    formule.print();
-
-    Variable* var = getVariableNonAssignee();
-    if(var == nullptr)
+    int varId = getVariableNonAssignee();
+    if(varId == -1)
         return true; //TODO: on a fini???
 
-    Formule save(formule);
+    Formule save = formule;
 
-    if(assigneVariableEtRetourneSatisfiabilite(var, true))
+    if(assigneVariableEtRetourneSatisfiabilite(varId, true))
         return true;
 
     //backtrack
     formule = save;
-    if(assigneVariableEtRetourneSatisfiabilite(var, false))
+    if(assigneVariableEtRetourneSatisfiabilite(varId, false))
         return true;
 
     return false;
 }
 
-bool DPLLSolveur::assigneVariableEtRetourneSatisfiabilite(Variable* var, bool val)
+bool DPLLSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bool val)
 {
-    std::cout << "assigne " << var->getId() << " a " << val << std::endl;
+    Variable* var = formule.getVar(varId - 1);
     var->setVal(val);
+    std::cout << "assigne " << var->getId() << " a " << var->getVal() << std::endl;
 
     formule.simplifier();
+
+    //TODO: remove
+    std::cout << "etat :" << std::endl;
+    formule.print();
+
     if(aClauseVide())
         return false;
     if(formule.isVide())
@@ -63,14 +65,12 @@ bool DPLLSolveur::aClauseVide()
     return false;
 }
 
-Variable* DPLLSolveur::getVariableNonAssignee()
+int DPLLSolveur::getVariableNonAssignee()
 {
-    int nombreDeVariables = formule.getNombreDeVariables();
-    for(int i = 0; i < nombreDeVariables; i++)
+    for(Variable* var : formule.getVars())
     {
-        Variable* var = formule.getVar(i);
         if(!var->isAssignee())
-            return var;
+            return var->getId();
     }
-    return nullptr;
+    return -1;
 }

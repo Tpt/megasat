@@ -31,7 +31,7 @@ public:
     std::vector<Variable*> getVars() const;
     std::vector<Literal*> getLiterauxPositifs() const;
     std::vector<Literal*> getLiterauxNegatifs() const;
-    Variable* getVar(int id) const;
+    Variable* getVar(int id) const; //id est le numéro de la variable compté à partir de 0
     Literal* getLiteral(int id) const; /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)
     void simplifier();
 

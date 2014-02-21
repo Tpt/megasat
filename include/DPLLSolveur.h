@@ -11,9 +11,9 @@ public:
 private:
     bool avecLiterauxSurveilles;
     bool assigneUneVariableEtRetourneSatisfiabilite();
-    bool assigneVariableEtRetourneSatisfiabilite(Variable* var, bool val);
+    bool assigneVariableEtRetourneSatisfiabilite(int varId, bool val);
     bool aClauseVide();
-    Variable* getVariableNonAssignee();
+    int getVariableNonAssignee();
 };
 
 #endif
