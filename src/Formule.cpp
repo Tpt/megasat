@@ -58,7 +58,9 @@ void Formule::setVar(int id, bool val)
 
 void Formule::simplifier() ///Arret mortellement dangereux ! Mais garanti 100% safe (a quelques exceptions près).
 {
-    while(eliminationLiterauxPurs() || propagationUnitaire());
+    compacter();
+    while(eliminationLiterauxPurs() || propagationUnitaire())
+        compacter();
 }
 
 bool Formule::simplificationLiteralPur(int id)
@@ -79,13 +81,11 @@ bool Formule::simplificationLiteralPur(int id)
     if(!found_neg && found_pos)
     {
         lits_pos[id-1]->setVal(true);
-        compacter();
         return true;
     }
     else if(found_neg && !found_pos)
     {
         lits_neg[id-1]->setVal(true);
-        compacter();
         return true;
     }
 
@@ -134,8 +134,6 @@ bool Formule::propagationUnitaire()
         if(c->simplificationUnitaire())
             modif=true;
     }
-
-    compacter();
 
     if(modif)
         propagationUnitaire();
