@@ -136,8 +136,11 @@ bool Clause::simplificationUnitaire() const
     if(size() != 1)
         return false;
 
-    (*literaux.begin())->setVal(true);
+    Literal* literal = *literaux.begin();
+    if(literal->isAssignee())
+        return false;
 
+    literal->setVal(true);
     return true;
 }
 
