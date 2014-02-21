@@ -1,6 +1,7 @@
 #include "../include/Clause.h"
 #include<algorithm>
 #include<iostream>
+#include<list>
 
 using namespace std;
 
@@ -170,9 +171,14 @@ bool Clause::contientLiteralVrai() const
 
 void Clause::supprimerLiterauxFaux()
 {
+    list<Literal*> literauxFaux;
+
     for(Literal* l : literaux)
         if(l->isAssignee() && (!l->getVal()))
-            literaux.erase(l);
+            literauxFaux.push_front(l); //on ne peut supprimer directement car cela invaliderait l'itérateur
+
+    for(Literal* l : literauxFaux)
+        literaux.erase( l );
 }
 
 bool operator==(Clause const &a, Clause const& b)

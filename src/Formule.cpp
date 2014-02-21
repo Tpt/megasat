@@ -125,7 +125,7 @@ void Formule::compacter()
             clausesASupprimer.push_front(c); //on ne peut supprimer directement car cela invaliderait l'itérateur
     }
 
-    for( Clause* c : clausesASupprimer )
+    for(Clause* c : clausesASupprimer)
         clauses.erase( c );
 }
 
