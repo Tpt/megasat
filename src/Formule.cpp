@@ -1,6 +1,7 @@
 #include "../include/Formule.h"
 #include<cstdio>
 #include<cstdlib>
+#include<list>
 
 using namespace std;
 
@@ -116,13 +117,16 @@ bool Formule::eliminationLiterauxPurs()
 
 void Formule::compacter()
 {
+    list<Clause*> clausesASupprimer;
     for(Clause* c : clauses)
     {
         c->supprimerLiterauxFaux();
         if(c->contientLiteralVrai())
-            clauses.erase(c);
-
+            clausesASupprimer.push_front(c); //on ne peut supprimer directement car cela invaliderait l'itérateur
     }
+
+    for( Clause* c : clausesASupprimer )
+        clauses.erase( c );
 }
 
 bool Formule::propagationUnitaire()
