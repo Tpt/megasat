@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Clause::Clause(int variableNumber_) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber_), uid(Clause::getUid())
+Clause::Clause(int variableNumber_) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber_), uid(Clause::genUid())
 {}
 
 Clause::Clause(int variableNumber_, int uid_) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber_), uid(uid_)
