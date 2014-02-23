@@ -5,6 +5,7 @@
 #include"include/CnfParser.h"
 #include"include/DavisPutnamSolveur.h"
 #include"include/DPLLSolveur.h"
+#include"include/DPLLSurveilleSolveur.h"
 
 using namespace std;
 Formule parseCnfFile(string fileName);
@@ -59,9 +60,15 @@ int main(int argc, char *argv[])
         estSatisfiable = solveur.isSatifiable();
         formule = solveur.getFomule();
     }
+    else if(avecLiterauxSurveilles)
+    {
+        DPLLSurveilleSolveur solveur(formule);
+        estSatisfiable = solveur.isSatifiable();
+        formule = solveur.getFomule();
+    }
     else
     {
-        DPLLSolveur solveur(formule, avecLiterauxSurveilles);
+        DPLLSolveur solveur(formule);
         estSatisfiable = solveur.isSatifiable();
         formule = solveur.getFomule();
     }

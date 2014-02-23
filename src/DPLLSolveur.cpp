@@ -2,7 +2,7 @@
 #include<unordered_set>
 #include "../include/DPLLSolveur.h"
 
-DPLLSolveur::DPLLSolveur(Formule &formule_, bool avecLiterauxSurveilles_) : Solveur(formule_), avecLiterauxSurveilles(avecLiterauxSurveilles_)
+DPLLSolveur::DPLLSolveur(Formule &formule_) : Solveur(formule_)
 {}
 
 bool DPLLSolveur::isSatifiable()
