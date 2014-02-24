@@ -2,7 +2,7 @@
 #include<unordered_set>
 #include "../include/DPLLSolveur.h"
 
-DPLLSolveur::DPLLSolveur(Formule &formule_) : Solveur(formule_)
+DPLLSolveur::DPLLSolveur(Formule &formule_) : AbstractDPLLSolveur(formule_)
 {}
 
 DPLLSolveur::~DPLLSolveur()
@@ -18,25 +18,6 @@ bool DPLLSolveur::isSatifiable()
         return true;
 
     return assigneUneVariableEtRetourneSatisfiabilite();
-}
-
-bool DPLLSolveur::assigneUneVariableEtRetourneSatisfiabilite()
-{
-    int varId = getVariableNonAssignee();
-    if(varId == -1)
-        return true; //TODO: on a fini???
-
-    Formule save = formule;
-
-    if(assigneVariableEtRetourneSatisfiabilite(varId, true))
-        return true;
-
-    //backtrack
-    formule = save;
-    if(assigneVariableEtRetourneSatisfiabilite(varId, false))
-        return true;
-
-    return false;
 }
 
 bool DPLLSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bool val)
@@ -67,14 +48,4 @@ bool DPLLSolveur::aClauseVide()
             return true;
     }
     return false;
-}
-
-int DPLLSolveur::getVariableNonAssignee()
-{
-    for(Variable* var : formule.getVars())
-    {
-        if(!var->isAssignee())
-            return var->getId();
-    }
-    return -1;
 }

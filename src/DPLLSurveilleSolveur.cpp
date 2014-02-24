@@ -4,31 +4,12 @@
 
 using namespace std;
 
-DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_) : Solveur(formule_), literauxSurveilles(unordered_map<int,pair<int,int>>())
+DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_) : AbstractDPLLSolveur(formule_), literauxSurveilles(unordered_map<int,pair<int,int>>())
 {}
 
 bool DPLLSurveilleSolveur::isSatifiable()
 {
     return assigneUneVariableEtRetourneSatisfiabilite();
-}
-
-bool DPLLSurveilleSolveur::assigneUneVariableEtRetourneSatisfiabilite()
-{
-    int varId = 1; //TODO
-    if(varId == -1)
-        return true;
-
-    Formule save = formule;
-
-    if(assigneVariableEtRetourneSatisfiabilite(varId, true))
-        return true;
-
-    //backtrack
-    formule = save;
-    if(assigneVariableEtRetourneSatisfiabilite(varId, false))
-        return true;
-
-    return false;
 }
 
 bool DPLLSurveilleSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bool val)

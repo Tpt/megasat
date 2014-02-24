@@ -5,7 +5,7 @@ EXEC=resol
 
 all: $(EXEC)
 
-resol: obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/CnfParser.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/main.o
+resol: obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/CnfParser.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/main.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/clause.o: src/Clause.cpp include/Clause.h
@@ -27,6 +27,9 @@ obj/Solveur.o: src/Solveur.cpp
 	$(CC) -o $@ -c $< $(NAZI)
 
 obj/DavisPutnamSolveur.o: src/DavisPutnamSolveur.cpp
+	$(CC) -o $@ -c $< $(NAZI)
+
+obj/AbstractDPLLSolveur.o: src/AbstractDPLLSolveur.cpp
 	$(CC) -o $@ -c $< $(NAZI)
 
 obj/DPLLSolveur.o: src/DPLLSolveur.cpp
