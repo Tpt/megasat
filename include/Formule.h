@@ -21,6 +21,7 @@ public:
     bool contientClauseVide() const;
     void addClause(Clause* c);
     void addClauses(const std::unordered_set<Clause*>& c);
+    void supprimerClause(Clause* c);
     bool isVide() const;
     std::unordered_set<Clause*> getClauses() const;
     ResultatEvaluation eval() const;

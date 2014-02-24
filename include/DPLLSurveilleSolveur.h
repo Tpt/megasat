@@ -14,8 +14,8 @@ private:
     bool assigneVariableEtRetourneSatisfiabilite(int varId, bool val);
     void initialiserLiterauxSurveilles();
     int trouveLiteralASurveille(Clause* clause, int autreLiteral = 0); /// Mettre autreLiteral à 0 quand il n'y a pas encore de literal surveillé. Retourne autreLiteral si, et seulement si, aucun autre litéral convenable n'est trouvé
-    void onLiteralAssigne(int literalId);
-    void assigneLiteralAFauxDansClause(Clause* clause, int literalId);
+    bool onLiteralAssigne(int literalId); //retourne si tout se passe bien (ie pas trouvé de clauses insatisfiable
+    bool assigneLiteralAFauxDansClauseEtRetourneEtat(Clause* clause, int literalId, int autreLiteralId);
 };
 
 #endif

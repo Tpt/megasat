@@ -208,6 +208,11 @@ void Formule::addClauses(const unordered_set<Clause*>& clausesAAjouter) ///Le pr
         addClause(clause);
 }
 
+void Formule::supprimerClause(Clause* c)
+{
+    clauses.erase(c);
+}
+
 unordered_set<Clause*> Formule::getClauses() const
 {
     return clauses;

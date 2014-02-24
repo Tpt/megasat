@@ -1,5 +1,3 @@
-#include<vector>
-#include<unordered_set>
 #include "../include/DPLLSurveilleSolveur.h"
 
 using namespace std;
@@ -9,16 +7,8 @@ DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_) : AbstractDPLLSolv
 
 bool DPLLSurveilleSolveur::isSatifiable()
 {
-    return assigneUneVariableEtRetourneSatisfiabilite();
-}
-
-bool DPLLSurveilleSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bool val)
-{
-    Variable* var = formule.getVar(varId - 1);
-    var->setVal(val);
-    std::cout << "assigne " << var->getId() << " a " << var->getVal() << std::endl;
-
-    //TODO simplification
+    formule.supprimerTautologies();
+    initialiserLiterauxSurveilles();
 
     return assigneUneVariableEtRetourneSatisfiabilite();
 }
@@ -41,26 +31,66 @@ int DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, int autreLiter
     return autreLiteral;
 }
 
-void DPLLSurveilleSolveur::onLiteralAssigne(int literalId)
+
+bool DPLLSurveilleSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bool val)
 {
-    for(auto& clauseEtLiterauxSurveilles : literauxSurveilles)
-    {
-        if(clauseEtLiterauxSurveilles.second.first == -literalId)
-        {
-            Clause* clause = new Clause(0); //TODO
-            assigneLiteralAFauxDansClause( clause, -literalId);
-            clauseEtLiterauxSurveilles.second.first = trouveLiteralASurveille(clause, clauseEtLiterauxSurveilles.second.second);
-        }
-        else if(clauseEtLiterauxSurveilles.second.second == -literalId)
-        {
-            Clause* clause = new Clause(0); //TODO
-            assigneLiteralAFauxDansClause( clause, -literalId);
-            clauseEtLiterauxSurveilles.second.second = trouveLiteralASurveille(clause, clauseEtLiterauxSurveilles.second.first);
-        }
-    }
+    Variable* var = formule.getVar(varId - 1);
+    var->setVal(val);
+    std::cout << "assigne " << var->getId() << " a " << var->getVal() << std::endl;
+
+    if(!onLiteralAssigne(val ? varId : -varId))
+        return false;
+
+    return assigneUneVariableEtRetourneSatisfiabilite();
 }
 
-void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int literalId)
+bool DPLLSurveilleSolveur::onLiteralAssigne(int literalId)
 {
-    //TODO
+    for(Clause* clause : formule.getClauses())
+    {
+        pair<int, int> literaux = literauxSurveilles[clause->getUid()];
+
+        if(literaux.first == literalId)
+            formule.supprimerClause(clause); //elle est vérifiée
+        else if(literaux.first == -literalId)
+            if(!assigneLiteralAFauxDansClauseEtRetourneEtat( clause, literaux.first, literaux.second))
+                return false;
+
+        if(literaux.second == literalId)
+            formule.supprimerClause(clause);
+        else if(literaux.second == -literalId)
+            if(!assigneLiteralAFauxDansClauseEtRetourneEtat( clause, literaux.second, literaux.first))
+                return false;
+    }
+    return true;
+}
+
+bool DPLLSurveilleSolveur::assigneLiteralAFauxDansClauseEtRetourneEtat(Clause* clause, int literalId, int autreLiteralId)
+{
+    clause->print();
+    cout << "literaux " << literalId << ' ' << autreLiteralId << endl;
+
+    clause->supprimer(formule.getLiteral(literalId)); //on supprime le litéral de la clause
+
+    int nouveauLiteralId = trouveLiteralASurveille(clause, autreLiteralId);
+
+    if(nouveauLiteralId == autreLiteralId) //il n'y a qu'un seul litéral qui ne soit pas à faux
+    {
+        Literal* literal = formule.getLiteral(nouveauLiteralId);
+        if(literal->isAssignee())
+            if(literal->getVal())
+            {
+                formule.supprimerClause(clause); //la clause est satisfaite
+                return true;
+            }
+            else
+                return false; //la formule n'est pas satisfiable : tout les litéraux sont à faux
+        else
+            return assigneVariableEtRetourneSatisfiabilite(literal->getAbsId(), literal->getPolarite()); //pour valider la clause il faut que le dernier litéral inconnu soit à vrai
+        
+    }
+
+    literauxSurveilles[clause->getUid()] = pair<int,int>(nouveauLiteralId, autreLiteralId);
+    cout << "nouveaux literaux " << nouveauLiteralId << ' ' << autreLiteralId << endl;
+    return true;
 }
