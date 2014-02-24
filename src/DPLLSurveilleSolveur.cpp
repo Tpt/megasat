@@ -34,7 +34,7 @@ int DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, int autreLiter
 
 bool DPLLSurveilleSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bool val)
 {
-    Variable* var = formule.getVar(varId - 1);
+    Variable* var = formule.getVar(varId);
     var->setVal(val);
     std::cout << "assigne " << var->getId() << " a " << var->getVal() << std::endl;
 

@@ -159,7 +159,7 @@ vector<Literal*> Formule::getLiterauxNegatifs() const
 
 Variable* Formule::getVar(int id) const
 {
-    return vars[id];
+    return vars[id - 1];
 }
 
 Literal* Formule::getLiteral(int id) const

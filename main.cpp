@@ -76,12 +76,12 @@ int main(int argc, char *argv[])
     if(estSatisfiable)
     {
         cout << "s SATISFIABLE" << endl;
-        for(int i = 0; i < formule.getNombreDeVariables(); i++)
+        for(int i = 1; i <= formule.getNombreDeVariables(); i++)
         {
             if(formule.getVar(i)->getVal())
-                cout << "v " << i + 1 << endl;
+                cout << "v " << i << endl;
             else
-                cout << "v " << -i -1 << endl;
+                cout << "v " << -i << endl;
         }
     }
     else
