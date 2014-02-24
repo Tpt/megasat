@@ -4,7 +4,7 @@
 
 using namespace std;
 
-DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_) : Solveur(formule_)
+DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_) : Solveur(formule_), literauxSurveilles(unordered_map<int,pair<int,int>>())
 {}
 
 bool DPLLSurveilleSolveur::isSatifiable()
@@ -17,17 +17,17 @@ bool DPLLSurveilleSolveur::assigneUneVariableEtRetourneSatisfiabilite()
     int varId = 1; //TODO
     if(varId == -1)
         return true;
-    
+
     Formule save = formule;
-    
+
     if(assigneVariableEtRetourneSatisfiabilite(varId, true))
         return true;
-    
+
     //backtrack
     formule = save;
     if(assigneVariableEtRetourneSatisfiabilite(varId, false))
         return true;
-    
+
     return false;
 }
 
@@ -36,9 +36,9 @@ bool DPLLSurveilleSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bo
     Variable* var = formule.getVar(varId - 1);
     var->setVal(val);
     std::cout << "assigne " << var->getId() << " a " << var->getVal() << std::endl;
-    
+
     //TODO simplification
-    
+
     return assigneUneVariableEtRetourneSatisfiabilite();
 }
 

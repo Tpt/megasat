@@ -5,6 +5,9 @@
 DPLLSolveur::DPLLSolveur(Formule &formule_) : Solveur(formule_)
 {}
 
+DPLLSolveur::~DPLLSolveur()
+{}
+
 bool DPLLSolveur::isSatifiable()
 {
     formule.simplifier();
