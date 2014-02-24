@@ -34,12 +34,12 @@ public:
     Variable* getVar(int id) const; //id est le numéro de la variable compté à partir de 0
     Literal* getLiteral(int id) const; /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)
     void simplifier();
+    void supprimerTautologies();
 
 private:
     void init_lits();
     void compacter();
     bool simplificationLiteralPur(int id);
-    void supprimerTautologies();
     bool propagationUnitaire();
     bool eliminationLiterauxPurs();
 

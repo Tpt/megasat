@@ -103,7 +103,6 @@ void Formule::supprimerTautologies()
 bool Formule::eliminationLiterauxPurs()
 {
     bool modif=false;
-    supprimerTautologies();
 
     for(int id=1; id<V+1; ++id)
         if(simplificationLiteralPur(id))

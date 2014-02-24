@@ -9,6 +9,8 @@ DavisPutnamSolveur::DavisPutnamSolveur(Formule &formule_) : Solveur(formule_)
 
 bool DavisPutnamSolveur::isSatifiable()
 {
+    formule.supprimerTautologies();
+
     vector<Formule*> seaux(0);
 
     unordered_set<Clause*> clauses(formule.getClauses());
