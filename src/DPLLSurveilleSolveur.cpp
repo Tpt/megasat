@@ -59,3 +59,27 @@ int DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, int autreLiter
             return literal->getId();
     return autreLiteral;
 }
+
+void DPLLSurveilleSolveur::onLiteralAssigne(int literalId)
+{
+    for(auto& clauseEtLiterauxSurveilles : literauxSurveilles)
+    {
+        if(clauseEtLiterauxSurveilles.second.first == -literalId)
+        {
+            Clause* clause = new Clause(0); //TODO
+            assigneLiteralAFauxDansClause( clause, -literalId);
+            clauseEtLiterauxSurveilles.second.first = trouveLiteralASurveille(clause, clauseEtLiterauxSurveilles.second.second);
+        }
+        else if(clauseEtLiterauxSurveilles.second.second == -literalId)
+        {
+            Clause* clause = new Clause(0); //TODO
+            assigneLiteralAFauxDansClause( clause, -literalId);
+            clauseEtLiterauxSurveilles.second.second = trouveLiteralASurveille(clause, clauseEtLiterauxSurveilles.second.first);
+        }
+    }
+}
+
+void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int literalId)
+{
+    //TODO
+}
