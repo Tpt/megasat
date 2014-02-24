@@ -7,6 +7,7 @@ class DPLLSolveur : public Solveur
 {
 public:
     DPLLSolveur(Formule &formule);
+    ~DPLLSolveur();
     bool isSatifiable();
 private:
     bool assigneUneVariableEtRetourneSatisfiabilite();
