@@ -120,14 +120,15 @@ int Clause::indiceMax() const ///Donne l'indice maximum des variables de la clau
 
 int Clause::eval() const
 {
+    bool contientInconnu = false;
     for(Literal* l : literaux)
     {
         if(!l->isAssignee())
-            return INCONNU;
+            contientInconnu = true;
         else if(l->getVal())
             return VRAI;
     }
-    return FAUX;
+    return contientInconnu ? INCONNU : FAUX;
 }
 
 bool Clause::estSurclause(const Clause* c) const ///Test si la clause est une surclause de la clause donnée en argument.
