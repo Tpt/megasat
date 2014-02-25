@@ -17,17 +17,17 @@ void DPLLSurveilleSolveur::initialiserLiterauxSurveilles()
 {
     for(Clause* clause : formule.getClauses())
     {
-        int premierLiteral = trouveLiteralASurveille(clause);
-        int secondLiteral = trouveLiteralASurveille(clause, premierLiteral);
-        literauxSurveilles[clause->getUid()] = pair<int,int>(premierLiteral, secondLiteral);
+        Literal* premierLiteral = trouveLiteralASurveille(clause);
+        Literal* secondLiteral = trouveLiteralASurveille(clause, premierLiteral);
+        literauxSurveilles[clause->getUid()] = pair<int,int>(premierLiteral->getId(), secondLiteral->getId());
     }
 }
 
-int DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, int autreLiteral)
+Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* autreLiteral)
 {
     for(Literal* literal : clause->getLiteraux())
-        if((!literal->isAssignee() || literal->getVar()) && literal->getId() != autreLiteral)
-            return literal->getId();
+        if((!literal->isAssignee() || literal->getVar()) && literal != autreLiteral)
+            return literal;
     return autreLiteral;
 }
 
@@ -46,10 +46,12 @@ bool DPLLSurveilleSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bo
 
 bool DPLLSurveilleSolveur::onLiteralAssigne(int literalId)
 {
+    Literal* literal = formule.getLiteral(literalId);
+
     for(Clause* clause : formule.getClauses())
     {
         //si elle contient le litéral assigné à vrai, on a supprime
-        if(clause->literalPresent(formule.getLiteral(literalId)))
+        if(clause->literalPresent(literal))
         {
             formule.supprimerClause(clause);
             continue;
@@ -59,10 +61,10 @@ bool DPLLSurveilleSolveur::onLiteralAssigne(int literalId)
         pair<int, int> literaux = literauxSurveilles[clause->getUid()];
 
         if(literaux.first == -literalId)
-            if(!assigneLiteralAFauxDansClauseEtRetourneEtat( clause, literaux.first, literaux.second))
+            if(!assigneLiteralAFauxDansClauseEtRetourneEtat(clause, literaux.first, literaux.second))
                 return false;
         if(literaux.second == -literalId)
-            if(!assigneLiteralAFauxDansClauseEtRetourneEtat( clause, literaux.second, literaux.first))
+            if(!assigneLiteralAFauxDansClauseEtRetourneEtat(clause, literaux.second, literaux.first))
                 return false;
     }
 
@@ -71,18 +73,19 @@ bool DPLLSurveilleSolveur::onLiteralAssigne(int literalId)
 
 bool DPLLSurveilleSolveur::assigneLiteralAFauxDansClauseEtRetourneEtat(Clause* clause, int literalId, int autreLiteralId)
 {
+    Literal* autreLiteral = formule.getLiteral(autreLiteralId);
+    
     clause->print();
     cout << "literaux " << literalId << ' ' << autreLiteralId << endl;
 
     clause->supprimer(formule.getLiteral(literalId)); //on supprime le litéral de la clause
 
-    int nouveauLiteralId = trouveLiteralASurveille(clause, autreLiteralId);
+    Literal* nouveauLiteral = trouveLiteralASurveille(clause, autreLiteral);
 
-    if(nouveauLiteralId == autreLiteralId) //il n'y a qu'un seul litéral qui ne soit pas à faux
+    if(nouveauLiteral == autreLiteral) //il n'y a qu'un seul litéral qui ne soit pas à faux
     {
-        Literal* literal = formule.getLiteral(nouveauLiteralId);
-        if(literal->isAssignee())
-            if(literal->getVal())
+        if(nouveauLiteral->isAssignee())
+            if(nouveauLiteral->getVal())
             {
                 formule.supprimerClause(clause); //la clause est satisfaite
                 return true;
@@ -90,11 +93,11 @@ bool DPLLSurveilleSolveur::assigneLiteralAFauxDansClauseEtRetourneEtat(Clause* c
             else
                 return false; //la formule n'est pas satisfiable : tout les litéraux sont à faux
         else
-            return assigneVariableEtRetourneSatisfiabilite(literal->getAbsId(), literal->getPolarite()); //pour valider la clause il faut que le dernier litéral inconnu soit à vrai
-        
+            return assigneVariableEtRetourneSatisfiabilite(nouveauLiteral->getAbsId(), nouveauLiteral->getPolarite()); //pour valider la clause il faut que le dernier litéral inconnu soit à vrai
+
     }
 
-    literauxSurveilles[clause->getUid()] = pair<int,int>(nouveauLiteralId, autreLiteralId);
-    cout << "nouveaux literaux " << nouveauLiteralId << ' ' << autreLiteralId << endl;
+    literauxSurveilles[clause->getUid()] = pair<int,int>(nouveauLiteral->getId(), autreLiteralId);
+    cout << "nouveaux literaux " << nouveauLiteral->getId() << ' ' << autreLiteralId << endl;
     return true;
 }
