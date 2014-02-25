@@ -186,7 +186,12 @@ void Clause::supprimerLiterauxFaux()
         if(l->isAssignee() && (!l->getVal()))
             literauxFaux.push_front(l); //on ne peut supprimer directement car cela invaliderait l'itérateur
 
-    for(Literal* l : literauxFaux)
+    supprimerLiteraux(literauxFaux);
+}
+
+void Clause::supprimerLiteraux(list<Literal*> literauxASupprimer)
+{
+    for(Literal* l : literauxASupprimer)
         literaux.erase( l );
 }
 

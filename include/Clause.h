@@ -5,6 +5,7 @@
 #include<string>
 #include<sstream>
 #include<unordered_set>
+#include<list>
 #include"Literal.h"
 #include"Polarite.h"
 
@@ -26,6 +27,7 @@ public:
     void addLiteraux(std::unordered_set<Literal*> nouveauxLiteraux);
     void fusionner(Clause* c);
     std::unordered_set<Literal*> getLiteraux() const;
+    void supprimerLiteraux(std::list<Literal*> literauxASupprimer);
     void supprimer(Literal* l);
     Polarite polariteLiteral(int id) const;
     void print() const;

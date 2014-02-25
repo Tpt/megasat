@@ -1,4 +1,5 @@
 #include "../include/DPLLSurveilleSolveur.h"
+#include<list>
 
 using namespace std;
 
@@ -35,17 +36,23 @@ void DPLLSurveilleSolveur::initialiserLiterauxSurveilles()
 
 Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* autreLiteral)
 {
+    list<Literal*> literauxASupprimer;
     for(Literal* literal : clause->getLiteraux())
         switch(literal->eval())
         {
             case VRAI:
             case INCONNU:
                 if(literal != autreLiteral)
+                {
+                    clause->supprimerLiteraux(literauxASupprimer);
                     return literal;
+                }
                 break;
             case FAUX:
-                clause->supprimer(literal);
+                literauxASupprimer.push_front(literal);
         }
+    clause->supprimerLiteraux(literauxASupprimer);
+
     if(clause->isVide()) //la simplification à aboutie à une clause vide
          throw InsatisfiableException();
 
