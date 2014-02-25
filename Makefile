@@ -1,5 +1,5 @@
 CC=g++
-NAZI= -std=c++0x -O3 -Wextra -Wall -pedantic-errors -Werror -Wfatal-errors -Wcast-qual -Wcast-align -Wconversion -Wold-style-cast -Wfloat-equal -Woverloaded-virtual -Wshadow -Weffc++ -Wpointer-arith
+NAZI= -std=c++0x -O3 -Wextra -Wall -pedantic-errors -Werror -Wfatal-errors -Wcast-qual -Wcast-align -Wconversion -Wold-style-cast -Wfloat-equal -Woverloaded-virtual -Wshadow -Weffc++ -Wpointer-arith -Wunused -Wunreachable-code
 LDFLAGS=
 EXEC=resol
 

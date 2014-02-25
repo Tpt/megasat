@@ -42,7 +42,6 @@ bool DavisPutnamSolveur::isSatifiable()
     {
         return false;
     }
-    return true;
 }
 
 Formule* DavisPutnamSolveur::resoudreSeau(const Formule* seau, int id) const
