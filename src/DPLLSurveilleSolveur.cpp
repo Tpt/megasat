@@ -26,8 +26,6 @@ void DPLLSurveilleSolveur::initialiserLiterauxSurveilles()
     for(Clause* clause : formule.getClauses())
     {
         Literal* premierLiteral = trouveLiteralASurveille(clause);
-        if(premierLiteral == nullptr)
-            throw InsatisfiableException(); //on tombe sur une clause vide
 
         Literal* secondLiteral = trouveLiteralASurveille(clause, premierLiteral);
 
@@ -38,8 +36,19 @@ void DPLLSurveilleSolveur::initialiserLiterauxSurveilles()
 Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* autreLiteral)
 {
     for(Literal* literal : clause->getLiteraux())
-        if((!literal->isAssignee() || literal->getVar()) && literal != autreLiteral)
-            return literal;
+        switch(literal->eval())
+        {
+            case VRAI:
+            case INCONNU:
+                if(literal != autreLiteral)
+                    return literal;
+                break;
+            case FAUX:
+                clause->supprimer(literal);
+        }
+    if(clause->isVide()) //la simplification à aboutie à une clause vide
+         throw InsatisfiableException();
+
     return autreLiteral;
 }
 
@@ -86,8 +95,6 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
     cout << "literaux " << literalId << ' ' << autreLiteralId << endl;
 
     clause->supprimer(formule.getLiteral(literalId)); //on supprime le litéral de la clause
-    if(clause->isVide()) //si la clause devient vide, on échoue
-        throw InsatisfiableException();
 
     Literal* nouveauLiteral = trouveLiteralASurveille(clause, autreLiteral);
 
