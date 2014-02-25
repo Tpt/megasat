@@ -8,23 +8,24 @@ AbstractDPLLSolveur::AbstractDPLLSolveur(Formule &formule_) : Solveur(formule_)
 AbstractDPLLSolveur::~AbstractDPLLSolveur()
 {}
 
-bool AbstractDPLLSolveur::assigneUneVariableEtRetourneSatisfiabilite()
+void AbstractDPLLSolveur::assigneUneVariable()
 {
     int varId = getVariableNonAssignee();
     if(varId == -1)
-        return true;
+        return;
 
     Formule save = formule;
 
-    if(assigneVariableEtRetourneSatisfiabilite(varId, true))
-        return true;
-
-    //backtrack
-    formule = save;
-    if(assigneVariableEtRetourneSatisfiabilite(varId, false))
-        return true;
-
-    return false;
+    try
+    {
+        assigneVariable(varId, true);
+    }
+    catch(InsatisfiableException)
+    {
+        //backtrack
+        formule = save;
+        assigneVariable(varId, false);
+    }
 }
 
 int AbstractDPLLSolveur::getVariableNonAssignee()

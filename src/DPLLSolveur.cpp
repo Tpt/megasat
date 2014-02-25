@@ -17,10 +17,18 @@ bool DPLLSolveur::isSatifiable()
     if(formule.isVide())
         return true;
 
-    return assigneUneVariableEtRetourneSatisfiabilite();
+    try
+    {
+        assigneUneVariable();
+        return true;
+    }
+    catch(InsatisfiableException)
+    {
+        return false;
+    }
 }
 
-bool DPLLSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bool val)
+void DPLLSolveur::assigneVariable(int varId, bool val)
 {
     Variable* var = formule.getVar(varId);
     var->setVal(val);
@@ -33,11 +41,11 @@ bool DPLLSolveur::assigneVariableEtRetourneSatisfiabilite(int varId, bool val)
     formule.print();
 
     if(aClauseVide())
-        return false;
+        throw InsatisfiableException();
     if(formule.isVide())
-        return true;
+        return;
 
-    return assigneUneVariableEtRetourneSatisfiabilite();
+    assigneUneVariable();
 }
 
 bool DPLLSolveur::aClauseVide()

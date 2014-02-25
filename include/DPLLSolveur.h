@@ -10,7 +10,7 @@ public:
     ~DPLLSolveur();
     bool isSatifiable();
 private:
-    bool assigneVariableEtRetourneSatisfiabilite(int varId, bool val);
+    void assigneVariable(int varId, bool val);
     bool aClauseVide();
 };
 
