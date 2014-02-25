@@ -76,6 +76,11 @@ bool Clause::isTautologie() const ///Test simplement si un literal apparait avec
     return false;
 }
 
+bool Clause::literalPresent(Literal* literal) const
+{
+    return literaux.count(literal) != 0;
+}
+
 void Clause::literalPresent(int id, bool& posTrouve, bool& negTrouve) const /**Test la présence d'une variable et de sa négation.
 On obtient le retour grace aux références en argument. On obtient ainsi la polarite.
 **/

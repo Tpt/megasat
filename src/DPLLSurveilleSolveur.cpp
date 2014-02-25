@@ -48,20 +48,24 @@ bool DPLLSurveilleSolveur::onLiteralAssigne(int literalId)
 {
     for(Clause* clause : formule.getClauses())
     {
+        //si elle contient le litéral assigné à vrai, on a supprime
+        if(clause->literalPresent(formule.getLiteral(literalId)))
+        {
+            formule.supprimerClause(clause);
+            continue;
+        }
+
+        //on propage si l'un des litéral surveillé est -literalId
         pair<int, int> literaux = literauxSurveilles[clause->getUid()];
 
-        if(literaux.first == literalId)
-            formule.supprimerClause(clause); //elle est vérifiée
-        else if(literaux.first == -literalId)
+        if(literaux.first == -literalId)
             if(!assigneLiteralAFauxDansClauseEtRetourneEtat( clause, literaux.first, literaux.second))
                 return false;
-
-        if(literaux.second == literalId)
-            formule.supprimerClause(clause);
-        else if(literaux.second == -literalId)
+        if(literaux.second == -literalId)
             if(!assigneLiteralAFauxDansClauseEtRetourneEtat( clause, literaux.second, literaux.first))
                 return false;
     }
+
     return true;
 }
 

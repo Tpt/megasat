@@ -13,17 +13,17 @@ bool AbstractDPLLSolveur::assigneUneVariableEtRetourneSatisfiabilite()
     int varId = getVariableNonAssignee();
     if(varId == -1)
         return true;
-    
+
     Formule save = formule;
-    
+
     if(assigneVariableEtRetourneSatisfiabilite(varId, true))
         return true;
-    
+
     //backtrack
     formule = save;
     if(assigneVariableEtRetourneSatisfiabilite(varId, false))
         return true;
-    
+
     return false;
 }
 

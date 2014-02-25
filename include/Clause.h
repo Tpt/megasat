@@ -18,6 +18,7 @@ public:
     bool isVide() const;
     int eval() const;
     int indiceMax() const;
+    bool literalPresent(Literal* literal) const;
     void literauxPresents(std::vector<bool>& found_pos, std::vector<bool>& found_neg) const;
     void literalPresent(int id, bool& found_pos, bool& found_neg) const;
     bool isTautologie() const;
