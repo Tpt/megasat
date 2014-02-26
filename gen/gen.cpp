@@ -3,15 +3,16 @@
 #include<cstdlib>
 #include<ctime>
 #include<sstream>
+#include<vector>
 
 using namespace std;
 
-string to_string(int number)
+/*string to_string(int number)
 {
    stringstream ss;
    ss << number;
    return ss.str();
-}
+}*/
 
 int main(int argc, char* argv[])
 {
@@ -50,21 +51,45 @@ int main(int argc, char* argv[])
     filename+="_";
     filename+= to_string(L);
     filename+=".cnf";
+
+
+    if(L>V)
+    {
+        cout<<"What ! Tes paramètre incorrects, je m'en badigeonne allègrement les gonades avec le pinceau de l'indifférence !"<<endl;
+        exit(EXIT_FAILURE);
+    }
     ofstream file(filename);
 
     file<<"p cnf "<<V<<" "<<C<<'\n';
 
+    vector<int> assignation;
+    int pos;
+    int pol;
+
     for(int i=0;i<C;++i)
     {
-        Ll=(rand()%(L-l+1))+l;
+        Ll=(rand()%(L-l+1))+l;;
+        assignation.clear();
+        assignation.resize(Ll,0);
         for(int j=0;j<Ll;++j)
         {
-            if(rand()%2)
-                file<<(rand()%V+1)<<" ";
+            pos=rand()%Ll;
+            pol=rand()%2;
+            for(;assignation[pos]!=0;pos=(pos+1)%Ll);
+            if(pol)
+                assignation[pos]=1;
             else
-                file<<-(rand()%V+1)<<" ";
+                assignation[pos]=0;
         }
-        file<<"0\n";
+
+        for(int k=0;k<Ll;++k)
+        {
+            if(assignation[k]==1)
+                file<<k+1<<" ";
+            else
+                file<<-k-1<<" ";
+        }
+        file<<0<<endl;
     }
 
     file.close();
