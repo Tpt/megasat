@@ -55,7 +55,7 @@ string CnfParser::getNextLine(istream &inputStream)
 	}
 }
 
-ParseError::ParseError(string message) : msg(message)
+ParseError::ParseError(string message) noexcept : msg(message)
 {}
 
 string ParseError::getMessage() const
