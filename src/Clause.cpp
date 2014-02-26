@@ -192,7 +192,7 @@ void Clause::supprimerLiterauxFaux()
 void Clause::supprimerLiteraux(list<Literal*> literauxASupprimer)
 {
     for(Literal* l : literauxASupprimer)
-        literaux.erase( l );
+        literaux.erase(l);
 }
 
 int Clause::getUid() const
