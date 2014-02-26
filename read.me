@@ -1,0 +1,22 @@
+Oyez, oyez ! Tant de nouveautés !
+
+Bon, il s'agit du premier rendu implémentant DPLL et les Watched Literals. Trêve de trivialités, maintenant, détaillons.
+
+En tout premier lieu, la structure de donnée. On a repris le code du DM de Chevalier pour ça. Aussi, on a gardé la structure en couche successive de Formule->Clause->Litéral->Variable utilisant le conteneur d'ensemble non ordonné de la STL du C++11. Certaines classes ont été enrichies dans leur fonctionnement. Par exemple, on a ajouter des types énumérations pour décrire le résultat d'une évalution : faux, vrai, inconnu. De la même façon, on a une type pour la polarité : positif, négatif,
+absent ou tautologie (présence des deux). Cependant, une classe a été largement allégée : la classe Formule. En effet, on a déplacé le parser et le solveur vers des classes indépendantes. Aussi, on a une classe (abstraite) dont hérite tous les solveurs : Davis-Putnamm et les solveurs DPLL. Pour ces derniers, on a une classe abstraite dont hérite le solveur DPLL simple et le DPLL avec la technique des Watched Literals. D'autre part, le backtracking se gère avec des lancés et gestions
+d'exception. D'où la déclaration de plusieurs exceptions.
+
+Voilà pour la structure. Suite !
+
+Du point de vue algorithmique... On a recylcé pas mal d'optimisation du Davis-Putnamm. Chaque décision sur la valeur d'une variable induit un certain nombre de propagations unitaires et d'éliminations de litéraux purs qui sont réalisés en boucle, jusqu'à point fixe. Lors de ce procédé, on supprime les clauses qui sont satisfaites (même si leur évaluation renvoie la valeur énumérée "inconnue" car toutes les variables ne sont pas encore assignées) et les litéraux qui sont assignés à false.
+Après ces simplification, on procède à la détection des clauses qui sont des surclauses d'une autre clause de la formule et on les supprime.
+
+Un point intéressant est la gestion du backtracking. Le principe est simple : on décide, on explore, si on obtient une contradiction on lance une exception, on remonte et on teste l'autre assignation, sinon on termine et la formule contient son assignation. Pour cela il a fallut écrire un constructeur de copie pour les formules. J'attire votre attention là-dessus car, à cause de la structure de donnée, c'est loin d'être trivial. Il faut, en particulier, prendre soin de créer de nouvelles
+variables et de nouveaux litéraux. Ensuite, il faut entièrement reconstruire les clauses en fonction des identifiants des variables. 
+
+
+
+
+En ce qui concerne l'interface...
+
+
