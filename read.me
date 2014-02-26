@@ -14,9 +14,37 @@ Après ces simplification, on procède à la détection des clauses qui sont des
 Un point intéressant est la gestion du backtracking. Le principe est simple : on décide, on explore, si on obtient une contradiction on lance une exception, on remonte et on teste l'autre assignation, sinon on termine et la formule contient son assignation. Pour cela il a fallut écrire un constructeur de copie pour les formules. J'attire votre attention là-dessus car, à cause de la structure de donnée, c'est loin d'être trivial. Il faut, en particulier, prendre soin de créer de nouvelles
 variables et de nouveaux litéraux. Ensuite, il faut entièrement reconstruire les clauses en fonction des identifiants des variables. 
 
+On a aussi essayé d'utiliser plus à fond les méthode de la STL, pour gagner du temps.
+
+
+En ce qui concerne l'interface... Il suffit de passer des arguments en ligne de commande. Il y a bien sûr -wl qui active une résolution avec DPLL avec les Watched Literals. L'argument -dp procède à la résolution avec Davis-Putnamm. Bien sûr, ne donner aucun argument lance un DPLL simple.
 
 
 
-En ce qui concerne l'interface...
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Il convient de signaler que le générateur à exemple a été refait, l'interface est la même maisle fonctionnement a complètement changé. Et ce, dans un seul but : ne pas générer de tautologies. En effet, la probabilité de générer des tautologie quand la longueur des clauses s'approche du nombre de variables explose. Aussi, pour tester la méthode de résolution avec les Watched Literals, il est intéressant d'avoir de longues clauses qui ne sont pas des tautologies.
+
+
+
+
+Maintenant, des chronométrages :
+
+ex1 : 0.02s
+ex2 : 0.02s
+ex3 : 0.01s
+ex4 : 0.01s
+ex5 :
