@@ -16,6 +16,12 @@ private:
 };
 
 class ParseError: std::exception
-{};
+{
+public:
+    ParseError(std::string message);
+    std::string getMessage() const;
+private:
+    std::string msg;
+};
 
 #endif

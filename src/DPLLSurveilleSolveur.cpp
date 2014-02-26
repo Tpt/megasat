@@ -24,12 +24,11 @@ bool DPLLSurveilleSolveur::isSatifiable()
 
 void DPLLSurveilleSolveur::initialiserLiterauxSurveilles()
 {
-    for(Clause* clause : formule.getClauses())
+    unordered_set<Clause*> clauses = formule.getClauses();
+    for(Clause* clause : clauses)
     {
         Literal* premierLiteral = trouveLiteralASurveille(clause);
-
         Literal* secondLiteral = trouveLiteralASurveille(clause, premierLiteral);
-
         literauxSurveilles[clause->getUid()] = pair<int,int>(premierLiteral->getId(), secondLiteral->getId());
     }
 }
@@ -37,7 +36,8 @@ void DPLLSurveilleSolveur::initialiserLiterauxSurveilles()
 Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* autreLiteral)
 {
     list<Literal*> literauxASupprimer;
-    for(Literal* literal : clause->getLiteraux())
+    unordered_set<Literal*> literaux = clause->getLiteraux();
+    for(Literal* literal : literaux)
         switch(literal->eval())
         {
             case VRAI:
@@ -64,18 +64,20 @@ void DPLLSurveilleSolveur::assigneVariable(int varId, bool val)
 {
     Variable* var = formule.getVar(varId);
     var->setVal(val);
-    std::cout << "assigne " << var->getId() << " a " << var->getVal() << std::endl;
+    cout << "                             assigne " << var->getId() << " a " << var->getVal() << endl;
 
-    onLiteralAssigne(val ? varId : -varId);
+    Literal* literal = formule.getLiteral(val ? varId : -varId);
+    onLiteralAssigne(literal);
 
     return assigneUneVariable();
 }
 
-void DPLLSurveilleSolveur::onLiteralAssigne(int literalId)
+void DPLLSurveilleSolveur::onLiteralAssigne(Literal* literal)
 {
-    Literal* literal = formule.getLiteral(literalId);
+    int literalId = literal->getId();
 
-    for(Clause* clause : formule.getClauses())
+    unordered_set<Clause*> clauses = formule.getClauses();
+    for(Clause* clause : clauses)
     {
         //si elle contient le litéral assigné à vrai, on a supprime
         if(clause->literalPresent(literal))
@@ -97,7 +99,7 @@ void DPLLSurveilleSolveur::onLiteralAssigne(int literalId)
 void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int literalId, int autreLiteralId)
 {
     Literal* autreLiteral = formule.getLiteral(autreLiteralId);
-    
+
     clause->print();
     cout << "literaux " << literalId << ' ' << autreLiteralId << endl;
 
@@ -108,13 +110,22 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
     if(nouveauLiteral == autreLiteral) //il n'y a qu'un seul litéral qui ne soit pas à faux
     {
         if(nouveauLiteral->isAssignee())
+        {
             if(nouveauLiteral->getVal())
+            {
                 formule.supprimerClause(clause); //la clause est satisfaite
+            }
             else
+            {
                 throw InsatisfiableException(); //la formule n'est pas satisfiable : tout les litéraux sont à faux
+            }
+        }
         else
-            return assigneVariable(nouveauLiteral->getAbsId(), nouveauLiteral->getPolarite()); //pour valider la clause il faut que le dernier litéral inconnu soit à vrai
-
+        {
+            cout << "                  pas de choix : " << nouveauLiteral->getId() << " true" << endl;
+            nouveauLiteral->setVal(true);
+            onLiteralAssigne(nouveauLiteral);
+        }
     }
     else
     {
