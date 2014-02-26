@@ -17,7 +17,13 @@ variables et de nouveaux litéraux. Ensuite, il faut entièrement reconstruire l
 On a aussi essayé d'utiliser plus à fond les méthode de la STL, pour gagner du temps.
 
 
-En ce qui concerne l'interface... Il suffit de passer des arguments en ligne de commande. Il y a bien sûr -wl qui active une résolution avec DPLL avec les Watched Literals. L'argument -dp procède à la résolution avec Davis-Putnamm. Bien sûr, ne donner aucun argument lance un DPLL simple.
+En ce qui concerne l'interface... Il suffit de passer des arguments en ligne de commande. Il y a bien sûr -wl qui active une résolution avec DPLL avec les Watched Literals. L'argument -dp procède à la résolution avec Davis-Putnamm. Bien sûr, ne donner aucun argument lance un DPLL simple. Il y a aussi une version avec des sorties de débuggage. La chose se fait à la compilation. Il suffit de compiler avec la commande :
+make DEBUG=""
+La compilation donnant le programme sans les sorties de débuggages se fait toujours avec la commande :
+make
+On signale l'existance de :
+make clean
+pour supprimer tous les .o générés à la comoilation. Ila été choisi de faire ce réglage à la compilation (via des directives de préprocesseur) pour pas perdre son temps en test lors de l'exécution pour une chose aussi futile que l'affichage...
 
 
 
@@ -41,10 +47,17 @@ Il convient de signaler que le générateur à exemple a été refait, l'interfa
 
 
 
-Maintenant, des chronométrages :
+Maintenant, des chronométrages (DPLL vs WL):
 
-ex1 : 0.02s
-ex2 : 0.02s
-ex3 : 0.01s
-ex4 : 0.01s
-ex5 :
+ex1 : 0.01s / 0.02s
+ex2 : 0.01s / 0.02s
+ex3 : <0.01s / 0.01s
+ex4 : <0.01s / 0.02s
+ex5 : <0.01s / <0.01s
+
+Nb de variables, nb de clauses, longueur min et max des clauses (DPLL vs WL):
+
+50 4096 40 45 : 0.67s /  0.2s
+100 4096 80 95 : 2.54s / 0.57s
+200 4096 180 195 : 8.53s / 2.04s Toujours plus fort !
+400 8192 380 395 : 73.7s / 18.25 s
