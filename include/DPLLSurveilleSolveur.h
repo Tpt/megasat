@@ -14,7 +14,7 @@ private:
     void assigneVariable(int varId, bool val);
     void initialiserLiterauxSurveilles();
     Literal* trouveLiteralASurveille(Clause* clause, Literal* autreLiteral = nullptr); /// Mettre autreLiteral à nullptr quand il n'y a pas encore de literal surveillé. Retourne autreLiteral si, et seulement si, aucun autre litéral convenable n'est trouvé
-    void onLiteralAssigne(int literalId);
+    void onLiteralAssigne(Literal* literal);
     void assigneLiteralAFauxDansClause(Clause* clause, int literalId, int autreLiteralId);
 };
 

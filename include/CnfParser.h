@@ -15,7 +15,14 @@ private:
     std::string getNextLine(std::istream &inputStream);
 };
 
-class ParseError: std::exception
-{};
+class ParseError : public std::exception
+{
+public:
+    ParseError(std::string message) noexcept;
+    ~ParseError() noexcept;
+    std::string getMessage() const;
+private:
+    std::string msg;
+};
 
 #endif

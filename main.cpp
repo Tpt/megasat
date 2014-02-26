@@ -19,9 +19,9 @@ Formule parseCnfFile(string fileName)
     {
         return cnfParser.parse(fileName);
     }
-    catch(ParseError)
+    catch(ParseError& e)
     {
-        cerr << "resol: fatal error: parser error\nresolution terminated." << endl << endl;
+        cerr << "resol: fatal error: parser error: " << e.getMessage() << "\nresolution terminated." << endl << endl;
         exit( EXIT_FAILURE );
     }
 }
