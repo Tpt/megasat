@@ -7,7 +7,10 @@ using namespace std;
 Formule CnfParser::parse(string &fileName)
 {
 	filebuf fb;
-    fb.open(fileName, ios::in);
+    if(fb.open(fileName, ios::in) == nullptr)
+    {
+        throw ParseError("Le fichier d'entrées n'existe pas !");
+    }
     istream fileStream(&fb);
 
 	return parse(fileStream);
@@ -22,7 +25,7 @@ Formule CnfParser::parse(istream &istream)
 	int clauseNumber;
 	if(!(headerStream >> header1 >> header2 >> variableNumber >> clauseNumber && header1 == "p" && header2 == "cnf"))
     {
-		throw ParseError();
+		throw ParseError( "L'entête du fichier est invalide !");
 	}
 
 	Formule formula(variableNumber);
@@ -46,8 +49,16 @@ string CnfParser::getNextLine(istream &inputStream)
 		string str;
 		getline(inputStream, str);
 		if(str == "")
-			throw ParseError();
+			throw ParseError( "Il manque des lignes dans le fichier!" );
         else if(str[0] != 'c') //on n'a pas affaire à un commentaire
 			return str;
 	}
+}
+
+ParseError::ParseError(string message) : msg(message)
+{}
+    
+string ParseError::getMessage() const
+{
+    return msg;
 }
