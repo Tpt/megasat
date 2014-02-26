@@ -1,6 +1,6 @@
 #include<cstdlib>
 #include<cstring>
-#include<ctime>
+#include<chrono>
 #include"include/Formule.h"
 #include"include/CnfParser.h"
 #include"include/DavisPutnamSolveur.h"
@@ -8,6 +8,8 @@
 #include"include/DPLLSurveilleSolveur.h"
 
 using namespace std;
+using namespace std::chrono;
+
 Formule parseCnfFile(string fileName);
 int Clause::nextUid=0;
 
@@ -50,8 +52,7 @@ int main(int argc, char *argv[])
 
     Formule formule = parseCnfFile(fileName);
 
-    clock_t t;
-    t = clock();
+    auto beginTime = steady_clock::now();
     bool estSatisfiable = false;
 
     if(utiliserDavisPutnam)
@@ -88,8 +89,7 @@ int main(int argc, char *argv[])
     {
         cout << "s UNSATISFIABLE" << endl;
     }
-    t = clock() - t;
-    cout << "c Resolu en : " << static_cast<double>(t) / static_cast<double>(CLOCKS_PER_SEC) << " secondes" << endl;
+    cout << "c Resolu en : " << duration_cast<duration<double>>(steady_clock::now() - beginTime).count() << " secondes" << endl;
 
     return EXIT_SUCCESS;
 }
