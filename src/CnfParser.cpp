@@ -57,7 +57,10 @@ string CnfParser::getNextLine(istream &inputStream)
 
 ParseError::ParseError(string message) : msg(message)
 {}
-    
+
+ParseError::~ParseError()
+{}
+
 string ParseError::getMessage() const
 {
     return msg;
