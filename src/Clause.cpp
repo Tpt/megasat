@@ -42,21 +42,6 @@ unordered_set<Literal*> Clause::getLiteraux() const
     return literaux;
 }
 
-Polarite Clause::polariteLiteral(int id) const ///Utile pour distinguer les deux parties pour les mariages.
-{
-    bool posTrouve=false;
-    bool negTrouve=false;
-
-    literalPresent(id, posTrouve, negTrouve);
-    if(posTrouve && negTrouve)
-        return TAUTOLOGIE;
-    if(!posTrouve && !negTrouve)
-        return ABSENT;
-    if(posTrouve)
-        return POSITIF;
-    return NEGATIF;
-}
-
 void Clause::fusionner(Clause* c) /** Fusionne la clause avec une autre.
 L'utilisation des pointeurs sur les literaux assure (grace à la méthode insert) qu'il n'y a pas de doublons.
 **/
@@ -67,30 +52,53 @@ L'utilisation des pointeurs sur les literaux assure (grace à la méthode insert
         literaux.insert(l);
 }
 
-bool Clause::isTautologie() const ///Test simplement si un literal apparait avec les deux polarités.
-{
-    for(int i=1; i<variableNumber+1; ++i)
-        if(polariteLiteral(i) == TAUTOLOGIE)
-            return true;
-
-    return false;
-}
-
 bool Clause::literalPresent(Literal* literal) const
 {
     return literaux.count(literal) != 0;
+}
+
+Polarite Clause::polariteLiteral(int id) const ///Utile pour distinguer les deux parties pour les mariages.
+{
+    bool posTrouve=false;
+    bool negTrouve=false;
+    literalPresent(id, posTrouve, negTrouve);
+    if(posTrouve && negTrouve)
+        return TAUTOLOGIE;
+    if(!posTrouve && !negTrouve)
+        return ABSENT;
+    if(posTrouve)
+        return POSITIF;
+    return NEGATIF;
+}
+
+bool Clause::isTautologie() const ///Test simplement si un literal apparait avec les deux polarités.
+{
+    /*cout<<":"<<" "<<variableNumber<<" "<<literaux.size()<<endl;
+    print();*/
+    for(int i=1; i<variableNumber+1; ++i)
+    {
+        //cout<<i<<" ";
+        if(polariteLiteral(i) == TAUTOLOGIE)
+            return true;
+    }
+
+
+    return false;
 }
 
 void Clause::literalPresent(int id, bool& posTrouve, bool& negTrouve) const /**Test la présence d'une variable et de sa négation.
 On obtient le retour grace aux références en argument. On obtient ainsi la polarite.
 **/
 {
-    for(Literal* l : literaux)
+    //cout<<literaux.size()<<endl;
+    auto it=literaux.begin();
+    while(it!=literaux.end())
     {
-        if(l->getId() == id)
+        if((*it)->getId() == id)
             posTrouve = true;
-        else if(l->getId() == -id)
+        else if((*it)->getId() == -id)
             negTrouve = true;
+        ++it;
     }
 }
 

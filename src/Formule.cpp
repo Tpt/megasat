@@ -95,9 +95,13 @@ bool Formule::simplificationLiteralPur(int id)
 
 void Formule::supprimerTautologies()
 {
+    vector<Clause*> aSupprimer;
     for(Clause* c : clauses)
         if(c->isTautologie())
-            clauses.erase(c);
+            aSupprimer.push_back(c);
+
+    for(unsigned int i=0;i<aSupprimer.size();++i)
+        clauses.erase(aSupprimer[i]);
 }
 
 bool Formule::eliminationLiterauxPurs()
