@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
 
     Formule formule = parseCnfFile(fileName);
 
-    auto beginTime = steady_clock::now();
+    auto beginTime = system_clock::now();
     bool estSatisfiable = false;
 
     if(utiliserDavisPutnam)
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
     {
         cout << "s UNSATISFIABLE" << endl;
     }
-    cout << "c Resolu en : " << duration_cast<duration<double>>(steady_clock::now() - beginTime).count() << " secondes" << endl;
+    cout << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
 
     return EXIT_SUCCESS;
 }
