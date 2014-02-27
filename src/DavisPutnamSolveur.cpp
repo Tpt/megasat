@@ -1,6 +1,7 @@
 #include<vector>
 #include<unordered_set>
 #include "../include/DavisPutnamSolveur.h"
+#include "../include/InsatisfiableException.h"
 
 using namespace std;
 
@@ -38,7 +39,7 @@ bool DavisPutnamSolveur::isSatifiable()
 
         return true;
     }
-    catch(int e)
+    catch(InsatisfiableException)
     {
         return false;
     }
@@ -92,7 +93,7 @@ Formule* DavisPutnamSolveur::resoudreSeau(const Formule* seau, int id) const
                 if(i*100/pos.size()==100)
                     printf("\b");
                 printf("\n");
-                throw 1;
+                throw InsatisfiableException();
             }
             if(!work->isTautologie()&& !sortie->aSousclauses(work) && !sortie->contient(work) ) /** C'est là  que c'est un peu fin.
                                                                                                  On ne prend pas les tautologies, les surclauses de clauses déja existentes et les doublons.

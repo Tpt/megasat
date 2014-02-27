@@ -49,7 +49,7 @@ string CnfParser::getNextLine(istream &inputStream)
 		string str;
 		getline(inputStream, str);
 		if(str == "")
-			throw ParseError( "Il manque des lignes dans le fichier!" );
+			throw ParseError( "Il manque des lignes dans le fichier !" );
         else if(str[0] != 'c') //on n'a pas affaire à un commentaire
 			return str;
 	}

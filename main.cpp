@@ -11,7 +11,7 @@ using namespace std;
 using namespace std::chrono;
 
 Formule parseCnfFile(string fileName);
-int Clause::nextUid=0;
+int Clause::nextUid = 0;
 
 Formule parseCnfFile(string fileName)
 {
@@ -23,7 +23,7 @@ Formule parseCnfFile(string fileName)
     }
     catch(ParseError& e)
     {
-        cerr << "resol: fatal error: parser error: " << e.getMessage() << "\nresolution terminated." << endl << endl;
+        cerr << "c Erreur du parser : " << e.getMessage() << "\nc Arrêt de la résolution." << endl;
         exit( EXIT_FAILURE );
     }
 }
@@ -46,36 +46,31 @@ int main(int argc, char *argv[])
 
     if(fileName == "")
     {
-        cerr << "resol: fatal error: no input files\nresolution terminated." << endl << endl;
+        cerr << "c Pas de fichier donné en entrée.\nFin de la résolution." << endl;
         return EXIT_FAILURE;
     }
 
     Formule formule = parseCnfFile(fileName);
 
     auto beginTime = system_clock::now();
-    bool estSatisfiable = false;
 
+    Solveur* solveur = nullptr;
     if(utiliserDavisPutnam)
     {
-        DavisPutnamSolveur solveur(formule);
-        estSatisfiable = solveur.isSatifiable();
-        formule = solveur.getFomule();
+        solveur = new DavisPutnamSolveur(formule);
     }
     else if(avecLiterauxSurveilles)
     {
-        DPLLSurveilleSolveur solveur(formule);
-        estSatisfiable = solveur.isSatifiable();
-        formule = solveur.getFomule();
+        solveur = new DPLLSurveilleSolveur(formule);
     }
     else
     {
-        DPLLSolveur solveur(formule);
-        estSatisfiable = solveur.isSatifiable();
-        formule = solveur.getFomule();
+        solveur = new DPLLSolveur(formule);
     }
 
-    if(estSatisfiable)
+    if(solveur->isSatifiable())
     {
+        formule = solveur->getFomule();
         cout << "s SATISFIABLE" << endl;
         for(int i = 1; i <= formule.getNombreDeVariables(); i++)
         {
@@ -89,6 +84,8 @@ int main(int argc, char *argv[])
     {
         cout << "s UNSATISFIABLE" << endl;
     }
+    delete solveur;
+
     cout << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
 
     return EXIT_SUCCESS;
