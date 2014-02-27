@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 
     if(fileName == "")
     {
-        cerr << "c Pas de fichier donné en entrée.\nFin de la résolution." << endl;
+        cerr << "c Pas de fichier donné en entrée.\nc Fin de la résolution." << endl;
         return EXIT_FAILURE;
     }
 

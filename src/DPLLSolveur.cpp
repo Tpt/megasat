@@ -10,6 +10,7 @@ DPLLSolveur::~DPLLSolveur()
 
 bool DPLLSolveur::isSatifiable()
 {
+    //on fait quelques simplifications préliminaires
     formule.supprimerTautologies();
     formule.simplifier();
     if(aClauseVide())

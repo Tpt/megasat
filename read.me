@@ -2,8 +2,7 @@ Oyez, oyez ! Tant de nouveautés !
 
 Bon, il s'agit du premier rendu implémentant DPLL et les Watched Literals. Trêve de trivialités, maintenant, détaillons.
 
-En tout premier lieu, la structure de donnée. On a repris le code du DM de Chevalier pour ça. Aussi, on a gardé la structure en couche successive de Formule->Clause->Littéral->Variable utilisant le conteneur d'ensemble non ordonné de la STL du C++11. Certaines classes ont été enrichies dans leur fonctionnement. Par exemple, on a ajouter des types énumérations pour décrire le résultat d'une évaluation : faux, vrai, inconnu. De la même façon, on a une type pour la polarité : positif, négatif,
-absent ou tautologie (présence des deux). Cependant, une classe a été largement allégée : la classe Formule. En effet, on a déplacé le parser et le solveur vers des classes indépendantes. Aussi, on a une classe (abstraite) dont hérite tous les solveurs : Davis-Putnamm et les solveurs DPLL. Pour ces derniers, on a une classe abstraite dont hérite le solveur DPLL simple et le DPLL avec la technique des Watched Literals. D'autre part, le backtracking se gère avec des lancés et gestions
+En tout premier lieu, la structure de donnée. On a repris le code du DM de Chevalier pour ça. Aussi, on a gardé la structure en couche successive de Formule->Clause->Littéral->Variable utilisant le conteneur d'ensemble non ordonné de la STL du C++11. Certaines classes ont été enrichies dans leur fonctionnement. Par exemple, on a ajouter des types énumérations pour décrire le résultat d'une évaluation : faux, vrai, inconnu. De la même façon, on a une type pour la polarité : positif, négatif, absent ou tautologie (présence des deux). Cependant, une classe a été largement allégée : la classe Formule. En effet, on a déplacé le parser et le solveur vers des classes indépendantes. Aussi, on a une classe (abstraite) dont hérite tous les solveurs : Davis-Putnamm et les solveurs DPLL. Pour ces derniers, on a une classe abstraite dont hérite le solveur DPLL simple et le DPLL avec la technique des Watched Literals. D'autre part, le backtracking se gère avec des lancés et gestions
 d'exception. D'où la déclaration de plusieurs exceptions.
 
 Voilà pour la structure. Suite !
@@ -11,10 +10,11 @@ Voilà pour la structure. Suite !
 Du point de vue algorithmique... On a recyclé pas mal d'optimisation du Davis-Putnamm. Chaque décision sur la valeur d'une variable induit un certain nombre de propagations unitaires et d'éliminations de littéraux purs qui sont réalisés en boucle, jusqu'à point fixe. Lors de ce procédé, on supprime les clauses qui sont satisfaites (même si leur évaluation renvoie la valeur énumérée "inconnue" car toutes les variables ne sont pas encore assignées) et les littéraux qui sont assignés à false.
 Après ces simplification, on procède à la détection des clauses qui sont des surclauses d'une autre clause de la formule et on les supprime.
 
-Un point intéressant est la gestion du backtracking. Le principe est simple : on décide, on explore, si on obtient une contradiction on lance une exception, on remonte et on teste l'autre assignation, sinon on termine et la formule contient son assignation. Pour cela il a fallut écrire un constructeur de copie pour les formules. J'attire votre attention là-dessus car, à cause de la structure de donnée, c'est loin d'être trivial. Il faut, en particulier, prendre soin de créer de nouvelles
-variables et de nouveaux littéraux. Ensuite, il faut entièrement reconstruire les clauses en fonction des identifiants des variables. 
+Un point intéressant est la gestion du backtracking. Le principe est simple : on décide, on explore, si on obtient une contradiction on lance une exception, on remonte et on teste l'autre assignation, sinon on termine et la formule contient son assignation. Pour cela il a fallut écrire un constructeur de copie pour les formules. J'attire votre attention là-dessus car, à cause de la structure de donnée, c'est loin d'être trivial. Il faut, en particulier, prendre soin de créer de nouvelles variables et de nouveaux littéraux. Ensuite, il faut entièrement reconstruire les clauses en fonction des identifiants des variables.
 
-On a aussi essayé d'utiliser plus à fond les méthode de la STL, pour gagner du temps.
+Pour les Watched-Literals, on a implémenté simplement la méthode proposé dans les transparents. La seule optimisation ajoutée a été de supprimer dans la formule courante les clauses dont on vu qu'un littéral est à vrai et de supprimer les littéraux faux des clauses quand on les rencontres (notamment dans la recherche de nouveaux littéraux à surveiller). Cela permet de réduire le nombre d'itérations lors de simplifications suivantes.
+
+On a aussi essayé d'utiliser plus à fond les méthode de la STL, pour gagner du temps. Mais il y a sans doute encore des pistes d'amélioration de ce côté, afin d'éviter des boucles inutiles. La seconde piste d'amélioration serait de faire en sorte de limiter au maximum le coût des copies de formules causés par le système de backtracking. Enfin, une destruction fine de la mémoire inutile (clauses qui ne servirons plus...) au cours de l'algorithme permettrait de diminuer la consommation mémoire.
 
 
 En ce qui concerne l'interface... Il suffit de passer des arguments en ligne de commande. Il y a bien sûr -wl qui active une résolution avec DPLL avec les Watched Literals. L'argument -dp procède à la résolution avec Davis-Putnamm. Bien sûr, ne donner aucun argument lance un DPLL simple. Il y a aussi une version avec des sorties de débuggage. La chose se fait à la compilation. Il suffit de compiler avec la commande :
@@ -74,10 +74,10 @@ Nb de variables, nb de clauses, longueur min et max des clauses (DPLL vs WL). On
 
 
 On remarque que :
--Le nombre de variables n'a pas une grande influence (mais clairement non négligeable)
--L'efficacité des Watched Literals ne se voit qu'avec de longues clauses (mais on comprend pourquoi c'est breveté !).
--La longueur des clauses à une influence importante
--Tout comme le nombre de clauses.
+- Le nombre de variables n'a pas une grande influence (mais clairement non négligeable)
+- L'efficacité des Watched Literals ne se voit qu'avec de longues clauses (mais on comprend pourquoi c'est breveté !).
+- La longueur des clauses à une influence importante
+- Tout comme le nombre de clauses.
 
 
 

@@ -50,6 +50,7 @@ Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* 
                 break;
             case FAUX:
                 literauxASupprimer.push_front(literal);
+                break;
             default:
                 break;
         }
@@ -125,7 +126,7 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
         else
         {
 #ifdef DEBUG
-            cout << "c pas de choix : " << nouveauLiteral->getId() << " true" << endl;
+            cout << "c pas de choix : " << nouveauLiteral->getId() << " true" << endl; //il n'y a plus qu'un litéral dans la clause : il faut le mettre à vrai
 #endif
 
             nouveauLiteral->setVal(true);
