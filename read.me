@@ -28,20 +28,6 @@ pour supprimer tous les .o générés à la comoilation. Ila été choisi de fai
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 Il convient de signaler que le générateur à exemple a été refait, l'interface est la même maisle fonctionnement a complètement changé. Et ce, dans un seul but : ne pas générer de tautologies. En effet, la probabilité de générer des tautologie quand la longueur des clauses s'approche du nombre de variables explose. Aussi, pour tester la méthode de résolution avec les Watched Literals, il est intéressant d'avoir de longues clauses qui ne sont pas des tautologies.
 
 
@@ -55,9 +41,43 @@ ex3 : <0.01s / 0.01s
 ex4 : <0.01s / 0.02s
 ex5 : <0.01s / <0.01s
 
-Nb de variables, nb de clauses, longueur min et max des clauses (DPLL vs WL):
+Nb de variables, nb de clauses, longueur min et max des clauses (DPLL vs WL). On teste avec de longues clauses pour laisser toutes ses chances aux Watched Literals.
 
 50 4096 40 45 : 0.67s /  0.2s
 100 4096 80 95 : 2.54s / 0.57s
-200 4096 180 195 : 8.53s / 2.04s Toujours plus fort !
-400 8192 380 395 : 73.7s / 18.25 s
+200 4096 80 95 : 7.2s / 0.85s
+400 4096 80 95 : 11.5s / 1.3s
+800 4096 80 95 : 18.5s / 2.4s
+
+
+
+200 2048 180 195 : 6.8s / 0.9s
+200 4096 180 195 : 8.53s / 2.04s
+200 8192 180 195 : 25.6s / 3.9s
+200 16384 180 195 : 47.2s / 5.41s
+
+400 2048 380 395 : 24.5s / 3.3s
+400 4096 380 395 : 51.43s / 7.0s
+400 8192 380 395 : 73.7s / 18.25s
+400 16384 380 395 : 194.2s / 29.3s
+
+
+
+400 8192 40 45 : 10.7s / 1.3s
+400 8192 80 95 : 23.7s / 2.7s
+400 8192 180 195 : 47.4s / 6.1s
+400 8192 280 295 : 66.1s / 10.6s
+400 8192 380 395 : 103.2s / 14.5s
+
+
+
+
+On remarque que :
+-Le nombre de variables n'a pas une grande influence (mais clairement non négligeable)
+-L'efficacité des Watched Literals ne se voit qu'avec de longues clauses (mais on comprend pourquoi c'est breveté !).
+-La longueur des clauses à une influence importante
+-Tout comme le nombre de clauses.
+
+
+
+On remarque aussi que le parser est lent... très lent ! En fait, le programme passe la majorité de son temps à parser et les temps donnés ci-dessus sont les temps effectifs d'exécution de l'algorithme.
