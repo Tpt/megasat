@@ -50,6 +50,8 @@ Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* 
                 break;
             case FAUX:
                 literauxASupprimer.push_front(literal);
+            default:
+                break;
         }
     clause->supprimerLiteraux(literauxASupprimer);
 
