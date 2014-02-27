@@ -2,33 +2,34 @@ Oyez, oyez ! Tant de nouveautés !
 
 Bon, il s'agit du premier rendu implémentant DPLL et les Watched Literals. Trêve de trivialités, maintenant, détaillons.
 
-En tout premier lieu, la structure de donnée. On a repris le code du DM de Chevalier pour ça. Aussi, on a gardé la structure en couche successive de Formule->Clause->Litéral->Variable utilisant le conteneur d'ensemble non ordonné de la STL du C++11. Certaines classes ont été enrichies dans leur fonctionnement. Par exemple, on a ajouter des types énumérations pour décrire le résultat d'une évalution : faux, vrai, inconnu. De la même façon, on a une type pour la polarité : positif, négatif,
+En tout premier lieu, la structure de donnée. On a repris le code du DM de Chevalier pour ça. Aussi, on a gardé la structure en couche successive de Formule->Clause->Littéral->Variable utilisant le conteneur d'ensemble non ordonné de la STL du C++11. Certaines classes ont été enrichies dans leur fonctionnement. Par exemple, on a ajouter des types énumérations pour décrire le résultat d'une évaluation : faux, vrai, inconnu. De la même façon, on a une type pour la polarité : positif, négatif,
 absent ou tautologie (présence des deux). Cependant, une classe a été largement allégée : la classe Formule. En effet, on a déplacé le parser et le solveur vers des classes indépendantes. Aussi, on a une classe (abstraite) dont hérite tous les solveurs : Davis-Putnamm et les solveurs DPLL. Pour ces derniers, on a une classe abstraite dont hérite le solveur DPLL simple et le DPLL avec la technique des Watched Literals. D'autre part, le backtracking se gère avec des lancés et gestions
 d'exception. D'où la déclaration de plusieurs exceptions.
 
 Voilà pour la structure. Suite !
 
-Du point de vue algorithmique... On a recylcé pas mal d'optimisation du Davis-Putnamm. Chaque décision sur la valeur d'une variable induit un certain nombre de propagations unitaires et d'éliminations de litéraux purs qui sont réalisés en boucle, jusqu'à point fixe. Lors de ce procédé, on supprime les clauses qui sont satisfaites (même si leur évaluation renvoie la valeur énumérée "inconnue" car toutes les variables ne sont pas encore assignées) et les litéraux qui sont assignés à false.
+Du point de vue algorithmique... On a recyclé pas mal d'optimisation du Davis-Putnamm. Chaque décision sur la valeur d'une variable induit un certain nombre de propagations unitaires et d'éliminations de littéraux purs qui sont réalisés en boucle, jusqu'à point fixe. Lors de ce procédé, on supprime les clauses qui sont satisfaites (même si leur évaluation renvoie la valeur énumérée "inconnue" car toutes les variables ne sont pas encore assignées) et les littéraux qui sont assignés à false.
 Après ces simplification, on procède à la détection des clauses qui sont des surclauses d'une autre clause de la formule et on les supprime.
 
 Un point intéressant est la gestion du backtracking. Le principe est simple : on décide, on explore, si on obtient une contradiction on lance une exception, on remonte et on teste l'autre assignation, sinon on termine et la formule contient son assignation. Pour cela il a fallut écrire un constructeur de copie pour les formules. J'attire votre attention là-dessus car, à cause de la structure de donnée, c'est loin d'être trivial. Il faut, en particulier, prendre soin de créer de nouvelles
-variables et de nouveaux litéraux. Ensuite, il faut entièrement reconstruire les clauses en fonction des identifiants des variables. 
+variables et de nouveaux littéraux. Ensuite, il faut entièrement reconstruire les clauses en fonction des identifiants des variables. 
 
 On a aussi essayé d'utiliser plus à fond les méthode de la STL, pour gagner du temps.
 
 
 En ce qui concerne l'interface... Il suffit de passer des arguments en ligne de commande. Il y a bien sûr -wl qui active une résolution avec DPLL avec les Watched Literals. L'argument -dp procède à la résolution avec Davis-Putnamm. Bien sûr, ne donner aucun argument lance un DPLL simple. Il y a aussi une version avec des sorties de débuggage. La chose se fait à la compilation. Il suffit de compiler avec la commande :
-make DEBUG=""
+make make
 La compilation donnant le programme sans les sorties de débuggages se fait toujours avec la commande :
 make
-On signale l'existance de :
+On signale l'existence de :
 make clean
-pour supprimer tous les .o générés à la comoilation. Ila été choisi de faire ce réglage à la compilation (via des directives de préprocesseur) pour pas perdre son temps en test lors de l'exécution pour une chose aussi futile que l'affichage...
+pour supprimer tous les .o générés à la compilation. Il a été choisi de faire ce réglage à la compilation (via des directives de préprocesseur) pour pas perdre son temps en test lors de l'exécution pour une chose aussi futile que l'affichage...
+Attention : pour passer du mode debug au mode normal un "make clean" est nécessaire afin de purger le cache du système de build.
 
 
 
 
-Il convient de signaler que le générateur à exemple a été refait, l'interface est la même maisle fonctionnement a complètement changé. Et ce, dans un seul but : ne pas générer de tautologies. En effet, la probabilité de générer des tautologie quand la longueur des clauses s'approche du nombre de variables explose. Aussi, pour tester la méthode de résolution avec les Watched Literals, il est intéressant d'avoir de longues clauses qui ne sont pas des tautologies.
+Il convient de signaler que le générateur à exemple a été refait, l'interface est la même mais le fonctionnement a complètement changé. Et ce, dans un seul but : ne pas générer de tautologies. En effet, la probabilité de générer des tautologie quand la longueur des clauses s'approche du nombre de variables explose. Aussi, pour tester la méthode de résolution avec les Watched Literals, il est intéressant d'avoir de longues clauses qui ne sont pas des tautologies.
 
 
 
@@ -81,3 +82,6 @@ On remarque que :
 
 
 On remarque aussi que le parser est lent... très lent ! En fait, le programme passe la majorité de son temps à parser et les temps donnés ci-dessus sont les temps effectifs d'exécution de l'algorithme.
+
+
+Enfin, voici la répartition des tâches. Marc s'est chargé de maintenir la structure de données, de la "sortie" de l'algorithme de Davis-Putnam en "standalone", du système de simplification de formules utilisé par DPLL (méthode Formule.simplifier), du générateur de tests ainsi que du présent rapport. Thomas a lui écrit la boucle centrale de DPLL, les Watched-Literals, le main et le parser de fichiers *.cnf. Enfin, tout deux se sont arracher les cheveux à debugger.
