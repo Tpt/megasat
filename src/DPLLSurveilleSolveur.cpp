@@ -64,7 +64,10 @@ void DPLLSurveilleSolveur::assigneVariable(int varId, bool val)
 {
     Variable* var = formule.getVar(varId);
     var->setVal(val);
-    cout << "                             assigne " << var->getId() << " a " << var->getVal() << endl;
+    
+#ifdef DEBUG
+    cout << "c assigne " << var->getId() << " a " << var->getVal() << endl;
+#endif
 
     Literal* literal = formule.getLiteral(val ? varId : -varId);
     onLiteralAssigne(literal);
@@ -100,9 +103,6 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
 {
     Literal* autreLiteral = formule.getLiteral(autreLiteralId);
 
-    clause->print();
-    cout << "literaux " << literalId << ' ' << autreLiteralId << endl;
-
     clause->supprimer(formule.getLiteral(literalId)); //on supprime le litéral de la clause
 
     Literal* nouveauLiteral = trouveLiteralASurveille(clause, autreLiteral);
@@ -122,7 +122,10 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
         }
         else
         {
-            cout << "                  pas de choix : " << nouveauLiteral->getId() << " true" << endl;
+#ifdef DEBUG
+            cout << "c pas de choix : " << nouveauLiteral->getId() << " true" << endl;
+#endif
+
             nouveauLiteral->setVal(true);
             onLiteralAssigne(nouveauLiteral);
         }
@@ -130,6 +133,9 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
     else
     {
         literauxSurveilles[clause->getUid()] = pair<int,int>(nouveauLiteral->getId(), autreLiteralId);
-        cout << "nouveaux literaux " << nouveauLiteral->getId() << ' ' << autreLiteralId << endl;
+
+#ifdef DEBUG
+        cout << "c nouveaux literaux " << nouveauLiteral->getId() << ' ' << autreLiteralId << " a la place de " << literalId << ' ' << autreLiteralId << endl;
+#endif
     }
 }

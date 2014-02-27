@@ -32,13 +32,11 @@ void DPLLSolveur::assigneVariable(int varId, bool val)
 {
     Variable* var = formule.getVar(varId);
     var->setVal(val);
-    std::cout << "assigne " << var->getId() << " a " << var->getVal() << std::endl;
+#ifdef DEBUG
+    std::cout << "c assigne " << var->getId() << " a " << var->getVal() << std::endl;
+#endif
 
     formule.simplifier();
-
-    //TODO: remove
-    std::cout << "etat :" << std::endl;
-    formule.print();
 
     if(aClauseVide())
         throw InsatisfiableException();
