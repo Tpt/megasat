@@ -12,7 +12,7 @@ Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<C
     unordered_set<Literal*> out;
     init_lits();
 
-    for(int i=0;i<V;++i)
+    for(int i=0; i<V; ++i)
         if(formule.vars[i]->isAssignee())
             vars[i]->setVal(formule.vars[i]->getVal());
 
@@ -41,15 +41,15 @@ Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordere
 Formule::~Formule()
 {
     vector<Clause*> aSupprimer(0);
-    for(unsigned int i=0;i<vars.size();++i)
+    for(unsigned int i=0; i<vars.size(); ++i)
         delete vars[i];
-    for(unsigned int i=0;i<lits_neg.size();++i)
+    for(unsigned int i=0; i<lits_neg.size(); ++i)
         delete lits_neg[i];
-    for(unsigned int i=0;i<lits_pos.size();++i)
+    for(unsigned int i=0; i<lits_pos.size(); ++i)
         delete lits_pos[i];
     for(Clause* c : clauses)
         aSupprimer.push_back(c);
-    for(unsigned int i=0;i<aSupprimer.size();++i)
+    for(unsigned int i=0; i<aSupprimer.size(); ++i)
         delete aSupprimer[i];
 }
 
@@ -111,7 +111,7 @@ void Formule::supprimerTautologies()
         if(c->isTautologie())
             aSupprimer.push_back(c);
 
-    for(unsigned int i=0;i<aSupprimer.size();++i)
+    for(unsigned int i=0; i<aSupprimer.size(); ++i)
         clauses.erase(aSupprimer[i]);
 }
 
@@ -137,7 +137,7 @@ void Formule::compacter()
     }
 
     for(Clause* c : clausesASupprimer)
-        clauses.erase( c );
+        clauses.erase(c);
 }
 
 bool Formule::propagationUnitaire()

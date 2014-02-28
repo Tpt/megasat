@@ -40,24 +40,24 @@ Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* 
     for(Literal* literal : literaux)
         switch(literal->eval())
         {
-            case VRAI:
-            case INCONNU:
-                if(literal != autreLiteral)
-                {
-                    clause->supprimerLiteraux(literauxASupprimer);
-                    return literal;
-                }
-                break;
-            case FAUX:
-                literauxASupprimer.push_front(literal);
-                break;
-            default:
-                break;
+        case VRAI:
+        case INCONNU:
+            if(literal != autreLiteral)
+            {
+                clause->supprimerLiteraux(literauxASupprimer);
+                return literal;
+            }
+            break;
+        case FAUX:
+            literauxASupprimer.push_front(literal);
+            break;
+        default:
+            break;
         }
     clause->supprimerLiteraux(literauxASupprimer);
 
     if(clause->isVide()) //la simplification à aboutie à une clause vide
-         throw InsatisfiableException();
+        throw InsatisfiableException();
 
     return autreLiteral;
 }
@@ -67,7 +67,7 @@ void DPLLSurveilleSolveur::assigneVariable(int varId, bool val)
 {
     Variable* var = formule.getVar(varId);
     var->setVal(val);
-    
+
 #ifdef DEBUG
     cout << "c assigne " << var->getId() << " a " << var->getVal() << endl;
 #endif
