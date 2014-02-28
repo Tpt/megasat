@@ -70,11 +70,7 @@ int main(int argc, char *argv[])
 
     if(solveur->isSatifiable())
     {
-        cout<<"########## ";
-        printf("%p ",static_cast<void*>(&formule));
         Formule formuleResolue = solveur->getFomule();
-        printf("%p ",static_cast<void*>(&formuleResolue));
-        cout<<"##########"<<endl;
         cout << "s SATISFIABLE" << endl;
         for(int i = 1; i <= formuleResolue.getNombreDeVariables(); i++)
         {

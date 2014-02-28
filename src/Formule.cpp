@@ -41,27 +41,16 @@ Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordere
 Formule::~Formule()
 {
     vector<Clause*> aSupprimer(0);
-    cout<<":"<<endl;
-    printf("%p\n",static_cast<void*>(this));
     for(unsigned int i=0;i<vars.size();++i)
         delete vars[i];
-    cout<<"A"<<endl;
     for(unsigned int i=0;i<lits_neg.size();++i)
         delete lits_neg[i];
-    cout<<"B"<<endl;
     for(unsigned int i=0;i<lits_pos.size();++i)
         delete lits_pos[i];
-    cout<<"C"<<endl;
     for(Clause* c : clauses)
         aSupprimer.push_back(c);
-    cout<<"D "<<aSupprimer.size()<<endl;
     for(unsigned int i=0;i<aSupprimer.size();++i)
-    {
-        cout<<"i : "<<i;
         delete aSupprimer[i];
-        cout<<";"<<"   ";
-    }
-    cout<<"E"<<endl;
 }
 
 int Formule::getNombreDeVariables() const
