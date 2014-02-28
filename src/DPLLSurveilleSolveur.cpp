@@ -112,7 +112,7 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
 
     if(nouveauLiteral == autreLiteral) //il n'y a qu'un seul litéral qui ne soit pas à faux
     {
-        if(nouveauLiteral->isAssignee())
+        if(nouveauLiteral->isAssigne())
         {
             if(nouveauLiteral->getVal())
             {

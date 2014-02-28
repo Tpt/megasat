@@ -131,7 +131,7 @@ int Clause::eval() const
     bool contientInconnu = false;
     for(Literal* l : literaux)
     {
-        if(!l->isAssignee())
+        if(!l->isAssigne())
             contientInconnu = true;
         else if(l->getVal())
             return VRAI;
@@ -155,7 +155,7 @@ bool Clause::simplificationUnitaire() const
         return false;
 
     Literal* literal = *literaux.begin();
-    if(literal->isAssignee())
+    if(literal->isAssigne())
         return false;
 
     literal->setVal(true);
@@ -180,7 +180,7 @@ bool Clause::isVide() const
 bool Clause::contientLiteralVrai() const
 {
     for(Literal* l : literaux)
-        if(l->isAssignee() && l->getVal())
+        if(l->isAssigne() && l->getVal())
             return true;
 
     return false;
@@ -191,7 +191,7 @@ void Clause::supprimerLiterauxFaux()
     list<Literal*> literauxFaux;
 
     for(Literal* l : literaux)
-        if(l->isAssignee() && (!l->getVal()))
+        if(l->isAssigne() && (!l->getVal()))
             literauxFaux.push_front(l); //on ne peut supprimer directement car cela invaliderait l'itérateur
 
     supprimerLiteraux(literauxFaux);

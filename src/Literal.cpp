@@ -31,7 +31,7 @@ bool Literal::getPolarite() const
     return polarite;
 }
 
-bool Literal::isAssignee() const
+bool Literal::isAssigne() const
 {
     return var->isAssignee();
 }

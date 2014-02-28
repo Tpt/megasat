@@ -1,9 +1,8 @@
 #ifndef AbstractDPLLSolveur_H
 #define AbstractDPLLSolveur_H
 
-#include<unordered_map>
-#include"Solveur.h"
-#include"InsatisfiableException.h"
+#include "Solveur.h"
+#include "InsatisfiableException.h"
 
 class AbstractDPLLSolveur : public Solveur
 {
@@ -13,7 +12,11 @@ public:
 protected:
     void assigneUneVariable();
     virtual void assigneVariable(int varId, bool val) = 0;
-    int getVariableNonAssignee();
+    std::pair<int, bool> getVariableNonAssignee() const;
+    std::pair<int, bool> getVariableNonAssigneeRand() const;
+    std::pair<int, bool> getVariableNonAssigneeRandMalin() const;
+    std::pair<int, bool> getVariableNonAssigneeRandMOMS() const;
+    std::pair<int, bool> getVariableNonAssigneeRandDLIS() const;
 };
 
 #endif
