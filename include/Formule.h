@@ -5,7 +5,7 @@
 #include<string>
 #include<fstream>
 #include<sstream>
-#include"Clause.h"
+#include "Clause.h"
 
 class Formule
 {

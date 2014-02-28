@@ -2,7 +2,7 @@
 #define LITERAL_H
 
 #include<cmath>
-#include"Variable.h"
+#include "Variable.h"
 
 class Literal
 {

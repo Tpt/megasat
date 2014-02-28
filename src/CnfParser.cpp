@@ -38,7 +38,6 @@ Formule CnfParser::parse(istream &istream)
             clause->addLiteral(formula.getLiteral(value));
         formula.addClause(clause);
 	}
-
 	return formula;
 }
 

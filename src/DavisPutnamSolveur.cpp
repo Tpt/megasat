@@ -8,11 +8,14 @@ using namespace std;
 DavisPutnamSolveur::DavisPutnamSolveur(Formule &formule_) : Solveur(formule_)
 {}
 
+DavisPutnamSolveur::~DavisPutnamSolveur()
+{}
+
 bool DavisPutnamSolveur::isSatifiable()
 {
     formule.supprimerTautologies();
 
-    vector<Formule*> seaux(0);
+    vector<unordered_set<Clause*> > seaux(0);
 
     unordered_set<Clause*> clauses(formule.getClauses());
     int V=formule.getNombreDeVariables();
@@ -21,13 +24,13 @@ bool DavisPutnamSolveur::isSatifiable()
     vector<Literal*> lits_pos (formule.getLiterauxPositifs());
 
     for(int i = 0; i < V; ++i) /// On crée les seaux.
-        seaux.push_back(new Formule(0,vars,lits_pos,lits_neg));
+        seaux.push_back(unordered_set<Clause*>());
 
 
 
     for(Clause* c : clauses) /// On remplit les seaux.
         if(!c->isTautologie())
-            seaux[c->indiceMax()-1]->addClause(c);
+            seaux[c->indiceMax()-1].insert(c);
 
     try
     {
@@ -45,22 +48,20 @@ bool DavisPutnamSolveur::isSatifiable()
     }
 }
 
-Formule* DavisPutnamSolveur::resoudreSeau(const Formule* seau, int id) const
+unordered_set<Clause*> DavisPutnamSolveur::resoudreSeau(const unordered_set<Clause*>& seau, int id) const
 {
     unordered_set<Clause*> pos;
     unordered_set<Clause*> neg;
     unordered_set<Clause*> autres;
-    unordered_set<Clause*> all(seau->getClauses());
 
-    int V=formule.getNombreDeVariables();
     vector<Variable*> vars (formule.getVars());
     vector<Literal*> lits_neg (formule.getLiterauxNegatifs());
     vector<Literal*> lits_pos (formule.getLiterauxPositifs());
 
-    Formule* sortie=new Formule(V,vars,lits_pos,lits_neg);
+    unordered_set<Clause*> sortie;
     Clause* work;
 
-    for(Clause* c : all) ///Sépare les polarités
+    for(Clause* c : seau) ///Sépare les polarités
     {
         if(c->polariteLiteral(id)==POSITIF)
             pos.insert(c);
@@ -69,7 +70,8 @@ Formule* DavisPutnamSolveur::resoudreSeau(const Formule* seau, int id) const
         else
             autres.insert(c);
     }
-    sortie->addClauses(autres);
+    for(Clause* c : autres)
+        sortie.insert(c);
 
     unsigned int i=0;
     unsigned int j=0;
@@ -95,12 +97,20 @@ Formule* DavisPutnamSolveur::resoudreSeau(const Formule* seau, int id) const
                 printf("\n");
                 throw InsatisfiableException();
             }
-            if(!work->isTautologie()&& !sortie->aSousclauses(work) && !sortie->contient(work) ) /** C'est là  que c'est un peu fin.
+            if(!work->isTautologie() && !aSousclauses(sortie, work) && !contient(sortie, work) ) /** C'est là  que c'est un peu fin.
                                                                                                  On ne prend pas les tautologies, les surclauses de clauses déja existentes et les doublons.
                                                                                                 **/
             {
-                sortie->supprimerSurclauses(work); /// On enlève toutes les surclauses qui sont nécessairement vérifiées.
-                sortie->addClause(work);
+                vector<Clause*> aSupprimer(0);/// On enlève toutes les surclauses qui sont nécessairement vérifiées.
+
+                for(Clause* c : sortie)
+                    if(c->estSurclause(work))
+                        aSupprimer.push_back(c);
+
+                for(Clause* c : aSupprimer)
+                    sortie.erase(c);
+
+                sortie.insert(work);
             }
         }
         for(l=0; l<58; ++l) ///Suite de l'affichage
@@ -117,18 +127,16 @@ Formule* DavisPutnamSolveur::resoudreSeau(const Formule* seau, int id) const
     return sortie;
 }
 
-void DavisPutnamSolveur::fusionner(const Formule* e, vector<Formule*> seaux) const ///Ajoute les clauses d'une formule dans les bons seaux
+void DavisPutnamSolveur::fusionner(const unordered_set<Clause*>& e, vector<unordered_set<Clause*> >& seaux) const ///Ajoute les clauses d'une formule dans les bons seaux
 {
-    unordered_set<Clause*> t=e->getClauses();
-
-    for(Clause* c:t)
-        seaux[c->indiceMax()-1]->addClause(c);
+    for(Clause* c : e)
+        seaux[c->indiceMax()-1].insert(c);
 }
 
-void DavisPutnamSolveur::chercherAssignation(Formule* f, int id) ///On essaie avec l'un et si ça ne marche pas, on prend l'autre...
+void DavisPutnamSolveur::chercherAssignation(unordered_set<Clause*>& f, int id) ///On essaie avec l'un et si ça ne marche pas, on prend l'autre...
 {
     formule.setVar(id + 1, true);
-    if(f->eval() != VRAI)
+    if(eval(f) != VRAI)
         formule.setVar(id + 1, false);
 }
 
@@ -141,3 +149,35 @@ Clause* DavisPutnamSolveur::resolution(const Clause* c1, Clause* c2, const int i
     sortie->supprimer(formule.getLiteral(-id));
     return sortie;
 }
+
+bool DavisPutnamSolveur::aSousclauses(const unordered_set<Clause*> seau, const Clause* cl) const
+{
+    for(Clause* c : seau)
+        if(cl->estSurclause(c))
+            return true;
+
+    return false;
+}
+
+bool DavisPutnamSolveur::contient(const unordered_set<Clause*> seau, const Clause* clause) const
+{
+    for(Clause* clause2 : seau)
+        if(*clause == *clause2)
+            return true;
+
+    return false;
+}
+
+ResultatEvaluation DavisPutnamSolveur::eval(const unordered_set<Clause*>& seau) const
+{
+    for(Clause* c : seau)
+    {
+        int tmp=c->eval();
+        if(tmp==2)
+            return INCONNU;
+        else if(tmp==0)
+            return FAUX;
+    }
+    return VRAI;
+}
+

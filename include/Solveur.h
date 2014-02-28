@@ -2,7 +2,7 @@
 #define Solver_H
 
 #include<iostream>
-#include"Formule.h"
+#include "Formule.h"
 
 class Solveur
 {

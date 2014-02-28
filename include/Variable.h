@@ -2,7 +2,7 @@
 #define VARIABLE_H
 
 #include<vector>
-#include"ResultatEvaluation.h"
+#include "ResultatEvaluation.h"
 
 class Variable
 {

@@ -6,8 +6,8 @@
 #include<sstream>
 #include<unordered_set>
 #include<list>
-#include"Literal.h"
-#include"Polarite.h"
+#include "Literal.h"
+#include "Polarite.h"
 
 class Clause
 {
