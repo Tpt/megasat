@@ -125,6 +125,10 @@ FormuleTseitin* Non::simplifier()
             FormuleTseitin* g (dynamic_cast<FormuleTseitin*>(pANB));
             FormuleTseitin* d (dynamic_cast<FormuleTseitin*>(pNAB));
 
+            delete pA;
+            delete pB;
+            delete g;
+            delete d;
             return Et(g,d).simplifier();
         }
         case FormuleType::NON : {

@@ -23,20 +23,20 @@ class FormuleTseitin
 
 class VariablePropositionnelle : public FormuleTseitin
 {
-    public:
+public:
     VariablePropositionnelle(std::string name_) : name(name_){};
     virtual ~VariablePropositionnelle(){};
     virtual FormuleTseitin* simplifier();
     virtual FormuleType getType();
     std::string getName() const {return name;};
 
-    private:
+private:
     std::string name;
 };
 
 class ConnecteurBinaire : public FormuleTseitin
 {
-    public:
+public:
     ConnecteurBinaire(FormuleTseitin* op1, FormuleTseitin* op2) : operandeG(*op1), operandeD(*op2){};
     virtual ~ConnecteurBinaire() = 0;
     virtual FormuleTseitin* simplifier() = 0;
@@ -44,14 +44,14 @@ class ConnecteurBinaire : public FormuleTseitin
     FormuleTseitin* getOperandeG() const;
     FormuleTseitin* getOperandeD() const;
 
-    protected:
+protected:
     FormuleTseitin& operandeG;
     FormuleTseitin& operandeD;
 };
 
 class Et : public ConnecteurBinaire
 {
-    public:
+public:
     Et(FormuleTseitin* op1, FormuleTseitin* op2) : ConnecteurBinaire(op1, op2){};
     virtual ~Et(){};
     virtual FormuleTseitin* simplifier();
@@ -61,7 +61,7 @@ class Et : public ConnecteurBinaire
 
 class Ou : public ConnecteurBinaire
 {
-    public:
+public:
     Ou(FormuleTseitin* op1, FormuleTseitin* op2) : ConnecteurBinaire(op1, op2){};
     virtual ~Ou(){};
     virtual FormuleTseitin* simplifier();
@@ -70,7 +70,7 @@ class Ou : public ConnecteurBinaire
 
 class Xor : public ConnecteurBinaire
 {
-    public:
+public:
     Xor(FormuleTseitin* op1, FormuleTseitin* op2) : ConnecteurBinaire(op1, op2){};
     virtual ~Xor(){};
     virtual FormuleTseitin* simplifier();
@@ -79,7 +79,7 @@ class Xor : public ConnecteurBinaire
 
 class Implique : public ConnecteurBinaire
 {
-    public:
+public:
     Implique(FormuleTseitin* op1, FormuleTseitin* op2) : ConnecteurBinaire(op1, op2){};
     virtual ~Implique(){};
     virtual FormuleTseitin* simplifier();
@@ -88,20 +88,20 @@ class Implique : public ConnecteurBinaire
 
 class ConnecteurUnaire : public FormuleTseitin
 {
-    public:
+public:
     ConnecteurUnaire(FormuleTseitin* op) : operande(*op){};
     virtual ~ConnecteurUnaire() = 0;
     virtual FormuleTseitin* simplifier() = 0;
     virtual FormuleType getType() = 0;
     FormuleTseitin* getOperande() const;
 
-    protected:
+protected:
     FormuleTseitin& operande;
 };
 
 class Non : public ConnecteurUnaire
 {
-    public:
+public:
     Non(FormuleTseitin* op) : ConnecteurUnaire(op){};
     virtual ~Non(){};
     virtual FormuleTseitin* simplifier();
