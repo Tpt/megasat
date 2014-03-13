@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include"Formule.h"
+#include"ParseError.h"
 
 class CnfParser
 {
@@ -13,16 +14,6 @@ public:
 
 private:
     std::string getNextLine(std::istream &inputStream);
-};
-
-class ParseError : public std::exception
-{
-public:
-    ParseError(std::string message) noexcept;
-    ~ParseError() noexcept;
-    std::string getMessage() const;
-private:
-    std::string msg;
 };
 
 #endif

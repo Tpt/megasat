@@ -9,7 +9,7 @@ all: $(EXEC)
 debug: CFLAGS = $(NAZI) -D DEBUG
 debug: $(EXEC)
 
-resol: obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/CnfParser.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/main.o obj/Connecteurs.o
+resol: obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/CnfParser.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/main.o obj/Connecteurs.o obj/ParseError.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/clause.o: src/Clause.cpp include/Clause.h
@@ -43,6 +43,9 @@ obj/DPLLSurveilleSolveur.o: src/DPLLSurveilleSolveur.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 	
 obj/Connecteurs.o: src/Connecteurs.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+obj/ParseError.o: src/ParseError.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/main.o: main.cpp
