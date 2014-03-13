@@ -1,6 +1,7 @@
 #ifndef CONNECTEURS_H_INCLUDED
 #define CONNECTEURS_H_INCLUDED
 #define cosnt const
+#define reutrn return
 
 #include<string>
 
@@ -31,15 +32,14 @@ public:
     ~FormuleTseitinSimple();
     FormuleTseitinSimple normaliser() const;
     std::string getName() const;
-
-private:
+    int getArite() const;
+    FormuleTseitinSimple::FormuleTypeSimple getType() const;
     FormuleTseitinSimple getOperandeG() const;
     FormuleTseitinSimple getOperandeD() const;
     FormuleTseitinSimple getOperande() const;
-    int getArite() const;
-    FormuleTseitinSimple::FormuleTypeSimple getType() const;
-    int ariteDuType(const FormuleTseitinSimple::FormuleTypeSimple& type_) const;
 
+private:
+    int ariteDuType(const FormuleTseitinSimple::FormuleTypeSimple& type_) const;
     FormuleTseitinSimple descendreNon() const;
     FormuleTseitinSimple distribuerOu() const;
     FormuleTseitinSimple eliminerXor() const;

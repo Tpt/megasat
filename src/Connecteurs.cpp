@@ -170,11 +170,11 @@ int FormuleTseitinSimple::ariteDuType(const FormuleTseitinSimple::FormuleTypeSim
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple() :
-    operandeG(nullptr), operandeD(nullptr), type(FormuleTseitinSimple::VARIABLE), name("")
+operandeG(nullptr), operandeD(nullptr), type(FormuleTseitinSimple::VARIABLE), name("")
 {}
 
 FormuleTseitinSimple::FormuleTseitinSimple(const FormuleTseitinSimple& F) :
-    operandeG(F.operandeG), operandeD(F.operandeD), type(FormuleTseitinSimple::VARIABLE), name("")
+operandeG(F.operandeG), operandeD(F.operandeD), type(FormuleTseitinSimple::VARIABLE), name("")
 {}
 
 FormuleTseitinSimple& FormuleTseitinSimple::operator= (const FormuleTseitinSimple& other)
