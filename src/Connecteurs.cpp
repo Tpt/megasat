@@ -174,7 +174,7 @@ FormuleTseitinSimple::FormuleTseitinSimple() :
 {}
 
 FormuleTseitinSimple::FormuleTseitinSimple(const FormuleTseitinSimple& F) :
-    operandeG(F.operandeG), operandeD(F.operandeD), type(FormuleTseitinSimple::VARIABLE), name("")
+    operandeG(F.operandeG), operandeD(F.operandeD), type(F.type), name(F.name)
 {}
 
 FormuleTseitinSimple& FormuleTseitinSimple::operator= (const FormuleTseitinSimple& other)
@@ -190,41 +190,36 @@ FormuleTseitinSimple& FormuleTseitinSimple::operator= (const FormuleTseitinSimpl
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, std::string name_) :
-    operandeG(nullptr), operandeD(nullptr), type(FormuleTseitinSimple::VARIABLE), name("")
+    operandeG(nullptr), operandeD(nullptr), type(FormuleTseitinSimple::VARIABLE), name(name_)
 {
-    if(type_!=FormuleTseitinSimple::VARIABLE)
+    if(type_ != FormuleTseitinSimple::VARIABLE)
         throw FormuleTseitinSimpleError( "Le type devrait être une variable !");
-
-    type=FormuleTseitinSimple::VARIABLE;
-    name=name_;
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple op) :
-    operandeG(nullptr), operandeD(nullptr), type(FormuleTseitinSimple::VARIABLE), name("")
+    operandeG(nullptr), operandeD(nullptr), type(type_), name("")
 {
-    if(ariteDuType(type_)!=1)
+    if(ariteDuType(type_) != 1)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 !");
 
-    type=FormuleTseitinSimple::NON;
-    *operandeG=op;
+    *operandeG = op;
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* op) :
-operandeG(op), operandeD(nullptr), type(type), name("")
+operandeG(op), operandeD(nullptr), type(type_), name("")
 {
     if(ariteDuType(type_) != 1)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 !");
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple opG, FormuleTseitinSimple opD) :
-    operandeG(nullptr), operandeD(nullptr), type(FormuleTseitinSimple::VARIABLE), name("")
+    operandeG(nullptr), operandeD(nullptr), type(type_), name("")
 {
-    if(ariteDuType(type_)!=2)
+    if(ariteDuType(type_) != 2)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 2 !");
 
-    type=type_;
-    *operandeG=opG;
-    *operandeD=opD;
+    *operandeG = opG;
+    *operandeD = opD;
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* opG, FormuleTseitinSimple* opD) :
@@ -236,7 +231,9 @@ operandeG(opG), operandeD(opD), type(type_), name("")
 
 FormuleTseitinSimple::~FormuleTseitinSimple()
 {
+    if(getArite() >= 2)
         delete operandeD;
+    if(getArite() >= 1)
         delete operandeG;
 }
 
