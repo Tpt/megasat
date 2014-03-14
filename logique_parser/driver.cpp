@@ -2,7 +2,6 @@
 
 #include "driver.h"
 #include "lexer.h"
-#include "../include/ParseError.h"
 
 using namespace std;
 
@@ -33,7 +32,7 @@ FormuleTseitinSimple Driver::parse(istream& inputStream)
     return result;
 }
 
-FormuleTseitinSimple Driver::parse(const char* fileName)
+FormuleTseitinSimple Driver::parse(std::string& fileName)
 {
     filebuf fb;
     fb.open(fileName, std::ios::in);

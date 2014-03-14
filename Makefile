@@ -6,12 +6,15 @@ EXEC=resol
 LEX=flex
 YACC=/usr/local/Cellar/bison/3.0.2/bin/bison
 
-all: $(EXEC)
+all: resol tseitin
 
 debug: CFLAGS = $(NAZI) -D DEBUG
 debug: $(EXEC)
 
-resol: obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/CnfParser.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/Connecteurs.o obj/ParseError.o obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/main.o
+tseitin: obj/Connecteurs.o obj/ParseError.o obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/main-tseitin.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+resol: obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/CnfParser.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/ParseError.o obj/main-resol.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/clause.o: src/Clause.cpp include/Clause.h
@@ -68,7 +71,10 @@ obj/LogiqueParserDriver.o: logique_parser/driver.cpp
 obj/LogiqueParserLexer.o: logique_parser/lexer.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-obj/main.o: main.cpp
+obj/main-resol.o: main-resol.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+obj/main-tseitin.o: main-tseitin.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 	
 clean:

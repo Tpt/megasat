@@ -3,6 +3,7 @@
 
 #include <istream>
 #include "../include/Connecteurs.h"
+#include "../include/ParseError.h"
 
 namespace LogiqueParser {
 
@@ -14,7 +15,7 @@ namespace LogiqueParser {
         Driver();
         ~Driver();
 
-        FormuleTseitinSimple parse(const char* fileName);
+        FormuleTseitinSimple parse(std::string& fileName);
         FormuleTseitinSimple parse(std::istream& inputStream);
 
         void setResult(FormuleTseitinSimple& result);
