@@ -1,33 +1,43 @@
 #include <fstream>
-#include <istream>
 
 #include "driver.h"
 #include "lexer.h"
+#include "../include/ParseError.h"
 
 using namespace std;
 
 namespace LogiqueParser {
 
-Driver::Driver()
-: lexer(new Lexer()),
-  parser(new Parser(*this)) {}
+Driver::Driver() : lexer(new Lexer()), parser(new Parser(*this))
+{}
 
-Driver::~Driver() {
+Driver::~Driver()
+{
     delete parser;
     delete lexer;
 }
 
-void Driver::parse(const char* fileName) {
+void Driver::setResult(FormuleTseitinSimple& _result)
+{
+    result = _result;
+}
+
+FormuleTseitinSimple Driver::parse(istream& inputStream)
+{
+    lexer->switch_streams(&inputStream, &cerr);
+
+    if (parser->parse() != 0) {
+        throw ParseError("Parser error");
+    }
+
+    return result;
+}
+
+FormuleTseitinSimple Driver::parse(const char* fileName)
+{
     filebuf fb;
     fb.open(fileName, std::ios::in);
     istream is(&fb);
-    lexer->switch_streams(&is, &cerr);
-
-    if (parser->parse() != 0) {
-        // Error
-        // Do something?
-        return;
-    }
+    return this->parse(is);
 }
-
 }

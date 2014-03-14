@@ -1,6 +1,9 @@
 #ifndef DRIVER_H
 #define DRIVER_H
 
+#include <istream>
+#include "../include/Connecteurs.h"
+
 namespace LogiqueParser {
 
     class Parser;
@@ -11,11 +14,14 @@ namespace LogiqueParser {
         Driver();
         ~Driver();
 
-        void parse(const char* fileName);
+        FormuleTseitinSimple parse(const char* fileName);
+        FormuleTseitinSimple parse(std::istream& inputStream);
 
+        void setResult(FormuleTseitinSimple& result);
     private:
         Lexer* lexer;
         Parser* parser;
+        FormuleTseitinSimple result;
 
         friend class Parser;
         friend class Lexer;
