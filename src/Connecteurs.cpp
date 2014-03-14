@@ -471,3 +471,24 @@ FormuleTseitinSimple FormuleTseitinSimple::normaliser() const
 {
     return eliminerXor().eliminerImplique().descendreNon().distribuerOu();
 }
+
+string FormuleTseitinSimple::toString() const
+{
+    switch(getType())
+    {
+        case FormuleTseitinSimple::VARIABLE :
+            return name;
+        case FormuleTseitinSimple::NON :
+            return "~" + getOperande().toString();
+        case FormuleTseitinSimple::OU :
+            return "(" + getOperandeG().toString() + " \\/ " + getOperandeD().toString() + ")";
+        case FormuleTseitinSimple::ET :
+            return "(" + getOperandeG().toString() + " /\\ " + getOperandeD().toString() + ")";
+        case FormuleTseitinSimple::IMPLIQUE :
+            return "(" + getOperandeG().toString() + " => " + getOperandeD().toString() + ")";
+        case FormuleTseitinSimple::XOR :
+            return "(" + getOperandeG().toString() + " xor " + getOperandeD().toString() + ")";
+        default :
+            return "";
+    }
+}

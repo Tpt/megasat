@@ -31,6 +31,7 @@ public:
     ~FormuleTseitinSimple();
     FormuleTseitinSimple normaliser() const;
     std::string getName() const;
+    std::string toString() const;
 
 private:
     FormuleTseitinSimple getOperandeG() const;
