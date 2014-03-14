@@ -209,6 +209,13 @@ FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseit
     *operandeG=op;
 }
 
+FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* op) :
+operandeG(op), operandeD(nullptr), type(type), name("")
+{
+    if(ariteDuType(type_) != 1)
+        throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 !");
+}
+
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple opG, FormuleTseitinSimple opD) :
     operandeG(nullptr), operandeD(nullptr), type(FormuleTseitinSimple::VARIABLE), name("")
 {
@@ -220,10 +227,17 @@ FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseit
     *operandeD=opD;
 }
 
+FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* opG, FormuleTseitinSimple* opD) :
+operandeG(opG), operandeD(opD), type(type_), name("")
+{
+    if(ariteDuType(type_) != 2)
+        throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 2 !");
+}
+
 FormuleTseitinSimple::~FormuleTseitinSimple()
 {
-    delete operandeD;
-    delete operandeG;
+        delete operandeD;
+        delete operandeG;
 }
 
 string FormuleTseitinSimple::getName() const
@@ -474,20 +488,20 @@ FormuleTseitinSimple FormuleTseitinSimple::normaliser() const
 
 string FormuleTseitinSimple::toString() const
 {
-    switch(getType())
+    switch(type)
     {
         case FormuleTseitinSimple::VARIABLE :
             return name;
         case FormuleTseitinSimple::NON :
-            return "~" + getOperande().toString();
+            return "~" + operandeG->toString();
         case FormuleTseitinSimple::OU :
-            return "(" + getOperandeG().toString() + " \\/ " + getOperandeD().toString() + ")";
+            return "(" + operandeG->toString() + " \\/ " + operandeD->toString() + ")";
         case FormuleTseitinSimple::ET :
-            return "(" + getOperandeG().toString() + " /\\ " + getOperandeD().toString() + ")";
+            return "(" + operandeG->toString() + " /\\ " + operandeD->toString() + ")";
         case FormuleTseitinSimple::IMPLIQUE :
-            return "(" + getOperandeG().toString() + " => " + getOperandeD().toString() + ")";
+            return "(" + operandeG->toString() + " => " + operandeD->toString() + ")";
         case FormuleTseitinSimple::XOR :
-            return "(" + getOperandeG().toString() + " xor " + getOperandeD().toString() + ")";
+            return "(" + operandeG->toString() + " xor " + operandeD->toString() + ")";
         default :
             return "";
     }

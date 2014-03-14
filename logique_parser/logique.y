@@ -29,8 +29,8 @@ namespace LogiqueParser {
 %token  PARENTHESE_GAUCHE PARENTHESE_DROITE
 
 %left IMPLIQUE
-%left ET
 %left OU
+%left ET
 %left NON
 
 %start Input
@@ -52,11 +52,11 @@ Expression TEOF
 ;
 
 Expression:
-ID {$$=new FormuleTseitinSimple(FormuleTseitinSimple::VARIABLE, *$1); }
-| Expression IMPLIQUE Expression { $$=new FormuleTseitinSimple(FormuleTseitinSimple::IMPLIQUE, *$1, *$3); }
-| Expression ET Expression { $$=new FormuleTseitinSimple(FormuleTseitinSimple::ET, *$1, *$3); }
-| Expression OU Expression { $$=new FormuleTseitinSimple(FormuleTseitinSimple::OU, *$1, *$3); }
-| NON Expression { $$=new FormuleTseitinSimple(FormuleTseitinSimple::NON, *$2); }
+ID { $$=new FormuleTseitinSimple(FormuleTseitinSimple::VARIABLE, *$1); }
+| Expression IMPLIQUE Expression { $$ = new FormuleTseitinSimple(FormuleTseitinSimple::IMPLIQUE, $1, $3); }
+| Expression ET Expression { $$ = new FormuleTseitinSimple(FormuleTseitinSimple::ET, $1, $3); }
+| Expression OU Expression { $$ = new FormuleTseitinSimple(FormuleTseitinSimple::OU, $1, $3); }
+| NON Expression { $$ = new FormuleTseitinSimple(FormuleTseitinSimple::NON, $2); }
 | PARENTHESE_GAUCHE Expression PARENTHESE_DROITE { $$=$2; }
 ;
 

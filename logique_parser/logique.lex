@@ -34,7 +34,7 @@ chars     [a-z]+
 
 
 "/\\"   return(token::ET);
-"\/"   return(token::OU);
+"\\/"   return(token::OU);
 "=>"   return(token::IMPLIQUE);
 "~"   return(token::NON);
 
