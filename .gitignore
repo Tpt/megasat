@@ -3,6 +3,10 @@
 *.lo
 *.o
 *.obj
+gen/gen
+bin/
+resol
+tseitin
 
 # Compiled Dynamic libraries
 *.so
@@ -41,3 +45,4 @@ logique_parser/logiqueParser.output
 logique_parser/position.hh
 logique_parser/stack.hh
 logique_parser/logiqueParser.cpp
+logique_parser/logiqueLexer.cpp
