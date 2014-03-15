@@ -6,7 +6,7 @@
 class DPLLSolveur : public AbstractDPLLSolveur
 {
 public:
-    DPLLSolveur(Formule &formule);
+    DPLLSolveur(Formule& formule, VariableNonAssigneeProvider& variableNonAssigneeProvider);
     ~DPLLSolveur();
     bool isSatifiable();
 private:
