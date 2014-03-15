@@ -10,9 +10,6 @@
 using namespace std;
 using namespace std::chrono;
 
-Formule parseCnfFile(string fileName);
-int Clause::nextUid = 0;
-
 Formule parseCnfFile(string fileName)
 {
     CnfParser cnfParser;

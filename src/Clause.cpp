@@ -5,6 +5,8 @@
 
 using namespace std;
 
+int Clause::nextUid = 0;
+
 Clause::Clause(int variableNumber_) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber_), uid(Clause::genUid())
 {}
 
