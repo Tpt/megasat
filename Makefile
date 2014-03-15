@@ -1,10 +1,10 @@
 CC=g++
-NAZI= -std=c++0x -O3 -Wextra -Wall -Wcast-qual -Wcast-align -Wconversion -Wold-style-cast -Wfloat-equal -Woverloaded-virtual -Wshadow -Weffc++ -Wpointer-arith -Wunused -Wunreachable-code
+NAZI= -std=c++0x -O3 -Wextra -Wall -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunused -Wunreachable-code
 CFLAGS=$(NAZI)
 LDFLAGS=
 EXEC=resol
 LEX=flex
-YACC=/usr/local/Cellar/bison/3.0.2/bin/bison
+YACC=bison
 
 all: resol tseitin
 
