@@ -27,3 +27,17 @@
 
 #XCode
 *.xcodeproj
+
+#Temps trucs
+Makefile~
+.gitignore~
+*.swp
+
+#Flex/Bison
+logique_parser/location.hh
+logique_parser/logiqueParser.hh
+logique_parser/logiqueParser.hpp
+logique_parser/logiqueParser.output
+logique_parser/position.hh
+logique_parser/stack.hh
+logique_parser/logiqueParser.cpp
