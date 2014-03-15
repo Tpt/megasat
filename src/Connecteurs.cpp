@@ -478,10 +478,11 @@ FormuleTseitinSimple FormuleTseitinSimple::descendreNon() const
     return *this;
 }
 
-FormuleTseitinSimple FormuleTseitinSimple::normaliser() const
+FormuleTseitinSimple FormuleTseitinSimple::transformationDeMorgan() const
 {
     return eliminerXor().eliminerImplique().descendreNon().distribuerOu();
 }
+
 
 string FormuleTseitinSimple::toString() const
 {

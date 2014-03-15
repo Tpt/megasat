@@ -8,6 +8,8 @@
 using namespace std;
 using namespace std::chrono;
 
+FormuleTseitinSimple parseFormuleFile(string fileName);
+
 FormuleTseitinSimple parseFormuleFile(string fileName)
 {
     LogiqueParser::Driver parserDriver;
@@ -26,6 +28,8 @@ int main(int argc, char *argv[])
 {
     string fileName = "";
     bool afficheFormule = false;
+
+    afficheFormule=afficheFormule; ///A supprimer quand cette variable servira a quelque chose
 
     for(int i = 1; i < argc; i++)
     {
