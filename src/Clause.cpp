@@ -122,7 +122,7 @@ int Clause::indiceMax() const ///Donne l'indice maximum des variables de la clau
     int sup = 0;
 
     for(Literal* l : literaux)
-        if(*l > sup)
+        if(l->getAbsId() > sup)
             sup = l->getAbsId();
 
     return sup;
