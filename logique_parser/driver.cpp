@@ -14,8 +14,6 @@ Driver::Driver(const Driver& other) :
 lexer(new Lexer(other.lexer)), parser(new Parser(other.parser)), result(other.result)
 {}
 
-Driver& operator= (const Driver& other)
-
 Driver& Driver::operator= (const Driver& other)
 {
     Driver Temp(other);

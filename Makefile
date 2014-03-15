@@ -4,7 +4,7 @@ CFLAGS=$(NAZI)
 LDFLAGS=
 EXEC=resol
 LEX=flex
-YACC=/usr/local/Cellar/bison/3.0.2/bin/bison
+YACC=bison
 
 all: resol tseitin
 
