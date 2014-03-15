@@ -1,4 +1,4 @@
-#include "ConvertisseurFormuleTseitin.h"
+#include "../include/ConvertisseurFormuleTseitin.h"
 #include<stack>
 
 using namespace std;
