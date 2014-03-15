@@ -69,6 +69,7 @@ int ConvertisseurFormuleTseitin::creerCorrespondance() ///Renvoie le nombre de v
 
 Formule ConvertisseurFormuleTseitin::ConvertisseurFormuleTseitin::convertir()
 {
+    *formuleTseitin = formuleTseitin->transformationDeMorgan();
     decomposerEt(*formuleTseitin);
     return *formuleNormalisee;
 }

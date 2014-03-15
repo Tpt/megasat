@@ -10,6 +10,23 @@ namespace LogiqueParser {
 Driver::Driver() : lexer(new Lexer()), parser(new Parser(*this))
 {}
 
+Driver::Driver(const Driver& other) :
+lexer(new Lexer(other.lexer)), parser(new Parser(other.parser)), result(other.result)
+{}
+
+Driver& operator= (const Driver& other)
+
+Driver& Driver::operator= (const Driver& other)
+{
+    Driver Temp(other);
+
+    swap(Temp.lexer, this->lexer);
+    swap(Temp.parser, this->parser);
+    swap(Temp.result, this->result);
+
+    return *this;
+}
+
 Driver::~Driver()
 {
     delete parser;

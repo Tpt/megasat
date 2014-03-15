@@ -32,7 +32,8 @@ public:
     FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple opG, FormuleTseitinSimple opD);
     FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* opG, FormuleTseitinSimple* opD);
     ~FormuleTseitinSimple();
-    FormuleTseitinSimple normaliser() const;
+    FormuleTseitinSimple transformationDeMorgan() const;
+    FormuleTseitinSimple transformationTseitin() const;
     std::string getName() const;
     int getArite() const;
     FormuleTseitinSimple::FormuleTypeSimple getType() const;
@@ -57,8 +58,8 @@ private:
 class FormuleTseitinSimpleError: public std::exception
 {
 public :
-FormuleTseitinSimpleError(std::string message) noexcept :
-    msg(message) {};
+    FormuleTseitinSimpleError(std::string message) noexcept :
+        msg(message) {};
     ~FormuleTseitinSimpleError() noexcept {};
     std::string getMessage() const
     {
