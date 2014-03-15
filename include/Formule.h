@@ -10,10 +10,9 @@
 class Formule
 {
 public:
+    Formule(const int variableNumber);
     Formule(const Formule& formule);
     Formule& operator= (const Formule& other);
-    Formule(const int variableNumber);
-    Formule(const int V_e, const std::vector<Variable*>& vars_e, const std::vector<Literal*>& lits_pos_e, const std::vector<Literal*>& lits_neg_e);
     ~Formule();
     int size() const;
     int getNombreDeVariables() const;
@@ -39,7 +38,7 @@ public:
     void supprimerTautologies();
 
 private:
-    void init_lits();
+    void initLits();
     void compacter();
     bool simplificationLiteralPur(int id);
     bool propagationUnitaire();
