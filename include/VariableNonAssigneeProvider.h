@@ -6,7 +6,7 @@
 class VariableNonAssigneeProvider
 {
 public:
-    ~VariableNonAssigneeProvider() {}
+    virtual ~VariableNonAssigneeProvider() {}
     virtual std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const = 0; //retourne une variable non assignée
 };
 
