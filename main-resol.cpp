@@ -10,8 +10,13 @@
 using namespace std;
 using namespace std::chrono;
 
-Formule parseCnfFile(string fileName);
-int Clause::nextUid = 0;
+enum Heuristique {
+    SIMPLE,
+    RAND,
+    MALIN,
+    MOMS,
+    DLIS
+};
 
 Formule parseCnfFile(string fileName)
 {
@@ -33,6 +38,7 @@ int main(int argc, char *argv[])
     string fileName = "";
     bool avecLiterauxSurveilles = false;
     bool utiliserDavisPutnam = false;
+    Heuristique typeHeuristique = SIMPLE;
 
     for(int i = 1; i < argc; i++)
     {
@@ -40,6 +46,14 @@ int main(int argc, char *argv[])
             avecLiterauxSurveilles = true;
         else if(strcmp(argv[i], "-dp") == 0)
             utiliserDavisPutnam = true;
+        else if(strcmp(argv[i], "-rand") == 0)
+            typeHeuristique = RAND;
+        else if(strcmp(argv[i], "-malin") == 0)
+            typeHeuristique = MALIN;
+        else if(strcmp(argv[i], "-moms") == 0)
+            typeHeuristique = MOMS;
+        else if(strcmp(argv[i], "-dlis") == 0)
+            typeHeuristique = DLIS;
         else
             fileName = argv[i];
     }
@@ -54,6 +68,31 @@ int main(int argc, char *argv[])
 
     auto beginTime = system_clock::now();
 
+    VariableNonAssigneeProvider* heuristique;
+    switch(typeHeuristique)
+    {
+        case SIMPLE:
+            cout << "c Choix des variables non assignées par défaut." << endl;
+            heuristique = new VariableNonAssigneeProviderSimple();
+            break;
+        case RAND:
+            cout << "c Choix des variables non assignées de manière aléatoire." << endl;
+            heuristique = new VariableNonAssigneeProviderRand();
+            break;
+        case MALIN:
+            cout << "c Choix des variables non assignées suivant leur fréquence d'apparition." << endl;
+            heuristique = new VariableNonAssigneeProviderMalin();
+            break;
+        case MOMS:
+            cout << "c Choix des variables non assignées avec l'heuristique MOMS." << endl;
+            heuristique = new VariableNonAssigneeProviderMOMS();
+            break;
+        case DLIS:
+            cout << "c Choix des variables non assignées avec l'heuristique DLIS." << endl;
+            heuristique = new VariableNonAssigneeProviderDLIS();
+            break;
+    }
+    
     Solveur* solveur = nullptr;
     if(utiliserDavisPutnam)
     {
@@ -61,11 +100,11 @@ int main(int argc, char *argv[])
     }
     else if(avecLiterauxSurveilles)
     {
-        solveur = new DPLLSurveilleSolveur(formule);
+        solveur = new DPLLSurveilleSolveur(formule, *heuristique);
     }
     else
     {
-        solveur = new DPLLSolveur(formule);
+        solveur = new DPLLSolveur(formule, *heuristique);
     }
 
     if(solveur->isSatifiable())

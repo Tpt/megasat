@@ -5,52 +5,74 @@
 
 using namespace std;
 
-Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
+Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
 {
-    Clause* w;
-    unordered_set<Literal*> in;
-    unordered_set<Literal*> out;
-    init_lits();
+    initLits();
+}
 
-    for(int i=0; i<V; ++i)
+Formule::Formule(const Formule& formule) : Formule(formule.V)
+{
+    
+    for(int i = 0; i < V; ++i)
         if(formule.vars[i]->isAssignee())
             vars[i]->setVal(formule.vars[i]->getVal());
-
+    
     for(Clause* c : formule.clauses)
     {
-        in=c->getLiteraux();
-        out.clear();
-        w=new Clause(V,c->getUid());
-        for(Literal* l : in)
+        unordered_set<Literal*> literaux = c->getLiteraux();
+        Clause* w = new Clause(V, c->getUid());
+        for(Literal* l : literaux)
         {
             if(l->getPolarite())
-                out.insert(lits_pos[l->getAbsId()-1]);
+                w->addLiteral(lits_pos[l->getAbsId()-1]);
             else
-                out.insert(lits_neg[l->getAbsId()-1]);
+                w->addLiteral(lits_neg[l->getAbsId()-1]);
         }
-        w->addLiteraux(out);
         clauses.insert(w);
     }
 }
 
-Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
+Formule& Formule::operator= (const Formule& other)
 {
-    init_lits();
+    Formule temp(other);
+    
+    swap(temp.V, this->V);
+    swap(temp.clauses, this->clauses);
+    swap(temp.vars, this->vars);
+    swap(temp.lits_pos, this->lits_pos);
+    swap(temp.lits_neg, this->lits_neg);
+    
+    return *this;
 }
 
 Formule::~Formule()
 {
     vector<Clause*> aSupprimer(0);
-    for(unsigned int i=0; i<vars.size(); ++i)
-        delete vars[i];
-    for(unsigned int i=0; i<lits_neg.size(); ++i)
-        delete lits_neg[i];
-    for(unsigned int i=0; i<lits_pos.size(); ++i)
-        delete lits_pos[i];
     for(Clause* c : clauses)
         aSupprimer.push_back(c);
-    for(unsigned int i=0; i<aSupprimer.size(); ++i)
+    for(unsigned int i = 0; i < aSupprimer.size(); ++i)
         delete aSupprimer[i];
+    
+    for(unsigned int i = 0; i < lits_neg.size(); ++i)
+        delete lits_neg[i];
+    for(unsigned int i = 0; i < lits_pos.size(); ++i)
+        delete lits_pos[i];
+    for(unsigned int i = 0; i < vars.size(); ++i)
+        delete vars[i];
+}
+
+void Formule::initLits()
+{
+    vars.resize(V);
+    lits_neg.resize(V);
+    lits_pos.resize(V);
+    
+    for(int i = 0; i < V; ++i)
+    {
+        vars[i] = new Variable(i+1);
+        lits_neg[i] = new Literal(vars[i], false);
+        lits_pos[i] = new Literal(vars[i], true);
+    }
 }
 
 int Formule::getNombreDeVariables() const
@@ -275,20 +297,3 @@ ResultatEvaluation Formule::eval() const
     }
     return VRAI;
 }
-
-void Formule::init_lits()
-{
-    vars.resize(V);
-    lits_neg.resize(V);
-    lits_pos.resize(V);
-
-    for(int i=0; i<V; ++i)
-    {
-        vars[i] = new Variable(i+1);
-        lits_neg[i] = new Literal(vars[i],false);
-        lits_pos[i] = new Literal(vars[i],true);
-    }
-}
-
-Formule::Formule(const int V_e, const vector<Variable*>& vars_e, const vector<Literal*>& lits_pos_e, const vector<Literal*>& lits_neg_e) : V(V_e), clauses(unordered_set<Clause*>()), vars(vars_e), lits_pos(lits_pos_e), lits_neg(lits_neg_e)
-{}

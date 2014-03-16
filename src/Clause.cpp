@@ -5,6 +5,8 @@
 
 using namespace std;
 
+int Clause::nextUid = 0;
+
 Clause::Clause(int variableNumber_) : literaux(unordered_set<Literal*>()), variableNumber(variableNumber_), uid(Clause::genUid())
 {}
 
@@ -120,7 +122,7 @@ int Clause::indiceMax() const ///Donne l'indice maximum des variables de la clau
     int sup = 0;
 
     for(Literal* l : literaux)
-        if(*l > sup)
+        if(l->getAbsId() > sup)
             sup = l->getAbsId();
 
     return sup;

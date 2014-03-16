@@ -20,22 +20,4 @@ private:
     bool val;       /// La valeur assignée. a ne pas prendre en compte si assigned==false.
 };
 
-bool operator<(int const a, Variable const& b); /** Ok, un peu overkill mais c'était sympa de ne pas se poser la question en codant **/
-bool operator<(Variable const &a, int const b); /** Tout ceci sert à avoir un ordre arbitraire sur les variables comme décrit dans le sujet **/
-bool operator<(Variable const &a, Variable const& b); /** En particulier pour ordonner les seaux. **/
-bool operator>(int const a, Variable const& b);
-bool operator>(Variable const &a, int const b);
-bool operator>(Variable const &a, Variable const& b);
-bool operator<=(int const a, Variable const& b);
-bool operator<=(Variable const &a, int const b);
-bool operator<=(Variable const &a, Variable const& b);
-bool operator>=(int const a, Variable const& b);
-bool operator>=(Variable const &a, int const b);
-bool operator>=(Variable const &a, Variable const& b);
-bool operator==(Variable const &a, Variable const& b);
-bool operator==(int const a, Variable const& b);
-bool operator==(Variable const &a, int const b);
-bool operator!=(Variable const &a, Variable const& b);
-bool operator!=(int const a, Variable const& b);
-bool operator!=(Variable const &a, int const b);
 #endif // VARIABLE_H

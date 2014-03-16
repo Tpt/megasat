@@ -24,23 +24,4 @@ private:
     bool polarite; /// La polarité : si polarite==true, le literal vaut x sinon c'est non(x).
 };
 
-bool operator<(int const a, Literal const& b); /** Toujours aussi overkill **/
-bool operator<(Literal const& a, int const b);
-bool operator<(Literal const& a, Literal const& b);
-bool operator>(int const a, Literal const& b);
-bool operator>(Literal const& a, int const b);
-bool operator>(Literal const& a, Literal const& b);
-bool operator<=(int const a, Literal const& b);
-bool operator<=(Literal const& a, int const b);
-bool operator<=(Literal const& a, Literal const& b);
-bool operator>=(int const a, Literal const& b);
-bool operator>=(Literal const& a, int const b);
-bool operator>=(Literal const& a, Literal const& b);
-bool operator==(int const a, Literal const& b);
-bool operator==(Literal const& a, int const b);
-bool operator==(Literal const& a, Literal const& b);
-bool operator!=(int const a, Literal const& b);
-bool operator!=(Literal const& a, int const b);
-bool operator!=(Literal const& a, Literal const& b);
-
 #endif // LITERAL_H

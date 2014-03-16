@@ -2,7 +2,7 @@
 #include<unordered_set>
 #include "../include/DPLLSolveur.h"
 
-DPLLSolveur::DPLLSolveur(Formule &formule_) : AbstractDPLLSolveur(formule_)
+DPLLSolveur::DPLLSolveur(Formule& formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_) : AbstractDPLLSolveur(formule_, variableNonAssigneeProvider_)
 {}
 
 DPLLSolveur::~DPLLSolveur()
