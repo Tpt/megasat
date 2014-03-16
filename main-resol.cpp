@@ -9,6 +9,7 @@
 
 using namespace std;
 using namespace std::chrono;
+Formule parseCnfFile(string fileName);
 
 enum Heuristique {
     SIMPLE,
@@ -71,9 +72,6 @@ int main(int argc, char *argv[])
     VariableNonAssigneeProvider* heuristique = new VariableNonAssigneeProviderSimple();
     switch(typeHeuristique)
     {
-        case SIMPLE:
-            cout << "c Choix des variables non assignées par défaut." << endl;
-            break;
         case RAND:
             cout << "c Choix des variables non assignées de manière aléatoire." << endl;
             heuristique = new VariableNonAssigneeProviderRand();
@@ -89,6 +87,10 @@ int main(int argc, char *argv[])
         case DLIS:
             cout << "c Choix des variables non assignées avec l'heuristique DLIS." << endl;
             heuristique = new VariableNonAssigneeProviderDLIS();
+            break;
+        case SIMPLE:
+        default:
+            cout << "c Choix des variables non assignées par défaut." << endl;
             break;
     }
 
