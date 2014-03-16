@@ -90,4 +90,5 @@ clean:
 	rm -f logique_parser/logiqueLexer.cpp
 	rm -f logique_parser/logiqueParser.cpp
 	rm -f logique_parser/logiqueParser.hpp
+	rm -f logique_parser/stack.hh
 	rm obj/*.o
