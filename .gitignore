@@ -36,6 +36,7 @@ tseitin
 Makefile~
 .gitignore~
 *.swp
+*~
 
 #Flex/Bison
 logique_parser/location.hh
