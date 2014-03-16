@@ -333,7 +333,6 @@ FormuleTseitinSimple FormuleTseitinSimple::transformationDeMorgan() const
     return eliminerXor().eliminerImplique().descendreNon().distribuerOu();
 }
 
-
 string FormuleTseitinSimple::toString() const
 {
     switch(type)

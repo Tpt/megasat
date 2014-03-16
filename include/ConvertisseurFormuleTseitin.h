@@ -2,7 +2,6 @@
 #define CONVERTISSEURFORMULETSEITIN_H
 
 #include<map>
-#include<unordered_set>
 #include "Formule.h"
 #include "Connecteurs.h"
 

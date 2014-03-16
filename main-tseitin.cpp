@@ -2,6 +2,7 @@
 #include<cstdlib>
 #include<cstring>
 #include<chrono>
+#include"include/Clause.h"
 #include"include/Connecteurs.h"
 #include"logique_parser/driver.h"
 
@@ -9,6 +10,7 @@ using namespace std;
 using namespace std::chrono;
 
 FormuleTseitinSimple parseFormuleFile(string fileName);
+int Clause::nextUid = 0;
 
 FormuleTseitinSimple parseFormuleFile(string fileName)
 {

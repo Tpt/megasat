@@ -33,7 +33,6 @@ public:
     FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* opG, FormuleTseitinSimple* opD);
     ~FormuleTseitinSimple();
     FormuleTseitinSimple transformationDeMorgan() const;
-    FormuleTseitinSimple transformationTseitin() const;
     std::string getName() const;
     int getArite() const;
     FormuleTseitinSimple::FormuleTypeSimple getType() const;
