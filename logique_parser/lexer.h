@@ -3,7 +3,7 @@
 
 #ifndef YY_DECL
 #define YY_DECL LogiqueParser::Parser::token_type \
-    LogiqueParser::Lexer::yylex(LogiqueParser::Parser::semantic_type* yylval)
+    LogiqueParser::Lexer::yylex(LogiqueParser::Parser::semantic_type* yylval, LogiqueParser::Parser::location_type* yylloc)
 #endif
 
 #undef yyFlexLexer
@@ -23,7 +23,7 @@ namespace LogiqueParser {
 
         virtual ~Lexer();
 
-        virtual Parser::token_type yylex(Parser::semantic_type *yylval);
+        virtual Parser::token_type yylex(Parser::semantic_type *yylval, LogiqueParser::Parser::location_type* yylloc);
 
         void set_debug(bool b);
     };

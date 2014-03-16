@@ -8,6 +8,7 @@ namespace LogiqueParser {
     class Driver;
 }
 
+#include <sstream>
 #include "logiqueParser.hpp"
 #include "lexer.h"
 #include "driver.h"
@@ -39,6 +40,7 @@ namespace LogiqueParser {
 %define namespace "LogiqueParser"
 %define parser_class_name "Parser"
 %parse-param {Driver &driver}
+%locations
 
 %error-verbose
 
@@ -65,5 +67,8 @@ ID { $$=new FormuleTseitinSimple(FormuleTseitinSimple::VARIABLE, *$1); }
 
 void LogiqueParser::Parser::error(const location_type& loc, const std::string& m)
 {
-    throw ParseError(m);
+    int location = loc.begin.line;
+    std::ostringstream out;
+    out << "Ligne " << location << " : " << m;
+    throw ParseError(out.str());
 }

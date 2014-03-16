@@ -1,5 +1,3 @@
-%option noyywrap
-%option never-interactive
 %option yylineno
 %option c++
 %option prefix="LogiqueParser"
