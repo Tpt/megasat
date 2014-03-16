@@ -43,6 +43,7 @@ int ConvertisseurFormuleTseitin::creerCorrespondance() ///Renvoie le nombre de v
     while(!pile.empty())
     {
         w=pile.top();
+        pile.pop();
         if(w.getType()==FormuleTseitinSimple::VARIABLE)
         {
             if(correspondanceDesVariables.count(w.getName())==0)
@@ -60,8 +61,6 @@ int ConvertisseurFormuleTseitin::creerCorrespondance() ///Renvoie le nombre de v
             pile.push(w.getOperandeG());
             pile.push(w.getOperandeD());
         }
-
-        pile.pop();
     }
 
     return Uid-1;
