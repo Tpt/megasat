@@ -10,7 +10,6 @@ using namespace std;
 using namespace std::chrono;
 
 FormuleTseitinSimple parseFormuleFile(string fileName);
-int Clause::nextUid = 0;
 
 FormuleTseitinSimple parseFormuleFile(string fileName)
 {
