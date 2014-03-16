@@ -63,7 +63,7 @@ ID { $$=new FormuleTseitinSimple(FormuleTseitinSimple::VARIABLE, *$1); }
 
 %%
 
-void LogiqueParser::Parser::error(const std::string& m)
+void LogiqueParser::Parser::error(const location_type& loc, const std::string& m)
 {
     throw ParseError(m);
 }
