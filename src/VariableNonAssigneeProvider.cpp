@@ -1,5 +1,6 @@
 #include "../include/VariableNonAssigneeProvider.h"
 #include<unordered_map>
+#include "../include/InsatisfiableException.h"
 
 using namespace std;
 
@@ -15,22 +16,28 @@ pair<int, bool> VariableNonAssigneeProviderSimple::getVariableNonAssignee(const 
 
 pair<int, bool> VariableNonAssigneeProviderRand::getVariableNonAssignee(const Formule& formule) const
 {
-    vector<int> variablesPossibles(0);
+    vector<int> variablesPossibles;
 
     for(Variable* var : formule.getVars())
         if(!var->isAssignee())
             variablesPossibles.push_back(var->getId());
+
+    if(variablesPossibles.empty())
+        return pair<int, bool>(-1, true);
 
     return pair<int, bool>(variablesPossibles[rand() % variablesPossibles.size()], true);
 }
 
 pair<int, bool> VariableNonAssigneeProviderMalin::getVariableNonAssignee(const Formule& formule) const
 {
-    vector<int> variablesPossibles(0);
-
+    vector<int> variablesPossibles;
+    
     for(Variable* var : formule.getVars())
         if(!var->isAssignee())
             variablesPossibles.push_back(var->getId());
+    
+    if(variablesPossibles.empty())
+        return pair<int, bool>(-1, true);
 
     int differenceOccurences = 0;
     int varId = variablesPossibles[rand() % variablesPossibles.size()];
@@ -47,27 +54,29 @@ pair<int, bool> VariableNonAssigneeProviderMalin::getVariableNonAssignee(const F
 
 pair<int, bool> VariableNonAssigneeProviderMOMS::getVariableNonAssignee(const Formule& formule) const
 {
-    int tailleMin = -1;
+    int tailleMin = INT_MAX;
 
     for(Clause* c : formule.getClauses())
-        if(tailleMin == -1 || tailleMin>c->size())
+        if(tailleMin > c->size())
             tailleMin = c->size();
 
     unordered_map<int, int> occurences;
 
     for(Clause* c : formule.getClauses())
-        if(c->size() == tailleMin && c->eval()==INCONNU)
+        if(c->size() == tailleMin && c->eval() == INCONNU)
             for(Literal* l : c->getLiteraux())
                 if(!l->isAssigne())
                     occurences[l->getId()]++;
 
-    int literalDOccurenceMaximale=0;
-
+    int literalDOccurenceMaximale = 0;
     for(auto occ : occurences)
         if(occ.second > occurences[literalDOccurenceMaximale])
             literalDOccurenceMaximale = occ.first;
 
-    return pair<int, bool>(abs(literalDOccurenceMaximale), occurences[literalDOccurenceMaximale]>0);
+    if(literalDOccurenceMaximale == 0)
+        return pair<int, bool>(-1, true);
+
+    return pair<int, bool>(abs(literalDOccurenceMaximale), literalDOccurenceMaximale > 0);
 }
 
 pair<int, bool> VariableNonAssigneeProviderDLIS::getVariableNonAssignee(const Formule& formule) const

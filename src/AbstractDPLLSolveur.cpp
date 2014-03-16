@@ -15,8 +15,8 @@ AbstractDPLLSolveur::~AbstractDPLLSolveur()
 void AbstractDPLLSolveur::assigneUneVariable()
 {
     pair<int, bool> varIdEtValeurAAssigner = variableNonAssigneeProvider.getVariableNonAssignee(formule);
-    int varId=varIdEtValeurAAssigner.first;
-    bool val=varIdEtValeurAAssigner.second;
+    int varId = varIdEtValeurAAssigner.first;
+    bool val = varIdEtValeurAAssigner.second;
     if(varId == -1)
         return;
 
