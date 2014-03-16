@@ -1,5 +1,6 @@
 #include "../include/VariableNonAssigneeProvider.h"
 #include<unordered_map>
+#include<climits>
 #include "../include/InsatisfiableException.h"
 
 using namespace std;
@@ -31,11 +32,11 @@ pair<int, bool> VariableNonAssigneeProviderRand::getVariableNonAssignee(const Fo
 pair<int, bool> VariableNonAssigneeProviderMalin::getVariableNonAssignee(const Formule& formule) const
 {
     vector<int> variablesPossibles;
-    
+
     for(Variable* var : formule.getVars())
         if(!var->isAssignee())
             variablesPossibles.push_back(var->getId());
-    
+
     if(variablesPossibles.empty())
         return pair<int, bool>(-1, true);
 
