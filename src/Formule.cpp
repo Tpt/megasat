@@ -10,7 +10,7 @@ Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordere
     initLits();
 }
 
-Formule::Formule(const Formule& formule) : Formule(formule.V)
+Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
 {
     
     for(int i = 0; i < V; ++i)
