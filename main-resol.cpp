@@ -68,12 +68,11 @@ int main(int argc, char *argv[])
 
     auto beginTime = system_clock::now();
 
-    VariableNonAssigneeProvider* heuristique;
+    VariableNonAssigneeProvider* heuristique = new VariableNonAssigneeProviderSimple();
     switch(typeHeuristique)
     {
         case SIMPLE:
             cout << "c Choix des variables non assignées par défaut." << endl;
-            heuristique = new VariableNonAssigneeProviderSimple();
             break;
         case RAND:
             cout << "c Choix des variables non assignées de manière aléatoire." << endl;
@@ -92,7 +91,7 @@ int main(int argc, char *argv[])
             heuristique = new VariableNonAssigneeProviderDLIS();
             break;
     }
-    
+
     Solveur* solveur = nullptr;
     if(utiliserDavisPutnam)
     {
