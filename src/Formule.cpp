@@ -12,7 +12,8 @@ Formule::Formule(const int variableNumber) : V(variableNumber), clauses(unordere
 
 Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<Clause*>()), vars(vector<Variable*>()), lits_pos(vector<Literal*>()), lits_neg(vector<Literal*>())
 {
-    
+    initLits();
+
     for(int i = 0; i < V; ++i)
         if(formule.vars[i]->isAssignee())
             vars[i]->setVal(formule.vars[i]->getVal());
