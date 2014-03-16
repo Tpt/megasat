@@ -87,4 +87,7 @@ obj/main-tseitin.o: main-tseitin.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 	
 clean:
+	rm -f logique_parser/logiqueLexer.cpp
+	rm -f logique_parser/logiqueParser.cpp
+	rm -f logique_parser/logiqueParser.hpp
 	rm obj/*.o
