@@ -45,9 +45,25 @@ int main(int argc, char *argv[])
         cerr << "c Pas de fichier donné en entrée.\nc Fin de la résolution." << endl;
         return EXIT_FAILURE;
     }
-
-    FormuleTseitinSimple formule = parseFormuleFile(fileName);
-    cout << formule.toString() << endl;
-
+    try{
+    FormuleTseitinSimple* formule = new FormuleTseitinSimple(parseFormuleFile(fileName));
+    cout << formule->toString() << endl;
+    cout << formule->toStringType() << endl;
+    cout << formule->toStringTypeLocal() << endl;
+    printf("%p\n", formule->getPOperandeD());
+    printf("%p\n", formule->getPOperandeG());
+    cout<< formule->getPOperandeG()->toString() << endl;
+    cout<< formule->getPOperandeG()->toStringType() << endl;
+    cout<< formule->getPOperandeG()->toStringTypeLocal() << endl;
+    cout<< formule->getPOperandeG()->getPOperandeG()->toString() << endl;
+    cout<< formule->getPOperandeG()->getPOperandeG()->toStringType() << endl;
+    cout<< formule->getPOperandeG()->getPOperandeG()->toStringTypeLocal() << endl;
+    cout << "Still alive !" << endl;
+    delete formule;
+    }
+    catch(const FormuleTseitinSimpleError& e)
+    {
+        cout<<e.getMessage()<<endl;
+    }
     return EXIT_SUCCESS;
 }

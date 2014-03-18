@@ -21,7 +21,7 @@ public:
         OU,
         IMPLIQUE,
         XOR,
-        NON, //Le C++11 autorise cette virgule !!!
+        NON,
     };
     FormuleTseitinSimple();
     FormuleTseitinSimple(const FormuleTseitinSimple& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
@@ -39,6 +39,11 @@ public:
     FormuleTseitinSimple getOperandeG() const;
     FormuleTseitinSimple getOperandeD() const;
     FormuleTseitinSimple getOperande() const;
+    FormuleTseitinSimple* getPOperandeG() const;
+    FormuleTseitinSimple* getPOperandeD() const;
+    FormuleTseitinSimple* getPOperande() const;
+    std::string toStringTypeLocal() const;
+    std::string toStringType() const;
     std::string toString() const;
 
 private:

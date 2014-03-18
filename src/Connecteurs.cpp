@@ -56,10 +56,24 @@ FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseit
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* op) :
-operandeG(op), operandeD(nullptr), type(type_), name("")
+operandeG(nullptr), operandeD(nullptr), type(type_), name("")
 {
     if(ariteDuType(type_) != 1)
-        throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 !");
+        throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 ! (bis)");
+
+    switch(op->getType())
+    {
+        case FormuleTseitinSimple::VARIABLE :
+            operandeG = new FormuleTseitinSimple(op->getType(),op->getName());
+        case FormuleTseitinSimple::NON :
+            operandeG = new FormuleTseitinSimple(op->getType(),op->getOperande());
+        case FormuleTseitinSimple::OU :
+        case FormuleTseitinSimple::ET :
+        case FormuleTseitinSimple::IMPLIQUE :
+        case FormuleTseitinSimple::XOR :
+        default :
+            operandeG = new FormuleTseitinSimple(op->getType(),op->getOperandeG(),op->getOperandeD());
+    }
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple opG, FormuleTseitinSimple opD) :
@@ -73,18 +87,45 @@ FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseit
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* opG, FormuleTseitinSimple* opD) :
-operandeG(opG), operandeD(opD), type(type_), name("")
+operandeG(nullptr), operandeD(nullptr), type(type_), name("")
 {
     if(ariteDuType(type_) != 2)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 2 !");
+
+    switch(opG->getType())
+    {
+        case FormuleTseitinSimple::VARIABLE :
+            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getName());
+        case FormuleTseitinSimple::NON :
+            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getOperande());
+        case FormuleTseitinSimple::OU :
+        case FormuleTseitinSimple::ET :
+        case FormuleTseitinSimple::IMPLIQUE :
+        case FormuleTseitinSimple::XOR :
+        default :
+            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getOperandeG(),opG->getOperandeD());
+    }
+    switch(opD->getType())
+    {
+        case FormuleTseitinSimple::VARIABLE :
+            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getName());
+        case FormuleTseitinSimple::NON :
+            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getOperande());
+        case FormuleTseitinSimple::OU :
+        case FormuleTseitinSimple::ET :
+        case FormuleTseitinSimple::IMPLIQUE :
+        case FormuleTseitinSimple::XOR :
+        default :
+            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getOperandeG(),opD->getOperandeD());
+    }
 }
 
 FormuleTseitinSimple::~FormuleTseitinSimple()
 {
-    if(getArite() >= 2)
-        delete operandeD;
     if(getArite() >= 1)
         delete operandeG;
+    if(getArite() >= 2)
+        delete operandeD;
 }
 
 string FormuleTseitinSimple::getName() const
@@ -92,24 +133,45 @@ string FormuleTseitinSimple::getName() const
     return name;
 }
 
+FormuleTseitinSimple* FormuleTseitinSimple::getPOperandeG() const
+{
+    if(getArite()!=2)
+        throw FormuleTseitinSimpleError("Le type devrait avoir une arité 2 !");
+    return operandeG;
+}
+
+FormuleTseitinSimple* FormuleTseitinSimple::getPOperandeD() const
+{
+    if(getArite()!=2)
+        throw FormuleTseitinSimpleError("Le type devrait avoir une arité 2 !");
+    return operandeD;
+}
+
+FormuleTseitinSimple* FormuleTseitinSimple::getPOperande() const
+{
+    if(getArite()!=1)
+        throw FormuleTseitinSimpleError("Le type devrait avoir une arité 1 ! (ter)");
+    return operandeG;
+}
+
 FormuleTseitinSimple FormuleTseitinSimple::getOperandeG() const
 {
     if(getArite()!=2)
-        throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 2 !");
+        throw FormuleTseitinSimpleError("Le type devrait avoir une arité 2 !");
     return *operandeG;
 }
 
 FormuleTseitinSimple FormuleTseitinSimple::getOperandeD() const
 {
     if(getArite()!=2)
-        throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 2 !");
+        throw FormuleTseitinSimpleError("Le type devrait avoir une arité 2 !");
     return *operandeD;
 }
 
 FormuleTseitinSimple FormuleTseitinSimple::getOperande() const
 {
     if(getArite()!=1)
-        throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 !");
+        throw FormuleTseitinSimpleError("Le type devrait avoir une arité 1 ! (quad)");
     return *operandeG;
 }
 
@@ -333,6 +395,48 @@ FormuleTseitinSimple FormuleTseitinSimple::transformationDeMorgan() const
     return eliminerXor().eliminerImplique().descendreNon().distribuerOu();
 }
 
+string FormuleTseitinSimple::toStringType() const
+{
+    switch(type)
+    {
+        case FormuleTseitinSimple::VARIABLE :
+            return "var";
+        case FormuleTseitinSimple::NON :
+            return "~" + operandeG->toString();
+        case FormuleTseitinSimple::OU :
+            return "ou " + operandeG->toString() + operandeD->toString();
+        case FormuleTseitinSimple::ET :
+            return "et" + operandeG->toString() + operandeD->toString();
+        case FormuleTseitinSimple::IMPLIQUE :
+            return "=>" + operandeG->toString() + operandeD->toString();
+        case FormuleTseitinSimple::XOR :
+            return "xor" + operandeG->toString() + operandeD->toString();
+        default :
+            return "P'tet ben, j'en sais rien..."+(char)(type+48);
+    }
+}
+
+string FormuleTseitinSimple::toStringTypeLocal() const
+{
+    switch(type)
+    {
+        case FormuleTseitinSimple::VARIABLE :
+            return "var";
+        case FormuleTseitinSimple::NON :
+            return "~";
+        case FormuleTseitinSimple::OU :
+            return "ou ";
+        case FormuleTseitinSimple::ET :
+            return "et";
+        case FormuleTseitinSimple::IMPLIQUE :
+            return "=>";
+        case FormuleTseitinSimple::XOR :
+            return "xor";
+        default :
+            return "P'tet ben, j'en sais rien..."+(char)(type+48);
+    }
+}
+
 string FormuleTseitinSimple::toString() const
 {
     switch(type)
@@ -350,6 +454,6 @@ string FormuleTseitinSimple::toString() const
         case FormuleTseitinSimple::XOR :
             return "(" + operandeG->toString() + " xor " + operandeD->toString() + ")";
         default :
-            return "";
+            return "P'tet ben, j'en sais rien..."+(char)(type+48);
     }
 }
