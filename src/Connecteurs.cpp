@@ -1,6 +1,14 @@
 #include "../include/Connecteurs.h"
+#include<sstream>
 
 using namespace std;
+
+string toString(int number)
+{
+   stringstream ss;
+   ss << number;
+   return ss.str();
+}
 
 int FormuleTseitinSimple::ariteDuType(const FormuleTseitinSimple::FormuleTypeSimple& type_) const
 {
@@ -61,19 +69,24 @@ operandeG(nullptr), operandeD(nullptr), type(type_), name("")
     if(ariteDuType(type_) != 1)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 ! (bis)");
 
-    switch(op->getType())
+    operandeG=op;
+
+
+    /*switch(op->getType())
     {
         case FormuleTseitinSimple::VARIABLE :
             operandeG = new FormuleTseitinSimple(op->getType(),op->getName());
+            break;
         case FormuleTseitinSimple::NON :
             operandeG = new FormuleTseitinSimple(op->getType(),op->getOperande());
+            break;
         case FormuleTseitinSimple::OU :
         case FormuleTseitinSimple::ET :
         case FormuleTseitinSimple::IMPLIQUE :
         case FormuleTseitinSimple::XOR :
         default :
             operandeG = new FormuleTseitinSimple(op->getType(),op->getOperandeG(),op->getOperandeD());
-    }
+    }*/
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple opG, FormuleTseitinSimple opD) :
@@ -92,12 +105,17 @@ operandeG(nullptr), operandeD(nullptr), type(type_), name("")
     if(ariteDuType(type_) != 2)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 2 !");
 
-    switch(opG->getType())
+    operandeG=opG;
+    operandeD=opD;
+
+    /*switch(opG->getType())
     {
         case FormuleTseitinSimple::VARIABLE :
             operandeG = new FormuleTseitinSimple(opG->getType(),opG->getName());
+            break;
         case FormuleTseitinSimple::NON :
             operandeG = new FormuleTseitinSimple(opG->getType(),opG->getOperande());
+            break;
         case FormuleTseitinSimple::OU :
         case FormuleTseitinSimple::ET :
         case FormuleTseitinSimple::IMPLIQUE :
@@ -109,23 +127,25 @@ operandeG(nullptr), operandeD(nullptr), type(type_), name("")
     {
         case FormuleTseitinSimple::VARIABLE :
             operandeD = new FormuleTseitinSimple(opD->getType(),opD->getName());
+            break;
         case FormuleTseitinSimple::NON :
             operandeD = new FormuleTseitinSimple(opD->getType(),opD->getOperande());
+            break;
         case FormuleTseitinSimple::OU :
         case FormuleTseitinSimple::ET :
         case FormuleTseitinSimple::IMPLIQUE :
         case FormuleTseitinSimple::XOR :
         default :
             operandeD = new FormuleTseitinSimple(opD->getType(),opD->getOperandeG(),opD->getOperandeD());
-    }
+    }*/
 }
 
 FormuleTseitinSimple::~FormuleTseitinSimple()
 {
-    if(getArite() >= 1)
+    /*if(getArite() >= 1)
         delete operandeG;
     if(getArite() >= 2)
-        delete operandeD;
+        delete operandeD;*/
 }
 
 string FormuleTseitinSimple::getName() const
@@ -171,7 +191,7 @@ FormuleTseitinSimple FormuleTseitinSimple::getOperandeD() const
 FormuleTseitinSimple FormuleTseitinSimple::getOperande() const
 {
     if(getArite()!=1)
-        throw FormuleTseitinSimpleError("Le type devrait avoir une arité 1 ! (quad)");
+        throw FormuleTseitinSimpleError("Le type devrait avoir une arité 1 ! (quad)"+to_string(type)+name);
     return *operandeG;
 }
 
