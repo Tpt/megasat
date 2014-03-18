@@ -61,9 +61,7 @@ FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseit
     if(ariteDuType(type_) != 1)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 !");
 
-    //printf(".%p\n",operandeG);
     operandeG = new FormuleTseitinSimple(op);
-    //cout<<"."<<endl;
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* op) :
@@ -72,27 +70,9 @@ operandeG(nullptr), operandeD(nullptr), type(type_), name("")
     if(ariteDuType(type_) != 1)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 ! (bis)");
 
-    // *operandeG=*op;
-
-    //operandeG = new FormuleTseitinSimple(*op);
 
     operandeG=op;
 
-    /*switch(op->getType())
-    {
-        case FormuleTseitinSimple::VARIABLE :
-            operandeG = new FormuleTseitinSimple(op->getType(),op->getName());
-            break;
-        case FormuleTseitinSimple::NON :
-            operandeG = new FormuleTseitinSimple(op->getType(),op->getOperande());
-            break;
-        case FormuleTseitinSimple::OU :
-        case FormuleTseitinSimple::ET :
-        case FormuleTseitinSimple::IMPLIQUE :
-        case FormuleTseitinSimple::XOR :
-        default :
-            operandeG = new FormuleTseitinSimple(op->getType(),op->getOperandeG(),op->getOperandeD());
-    }*/
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple opG, FormuleTseitinSimple opD) :
@@ -112,63 +92,14 @@ operandeG(nullptr), operandeD(nullptr), type(type_), name("")
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 2 !");
 
 
-    // *operandeG=*opG;
-    // *operandeD=*opD;
-
-
-    //operandeG = new FormuleTseitinSimple(*opG);
-    //operandeD = new FormuleTseitinSimple(*opD);
-
     operandeG=opG;
     operandeD=opD;
 
-    /*switch(opG->getType())
-    {
-        case FormuleTseitinSimple::VARIABLE :
-            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getName());
-            break;
-        case FormuleTseitinSimple::NON :
-            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getOperande());
-            break;
-        case FormuleTseitinSimple::OU :
-        case FormuleTseitinSimple::ET :
-        case FormuleTseitinSimple::IMPLIQUE :
-        case FormuleTseitinSimple::XOR :
-        default :
-            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getOperandeG(),opG->getOperandeD());
-    }
-
-    switch(opD->getType())
-    {
-        case FormuleTseitinSimple::VARIABLE :
-            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getName());
-            break;
-        case FormuleTseitinSimple::NON :
-            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getOperande());
-            break;
-        case FormuleTseitinSimple::OU :
-        case FormuleTseitinSimple::ET :
-        case FormuleTseitinSimple::IMPLIQUE :
-        case FormuleTseitinSimple::XOR :
-        default :
-            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getOperandeG(),opD->getOperandeD());
-    }*/
 }
 
 FormuleTseitinSimple::~FormuleTseitinSimple()
 {
-    /*cout<<"#"<<toString_(getType())<<endl;
-    printf("%p\n",this);
-    printf("%p\n",operandeG);
-    printf("%p\n",operandeD);*/
-    /*cout<<toString_(getType())<<endl;
-    if(getType()==FormuleTseitinSimple::VARIABLE)
-        cout<<name<<endl;*/
 
-    /*if(getArite() >= 1 && operandeG != nullptr)
-        delete operandeG;
-    if(getArite() >= 2 && operandeD != nullptr)
-        delete operandeD;*/
 }
 
 string FormuleTseitinSimple::getName() const
