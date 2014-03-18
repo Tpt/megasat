@@ -1,9 +1,10 @@
 #include "../include/Connecteurs.h"
+#include<iostream>
 #include<sstream>
 
 using namespace std;
 
-string toString(int number)
+string toString_(int number)
 {
    stringstream ss;
    ss << number;
@@ -69,34 +70,38 @@ operandeG(nullptr), operandeD(nullptr), type(type_), name("")
     if(ariteDuType(type_) != 1)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 1 ! (bis)");
 
-    operandeG=op;
+    //operandeG=op;
 
 
-    /*switch(op->getType())
+    switch(op->getType())
     {
         case FormuleTseitinSimple::VARIABLE :
             operandeG = new FormuleTseitinSimple(op->getType(),op->getName());
             break;
         case FormuleTseitinSimple::NON :
-            operandeG = new FormuleTseitinSimple(op->getType(),op->getOperande());
+            operandeG = new FormuleTseitinSimple(op->getType(),op->getPOperande());
             break;
         case FormuleTseitinSimple::OU :
         case FormuleTseitinSimple::ET :
         case FormuleTseitinSimple::IMPLIQUE :
         case FormuleTseitinSimple::XOR :
         default :
-            operandeG = new FormuleTseitinSimple(op->getType(),op->getOperandeG(),op->getOperandeD());
-    }*/
+            operandeG = new FormuleTseitinSimple(op->getType(),op->getPOperandeG(),op->getPOperandeD());
+    }
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple opG, FormuleTseitinSimple opD) :
     operandeG(nullptr), operandeD(nullptr), type(type_), name("")
 {
+    cout<<"Coucou"<<endl;
     if(ariteDuType(type_) != 2)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 2 !");
 
+    cout<<"Coucou"<<endl;
     *operandeG = opG;
+    cout<<"Coucou"<<endl;
     *operandeD = opD;
+    cout<<"Coucou"<<endl;
 }
 
 FormuleTseitinSimple::FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* opG, FormuleTseitinSimple* opD) :
@@ -105,39 +110,53 @@ operandeG(nullptr), operandeD(nullptr), type(type_), name("")
     if(ariteDuType(type_) != 2)
         throw FormuleTseitinSimpleError( "Le type devrait avoir une arité 2 !");
 
-    operandeG=opG;
-    operandeD=opD;
+    //operandeG=opG;
+    //operandeD=opD;
 
-    /*switch(opG->getType())
+    cout<<toString_(getType())<<endl;
+    cout<<toString_(opG->getType())<<endl;
+    cout<<toString_(opD->getType())<<endl;
+
+    if(opG->getArite()>=2)
+    {
+        cout<<toString_(opG->getPOperandeG()->getType())<<endl;
+        cout<<toString_(opG->getPOperandeD()->getType())<<endl;
+        cout<<toString_(opG->getOperandeG().getType())<<endl;
+        cout<<toString_(opG->getOperandeD().getType())<<endl;
+    }
+
+    switch(opG->getType())
     {
         case FormuleTseitinSimple::VARIABLE :
             operandeG = new FormuleTseitinSimple(opG->getType(),opG->getName());
             break;
         case FormuleTseitinSimple::NON :
-            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getOperande());
+            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getPOperande());
             break;
         case FormuleTseitinSimple::OU :
         case FormuleTseitinSimple::ET :
         case FormuleTseitinSimple::IMPLIQUE :
         case FormuleTseitinSimple::XOR :
         default :
-            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getOperandeG(),opG->getOperandeD());
+            operandeG = new FormuleTseitinSimple(opG->getType(),opG->getPOperandeG(),opG->getPOperandeD());
     }
+    cout<<"still"<<endl<<endl;
+
     switch(opD->getType())
     {
         case FormuleTseitinSimple::VARIABLE :
             operandeD = new FormuleTseitinSimple(opD->getType(),opD->getName());
             break;
         case FormuleTseitinSimple::NON :
-            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getOperande());
+            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getPOperande());
             break;
         case FormuleTseitinSimple::OU :
         case FormuleTseitinSimple::ET :
         case FormuleTseitinSimple::IMPLIQUE :
         case FormuleTseitinSimple::XOR :
         default :
-            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getOperandeG(),opD->getOperandeD());
-    }*/
+            operandeD = new FormuleTseitinSimple(opD->getType(),opD->getPOperandeG(),opD->getPOperandeD());
+    }
 }
 
 FormuleTseitinSimple::~FormuleTseitinSimple()
