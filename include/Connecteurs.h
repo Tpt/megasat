@@ -15,11 +15,11 @@ public:
     enum FormuleTypeSimple
     {
         VARIABLE,
+        NON,
         ET,
         OU,
         IMPLIQUE,
         XOR,
-        NON,
     };
     FormuleTseitinSimple();
     FormuleTseitinSimple(const FormuleTseitinSimple& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
@@ -40,8 +40,8 @@ public:
     FormuleTseitinSimple* getPOperandeG() const;
     FormuleTseitinSimple* getPOperandeD() const;
     FormuleTseitinSimple* getPOperande() const;
-    std::string toStringTypeLocal() const;
     std::string toStringType() const;
+    std::string toStringPrefix() const;
     std::string toString() const;
 
 private:

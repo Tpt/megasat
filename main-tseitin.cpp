@@ -48,16 +48,14 @@ int main(int argc, char *argv[])
     try{
     FormuleTseitinSimple* formule = new FormuleTseitinSimple(parseFormuleFile(fileName));
     cout << formule->toString() << endl;
+    cout << formule->toStringPrefix() << endl;
     cout << formule->toStringType() << endl;
-    cout << formule->toStringTypeLocal() << endl;
-    printf("%p\n", formule->getPOperandeD());
-    printf("%p\n", formule->getPOperandeG());
     cout<< formule->getPOperandeG()->toString() << endl;
+    cout<< formule->getPOperandeG()->toStringPrefix() << endl;
     cout<< formule->getPOperandeG()->toStringType() << endl;
-    cout<< formule->getPOperandeG()->toStringTypeLocal() << endl;
     cout<< formule->getPOperandeG()->getPOperandeG()->toString() << endl;
+    cout<< formule->getPOperandeG()->getPOperandeG()->toStringPrefix() << endl;
     cout<< formule->getPOperandeG()->getPOperandeG()->toStringType() << endl;
-    cout<< formule->getPOperandeG()->getPOperandeG()->toStringTypeLocal() << endl;
     cout << "Still alive !" << endl;
     delete formule;
     }
