@@ -1,7 +1,5 @@
 #ifndef CONNECTEURS_H_INCLUDED
 #define CONNECTEURS_H_INCLUDED
-#define cosnt const
-#define reutrn return
 
 #include<string>
 
