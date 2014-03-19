@@ -49,7 +49,7 @@ private:
     FormuleTseitinSimple descendreNon() const;
     FormuleTseitinSimple distribuerOu() const;
     FormuleTseitinSimple eliminerXor() const;
-    FormuleTseitinSimple eliminerImplique() const;
+    FormuleTseitinSimple eliminerImplique() const
 
     FormuleTseitinSimple* operandeG;
     FormuleTseitinSimple* operandeD;
