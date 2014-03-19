@@ -81,7 +81,7 @@ int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variabl
         pile.pop();
         if(w.getType()==FormuleTseitinSimple::VARIABLE)
         {
-            //count++;
+            continue;
         }
         else if(w.getArite()==1)
         {
@@ -211,17 +211,10 @@ void TransformationTseitin::parcours()
     {
         v=pile.top().second;
         w=pile.top().first;
-        /*cout<<v;
-        w.print();*/
-        /*cout<<(w.getType()==FormuleTseitinSimple::VARIABLE)<<endl;
-        cout<<(w.getType()==FormuleTseitinSimple::NON)<<endl;
-        cout<<(w.getType()==FormuleTseitinSimple::ET)<<endl;
-        cout<<(w.getType()==FormuleTseitinSimple::OU)<<endl;*/
 
         pile.pop();
         if(w.getType()==FormuleTseitinSimple::VARIABLE)
         {
-            //++varCourrante;
             addClausesVariable(v, w.getName());
         }
         else if(w.getType()==FormuleTseitinSimple::NON)
@@ -261,9 +254,6 @@ void TransformationTseitin::parcours()
             pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante-1));
         }
     }
-
-    /*cout<<V<<" "<<nbrVariableAux<<endl;
-    cout<<varCourrante<<endl;*/
 
     for(FormuleTseitinSimple* e : aSupprimer)
         delete e;

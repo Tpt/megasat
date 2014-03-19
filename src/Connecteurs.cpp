@@ -145,7 +145,6 @@ FormuleTseitinSimple::FormuleTypeSimple FormuleTseitinSimple::getType() const
 
 string FormuleTseitinSimple::toStringPrefix() const
 {
-    //cout<<"!"<<toString_(getType())<<endl;
 
     switch(type)
     {
