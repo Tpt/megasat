@@ -9,7 +9,7 @@ using namespace std;
 using namespace std::chrono;
 
 LanceurSolveur::LanceurSolveur() :
-fileName(""), verbose(true), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE)
+fileName(""), verbose(false), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE)
 {}
 
 LanceurSolveur::~LanceurSolveur()

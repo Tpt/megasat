@@ -13,6 +13,7 @@ public:
     TransformationTseitin(const TransformationTseitin& other);
     TransformationTseitin& operator=(const TransformationTseitin& other);
     Formule normaliser();
+    std::map<std::string, int> getCorrespondance() const {return correspondanceDesVariables;};
 
 private:
     int creerCorrespondance();
@@ -21,6 +22,8 @@ private:
     void addClausesNon(int pere, int fils);
     void addClausesEt(int pere, int filsG, int filsD);
     void addClausesOu(int pere, int filsG, int filsD);
+    void addClausesXor(int pere, int filsG, int filsD);
+
     void parcours();
 
 

@@ -69,7 +69,7 @@ int TransformationTseitin::creerCorrespondance() ///Renvoie le nombre de variabl
 
 int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variables auxilliaires à créer.
 {
-    int count=V;
+    int count=1;
     stack<FormuleTseitinSimple> pile;
     FormuleTseitinSimple w;
 
@@ -81,7 +81,7 @@ int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variabl
         pile.pop();
         if(w.getType()==FormuleTseitinSimple::VARIABLE)
         {
-            //count--;
+            //count++;
         }
         else if(w.getArite()==1)
         {
@@ -90,9 +90,11 @@ int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variabl
         }
         else if(w.getArite()==2)
         {
-            count++;
-            pile.push(w.getOperandeG());
+            if(w.getType()==FormuleTseitinSimple::IMPLIQUE)
+                count++;
+            count+=2;
             pile.push(w.getOperandeD());
+            pile.push(w.getOperandeG());
         }
 
     }
@@ -166,24 +168,61 @@ void TransformationTseitin::addClausesOu(int pere, int filsG, int filsD)
     formuleNormalisee->addClause(new Clause(c3));
 }
 
+void TransformationTseitin::addClausesXor(int pere, int filsG, int filsD)
+{
+    Clause c1(V+nbrVariableAux);
+    Clause c2(V+nbrVariableAux);
+    Clause c3(V+nbrVariableAux);
+    Clause c4(V+nbrVariableAux);
+
+    c1.addLiteral(formuleNormalisee->getLiteral(-pere));
+    c1.addLiteral(formuleNormalisee->getLiteral(filsG));
+    c1.addLiteral(formuleNormalisee->getLiteral(filsD));
+
+    c2.addLiteral(formuleNormalisee->getLiteral(pere));
+    c2.addLiteral(formuleNormalisee->getLiteral(-filsG));
+    c2.addLiteral(formuleNormalisee->getLiteral(filsD));
+
+    c3.addLiteral(formuleNormalisee->getLiteral(pere));
+    c3.addLiteral(formuleNormalisee->getLiteral(filsD));
+    c3.addLiteral(formuleNormalisee->getLiteral(-filsG));
+
+    c4.addLiteral(formuleNormalisee->getLiteral(-pere));
+    c4.addLiteral(formuleNormalisee->getLiteral(-filsD));
+    c4.addLiteral(formuleNormalisee->getLiteral(-filsG));
+
+    formuleNormalisee->addClause(new Clause(c1));
+    formuleNormalisee->addClause(new Clause(c2));
+    formuleNormalisee->addClause(new Clause(c3));
+    formuleNormalisee->addClause(new Clause(c4));
+}
+
 void TransformationTseitin::parcours()
 {
     stack<pair<FormuleTseitinSimple,int> > pile;
     int varCourrante=V+1;
     FormuleTseitinSimple w;
     int v;
+    vector<FormuleTseitinSimple*> aSupprimer;
 
     pile.push(pair<FormuleTseitinSimple,int> (*formule, varCourrante));
 
     while(!pile.empty())
     {
-        w=pile.top().first;
         v=pile.top().second;
+        w=pile.top().first;
+        /*cout<<v;
+        w.print();*/
+        /*cout<<(w.getType()==FormuleTseitinSimple::VARIABLE)<<endl;
+        cout<<(w.getType()==FormuleTseitinSimple::NON)<<endl;
+        cout<<(w.getType()==FormuleTseitinSimple::ET)<<endl;
+        cout<<(w.getType()==FormuleTseitinSimple::OU)<<endl;*/
+
+        pile.pop();
         if(w.getType()==FormuleTseitinSimple::VARIABLE)
         {
-            ++varCourrante;
+            //++varCourrante;
             addClausesVariable(v, w.getName());
-
         }
         else if(w.getType()==FormuleTseitinSimple::NON)
         {
@@ -195,21 +234,39 @@ void TransformationTseitin::parcours()
         {
             ++varCourrante;
             addClausesEt(v,varCourrante, varCourrante+1);
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperande(),varCourrante));
+            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante+1));
             ++varCourrante;
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperande(),varCourrante));
+            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeG(),varCourrante-1));
         }
         else if(w.getType()==FormuleTseitinSimple::OU)
         {
             ++varCourrante;
             addClausesOu(v,varCourrante, varCourrante+1);
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperande(),varCourrante));
+            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante+1));
             ++varCourrante;
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperande(),varCourrante));
+            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeG(),varCourrante-1));
         }
-
-        pile.pop();
+        else if(w.getType()==FormuleTseitinSimple::IMPLIQUE)
+        {
+            FormuleTseitinSimple* tmp = new FormuleTseitinSimple(FormuleTseitinSimple::NON,w.getOperandeGPointeur());
+            aSupprimer.push_back(tmp);
+            pile.push(pair<FormuleTseitinSimple,int>(FormuleTseitinSimple(FormuleTseitinSimple::OU, tmp, w.getOperandeDPointeur()),v));
+        }
+        else if(w.getType()==FormuleTseitinSimple::XOR)
+        {
+            ++varCourrante;
+            addClausesXor(v,varCourrante, varCourrante+1);
+            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeG(),varCourrante+1));
+            ++varCourrante;
+            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante-1));
+        }
     }
+
+    /*cout<<V<<" "<<nbrVariableAux<<endl;
+    cout<<varCourrante<<endl;*/
+
+    for(FormuleTseitinSimple* e : aSupprimer)
+        delete e;
 }
 
 Formule TransformationTseitin::normaliser()

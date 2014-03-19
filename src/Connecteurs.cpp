@@ -214,3 +214,8 @@ string FormuleTseitinSimple::toString() const
             return "P'tet ben, j'en sais rien...";
     }
 }
+
+void FormuleTseitinSimple::print() const
+{
+    cout<<toString()<<endl;
+}

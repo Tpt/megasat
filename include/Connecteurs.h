@@ -35,6 +35,7 @@ public:
     std::string toStringType() const;
     std::string toStringPrefix() const;
     std::string toString() const;
+    void print() const;
 
 private:
     int ariteDuType(const FormuleTseitinSimple::FormuleTypeSimple& type_) const;
