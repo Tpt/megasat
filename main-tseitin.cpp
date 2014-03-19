@@ -31,19 +31,16 @@ int main(int argc, char *argv[])
 
     FormuleTseitinSimple* formuleTseitin = new FormuleTseitinSimple(parseFormuleFile(lanceur.getFileName()));
 
-    //cout<<formuleTseitin->toString()<<endl;
-
     TransformationTseitin normalisateur(formuleTseitin);
 
     Formule formule(normalisateur.normaliser());
 
-
     if(lanceur.isVerbose())
         formule.print();
-    //cout<<formule.size()<<endl;
+
+    lanceur.utiliserCorrespondance(normalisateur.getCorrespondance());
 
     lanceur.ExecuteEtAfficheResultat(formule);
-
 
 
     return EXIT_SUCCESS;

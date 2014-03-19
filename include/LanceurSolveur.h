@@ -4,6 +4,7 @@
 #include "Solveur.h"
 #include<cstring>
 #include<string>
+#include<map>
 
 enum Heuristique {
     SIMPLE,
@@ -22,6 +23,7 @@ class LanceurSolveur
         void parseOptions(int argc, char* argv[]);
         void ExecuteEtAfficheResultat(Formule& formule);
         bool isVerbose() const;
+        void utiliserCorrespondance(std::map<std::string,int> corr);
 
     private:
         std::string fileName;
@@ -29,6 +31,8 @@ class LanceurSolveur
         bool avecLiterauxSurveilles;
         bool utiliserDavisPutnam;
         Heuristique typeHeuristique;
+        bool utiliseCorrespondance;
+        std::map<std::string,int> correspondance;
 };
 
 #endif // LANCEURSOLVEUR_H

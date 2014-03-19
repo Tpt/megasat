@@ -9,11 +9,17 @@ using namespace std;
 using namespace std::chrono;
 
 LanceurSolveur::LanceurSolveur() :
-fileName(""), verbose(false), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE)
+fileName(""), verbose(false), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE), utiliseCorrespondance(false), correspondance(std::map<std::string,int>())
 {}
 
 LanceurSolveur::~LanceurSolveur()
 {}
+
+void LanceurSolveur::utiliserCorrespondance(map<string,int> corr)
+{
+    correspondance=corr;
+    utiliseCorrespondance=true;
+}
 
 void LanceurSolveur::parseOptions(int argc, char* argv[])
 {
@@ -89,14 +95,25 @@ void LanceurSolveur::ExecuteEtAfficheResultat(Formule& formule)
 
     if(solveur->isSatifiable())
     {
+
         Formule formuleResolue = solveur->getFomule();
-        cout << "s SATISFIABLE" << endl;
-        for(int i = 1; i <= formuleResolue.getNombreDeVariables(); i++)
+
+        if(utiliseCorrespondance)
         {
-            if(formuleResolue.getVar(i)->getVal())
-                cout << "v " << i << endl;
-            else
-                cout << "v " << -i << endl;
+            for(auto e : correspondance)
+                cout<<e.first<<" "<<(formuleResolue.getVar(e.second)->getVal() ? e.second : -e.second)<<endl;
+
+        }
+        else
+        {
+            cout << "s SATISFIABLE" << endl;
+            for(int i = 1; i <= formuleResolue.getNombreDeVariables(); i++)
+            {
+                if(formuleResolue.getVar(i)->getVal())
+                    cout << "v " << i << endl;
+                else
+                    cout << "v " << -i << endl;
+            }
         }
     }
     else
