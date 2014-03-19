@@ -19,9 +19,7 @@ public:
     FormuleTseitinSimple(const FormuleTseitinSimple& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
     FormuleTseitinSimple& operator=(const FormuleTseitinSimple& F);///Idem
     FormuleTseitinSimple(FormuleTypeSimple type_, std::string name_);
-    FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple op);
     FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* op);
-    FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple opG, FormuleTseitinSimple opD);
     FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* opG, FormuleTseitinSimple* opD);
     ~FormuleTseitinSimple();
     std::string getName() const;
