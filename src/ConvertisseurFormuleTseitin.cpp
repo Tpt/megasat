@@ -75,7 +75,7 @@ Formule ConvertisseurFormuleTseitin::ConvertisseurFormuleTseitin::convertir()
 
 void ConvertisseurFormuleTseitin::decomposerEt(const FormuleTseitinSimple& f)
 {
-    if(f.getType()==FormuleTseitinSimple::ET)
+    if(f.getType() == FormuleTseitinSimple::ET)
     {
         decomposerEt(f.getOperandeD());
         decomposerEt(f.getOperandeG());

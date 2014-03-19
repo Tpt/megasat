@@ -25,7 +25,6 @@ public:
     FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple opG, FormuleTseitinSimple opD);
     FormuleTseitinSimple(FormuleTypeSimple type_, FormuleTseitinSimple* opG, FormuleTseitinSimple* opD);
     ~FormuleTseitinSimple();
-    FormuleTseitinSimple transformationDeMorgan() const;
     std::string getName() const;
     int getArite() const;
     FormuleTseitinSimple::FormuleTypeSimple getType() const;
@@ -41,10 +40,6 @@ public:
 
 private:
     int ariteDuType(const FormuleTseitinSimple::FormuleTypeSimple& type_) const;
-    FormuleTseitinSimple descendreNon() const;
-    FormuleTseitinSimple distribuerOu() const;
-    FormuleTseitinSimple eliminerXor() const;
-    FormuleTseitinSimple eliminerImplique() const;
 
     FormuleTseitinSimple* operandeG;
     FormuleTseitinSimple* operandeD;
