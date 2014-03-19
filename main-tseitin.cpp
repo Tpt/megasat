@@ -3,7 +3,6 @@
 #include<cstring>
 #include"include/TransformationTseitin.h"
 #include"include/LanceurSolveur.h"
-#include"include/Clause.h"
 #include"include/Connecteurs.h"
 #include"logique_parser/driver.h"
 
