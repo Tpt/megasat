@@ -11,7 +11,7 @@ all: resol tseitin
 debug: CFLAGS = $(NAZI) -D DEBUG
 debug: $(EXEC)
 
-tseitin:  obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/ParseError.o obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/Connecteurs.o obj/ConvertisseurFormuleTseitin.o obj/TransformationTseitin.o obj/main-tseitin.o
+tseitin:  obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/ParseError.o obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/Connecteurs.o obj/TransformationTseitin.o obj/main-tseitin.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 resol: obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/CnfParser.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/VariableNonAssigneeProvider.o obj/ParseError.o obj/main-resol.o
@@ -54,9 +54,6 @@ obj/Connecteurs.o: src/Connecteurs.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/TransformationTseitin.o: src/TransformationTseitin.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
-
-obj/ConvertisseurFormuleTseitin.o: src/ConvertisseurFormuleTseitin.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/ParseError.o: src/ParseError.cpp
