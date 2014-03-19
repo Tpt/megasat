@@ -17,7 +17,7 @@ Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<C
     for(int i = 0; i < V; ++i)
         if(formule.vars[i]->isAssignee())
             vars[i]->setVal(formule.vars[i]->getVal());
-    
+
     for(Clause* c : formule.clauses)
     {
         unordered_set<Literal*> literaux = c->getLiteraux();
@@ -36,13 +36,13 @@ Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<C
 Formule& Formule::operator= (const Formule& other)
 {
     Formule temp(other);
-    
+
     swap(temp.V, this->V);
     swap(temp.clauses, this->clauses);
     swap(temp.vars, this->vars);
     swap(temp.lits_pos, this->lits_pos);
     swap(temp.lits_neg, this->lits_neg);
-    
+
     return *this;
 }
 
@@ -53,7 +53,7 @@ Formule::~Formule()
         aSupprimer.push_back(c);
     for(unsigned int i = 0; i < aSupprimer.size(); ++i)
         delete aSupprimer[i];
-    
+
     for(unsigned int i = 0; i < lits_neg.size(); ++i)
         delete lits_neg[i];
     for(unsigned int i = 0; i < lits_pos.size(); ++i)
@@ -67,7 +67,7 @@ void Formule::initLits()
     vars.resize(V);
     lits_neg.resize(V);
     lits_pos.resize(V);
-    
+
     for(int i = 0; i < V; ++i)
     {
         vars[i] = new Variable(i+1);

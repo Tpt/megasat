@@ -91,21 +91,21 @@ string FormuleTseitinSimple::getName() const
     return name;
 }
 
-FormuleTseitinSimple* FormuleTseitinSimple::getPOperandeG() const
+FormuleTseitinSimple* FormuleTseitinSimple::getOperandeGPointeur() const
 {
     if(getArite()!=2)
         throw FormuleTseitinSimpleError("Le type devrait avoir une arité 2 !");
     return operandeG;
 }
 
-FormuleTseitinSimple* FormuleTseitinSimple::getPOperandeD() const
+FormuleTseitinSimple* FormuleTseitinSimple::getOperandeDPointeur() const
 {
     if(getArite()!=2)
         throw FormuleTseitinSimpleError("Le type devrait avoir une arité 2 !");
     return operandeD;
 }
 
-FormuleTseitinSimple* FormuleTseitinSimple::getPOperande() const
+FormuleTseitinSimple* FormuleTseitinSimple::getOperandePointeur() const
 {
     if(getArite()!=1)
         throw FormuleTseitinSimpleError("Le type devrait avoir une arité 1 ! (ter)");

@@ -28,9 +28,9 @@ public:
     FormuleTseitinSimple getOperandeG() const;
     FormuleTseitinSimple getOperandeD() const;
     FormuleTseitinSimple getOperande() const;
-    FormuleTseitinSimple* getPOperandeG() const;
-    FormuleTseitinSimple* getPOperandeD() const;
-    FormuleTseitinSimple* getPOperande() const;
+    FormuleTseitinSimple* getOperandeGPointeur() const;
+    FormuleTseitinSimple* getOperandeDPointeur() const;
+    FormuleTseitinSimple* getOperandePointeur() const;
     std::string toStringType() const;
     std::string toStringPrefix() const;
     std::string toString() const;

@@ -15,6 +15,7 @@ Clause::Clause(int variableNumber_, int uid_) : literaux(unordered_set<Literal*>
 
 void Clause::print() const ///Pour le debugage
 {
+    cout << "c " << endl;
     for(Literal* c : literaux)
     {
         c->print();
