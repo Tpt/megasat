@@ -40,4 +40,7 @@ public:
     std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const;
 };
 
+class PlusDeVariablesAAssigner : public std::exception
+{};
+
 #endif
