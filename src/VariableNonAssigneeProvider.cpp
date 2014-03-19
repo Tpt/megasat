@@ -12,7 +12,7 @@ pair<int, bool> VariableNonAssigneeProviderSimple::getVariableNonAssignee(const 
         if(!var->isAssignee())
             return pair<int, bool>(var->getId(), true);
     }
-    return pair<int, bool>(-1, true);
+    throw PlusDeVariablesAAssigner();
 }
 
 pair<int, bool> VariableNonAssigneeProviderRand::getVariableNonAssignee(const Formule& formule) const
@@ -24,7 +24,7 @@ pair<int, bool> VariableNonAssigneeProviderRand::getVariableNonAssignee(const Fo
             variablesPossibles.push_back(var->getId());
 
     if(variablesPossibles.empty())
-        return pair<int, bool>(-1, true);
+        throw PlusDeVariablesAAssigner();
 
     return pair<int, bool>(variablesPossibles[rand() % variablesPossibles.size()], true);
 }
@@ -38,7 +38,7 @@ pair<int, bool> VariableNonAssigneeProviderMalin::getVariableNonAssignee(const F
             variablesPossibles.push_back(var->getId());
 
     if(variablesPossibles.empty())
-        return pair<int, bool>(-1, true);
+        throw PlusDeVariablesAAssigner();
 
     int differenceOccurences = 0;
     int varId = variablesPossibles[rand() % variablesPossibles.size()];
@@ -75,7 +75,7 @@ pair<int, bool> VariableNonAssigneeProviderMOMS::getVariableNonAssignee(const Fo
             literalDOccurenceMaximale = occ.first;
 
     if(literalDOccurenceMaximale == 0)
-        return pair<int, bool>(-1, true);
+        throw PlusDeVariablesAAssigner();
 
     return pair<int, bool>(abs(literalDOccurenceMaximale), literalDOccurenceMaximale > 0);
 }
@@ -91,12 +91,14 @@ pair<int, bool> VariableNonAssigneeProviderDLIS::getVariableNonAssignee(const Fo
                     nombreDeClausesSatisfaitesParLiteral[l->getId()]++;
 
 
-    int literalDOccurenceMaximale=0;
+    int literalDOccurenceMaximale = 0;
 
     for(auto occ : nombreDeClausesSatisfaitesParLiteral)
         if(occ.second > nombreDeClausesSatisfaitesParLiteral[literalDOccurenceMaximale])
             literalDOccurenceMaximale = occ.first;
 
-    return pair<int, bool>(abs(literalDOccurenceMaximale), nombreDeClausesSatisfaitesParLiteral[literalDOccurenceMaximale] > 0);
+    if(literalDOccurenceMaximale == 0)
+         throw PlusDeVariablesAAssigner();
 
+    return pair<int, bool>(abs(literalDOccurenceMaximale), nombreDeClausesSatisfaitesParLiteral[literalDOccurenceMaximale] > 0);
 }

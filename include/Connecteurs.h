@@ -2,6 +2,7 @@
 #define CONNECTEURS_H_INCLUDED
 
 #include<string>
+#include "MessageException.h"
 
 class FormuleTseitinSimple
 {
@@ -44,18 +45,10 @@ private:
     std::string name;
 };
 
-class FormuleTseitinSimpleError: public std::exception
+class FormuleTseitinSimpleError : public MessageException
 {
-public :
-    FormuleTseitinSimpleError(std::string message) noexcept :
-        msg(message) {};
-    ~FormuleTseitinSimpleError() noexcept {};
-    std::string getMessage() const
-    {
-        return msg;
-    };
-private :
-    std::string msg;
+public:
+    FormuleTseitinSimpleError(std::string message) noexcept : MessageException(message) {};
 };
 
 

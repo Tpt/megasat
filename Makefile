@@ -14,10 +14,10 @@ debug: $(EXEC)
 
 purge: clean all
 
-tseitin:  $(SOLVEURS) obj/ParseError.o obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/Connecteurs.o obj/TransformationTseitin.o obj/LanceurSolveur.o obj/main-tseitin.o 
+tseitin:  $(SOLVEURS) obj/ParseError.o obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/Connecteurs.o obj/TransformationTseitin.o obj/LanceurSolveur.o obj/MessageException.o obj/main-tseitin.o 
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-resol:  $(SOLVEURS) obj/CnfParser.o obj/ParseError.o obj/LanceurSolveur.o obj/main-resol.o
+resol:  $(SOLVEURS) obj/CnfParser.o obj/ParseError.o obj/LanceurSolveur.o obj/MessageException.o obj/main-resol.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/clause.o: src/Clause.cpp include/Clause.h
@@ -59,7 +59,7 @@ obj/Connecteurs.o: src/Connecteurs.cpp
 obj/TransformationTseitin.o: src/TransformationTseitin.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-obj/ParseError.o: src/ParseError.cpp
+obj/MessageException.o: src/MessageException.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/LanceurSolveur.o: src/LanceurSolveur.cpp
