@@ -1,5 +1,3 @@
-#include<cstdlib>
-#include<cstring>
 #include"include/LanceurSolveur.h"
 #include"include/Formule.h"
 #include"include/CnfParser.h"

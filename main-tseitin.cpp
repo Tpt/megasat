@@ -1,6 +1,4 @@
 #include<iostream>
-#include<cstdlib>
-#include<cstring>
 #include"include/TransformationTseitin.h"
 #include"include/LanceurSolveur.h"
 #include"include/Connecteurs.h"
