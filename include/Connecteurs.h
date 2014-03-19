@@ -3,12 +3,6 @@
 
 #include<string>
 
-/***
-
-Si l'affectation echoue, on a un type variable de nom vide et seulement dans ce cas.
-
-***/
-
 class FormuleTseitinSimple
 {
 public:
@@ -20,7 +14,7 @@ public:
         OU,
         IMPLIQUE,
         XOR,
-    };
+    }; //l'état par défaut d'une FormuleTseitinSimple est type = VARIABLE avec name = "". C'est nottament le cas si une erreur arrive.
     FormuleTseitinSimple();
     FormuleTseitinSimple(const FormuleTseitinSimple& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
     FormuleTseitinSimple& operator=(const FormuleTseitinSimple& F);///Idem
