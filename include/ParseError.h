@@ -1,16 +1,12 @@
 #ifndef ParseError_H
 #define ParseError_H
 
-#include <string>
+#include "MessageException.h"
 
-class ParseError : public std::exception
+class ParseError : public MessageException
 {
 public:
-    ParseError(std::string message) noexcept;
-    ~ParseError() noexcept;
-    std::string getMessage() const;
-private:
-    std::string msg;
+    ParseError(std::string message) noexcept : MessageException(message) {};
 };
 
 #endif
