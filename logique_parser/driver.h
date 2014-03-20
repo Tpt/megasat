@@ -2,7 +2,7 @@
 #define DRIVER_H
 
 #include <istream>
-#include "../include/Connecteurs.h"
+#include "../include/FormuleTseitin.h"
 #include "../include/ParseError.h"
 
 namespace LogiqueParser
@@ -19,14 +19,14 @@ public:
     Driver& operator= (const Driver& other);
     ~Driver();
 
-    FormuleTseitinSimple parse(std::string& fileName);
-    FormuleTseitinSimple parse(std::istream& inputStream);
+    FormuleTseitin parse(std::string& fileName);
+    FormuleTseitin parse(std::istream& inputStream);
 
-    void setResult(FormuleTseitinSimple& result);
+    void setResult(FormuleTseitin& result);
 private:
     Lexer* lexer;
     Parser* parser;
-    FormuleTseitinSimple result;
+    FormuleTseitin result;
 
     friend class Parser;
     friend class Lexer;

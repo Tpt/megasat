@@ -15,7 +15,7 @@ debug: $(EXEC)
 
 purge: clean all
 
-tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/Connecteurs.o obj/TransformationTseitin.o obj/LanceurSolveur.o obj/MessageException.o obj/main-tseitin.o 
+tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/LanceurSolveur.o obj/MessageException.o obj/main-tseitin.o 
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 resol:  $(SOLVEURS) obj/CnfParser.o obj/LanceurSolveur.o obj/MessageException.o obj/main-resol.o
@@ -54,7 +54,7 @@ obj/DPLLSurveilleSolveur.o: src/DPLLSurveilleSolveur.cpp
 obj/VariableNonAssigneeProvider.o: src/VariableNonAssigneeProvider.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
-obj/Connecteurs.o: src/Connecteurs.cpp
+obj/FormuleTseitin.o: src/FormuleTseitin.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/TransformationTseitin.o: src/TransformationTseitin.cpp

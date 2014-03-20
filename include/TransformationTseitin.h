@@ -2,13 +2,13 @@
 #define TRANSFORMATIONTSEITIN_H
 
 #include "Formule.h"
-#include "Connecteurs.h"
+#include "FormuleTseitin.h"
 #include<map>
 
 class TransformationTseitin
 {
 public:
-    TransformationTseitin(FormuleTseitinSimple* formule_);
+    TransformationTseitin(FormuleTseitin* formule_);
     ~TransformationTseitin();
     TransformationTseitin(const TransformationTseitin& other);
     TransformationTseitin& operator=(const TransformationTseitin& other);
@@ -28,7 +28,7 @@ private:
     void parcours();
 
 
-    FormuleTseitinSimple* formule;
+    FormuleTseitin* formule;
     Formule* formuleNormalisee;
     int V;
     int nbrVariableAux;

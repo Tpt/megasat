@@ -3,7 +3,7 @@
 
 using namespace std;
 
-TransformationTseitin::TransformationTseitin(FormuleTseitinSimple* formule_) :
+TransformationTseitin::TransformationTseitin(FormuleTseitin* formule_) :
 formule(formule_), formuleNormalisee(nullptr), V(0), nbrVariableAux(0), correspondanceDesVariables(map<string,int>())
 {
     V=creerCorrespondance();
@@ -13,7 +13,7 @@ formule(formule_), formuleNormalisee(nullptr), V(0), nbrVariableAux(0), correspo
 }
 
 TransformationTseitin::TransformationTseitin(const TransformationTseitin& other) :
-formule(new FormuleTseitinSimple(*other.formule)), formuleNormalisee(new Formule(*other.formuleNormalisee)), V(other.V), nbrVariableAux(other.nbrVariableAux), correspondanceDesVariables(other.correspondanceDesVariables)
+formule(new FormuleTseitin(*other.formule)), formuleNormalisee(new Formule(*other.formuleNormalisee)), V(other.V), nbrVariableAux(other.nbrVariableAux), correspondanceDesVariables(other.correspondanceDesVariables)
 {}
 
 TransformationTseitin& TransformationTseitin::operator= (const TransformationTseitin& other)
@@ -36,8 +36,8 @@ TransformationTseitin::~TransformationTseitin()
 int TransformationTseitin::creerCorrespondance() ///Renvoie le nombre de variables
 {
     int Uid=1;
-    stack<FormuleTseitinSimple> pile;
-    FormuleTseitinSimple w;
+    stack<FormuleTseitin> pile;
+    FormuleTseitin w;
 
     pile.push(*formule);
 
@@ -45,7 +45,7 @@ int TransformationTseitin::creerCorrespondance() ///Renvoie le nombre de variabl
     {
         w=pile.top();
         pile.pop();
-        if(w.getType()==FormuleTseitinSimple::VARIABLE)
+        if(w.getType()==FormuleTseitin::VARIABLE)
         {
             if(correspondanceDesVariables.count(w.getName())==0)
             {
@@ -70,8 +70,8 @@ int TransformationTseitin::creerCorrespondance() ///Renvoie le nombre de variabl
 int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variables auxilliaires à créer.
 {
     int count=1;
-    stack<FormuleTseitinSimple> pile;
-    FormuleTseitinSimple w;
+    stack<FormuleTseitin> pile;
+    FormuleTseitin w;
 
     pile.push(*formule);
 
@@ -79,7 +79,7 @@ int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variabl
     {
         w=pile.top();
         pile.pop();
-        if(w.getType()==FormuleTseitinSimple::VARIABLE)
+        if(w.getType()==FormuleTseitin::VARIABLE)
         {
             continue;
         }
@@ -218,13 +218,13 @@ void TransformationTseitin::addClausesImplique(int pere, int filsG, int filsD)
 
 void TransformationTseitin::parcours()
 {
-    stack<pair<FormuleTseitinSimple,int> > pile;
+    stack<pair<FormuleTseitin,int> > pile;
     int varCourrante=V+1;
-    FormuleTseitinSimple w;
+    FormuleTseitin w;
     int v;
-    vector<FormuleTseitinSimple*> aSupprimer;
+    vector<FormuleTseitin*> aSupprimer;
 
-    pile.push(pair<FormuleTseitinSimple,int> (*formule, varCourrante));
+    pile.push(pair<FormuleTseitin,int> (*formule, varCourrante));
 
     while(!pile.empty())
     {
@@ -232,51 +232,51 @@ void TransformationTseitin::parcours()
         w=pile.top().first;
 
         pile.pop();
-        if(w.getType()==FormuleTseitinSimple::VARIABLE)
+        if(w.getType()==FormuleTseitin::VARIABLE)
         {
             addClausesVariable(v, w.getName());
         }
-        else if(w.getType()==FormuleTseitinSimple::NON)
+        else if(w.getType()==FormuleTseitin::NON)
         {
             ++varCourrante;
             addClausesNon(v,varCourrante);
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperande(),varCourrante));
+            pile.push(pair<FormuleTseitin,int>(w.getOperande(),varCourrante));
         }
-        else if(w.getType()==FormuleTseitinSimple::ET)
+        else if(w.getType()==FormuleTseitin::ET)
         {
             ++varCourrante;
             addClausesEt(v,varCourrante, varCourrante+1);
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante+1));
+            pile.push(pair<FormuleTseitin,int>(w.getOperandeD(),varCourrante+1));
             ++varCourrante;
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeG(),varCourrante-1));
+            pile.push(pair<FormuleTseitin,int>(w.getOperandeG(),varCourrante-1));
         }
-        else if(w.getType()==FormuleTseitinSimple::OU)
+        else if(w.getType()==FormuleTseitin::OU)
         {
             ++varCourrante;
             addClausesOu(v,varCourrante, varCourrante+1);
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante+1));
+            pile.push(pair<FormuleTseitin,int>(w.getOperandeD(),varCourrante+1));
             ++varCourrante;
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeG(),varCourrante-1));
+            pile.push(pair<FormuleTseitin,int>(w.getOperandeG(),varCourrante-1));
         }
-        else if(w.getType()==FormuleTseitinSimple::IMPLIQUE)
+        else if(w.getType()==FormuleTseitin::IMPLIQUE)
         {
             ++varCourrante;
             addClausesImplique(v,varCourrante, varCourrante+1);
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante+1));
+            pile.push(pair<FormuleTseitin,int>(w.getOperandeD(),varCourrante+1));
             ++varCourrante;
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeG(),varCourrante-1));
+            pile.push(pair<FormuleTseitin,int>(w.getOperandeG(),varCourrante-1));
         }
-        else if(w.getType()==FormuleTseitinSimple::XOR)
+        else if(w.getType()==FormuleTseitin::XOR)
         {
             ++varCourrante;
             addClausesXor(v,varCourrante, varCourrante+1);
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeG(),varCourrante+1));
+            pile.push(pair<FormuleTseitin,int>(w.getOperandeG(),varCourrante+1));
             ++varCourrante;
-            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante-1));
+            pile.push(pair<FormuleTseitin,int>(w.getOperandeD(),varCourrante-1));
         }
     }
 
-    for(FormuleTseitinSimple* e : aSupprimer)
+    for(FormuleTseitin* e : aSupprimer)
         delete e;
 }
 

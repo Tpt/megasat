@@ -1,14 +1,14 @@
 #include<iostream>
 #include"include/TransformationTseitin.h"
 #include"include/LanceurSolveur.h"
-#include"include/Connecteurs.h"
+#include"include/FormuleTseitin.h"
 #include"logique_parser/driver.h"
 
 using namespace std;
 
-FormuleTseitinSimple parseFormuleFile(string fileName);
+FormuleTseitin parseFormuleFile(string fileName);
 
-FormuleTseitinSimple parseFormuleFile(string fileName)
+FormuleTseitin parseFormuleFile(string fileName)
 {
     LogiqueParser::Driver parserDriver;
     try
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 
     lanceur.parseOptions(argc, argv);
 
-    FormuleTseitinSimple* formuleTseitin = new FormuleTseitinSimple(parseFormuleFile(lanceur.getFileName()));
+    FormuleTseitin* formuleTseitin = new FormuleTseitin(parseFormuleFile(lanceur.getFileName()));
 
     TransformationTseitin normalisateur(formuleTseitin);
 
