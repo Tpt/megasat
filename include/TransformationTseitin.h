@@ -23,6 +23,7 @@ private:
     void addClausesEt(int pere, int filsG, int filsD);
     void addClausesOu(int pere, int filsG, int filsD);
     void addClausesXor(int pere, int filsG, int filsD);
+    void addClausesImplique(int pere, int filsG, int filsD);
 
     void parcours();
 

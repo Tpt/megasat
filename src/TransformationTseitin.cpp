@@ -90,8 +90,6 @@ int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variabl
         }
         else if(w.getArite()==2)
         {
-            if(w.getType()==FormuleTseitinSimple::IMPLIQUE)
-                count++;
             count+=2;
             pile.push(w.getOperandeD());
             pile.push(w.getOperandeG());
@@ -197,6 +195,27 @@ void TransformationTseitin::addClausesXor(int pere, int filsG, int filsD)
     formuleNormalisee->addClause(new Clause(c4));
 }
 
+void TransformationTseitin::addClausesImplique(int pere, int filsG, int filsD)
+{
+    Clause c1(V+nbrVariableAux);
+    Clause c2(V+nbrVariableAux);
+    Clause c3(V+nbrVariableAux);
+
+    c1.addLiteral(formuleNormalisee->getLiteral(-pere));
+    c1.addLiteral(formuleNormalisee->getLiteral(-filsG));
+    c1.addLiteral(formuleNormalisee->getLiteral(filsD));
+
+    c2.addLiteral(formuleNormalisee->getLiteral(pere));
+    c2.addLiteral(formuleNormalisee->getLiteral(filsG));
+
+    c3.addLiteral(formuleNormalisee->getLiteral(pere));
+    c3.addLiteral(formuleNormalisee->getLiteral(-filsD));
+
+    formuleNormalisee->addClause(new Clause(c1));
+    formuleNormalisee->addClause(new Clause(c2));
+    formuleNormalisee->addClause(new Clause(c3));
+}
+
 void TransformationTseitin::parcours()
 {
     stack<pair<FormuleTseitinSimple,int> > pile;
@@ -241,9 +260,11 @@ void TransformationTseitin::parcours()
         }
         else if(w.getType()==FormuleTseitinSimple::IMPLIQUE)
         {
-            FormuleTseitinSimple* tmp = new FormuleTseitinSimple(FormuleTseitinSimple::NON,w.getOperandeGPointeur());
-            aSupprimer.push_back(tmp);
-            pile.push(pair<FormuleTseitinSimple,int>(FormuleTseitinSimple(FormuleTseitinSimple::OU, tmp, w.getOperandeDPointeur()),v));
+            ++varCourrante;
+            addClausesOu(v,varCourrante, varCourrante+1);
+            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante+1));
+            ++varCourrante;
+            pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeG(),varCourrante-1));
         }
         else if(w.getType()==FormuleTseitinSimple::XOR)
         {
