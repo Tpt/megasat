@@ -14,7 +14,7 @@ public:
         ET,
         OU,
         IMPLIQUE,
-        XOR,
+        XOR
     }; //l'état par défaut d'une FormuleTseitinSimple est type = VARIABLE avec name = "". C'est nottament le cas si une erreur arrive.
     FormuleTseitinSimple();
     FormuleTseitinSimple(const FormuleTseitinSimple& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
