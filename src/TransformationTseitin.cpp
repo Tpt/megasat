@@ -4,7 +4,7 @@
 using namespace std;
 
 TransformationTseitin::TransformationTseitin(FormuleTseitinSimple* formule_) :
-formule(formule_), formuleNormalisee(nullptr), V(0), correspondanceDesVariables(map<string,int>())
+formule(formule_), formuleNormalisee(nullptr), V(0), nbrVariableAux(0), correspondanceDesVariables(map<string,int>())
 {
     V=creerCorrespondance();
     nbrVariableAux=compterVariablesAux();
@@ -13,7 +13,7 @@ formule(formule_), formuleNormalisee(nullptr), V(0), correspondanceDesVariables(
 }
 
 TransformationTseitin::TransformationTseitin(const TransformationTseitin& other) :
-formule(new FormuleTseitinSimple(*other.formule)), formuleNormalisee(new Formule(*other.formuleNormalisee)), V(other.V), correspondanceDesVariables(other.correspondanceDesVariables)
+formule(new FormuleTseitinSimple(*other.formule)), formuleNormalisee(new Formule(*other.formuleNormalisee)), V(other.V), nbrVariableAux(other.nbrVariableAux), correspondanceDesVariables(other.correspondanceDesVariables)
 {}
 
 TransformationTseitin& TransformationTseitin::operator= (const TransformationTseitin& other)

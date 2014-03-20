@@ -1,7 +1,8 @@
 CC=g++
-NAZI= -std=c++0x -O3 -Wextra -Wall -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunused -Wunreachable-code
+FLAGSBASE= -std=c++0x -O3 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat -Werror-implicit-function-declaration -Wmain -Wmissing-braces -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wuninitialized -Wreorder -Wundef -Wshadow -Wwrite-strings -Wsign-compare -Wmissing-declarations -Wmissing-format-attribute
+NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused
 CFLAGS=$(NAZI)
-LDFLAGS=
+LDFLAGS= 
 SOLVEURS=obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o
 EXEC=resol tseitin
 LEX=flex
@@ -66,13 +67,13 @@ obj/LanceurSolveur.o: src/LanceurSolveur.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/LogiqueParserLogiqueParser.o: logique_parser/logiqueParser.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(FLAGSBASE)
 
 logique_parser/logiqueParser.cpp: logique_parser/logique.y
 	$(YACC) -dv -o $@ $<
 
 obj/LogiqueParserLogiqueLexer.o: logique_parser/logiqueLexer.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(FLAGSBASE)
 
 logique_parser/logiqueLexer.cpp: logique_parser/logique.lex
 	$(LEX) -o $@ $<

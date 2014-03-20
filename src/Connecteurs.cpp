@@ -4,13 +4,6 @@
 
 using namespace std;
 
-string toString_(int number)
-{
-   stringstream ss;
-   ss << number;
-   return ss.str();
-}
-
 int FormuleTseitinSimple::ariteDuType(const FormuleTseitinSimple::FormuleTypeSimple& type_) const
 {
     switch(type_)

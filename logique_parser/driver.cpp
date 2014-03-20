@@ -7,7 +7,7 @@ using namespace std;
 
 namespace LogiqueParser {
 
-Driver::Driver() : lexer(new Lexer()), parser(new Parser(*this))
+Driver::Driver() : lexer(new Lexer()), parser(new Parser(*this)), result(FormuleTseitinSimple())
 {}
 
 Driver::Driver(const Driver& other) :
