@@ -28,6 +28,7 @@ tseitin
 *.cbp
 *.depend
 *.layout
+*.cbTemp
 
 #XCode
 *.xcodeproj
