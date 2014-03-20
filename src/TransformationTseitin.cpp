@@ -261,7 +261,7 @@ void TransformationTseitin::parcours()
         else if(w.getType()==FormuleTseitinSimple::IMPLIQUE)
         {
             ++varCourrante;
-            addClausesOu(v,varCourrante, varCourrante+1);
+            addClausesImplique(v,varCourrante, varCourrante+1);
             pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeD(),varCourrante+1));
             ++varCourrante;
             pile.push(pair<FormuleTseitinSimple,int>(w.getOperandeG(),varCourrante-1));
