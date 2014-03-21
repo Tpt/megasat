@@ -4,7 +4,7 @@ NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -W
 CFLAGS=$(NAZI)
 LDFLAGS= 
 SOLVEURS=obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o
-EXEC=resol tseitin
+EXEC=resol tseitin colorie
 LEX=flex
 YACC=bison
 
@@ -14,6 +14,9 @@ debug: CFLAGS = $(NAZI) -D DEBUG
 debug: $(EXEC)
 
 purge: clean all
+
+colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/LanceurSolveur.o obj/MessageException.o obj/main-colorie.o
+	$(CC) -o $@ $^ $(LDFLAGS)
 
 tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/LanceurSolveur.o obj/MessageException.o obj/main-tseitin.o 
 	$(CC) -o $@ $^ $(LDFLAGS)
@@ -84,12 +87,23 @@ obj/LogiqueParserDriver.o: logique_parser/driver.cpp
 obj/LogiqueParserLexer.o: logique_parser/lexer.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
+obj/Arete.o: src/Arete.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+obj/Graphe.o: src/Graphe.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+obj/ColParser.o: src/ColParser.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+
 obj/main-resol.o: main-resol.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/main-tseitin.o: main-tseitin.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
-	
+
+obj/main-colorie.o: main-colorie.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
 	rm -f logique_parser/logiqueLexer.cpp
