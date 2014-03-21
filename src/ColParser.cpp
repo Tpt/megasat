@@ -39,7 +39,7 @@ Graphe ColParser::parse(istream &istream)
 
         int v, w;
         lineStream >> v >> w;
-        graphe.addArete(Arete(v, w));
+        graphe.addArete(Arete(v - 1, w - 1));
     }
     return graphe;
 }
