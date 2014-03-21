@@ -30,12 +30,10 @@ Graphe ColParser::parse(istream &istream)
     }
     
     Graphe graphe(nodeNumber);
-    string line;
-    while(!(line = getNextLine(istream)).empty())
+    for(int i = 0; i < edgeNumber; i++)
     {
+        string line = getNextLine(istream);
         istringstream lineStream(line);
-        if(line[0] != 'e')
-            continue;
 
         int v, w;
         lineStream >> v >> w;
@@ -46,11 +44,11 @@ Graphe ColParser::parse(istream &istream)
 
 string ColParser::getNextLine(istream &inputStream)
 {
+    string str;
     while(true)
     {
-        string str;
         getline(inputStream, str);
-        if(!str.empty() && str[0] != 'c') //on n'a pas affaire à un commentaire
+        if(!str.empty() && (str[0] == 'e' || str[0] == 'p')) //on ne prend que l'entête et les arêtes
             return str;
     }
 }
