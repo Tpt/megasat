@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
     lanceur.utiliserCorrespondance(normalisateur.getCorrespondance());
 
-    lanceur.ExecuteEtAfficheResultat(formule);
+    lanceur.executeEtAfficheResultat(formule);
 
 
     return EXIT_SUCCESS;

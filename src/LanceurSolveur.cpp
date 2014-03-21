@@ -50,7 +50,7 @@ void LanceurSolveur::parseOptions(int argc, char* argv[])
     }
 }
 
-void LanceurSolveur::ExecuteEtAfficheResultat(Formule& formule)
+void LanceurSolveur::executeEtAfficheResultat(Formule& formule)
 {
     auto beginTime = system_clock::now();
 

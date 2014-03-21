@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
     Formule formule = parseCnfFile(lanceur.getFileName());
 
-    lanceur.ExecuteEtAfficheResultat(formule);
+    lanceur.executeEtAfficheResultat(formule);
 
     return EXIT_SUCCESS;
 }

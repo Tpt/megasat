@@ -21,7 +21,7 @@ class LanceurSolveur
         ~LanceurSolveur();
         std::string getFileName() const;
         void parseOptions(int argc, char* argv[]);
-        void ExecuteEtAfficheResultat(Formule& formule);
+        void executeEtAfficheResultat(Formule& formule);
         bool isVerbose() const;
         void utiliserCorrespondance(std::map<std::string,int> corr);
 
