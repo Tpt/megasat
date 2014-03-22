@@ -112,9 +112,9 @@ toutes les variables
     for(Literal* l : literaux)
     {
         if(l->getPolarite())
-            foundPos[l->getId()-1];
+            foundPos[static_cast<size_t>(l->getId()-1)];
         else
-            foundNeg[-l->getId()-1];
+            foundNeg[static_cast<size_t>(-l->getId()-1)];
     }
 }
 

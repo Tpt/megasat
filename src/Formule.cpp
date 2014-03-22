@@ -15,8 +15,8 @@ Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<C
     initLits();
 
     for(int i = 0; i < V; ++i)
-        if(formule.vars[i]->isAssignee())
-            vars[i]->setVal(formule.vars[i]->getVal());
+        if(formule.vars[static_cast<size_t>(i)]->isAssignee())
+            vars[static_cast<size_t>(i)]->setVal(formule.vars[static_cast<size_t>(i)]->getVal());
 
     for(Clause* c : formule.clauses)
     {
@@ -25,9 +25,9 @@ Formule::Formule(const Formule& formule) : V(formule.V), clauses(unordered_set<C
         for(Literal* l : literaux)
         {
             if(l->getPolarite())
-                w->addLiteral(lits_pos[l->getAbsId()-1]);
+                w->addLiteral(lits_pos[static_cast<size_t>(l->getAbsId()-1)]);
             else
-                w->addLiteral(lits_neg[l->getAbsId()-1]);
+                w->addLiteral(lits_neg[static_cast<size_t>(l->getAbsId()-1)]);
         }
         clauses.insert(w);
     }
@@ -64,15 +64,15 @@ Formule::~Formule()
 
 void Formule::initLits()
 {
-    vars.resize(V);
-    lits_neg.resize(V);
-    lits_pos.resize(V);
+    vars.resize(static_cast<size_t>(V));
+    lits_neg.resize(static_cast<size_t>(V));
+    lits_pos.resize(static_cast<size_t>(V));
 
     for(int i = 0; i < V; ++i)
     {
-        vars[i] = new Variable(i+1);
-        lits_neg[i] = new Literal(vars[i], false);
-        lits_pos[i] = new Literal(vars[i], true);
+        vars[static_cast<size_t>(i)] = new Variable(i+1);
+        lits_neg[static_cast<size_t>(i)] = new Literal(vars[static_cast<size_t>(i)], false);
+        lits_pos[static_cast<size_t>(i)] = new Literal(vars[static_cast<size_t>(i)], true);
     }
 }
 
@@ -83,12 +83,12 @@ int Formule::getNombreDeVariables() const
 
 void Formule::setLiteral(int id, bool polarite, bool val)
 {
-    vars[id-1]->setVal( (val && polarite) || (!val && !polarite) ); /// nxor
+    vars[static_cast<size_t>(id-1)]->setVal( (val && polarite) || (!val && !polarite) ); /// nxor
 }
 
 void Formule::setVar(int id, bool val)
 {
-    vars[id-1]->setVal(val);
+    vars[static_cast<size_t>(id-1)]->setVal(val);
 }
 
 void Formule::simplifier() ///Arret mortellement dangereux ! Mais garanti 100% safe (a quelques exceptions près).
@@ -115,12 +115,12 @@ bool Formule::simplificationLiteralPur(int id)
 
     if(!found_neg && found_pos)
     {
-        lits_pos[id-1]->setVal(true);
+        lits_pos[static_cast<size_t>(id-1)]->setVal(true);
         return true;
     }
     else if(found_neg && !found_pos)
     {
-        lits_neg[id-1]->setVal(true);
+        lits_neg[static_cast<size_t>(id-1)]->setVal(true);
         return true;
     }
 
@@ -197,15 +197,15 @@ vector<Literal*> Formule::getLiterauxNegatifs() const
 
 Variable* Formule::getVar(int id) const
 {
-    return vars[id - 1];
+    return vars[static_cast<size_t>(id - 1)];
 }
 
 Literal* Formule::getLiteral(int id) const
 {
     if(id > 0)
-        return lits_pos[id - 1];
+        return lits_pos[static_cast<size_t>(id - 1)];
     else
-        return lits_neg[-id - 1];
+        return lits_neg[static_cast<size_t>(-id - 1)];
 }
 
 void Formule::print() const

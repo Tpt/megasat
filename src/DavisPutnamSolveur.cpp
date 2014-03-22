@@ -30,15 +30,15 @@ bool DavisPutnamSolveur::isSatifiable()
 
     for(Clause* c : clauses) /// On remplit les seaux.
         if(!c->isTautologie())
-            seaux[c->indiceMax()-1].insert(c);
+            seaux[static_cast<size_t>(c->indiceMax()-1)].insert(c);
 
     try
     {
         for(int i = V; i > 0; i--) ///Les résolutions dans le sens descendant
-            fusionner(resoudreSeau(seaux[i-1],i),seaux);
+            fusionner(resoudreSeau(seaux[static_cast<size_t>(i-1)],i),seaux);
 
         for(int i = 0; i < V; i++) ///La remonté
-            chercherAssignation(seaux[i], i);
+            chercherAssignation(seaux[static_cast<size_t>(i)], i);
 
         return true;
     }
@@ -83,7 +83,7 @@ unordered_set<Clause*> DavisPutnamSolveur::resoudreSeau(const unordered_set<Clau
             printf("#");
         for(; l<50; ++l)
             printf(" ");
-        printf("] %d%%",i*100/static_cast<int>(pos.size()));
+        printf("] %d%%",static_cast<int>(i*100)/static_cast<int>(pos.size()));
         j=0;
         for(unordered_set<Clause*>::iterator jt=neg.begin(); jt!=neg.end(); ++jt,++j)
         {
@@ -130,7 +130,7 @@ unordered_set<Clause*> DavisPutnamSolveur::resoudreSeau(const unordered_set<Clau
 void DavisPutnamSolveur::fusionner(const unordered_set<Clause*>& e, vector<unordered_set<Clause*> >& seaux) const ///Ajoute les clauses d'une formule dans les bons seaux
 {
     for(Clause* c : e)
-        seaux[c->indiceMax()-1].insert(c);
+        seaux[static_cast<size_t>(c->indiceMax()-1)].insert(c);
 }
 
 void DavisPutnamSolveur::chercherAssignation(unordered_set<Clause*>& f, int id) ///On essaie avec l'un et si ça ne marche pas, on prend l'autre...

@@ -26,7 +26,7 @@ pair<int, bool> VariableNonAssigneeProviderRand::getVariableNonAssignee(const Fo
     if(variablesPossibles.empty())
         throw PlusDeVariablesAAssigner();
 
-    return pair<int, bool>(variablesPossibles[rand() % variablesPossibles.size()], true);
+    return pair<int, bool>(variablesPossibles[static_cast<unsigned long>(rand()) % variablesPossibles.size()], true);
 }
 
 pair<int, bool> VariableNonAssigneeProviderMalin::getVariableNonAssignee(const Formule& formule) const
@@ -41,7 +41,7 @@ pair<int, bool> VariableNonAssigneeProviderMalin::getVariableNonAssignee(const F
         throw PlusDeVariablesAAssigner();
 
     int differenceOccurences = 0;
-    int varId = variablesPossibles[rand() % variablesPossibles.size()];
+    int varId = variablesPossibles[static_cast<unsigned long>(rand()) % variablesPossibles.size()];
 
     for(Clause* c : formule.getClauses())
         if(c->eval() == INCONNU)
