@@ -27,6 +27,8 @@ class LanceurSolveur
 
     private:
         std::string fileName;
+        std::string fileSortieName;
+        bool existeFichierSortie;
         bool verbose;
         bool avecLiterauxSurveilles;
         bool utiliserDavisPutnam;

@@ -9,7 +9,7 @@ using namespace std;
 using namespace std::chrono;
 
 LanceurSolveur::LanceurSolveur() :
-fileName(""), verbose(false), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE), utiliseCorrespondance(false), correspondance(std::map<std::string,int>())
+fileName(""), fileSortieName(""), existeFichierSortie(false), verbose(false), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE), utiliseCorrespondance(false), correspondance(std::map<std::string,int>())
 {}
 
 LanceurSolveur::~LanceurSolveur()
@@ -23,6 +23,7 @@ void LanceurSolveur::utiliserCorrespondance(map<string,int> corr)
 
 void LanceurSolveur::parseOptions(int argc, char* argv[])
 {
+    bool entreeTrouve=false;
     for(int i = 1; i < argc; i++)
     {
         if(strcmp(argv[i], "-wl") == 0)
@@ -40,7 +41,18 @@ void LanceurSolveur::parseOptions(int argc, char* argv[])
         else if(strcmp(argv[i], "-v") == 0)
             verbose = true;
         else
-            fileName = argv[i];
+        {
+            if(!entreeTrouve)
+            {
+                fileName = argv[i];
+                entreeTrouve = true;
+            }
+            else
+            {
+                fileSortieName = argv[i];
+                existeFichierSortie = true;
+            }
+        }
     }
 
     if(fileName == "")
@@ -52,30 +64,45 @@ void LanceurSolveur::parseOptions(int argc, char* argv[])
 
 void LanceurSolveur::executeEtAfficheResultat(Formule& formule)
 {
+    streambuf * buf;
+    ofstream of;
+
+    if(existeFichierSortie)
+    {
+        of.open(fileSortieName);
+        buf = of.rdbuf();
+    }
+    else
+    {
+        buf = cout.rdbuf();
+    }
+
+    ostream out(buf);
+
     auto beginTime = system_clock::now();
 
     VariableNonAssigneeProvider* heuristique = new VariableNonAssigneeProviderSimple();
     switch(typeHeuristique)
     {
         case RAND:
-            cout << "c Choix des variables non assignées de manière aléatoire." << endl;
+            out << "c Choix des variables non assignées de manière aléatoire." << endl;
             heuristique = new VariableNonAssigneeProviderRand();
             break;
         case MALIN:
-            cout << "c Choix des variables non assignées suivant leur fréquence d'apparition." << endl;
+            out << "c Choix des variables non assignées suivant leur fréquence d'apparition." << endl;
             heuristique = new VariableNonAssigneeProviderMalin();
             break;
         case MOMS:
-            cout << "c Choix des variables non assignées avec l'heuristique MOMS." << endl;
+            out << "c Choix des variables non assignées avec l'heuristique MOMS." << endl;
             heuristique = new VariableNonAssigneeProviderMOMS();
             break;
         case DLIS:
-            cout << "c Choix des variables non assignées avec l'heuristique DLIS." << endl;
+            out << "c Choix des variables non assignées avec l'heuristique DLIS." << endl;
             heuristique = new VariableNonAssigneeProviderDLIS();
             break;
         case SIMPLE:
         default:
-            cout << "c Choix des variables non assignées par défaut." << endl;
+            out << "c Choix des variables non assignées par défaut." << endl;
             break;
     }
 
@@ -93,6 +120,7 @@ void LanceurSolveur::executeEtAfficheResultat(Formule& formule)
         solveur = new DPLLSolveur(formule, *heuristique);
     }
 
+
     if(solveur->isSatifiable())
     {
 
@@ -101,28 +129,28 @@ void LanceurSolveur::executeEtAfficheResultat(Formule& formule)
         if(utiliseCorrespondance)
         {
             for(auto e : correspondance)
-                cout<<e.first<<" "<<(formuleResolue.getVar(e.second)->getVal() ? e.second : -e.second)<<endl;
+                out<<e.first<<" "<<(formuleResolue.getVar(e.second)->getVal() ? e.second : -e.second)<<endl;
 
         }
         else
         {
-            cout << "s SATISFIABLE" << endl;
+            out << "s SATISFIABLE" << endl;
             for(int i = 1; i <= formuleResolue.getNombreDeVariables(); i++)
             {
                 if(formuleResolue.getVar(i)->getVal())
-                    cout << "v " << i << endl;
+                    out << "v " << i << endl;
                 else
-                    cout << "v " << -i << endl;
+                    out << "v " << -i << endl;
             }
         }
     }
     else
     {
-        cout << "s UNSATISFIABLE" << endl;
+        out << "s UNSATISFIABLE" << endl;
     }
     delete solveur;
 
-    cout << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
+    out << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
 
 }
 
