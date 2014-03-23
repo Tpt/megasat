@@ -2,8 +2,8 @@
 
 using namespace std;
 
-Graphe::Graphe(int sommetNumber_) : sommetNumber(sommetNumber_)
-{};
+Graphe::Graphe(int sommetNumber_) : sommetNumber(sommetNumber_), aretes(unordered_set<Arete,AreteHash>())
+{}
 
 void Graphe::addArete(Arete arete) {
     aretes.insert(arete);
