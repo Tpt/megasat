@@ -1,8 +1,12 @@
 #include"include/LanceurSolveur.h"
 #include"include/Formule.h"
 #include"include/CnfParser.h"
+#include"include/InsatisfiableException.h"
+#include<chrono>
 
 using namespace std;
+using namespace std::chrono;
+
 Formule parseCnfFile(string fileName);
 
 Formule parseCnfFile(string fileName)
@@ -27,8 +31,27 @@ int main(int argc, char *argv[])
     lanceur.parseOptions(argc, argv);
 
     Formule formule = parseCnfFile(lanceur.getFileName());
+    ostream out(lanceur.getBufferSortie());
 
-    lanceur.executeEtAfficheResultat(formule);
+    auto beginTime = system_clock::now();
+    try
+    {
+        formule = lanceur.execute(formule);
+
+        out << "s SATISFIABLE" << endl;
+        for(int i = 1; i <= formule.getNombreDeVariables(); i++)
+        {
+            if(formule.getVar(i)->getVal())
+                out << "v " << i << endl;
+            else
+                out << "v " << -i << endl;
+        }
+    }
+    catch(InsatisfiableException)
+    {
+        out << "s UNSATISFIABLE" << endl;
+    }
+    out << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
 
     return EXIT_SUCCESS;
 }

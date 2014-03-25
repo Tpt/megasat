@@ -21,9 +21,9 @@ class LanceurSolveur
         ~LanceurSolveur();
         std::string getFileName() const;
         void parseOptions(int argc, char* argv[]);
-        void executeEtAfficheResultat(Formule& formule);
+        Formule execute(Formule& formule);
         bool isVerbose() const;
-        void utiliserCorrespondance(std::map<std::string,int> corr);
+        std::streambuf* getBufferSortie() const;
 
     private:
         std::string fileName;
@@ -33,8 +33,6 @@ class LanceurSolveur
         bool avecLiterauxSurveilles;
         bool utiliserDavisPutnam;
         Heuristique typeHeuristique;
-        bool utiliseCorrespondance;
-        std::map<std::string,int> correspondance;
 };
 
 #endif // LANCEURSOLVEUR_H

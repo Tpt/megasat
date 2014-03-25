@@ -3,27 +3,20 @@
 #include "../include/DavisPutnamSolveur.h"
 #include "../include/DPLLSolveur.h"
 #include "../include/DPLLSurveilleSolveur.h"
-#include<chrono>
 
 using namespace std;
 using namespace std::chrono;
 
 LanceurSolveur::LanceurSolveur() :
-fileName(""), fileSortieName(""), existeFichierSortie(false), verbose(false), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE), utiliseCorrespondance(false), correspondance(std::map<std::string,int>())
+fileName(""), fileSortieName(""), existeFichierSortie(false), verbose(false), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE)
 {}
 
 LanceurSolveur::~LanceurSolveur()
 {}
 
-void LanceurSolveur::utiliserCorrespondance(map<string,int> corr)
-{
-    correspondance=corr;
-    utiliseCorrespondance=true;
-}
-
 void LanceurSolveur::parseOptions(int argc, char* argv[])
 {
-    bool entreeTrouve=false;
+    bool entreeTrouve = false;
     for(int i = 1; i < argc; i++)
     {
         if(strcmp(argv[i], "-wl") == 0)
@@ -62,47 +55,30 @@ void LanceurSolveur::parseOptions(int argc, char* argv[])
     }
 }
 
-void LanceurSolveur::executeEtAfficheResultat(Formule& formule)
+Formule LanceurSolveur::execute(Formule& formule)
 {
-    streambuf * buf;
-    ofstream of;
-
-    if(existeFichierSortie)
-    {
-        of.open(fileSortieName);
-        buf = of.rdbuf();
-    }
-    else
-    {
-        buf = cout.rdbuf();
-    }
-
-    ostream out(buf);
-
-    auto beginTime = system_clock::now();
-
     VariableNonAssigneeProvider* heuristique = new VariableNonAssigneeProviderSimple();
     switch(typeHeuristique)
     {
         case RAND:
-            out << "c Choix des variables non assignées de manière aléatoire." << endl;
+            cout << "c Choix des variables non assignées de manière aléatoire." << endl;
             heuristique = new VariableNonAssigneeProviderRand();
             break;
         case MALIN:
-            out << "c Choix des variables non assignées suivant leur fréquence d'apparition." << endl;
+            cout << "c Choix des variables non assignées suivant leur fréquence d'apparition." << endl;
             heuristique = new VariableNonAssigneeProviderMalin();
             break;
         case MOMS:
-            out << "c Choix des variables non assignées avec l'heuristique MOMS." << endl;
+            cout << "c Choix des variables non assignées avec l'heuristique MOMS." << endl;
             heuristique = new VariableNonAssigneeProviderMOMS();
             break;
         case DLIS:
-            out << "c Choix des variables non assignées avec l'heuristique DLIS." << endl;
+            cout << "c Choix des variables non assignées avec l'heuristique DLIS." << endl;
             heuristique = new VariableNonAssigneeProviderDLIS();
             break;
         case SIMPLE:
         default:
-            out << "c Choix des variables non assignées par défaut." << endl;
+            cout << "c Choix des variables non assignées par défaut." << endl;
             break;
     }
 
@@ -123,35 +99,15 @@ void LanceurSolveur::executeEtAfficheResultat(Formule& formule)
 
     if(solveur->isSatifiable())
     {
-
-        Formule formuleResolue = solveur->getFomule();
-
-        if(utiliseCorrespondance)
-        {
-            for(auto e : correspondance)
-                out<<e.first<<" "<<(formuleResolue.getVar(e.second)->getVal() ? e.second : -e.second)<<endl;
-
-        }
-        else
-        {
-            out << "s SATISFIABLE" << endl;
-            for(int i = 1; i <= formuleResolue.getNombreDeVariables(); i++)
-            {
-                if(formuleResolue.getVar(i)->getVal())
-                    out << "v " << i << endl;
-                else
-                    out << "v " << -i << endl;
-            }
-        }
+        formule = solveur->getFomule();
+        delete solveur;
+        return formule;
     }
     else
     {
-        out << "s UNSATISFIABLE" << endl;
+        delete solveur;
+        throw InsatisfiableException();
     }
-    delete solveur;
-
-    out << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
-
 }
 
 string LanceurSolveur::getFileName() const
@@ -162,4 +118,18 @@ string LanceurSolveur::getFileName() const
 bool LanceurSolveur::isVerbose() const
 {
     return verbose;
+}
+
+streambuf* LanceurSolveur::getBufferSortie() const
+{
+    if(existeFichierSortie)
+    {
+        ofstream of;
+        of.open(fileSortieName);
+        return of.rdbuf();
+    }
+    else
+    {
+        return cout.rdbuf();
+    }
 }
