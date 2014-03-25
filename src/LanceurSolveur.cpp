@@ -19,20 +19,25 @@ void LanceurSolveur::parseOptions(int argc, char* argv[])
     bool entreeTrouve = false;
     for(int i = 1; i < argc; i++)
     {
-        if(strcmp(argv[i], "-wl") == 0)
-            avecLiterauxSurveilles = true;
-        else if(strcmp(argv[i], "-dp") == 0)
-            utiliserDavisPutnam = true;
-        else if(strcmp(argv[i], "-rand") == 0)
-            typeHeuristique = RAND;
-        else if(strcmp(argv[i], "-malin") == 0)
-            typeHeuristique = MALIN;
-        else if(strcmp(argv[i], "-moms") == 0)
-            typeHeuristique = MOMS;
-        else if(strcmp(argv[i], "-dlis") == 0)
-            typeHeuristique = DLIS;
-        else if(strcmp(argv[i], "-v") == 0)
-            verbose = true;
+        if( argv[i][0] == '-' )
+        {
+            if(strcmp(argv[i], "-wl") == 0)
+                avecLiterauxSurveilles = true;
+            else if(strcmp(argv[i], "-dp") == 0)
+                utiliserDavisPutnam = true;
+            else if(strcmp(argv[i], "-rand") == 0)
+                typeHeuristique = RAND;
+            else if(strcmp(argv[i], "-malin") == 0)
+                typeHeuristique = MALIN;
+            else if(strcmp(argv[i], "-moms") == 0)
+                typeHeuristique = MOMS;
+            else if(strcmp(argv[i], "-dlis") == 0)
+                typeHeuristique = DLIS;
+            else if(strcmp(argv[i], "-v") == 0)
+                verbose = true;
+            else
+                cerr << "c Option inconnue : " << argv[i] << endl;
+        }
         else
         {
             if(!entreeTrouve)
