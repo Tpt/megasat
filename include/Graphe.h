@@ -10,6 +10,7 @@ public:
     Graphe(int sommetNumber);
     void addArete(Arete arete);
     int getSommetNumber() const;
+    std::unordered_set<Arete,AreteHash> getAretes() const;
 private:
     int sommetNumber;
     std::unordered_set<Arete,AreteHash> aretes;

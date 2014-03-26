@@ -209,5 +209,5 @@ string FormuleTseitin::toString() const
 
 void FormuleTseitin::print() const
 {
-    cout<<toString()<<endl;
+    cout << toString() << endl;
 }

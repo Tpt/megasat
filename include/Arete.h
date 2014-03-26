@@ -19,8 +19,10 @@ private:
     int extremiteDroite;
 };
 
-struct AreteHash {
-    size_t operator()(const Arete arete) const {
+struct AreteHash
+{
+    size_t operator()(const Arete arete) const
+    {
         return arete.hash();
     };
 };
