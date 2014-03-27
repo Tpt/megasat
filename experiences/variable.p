@@ -12,6 +12,7 @@ reset
 set title "t=f(V) pour les différentes heuristiques"
 set xlabel "Nombre de variables"
 set ylabel "Temps de resolution"
+set key left box
 
 
 # Dessin en joignant des points
