@@ -5,7 +5,6 @@
 #include "../include/DPLLSurveilleSolveur.h"
 
 using namespace std;
-using namespace std::chrono;
 
 LanceurSolveur::LanceurSolveur() :
 fileName(""), fileSortieName(""), existeFichierSortie(false), verbose(false), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE)

@@ -40,17 +40,27 @@ int main(int argc, char* argv[])
         L=atoi(argv[4]);
     }
 
-    srand(static_cast<long int>(time(NULL)));
+    srand(static_cast<unsigned int>(time(NULL)));
     int Ll;
-    string filename("ex_");
-    filename+= to_string(V);
-    filename+="_";
-    filename+= to_string(C);
-    filename+="_";
-    filename+= to_string(l);
-    filename+="_";
-    filename+= to_string(L);
-    filename+=".cnf";
+    string filename;
+    
+    if(argc<6)
+    {
+        filename="ex_";
+        filename+= to_string(V);
+        filename+="_";
+        filename+= to_string(C);
+        filename+="_";
+        filename+= to_string(l);
+        filename+="_";
+        filename+= to_string(L);
+        filename+=".cnf";
+    }
+    else
+    {
+        filename=argv[5];
+    }
+
 
 
     if(L>V)

@@ -35,8 +35,6 @@ colorie
 *.xcodeproj
 
 #Temps trucs
-Makefile~
-.gitignore~
 *.swp
 *~
 
