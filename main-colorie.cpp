@@ -1,8 +1,14 @@
 #include<iostream>
 #include"include/ColParser.h"
 #include"include/LanceurSolveur.h"
+#include"include/CreateurContraintesColoriage.h"
+#include"include/TransformationTseitin.h"
+#include"include/InsatisfiableException.h"
+#include<chrono>
 
 using namespace std;
+using namespace std::chrono;
+
 Graphe parseColFile(string fileName);
 
 Graphe parseColFile(string fileName)
@@ -22,12 +28,40 @@ Graphe parseColFile(string fileName)
 
 int main(int argc, char *argv[])
 {
+    vector<string> nomArguments = {"k", "inputFile", "outputFile"};
+    ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 2);
+    arguments.parse(argc, argv);
+    
+    LanceurSolveur lanceur(arguments);
+    ostream out(lanceur.getBufferSortie());
 
-    LanceurSolveur lanceur;
+    Graphe graphe = parseColFile(arguments.getArgument("inputFile"));
+    int k = atoi(arguments.getArgument("k").c_str());
 
-    lanceur.parseOptions(argc, argv);
+    auto beginTime = system_clock::now();
 
-    Graphe graphe = parseColFile(lanceur.getFileName());
+    CreateurContraintesColoriage createurContraintes(graphe, k);
+    FormuleTseitin* formuleTseitin = createurContraintes.cree();
+
+    if(arguments.getOption("v"))
+        formuleTseitin->print();
+
+    TransformationTseitin normalisateur(formuleTseitin);
+
+    Formule formule(normalisateur.normaliser());
+    
+    try
+    {
+        formule = lanceur.execute(formule);
+        
+        for(auto e : normalisateur.getCorrespondance())
+            out << e.first << " " << (formule.getVar(e.second)->getVal() ? e.second : -e.second) << endl;
+    }
+    catch(InsatisfiableException)
+    {
+        out << "s UNSATISFIABLE" << endl;
+    }
+    out << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
 
     return EXIT_SUCCESS;
 }

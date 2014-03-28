@@ -6,92 +6,46 @@
 
 using namespace std;
 
-LanceurSolveur::LanceurSolveur() :
-fileName(""), fileSortieName(""), existeFichierSortie(false), verbose(false), avecLiterauxSurveilles(false), utiliserDavisPutnam(false), typeHeuristique(SIMPLE)
+LanceurSolveur::LanceurSolveur(ArgumentsParser& arguments_) : arguments(arguments_)
 {}
 
 LanceurSolveur::~LanceurSolveur()
 {}
 
-void LanceurSolveur::parseOptions(int argc, char* argv[])
-{
-    bool entreeTrouve = false;
-    for(int i = 1; i < argc; i++)
-    {
-        if( argv[i][0] == '-' )
-        {
-            if(strcmp(argv[i], "-wl") == 0)
-                avecLiterauxSurveilles = true;
-            else if(strcmp(argv[i], "-dp") == 0)
-                utiliserDavisPutnam = true;
-            else if(strcmp(argv[i], "-rand") == 0)
-                typeHeuristique = RAND;
-            else if(strcmp(argv[i], "-malin") == 0)
-                typeHeuristique = MALIN;
-            else if(strcmp(argv[i], "-moms") == 0)
-                typeHeuristique = MOMS;
-            else if(strcmp(argv[i], "-dlis") == 0)
-                typeHeuristique = DLIS;
-            else if(strcmp(argv[i], "-v") == 0)
-                verbose = true;
-            else
-                cerr << "c Option inconnue : " << argv[i] << endl;
-        }
-        else
-        {
-            if(!entreeTrouve)
-            {
-                fileName = argv[i];
-                entreeTrouve = true;
-            }
-            else
-            {
-                fileSortieName = argv[i];
-                existeFichierSortie = true;
-            }
-        }
-    }
-
-    if(fileName == "")
-    {
-        cerr << "c Pas de fichier donné en entrée.\nc Fin de la résolution." << endl;
-        exit(EXIT_FAILURE);
-    }
-}
-
 Formule LanceurSolveur::execute(Formule& formule)
 {
     VariableNonAssigneeProvider* heuristique = new VariableNonAssigneeProviderSimple();
-    switch(typeHeuristique)
+    if(arguments.getOption("rand"))
     {
-        case RAND:
-            cout << "c Choix des variables non assignées de manière aléatoire." << endl;
-            heuristique = new VariableNonAssigneeProviderRand();
-            break;
-        case MALIN:
-            cout << "c Choix des variables non assignées suivant leur fréquence d'apparition." << endl;
-            heuristique = new VariableNonAssigneeProviderMalin();
-            break;
-        case MOMS:
-            cout << "c Choix des variables non assignées avec l'heuristique MOMS." << endl;
-            heuristique = new VariableNonAssigneeProviderMOMS();
-            break;
-        case DLIS:
-            cout << "c Choix des variables non assignées avec l'heuristique DLIS." << endl;
-            heuristique = new VariableNonAssigneeProviderDLIS();
-            break;
-        case SIMPLE:
-        default:
-            cout << "c Choix des variables non assignées par défaut." << endl;
-            break;
+        cout << "c Choix des variables non assignées de manière aléatoire." << endl;
+        heuristique = new VariableNonAssigneeProviderRand();
+    }
+    else if(arguments.getOption("malin"))
+    {
+        cout << "c Choix des variables non assignées suivant leur fréquence d'apparition." << endl;
+        heuristique = new VariableNonAssigneeProviderMalin();
+    }
+    else if(arguments.getOption("moms"))
+    {
+        cout << "c Choix des variables non assignées avec l'heuristique MOMS." << endl;
+        heuristique = new VariableNonAssigneeProviderMOMS();
+    }
+    else if(arguments.getOption("dlis"))
+    {
+        cout << "c Choix des variables non assignées avec l'heuristique DLIS." << endl;
+        heuristique = new VariableNonAssigneeProviderDLIS();
+    }
+    else
+    {
+        cout << "c Choix des variables non assignées par défaut." << endl;
     }
 
     Solveur* solveur = nullptr;
-    if(utiliserDavisPutnam)
+    if(arguments.getOption("dp"))
     {
         solveur = new DavisPutnamSolveur(formule);
     }
-    else if(avecLiterauxSurveilles)
+    else if(arguments.getOption("wl"))
     {
         solveur = new DPLLSurveilleSolveur(formule, *heuristique);
     }
@@ -114,26 +68,21 @@ Formule LanceurSolveur::execute(Formule& formule)
     }
 }
 
-string LanceurSolveur::getFileName() const
+streambuf* LanceurSolveur::getBufferSortie()
 {
-    return fileName;
-}
-
-bool LanceurSolveur::isVerbose() const
-{
-    return verbose;
-}
-
-streambuf* LanceurSolveur::getBufferSortie() const
-{
-    if(existeFichierSortie)
+    string outputFileName = arguments.getArgument("outputFile");
+    if(outputFileName != "")
     {
         ofstream of;
-        of.open(fileSortieName);
+        of.open(outputFileName);
         return of.rdbuf();
     }
     else
     {
         return cout.rdbuf();
     }
+}
+
+vector<string> LanceurSolveur::getNomsOptions() {
+    return {"wl", "dp", "rand", "malin", "moms", "dlis", "v", "s"};
 }

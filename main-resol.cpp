@@ -26,11 +26,13 @@ Formule parseCnfFile(string fileName)
 
 int main(int argc, char *argv[])
 {
-    LanceurSolveur lanceur;
+    vector<string> nomArguments = {"inputFile", "outputFile"};
+    ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 1);
+    arguments.parse(argc, argv);
 
-    lanceur.parseOptions(argc, argv);
+    LanceurSolveur lanceur(arguments);
 
-    Formule formule = parseCnfFile(lanceur.getFileName());
+    Formule formule = parseCnfFile(arguments.getArgument("inputFile"));
     ostream out(lanceur.getBufferSortie());
 
     auto beginTime = system_clock::now();
