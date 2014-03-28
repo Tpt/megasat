@@ -1,6 +1,7 @@
 #include "../include/VariableNonAssigneeProvider.h"
 #include<unordered_map>
 #include<climits>
+#include<ctime>
 #include "../include/InsatisfiableException.h"
 
 using namespace std;
@@ -13,6 +14,11 @@ pair<int, bool> VariableNonAssigneeProviderSimple::getVariableNonAssignee(const 
             return pair<int, bool>(var->getId(), true);
     }
     throw PlusDeVariablesAAssigner();
+}
+
+VariableNonAssigneeProviderRand::VariableNonAssigneeProviderRand()
+{
+    srand(static_cast<unsigned int>(time(NULL)));
 }
 
 pair<int, bool> VariableNonAssigneeProviderRand::getVariableNonAssignee(const Formule& formule) const
@@ -31,18 +37,10 @@ pair<int, bool> VariableNonAssigneeProviderRand::getVariableNonAssignee(const Fo
 
 pair<int, bool> VariableNonAssigneeProviderMalin::getVariableNonAssignee(const Formule& formule) const
 {
-    vector<int> variablesPossibles;
-
-    for(Variable* var : formule.getVars())
-        if(!var->isAssignee())
-            variablesPossibles.push_back(var->getId());
-
-    if(variablesPossibles.empty())
-        throw PlusDeVariablesAAssigner();
+    pair<int, bool> resultat = VariableNonAssigneeProviderRand::getVariableNonAssignee(formule);
+    int varId = resultat.first;
 
     int differenceOccurences = 0;
-    int varId = variablesPossibles[static_cast<unsigned long>(rand()) % variablesPossibles.size()];
-
     for(Clause* c : formule.getClauses())
         if(c->eval() == INCONNU)
             for(Literal* l : c->getLiteraux())
