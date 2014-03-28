@@ -28,20 +28,22 @@ Graphe parseColFile(string fileName)
 
 int main(int argc, char *argv[])
 {
-    int k = 0;
-    LanceurSolveur lanceur;
-
-    lanceur.parseOptions(argc, argv);
+    vector<string> nomArguments = {"k", "inputFile", "outputFile"};
+    ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 2);
+    arguments.parse(argc, argv);
+    
+    LanceurSolveur lanceur(arguments);
     ostream out(lanceur.getBufferSortie());
 
-    Graphe graphe = parseColFile(lanceur.getFileName());
+    Graphe graphe = parseColFile(arguments.getArgument("inputFile"));
+    int k = atoi(arguments.getArgument("k").c_str());
 
     auto beginTime = system_clock::now();
 
     CreateurContraintesColoriage createurContraintes(graphe, k);
     FormuleTseitin* formuleTseitin = createurContraintes.cree();
 
-    if(lanceur.isVerbose())
+    if(arguments.getOption("v"))
         formuleTseitin->print();
 
     TransformationTseitin normalisateur(formuleTseitin);

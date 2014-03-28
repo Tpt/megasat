@@ -3,10 +3,10 @@ FLAGSBASE= -std=c++0x -O3 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wsh
 NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused
 CFLAGS=$(NAZI)
 LDFLAGS= 
-SOLVEURS=obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o
+SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o
 EXEC=resol tseitin colorie
 LEX=flex
-YACC=/usr/local/Cellar/bison/3.0.2/bin/bison
+YACC=bison
 
 all: $(EXEC) 
 
@@ -15,13 +15,13 @@ debug: $(EXEC)
 
 purge: clean all
 
-colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/LanceurSolveur.o obj/MessageException.o obj/main-colorie.o
+colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-colorie.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/LanceurSolveur.o obj/MessageException.o obj/main-tseitin.o 
+tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-tseitin.o 
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-resol:  $(SOLVEURS) obj/CnfParser.o obj/LanceurSolveur.o obj/MessageException.o obj/main-resol.o
+resol:  $(SOLVEURS) obj/CnfParser.o obj/main-resol.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/clause.o: src/Clause.cpp
@@ -69,6 +69,9 @@ obj/MessageException.o: src/MessageException.cpp
 obj/LanceurSolveur.o: src/LanceurSolveur.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
+obj/ArgumentsParser.o: src/ArgumentsParser.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+	
 obj/LogiqueParserLogiqueParser.o: logique_parser/logiqueParser.cpp
 	$(CC) -o $@ -c $< $(FLAGSBASE)
 

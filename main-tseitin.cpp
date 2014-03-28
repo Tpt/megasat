@@ -27,20 +27,21 @@ FormuleTseitin parseFormuleFile(string fileName)
 
 int main(int argc, char *argv[])
 {
+    vector<string> nomArguments = {"inputFile", "outputFile"};
+    ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 1);
+    arguments.parse(argc, argv);
 
-    LanceurSolveur lanceur;
-
-    lanceur.parseOptions(argc, argv);
+    LanceurSolveur lanceur(arguments);
     ostream out(lanceur.getBufferSortie());
 
-    FormuleTseitin* formuleTseitin = new FormuleTseitin(parseFormuleFile(lanceur.getFileName()));
+    FormuleTseitin* formuleTseitin = new FormuleTseitin(parseFormuleFile(arguments.getArgument("inputFile")));
 
     TransformationTseitin normalisateur(formuleTseitin);
 
     auto beginTime = system_clock::now();
     Formule formule(normalisateur.normaliser());
 
-    if(lanceur.isVerbose())
+    if(arguments.getOption("v"))
         formule.print();
 
     try
