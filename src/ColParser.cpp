@@ -28,17 +28,19 @@ Graphe ColParser::parse(istream &istream)
     {
         throw ParseError("L'entête du fichier est invalide !");
     }
-    
+
     Graphe graphe(nodeNumber);
     for(int i = 0; i < edgeNumber; i++)
     {
         string line = getNextLine(istream);
         istringstream lineStream(line);
 
+        char type;
         int v, w;
-        lineStream >> v >> w;
+        lineStream >> type >> v >> w;
         graphe.addArete(Arete(v - 1, w - 1));
     }
+
     return graphe;
 }
 

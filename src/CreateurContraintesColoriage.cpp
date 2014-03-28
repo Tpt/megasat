@@ -5,25 +5,23 @@
 using namespace std;
 
 CreateurContraintesColoriage::CreateurContraintesColoriage(Graphe &graphe_, int k_)
-: graphe(graphe_), k(k_), tailleCodeCouleurSommet(log2(k_) + 1)
+: graphe(graphe_), k(k_), tailleCodeCouleurSommet(ceil(log2(k_)))
 {}
 
 FormuleTseitin* CreateurContraintesColoriage::cree() const
 {
-    FormuleTseitin* formule = creeContrainteInferieurK(0);
-    for(int i = 1; i < graphe.getSommetNumber(); i++)
-        formule = new FormuleTseitin(
-            FormuleTseitin::ET,
-            creeContrainteInferieurK(i),
-            formule
-        );
+    //initialisation toujours vrai (simplifie concidérablement l'écriture du code)
+    FormuleTseitin* formule = new FormuleTseitin(FormuleTseitin::OU, creeVariable(0, 0), new FormuleTseitin( FormuleTseitin::NON, creeVariable(0, 0)));
+
+    for(int i = 0; i < graphe.getSommetNumber(); i++)
+    {
+        FormuleTseitin* contrainte = creeContrainteInferieurK(i);
+        if(contrainte != nullptr)
+            formule = new FormuleTseitin(FormuleTseitin::ET, contrainte, formule);
+    }
 
     for(Arete arete : graphe.getAretes())
-        formule = new FormuleTseitin(
-            FormuleTseitin::ET,
-            creeContrainteArete(arete),
-            formule
-        );
+        formule = new FormuleTseitin(FormuleTseitin::ET, creeContrainteArete(arete), formule);
 
     return formule;
 }
@@ -81,6 +79,6 @@ FormuleTseitin* CreateurContraintesColoriage::creeContrainteArete(Arete arete) c
 FormuleTseitin* CreateurContraintesColoriage::creeVariable(int sommet, int bit) const
 {
     ostringstream os;
-    os << sommet << ' ' << bit;
+    os << sommet << '-' << bit;
     return new FormuleTseitin(FormuleTseitin::VARIABLE, os.str());
 }

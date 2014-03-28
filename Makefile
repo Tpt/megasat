@@ -15,7 +15,7 @@ debug: $(EXEC)
 
 purge: clean all
 
-colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-colorie.o
+colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/GraphvizOutput.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-colorie.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-tseitin.o 
@@ -100,6 +100,9 @@ obj/ColParser.o: src/ColParser.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/CreateurContraintesColoriage.o: src/CreateurContraintesColoriage.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+obj/GraphvizOutput.o: src/GraphvizOutput.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/main-resol.o: main-resol.cpp
