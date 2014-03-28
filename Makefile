@@ -6,7 +6,7 @@ LDFLAGS=
 SOLVEURS=obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o
 EXEC=resol tseitin colorie
 LEX=flex
-YACC=bison
+YACC=/usr/local/Cellar/bison/3.0.2/bin/bison
 
 all: $(EXEC) 
 
@@ -15,7 +15,7 @@ debug: $(EXEC)
 
 purge: clean all
 
-colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/LanceurSolveur.o obj/MessageException.o obj/main-colorie.o
+colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/LanceurSolveur.o obj/MessageException.o obj/main-colorie.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/LanceurSolveur.o obj/MessageException.o obj/main-tseitin.o 
@@ -24,7 +24,7 @@ tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueL
 resol:  $(SOLVEURS) obj/CnfParser.o obj/LanceurSolveur.o obj/MessageException.o obj/main-resol.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-obj/clause.o: src/Clause.cpp include/Clause.h
+obj/clause.o: src/Clause.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 	
 obj/formule.o: src/Formule.cpp
@@ -94,6 +94,9 @@ obj/Graphe.o: src/Graphe.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/ColParser.o: src/ColParser.cpp
+	$(CC) -o $@ -c $< $(CFLAGS)
+
+obj/CreateurContraintesColoriage.o: src/CreateurContraintesColoriage.cpp
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 obj/main-resol.o: main-resol.cpp
