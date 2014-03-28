@@ -4,6 +4,7 @@
 #include"include/CreateurContraintesColoriage.h"
 #include"include/TransformationTseitin.h"
 #include"include/InsatisfiableException.h"
+#include"include/GraphvizOutput.h"
 #include<chrono>
 
 using namespace std;
@@ -22,7 +23,7 @@ Graphe parseColFile(string fileName)
     catch(ParseError& e)
     {
         cerr << "c Erreur du parser : " << e.getMessage() << "\nc Arrêt de la résolution." << endl;
-        exit( EXIT_FAILURE );
+        exit(EXIT_FAILURE);
     }
 }
 
@@ -49,11 +50,11 @@ int main(int argc, char *argv[])
     TransformationTseitin normalisateur(formuleTseitin);
 
     Formule formule(normalisateur.normaliser());
-    
+
     try
     {
         formule = lanceur.execute(formule);
-        
+
         for(auto e : normalisateur.getCorrespondance())
             out << e.first << " " << (formule.getVar(e.second)->getVal() ? e.second : -e.second) << endl;
     }
@@ -61,6 +62,10 @@ int main(int argc, char *argv[])
     {
         out << "s UNSATISFIABLE" << endl;
     }
+
+    GraphvizOutput output(graphe, formule, normalisateur.getCorrespondance(), k);
+    output.affiche(lanceur.getBufferSortie());
+
     out << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
 
     return EXIT_SUCCESS;

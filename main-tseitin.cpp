@@ -21,7 +21,7 @@ FormuleTseitin parseFormuleFile(string fileName)
     catch(ParseError& e)
     {
         cerr << "c Erreur du parser : " << e.getMessage() << "\nc Arrêt de la résolution." << endl;
-        exit( EXIT_FAILURE );
+        exit(EXIT_FAILURE);
     }
 }
 
