@@ -19,10 +19,11 @@ public:
 class VariableNonAssigneeProviderRand : public VariableNonAssigneeProvider
 {
 public:
+    VariableNonAssigneeProviderRand();
     std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const;
 };
 
-class VariableNonAssigneeProviderMalin : public VariableNonAssigneeProvider
+class VariableNonAssigneeProviderMalin : public VariableNonAssigneeProviderRand
 {
 public:
     std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const;
