@@ -1,5 +1,6 @@
 #include<iostream>
 #include<fstream>
+#include<cstdio>
 #include<cstdlib>
 #include<ctime>
 #include<sstream>
@@ -80,23 +81,23 @@ int main(int argc, char* argv[])
     {
         Ll=(rand()%(L-l+1))+l;;
         assignation.clear();
-        assignation.resize(Ll,0);
+        assignation.resize(V,0);
         for(int j=0;j<Ll;++j)
         {
-            pos=rand()%Ll;
+            pos=rand()%V;
             pol=rand()%2;
-            for(;assignation[pos]!=0;pos=(pos+1)%Ll);
-            if(pol)
+            for(;assignation[pos]!=0;pos=(pos+1)%V);
+            if(pol==1)
                 assignation[pos]=1;
             else
-                assignation[pos]=0;
+                assignation[pos]=-1;
         }
 
-        for(int k=0;k<Ll;++k)
+        for(int k=0;k<V;++k)
         {
             if(assignation[k]==1)
                 file<<k+1<<" ";
-            else
+            else if(assignation[k]==-1)
                 file<<-k-1<<" ";
         }
         file<<0<<endl;
