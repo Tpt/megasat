@@ -4,7 +4,7 @@
 using namespace std;
 
 GraphvizOutput::GraphvizOutput(Graphe& graphe_, Formule& formule_, map<string, int> correspondances_, int k_) :
-graphe(graphe_), formule(formule_), correspondances(correspondances_), k(k_), tailleCodeCouleurSommet(log2(k_) + 1)
+graphe(graphe_), formule(formule_), correspondances(correspondances_), k(k_), tailleCodeCouleurSommet(ceil(log2(k_)))
 {}
 
 void GraphvizOutput::affiche(std::streambuf* sortie)
@@ -19,7 +19,7 @@ void GraphvizOutput::affiche(std::streambuf* sortie)
     {
         out << sommet + 1 << " [color=" << getCouleur(sommet) << "];\n";
     }
-
+    cout << "0-0 " << formule.getVar(correspondances["0-0"])->getVal() << "1-0 " << formule.getVar(correspondances["1-0"])->getVal() << endl;
     out << "}\n";
 }
 
