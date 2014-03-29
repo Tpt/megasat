@@ -15,7 +15,7 @@ Graphe parseColFile(string fileName);
 Graphe parseColFile(string fileName)
 {
     ColParser colParser;
-    
+
     try
     {
         return colParser.parse(fileName);
@@ -29,10 +29,13 @@ Graphe parseColFile(string fileName)
 
 int main(int argc, char *argv[])
 {
-    vector<string> nomArguments = {"k", "inputFile", "outputFile"};
+    vector<string> nomArguments(2);
+    nomArguments[0]="k";
+    nomArguments[1]="inputFile";
+    nomArguments[2]="outputFile";
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 2);
     arguments.parse(argc, argv);
-    
+
     LanceurSolveur lanceur(arguments);
     ostream out(lanceur.getBufferSortie());
 

@@ -3,7 +3,7 @@
 
 Arete::Arete(int extremiteGauche_, int extremiteDroite_) : extremiteGauche(extremiteGauche_), extremiteDroite(extremiteDroite_)
 {}
-    
+
 int Arete::getExtremiteGauche() const
 {
     return extremiteGauche;
@@ -13,7 +13,7 @@ int Arete::getExtremiteDroite() const
 {
     return extremiteDroite;
 }
-    
+
 bool Arete::operator==(Arete that) const
 {
     return (extremiteGauche == that.extremiteGauche && extremiteDroite == that.extremiteDroite) ||

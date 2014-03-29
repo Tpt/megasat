@@ -48,13 +48,6 @@ while nbVar<=maxVar:
     nbVar+=pas
 
 
-# a noter que vous pouvez passer un ou plusieurs arguments a ce
-# script, auxquels vous ferez reference par $1, $2, etc. Par exemple,
-# vous pourrez taper "bash run-tests.sh toto.dat (pour indiquer le nom
-# du fichier rassemblant les resultats des tests), et faire dans ce
-# fichier 'echo "argument Fibonacci Fibonacci-memo" >> $1
-
-
 close(fichier)
 
 popen("gnuplot -persist variable.p")

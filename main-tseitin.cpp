@@ -27,7 +27,9 @@ FormuleTseitin parseFormuleFile(string fileName)
 
 int main(int argc, char *argv[])
 {
-    vector<string> nomArguments = {"inputFile", "outputFile"};
+    vector<string> nomArguments(2);
+    nomArguments[0]="inputFile";
+    nomArguments[1]="outputFile";
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 1);
     arguments.parse(argc, argv);
 
@@ -47,7 +49,7 @@ int main(int argc, char *argv[])
     try
     {
         formule = lanceur.execute(formule);
-        
+
         for(auto e : normalisateur.getCorrespondance())
             out << e.first << " " << (formule.getVar(e.second)->getVal() ? e.second : -e.second) << endl;
     }

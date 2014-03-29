@@ -1,5 +1,6 @@
 CC=g++
-FLAGSBASE= -std=c++0x -O3 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat -Werror-implicit-function-declaration -Wmain -Wmissing-braces -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wuninitialized -Wreorder -Wundef -Wshadow -Wwrite-strings -Wsign-compare -Wmissing-declarations 
+C11= -std=c++0x
+FLAGSBASE= -O3 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat -Werror-implicit-function-declaration -Wmain -Wmissing-braces -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wuninitialized -Wreorder -Wundef -Wshadow -Wwrite-strings -Wsign-compare -Wmissing-declarations 
 NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused
 CFLAGS=$(NAZI)
 LDFLAGS= 
@@ -16,6 +17,7 @@ debug: $(EXEC)
 purge: clean all
 
 clang: CC=clang++
+clang: C11=-std=c++11
 clang: $(EXEC)
 
 colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/GraphvizOutput.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-colorie.o
@@ -28,94 +30,94 @@ resol:  $(SOLVEURS) obj/CnfParser.o obj/main-resol.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/clause.o: src/Clause.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/formule.o: src/Formule.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/literal.o: src/Literal.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/variable.o: src/Variable.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/CnfParser.o: src/CnfParser.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/Solveur.o: src/Solveur.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/DavisPutnamSolveur.o: src/DavisPutnamSolveur.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/AbstractDPLLSolveur.o: src/AbstractDPLLSolveur.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/DPLLSolveur.o: src/DPLLSolveur.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/DPLLSurveilleSolveur.o: src/DPLLSurveilleSolveur.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/VariableNonAssigneeProvider.o: src/VariableNonAssigneeProvider.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/FormuleTseitin.o: src/FormuleTseitin.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/TransformationTseitin.o: src/TransformationTseitin.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/MessageException.o: src/MessageException.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/LanceurSolveur.o: src/LanceurSolveur.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/ArgumentsParser.o: src/ArgumentsParser.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/LogiqueParserLogiqueParser.o: logique_parser/logiqueParser.cpp
-	$(CC) -o $@ -c $< $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 logique_parser/logiqueParser.cpp: logique_parser/logique.y
 	$(YACC) -dv -o $@ $<
 
 obj/LogiqueParserLogiqueLexer.o: logique_parser/logiqueLexer.cpp
-	$(CC) -o $@ -c $< $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 logique_parser/logiqueLexer.cpp: logique_parser/logique.lex
 	$(LEX) -o $@ $<
 
 obj/LogiqueParserDriver.o: logique_parser/driver.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/LogiqueParserLexer.o: logique_parser/lexer.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/Arete.o: src/Arete.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/Graphe.o: src/Graphe.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/ColParser.o: src/ColParser.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/CreateurContraintesColoriage.o: src/CreateurContraintesColoriage.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/GraphvizOutput.o: src/GraphvizOutput.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/main-resol.o: main-resol.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/main-tseitin.o: main-tseitin.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/main-colorie.o: main-colorie.cpp
-	$(CC) -o $@ -c $< $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 clean:
 	rm -f logique_parser/logiqueLexer.cpp

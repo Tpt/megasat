@@ -83,6 +83,16 @@ streambuf* LanceurSolveur::getBufferSortie()
     }
 }
 
-vector<string> LanceurSolveur::getNomsOptions() {
-    return {"wl", "dp", "rand", "malin", "moms", "dlis", "v", "s"};
+vector<string> LanceurSolveur::getNomsOptions()
+{
+    vector<string> liste(8);
+    liste[0]="wl";
+    liste[1]="dp";
+    liste[2]="rand";
+    liste[3]="malin";
+    liste[4]="moms";
+    liste[5]="dlis";
+    liste[6]="v";
+    liste[7]="s";
+    return liste;
 }

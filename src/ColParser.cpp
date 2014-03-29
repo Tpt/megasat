@@ -13,7 +13,7 @@ Graphe ColParser::parse(string &fileName)
         throw ParseError("Le fichier d'entrée n'existe pas !");
     }
     istream fileStream(&fb);
-    
+
     return parse(fileStream);
 }
 

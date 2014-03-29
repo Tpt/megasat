@@ -3,7 +3,8 @@
 
 using namespace std;
 
-ArgumentsParser::ArgumentsParser(vector<string> nomsArguments_, vector<string> nomsOptions, int nombreArgumentsObligatoires_) : nomsArguments(nomsArguments_), nombreArgumentsObligatoires(nombreArgumentsObligatoires_)
+ArgumentsParser::ArgumentsParser(vector<string> nomsArguments_, vector<string> nomsOptions, int nombreArgumentsObligatoires_) :
+arguments(map<string,string>()), nomsArguments(nomsArguments_), options(map<string,bool>()), nombreArgumentsObligatoires(nombreArgumentsObligatoires_)
 {
     for(string option : nomsOptions)
         options[option] = false;
@@ -24,7 +25,7 @@ void ArgumentsParser::parse(int argc, char* argv[])
         }
         else
         {
-            arguments[nomsArguments[compteurArguments]] = argv[i];
+            arguments[nomsArguments[static_cast<size_t>(compteurArguments)]] = argv[i];
             compteurArguments++;
         }
     }

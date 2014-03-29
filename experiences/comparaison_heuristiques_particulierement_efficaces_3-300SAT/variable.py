@@ -9,7 +9,7 @@ wl=["","-wl"]
 nbVar=int(sys.argv[1])
 maxVar=int(sys.argv[2])
 pas=int(sys.argv[3])
-itMax=2
+itMax=5
 popen("rm -f variable.dat")
 fichier = open("variable.dat",O_WRONLY | O_CREAT)
 write(fichier, "argument ")

@@ -5,7 +5,7 @@
 using namespace std;
 
 CreateurContraintesColoriage::CreateurContraintesColoriage(Graphe &graphe_, int k_)
-: graphe(graphe_), k(k_), tailleCodeCouleurSommet(ceil(log2(k_)))
+: graphe(graphe_), k(k_), tailleCodeCouleurSommet(static_cast<int>(ceil(log2(k_))))
 {}
 
 FormuleTseitin* CreateurContraintesColoriage::cree() const

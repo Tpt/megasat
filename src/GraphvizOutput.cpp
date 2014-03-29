@@ -4,7 +4,7 @@
 using namespace std;
 
 GraphvizOutput::GraphvizOutput(Graphe& graphe_, Formule& formule_, map<string, int> correspondances_, int k_) :
-graphe(graphe_), formule(formule_), correspondances(correspondances_), k(k_), tailleCodeCouleurSommet(ceil(log2(k_)))
+graphe(graphe_), formule(formule_), k(k_), tailleCodeCouleurSommet(static_cast<int>(ceil(log2(k_)))), correspondances(correspondances_)
 {}
 
 void GraphvizOutput::affiche(std::streambuf* sortie)

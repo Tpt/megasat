@@ -19,7 +19,7 @@ set key left
 # Dessin en joignant des points
 set style data linespoints
 
-set pointsize 0.5   # la taille des points
+set pointsize 0.1   # la taille des points
 
 
 # on trace deux courbes: avec les colonnes 1 et 2, avec les colonnes 1 et 3
