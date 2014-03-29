@@ -15,6 +15,9 @@ debug: $(EXEC)
 
 purge: clean all
 
+clang: CC=clang++
+clang: $(EXEC)
+
 colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/GraphvizOutput.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-colorie.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
