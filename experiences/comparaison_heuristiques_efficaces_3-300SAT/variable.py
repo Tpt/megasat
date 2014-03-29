@@ -9,6 +9,7 @@ wl=["","-wl"]
 nbVar=int(sys.argv[1])
 maxVar=int(sys.argv[2])
 pas=int(sys.argv[3])
+itMax=10
 popen("rm -f variable.dat")
 fichier = open("variable.dat",O_WRONLY | O_CREAT)
 write(fichier, "argument ")
@@ -34,17 +35,17 @@ while nbVar<=maxVar:
         it=0
         total=0
         temps=0
-        while it<10:
+        while it<itMax:
             popen("./../../gen/gen "+str(nbVar)+" 400 3 300 temp_var.cnf")
             temps=time.time()
             popen("./../../resol temp_var.cnf "+heuristiques[h]+" "+wl[w])
-            total=time.time()-temps+total
+            total+=time.time()-temps
             popen("rm -f temp_var.cnf")
-            it+=10
-        temps=total/10
-        write(fichier,str(temps)+" ");
+            it+=1
+        temps=total/itMax
+        write(fichier,str(temps)+" ")
     write(fichier,"\n")
-    nbVar=nbVar+pas
+    nbVar+=pas
 
 
 # a noter que vous pouvez passer un ou plusieurs arguments a ce

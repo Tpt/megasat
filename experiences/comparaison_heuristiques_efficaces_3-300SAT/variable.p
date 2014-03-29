@@ -12,8 +12,7 @@ reset
 set title "t=f(V) pour les différentes heuristiques"
 set xlabel "Nombre de variables"
 set ylabel "Temps de résolution (s)"
-set key out vert
-set key center right
+set key left
 
 
 

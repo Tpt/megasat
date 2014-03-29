@@ -4,6 +4,7 @@
 *.o
 *.obj
 gen/gen
+gen/genTseitin
 bin/
 resol
 tseitin
