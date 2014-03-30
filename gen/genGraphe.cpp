@@ -87,14 +87,13 @@ int main(int argc, char* argv[])
     {
         e.first=rand()%(n-1);
         e.second=(rand()%(n-1-e.first))+e.first+1;
-        while(adj[e.first].find(e.second)!=adj[e.first].end())
-        {
-            e=next(n,e);
-        }
+        for(;adj[e.first].find(e.second)!=adj[e.first].end();e=next(n,e));
         adj[e.first].insert(e.second);
     }
     
     file<<"c Créé aléatoirement par notre programme de génération de graphe"<<endl;
+    file<<"c Il contient "<<n<<" sommets et "<<m<<" arêtes distinctes."<<endl;
+    file<<"c Passez le bonjour à MM Blot et Hirschkoff"<<endl;
     file<<"p edge"<<n<<" "<<m<<endl;    
 
     for(int i=0;i<n;++i)

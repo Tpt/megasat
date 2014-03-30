@@ -120,7 +120,7 @@ int main(int argc, char* argv[])
     }
     
 
-    file<<gen(p,P,vars);
+    file<<gen(p,P,vars)<<endl;
 
     file.close();
 

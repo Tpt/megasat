@@ -71,12 +71,19 @@ int main(int argc, char* argv[])
     }
     ofstream file(filename);
 
+    file<<"c Généré aléatoirement à grand coup de lancé de rand()."<<endl;
+    if(l!=L)
+        file<<"c La formule contient "<<V<<" variables, "<<C<<" clauses contenant chacune entre "<<l<<" et "<<L<<" litéraux"<<endl;
+    else
+        file<<"c La formule contient "<<V<<" variables, "<<C<<" clauses contenant chacune "<<l<<" litéraux"<<endl;
+    file<<"c Passez une bonne journée"<<endl;
+    
     file<<"p cnf "<<V<<" "<<C<<'\n';
 
     vector<int> assignation;
     int pos;
     int pol;
-
+    
     for(int i=0;i<C;++i)
     {
         Ll=(rand()%(L-l+1))+l;;
