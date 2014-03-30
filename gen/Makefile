@@ -3,7 +3,7 @@ FLAGSBASE= -std=c++0x -O3 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wsh
 NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused
 CFLAGS=$(NAZI)
 LDFLAGS=
-EXEC=gen genTseitin
+EXEC=gen genTseitin genGraphe
 
 all: $(EXEC)
 
@@ -22,6 +22,12 @@ genTseitin: obj/genTseitin.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/genTseitin.o: genTseitin.cpp
+	$(CC) -o $@ -c $< $(NAZI)
+
+genGraphe: obj/genGraphe.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+obj/genGraphe.o: genGraphe.cpp
 	$(CC) -o $@ -c $< $(NAZI)
 
 clean:

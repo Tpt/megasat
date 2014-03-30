@@ -5,6 +5,7 @@
 *.obj
 gen/gen
 gen/genTseitin
+gen/genGraphe
 bin/
 resol
 tseitin
