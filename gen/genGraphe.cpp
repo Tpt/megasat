@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
         filename+= to_string(n);
         filename+="_";
         filename+= to_string(m);
-        filename+=".txt";
+        filename+=".col";
     }
     else
     {
