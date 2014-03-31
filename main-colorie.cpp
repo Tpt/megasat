@@ -29,7 +29,7 @@ Graphe parseColFile(string fileName)
 
 int main(int argc, char *argv[])
 {
-    vector<string> nomArguments(2);
+    vector<string> nomArguments(3);
     nomArguments[0]="k";
     nomArguments[1]="inputFile";
     nomArguments[2]="outputFile";
