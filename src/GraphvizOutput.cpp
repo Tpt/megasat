@@ -19,7 +19,7 @@ void GraphvizOutput::affiche(std::streambuf* sortie, bool avecColoriage)
     {
         for(int sommet = 0; sommet < graphe.getSommetNumber(); sommet++)
         {
-            out << sommet + 1 << " [color=\"" << ((float) getCouleur(sommet)) / k << ",0.5,1\",style=filled];\n";
+            out << sommet + 1 << " [color=\"" << (static_cast<double>(getCouleur(sommet))) / k << ",0.5,1\",style=filled];\n";
         }
     }
 
