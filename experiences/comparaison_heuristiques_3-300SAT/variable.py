@@ -38,7 +38,9 @@ while nbVar<=maxVar:
         it=0
         total=0
         temps=0
+        print(str(h)+" "+str(w))
         while it<itMax:
+            print(it)
             popen("./../../gen/gen "+str(nbVar)+" 400 3 300 temp_var.cnf")
             temps=time.time()
             popen("./../../resol temp_var.cnf "+heuristiques[h]+" "+wl[w])
