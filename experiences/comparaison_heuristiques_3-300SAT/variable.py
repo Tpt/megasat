@@ -53,4 +53,6 @@ while nbVar<=maxVar:
     nbVar+=pas
 close(fichier)
 
-popen("gnuplot -persist variable.p")
+popen("gnuplot -persist variable.p")Bon... Et bien parmi les "voisins" qui veulent bien partager le Wifi, j'en capte aucun.
+[20:00:21] Marc Chevalier: Et Ceux que je capte (même très proche) ont des signaux très faibles.
+[20:00:37] Marc Chevalier: A croire que les murs sont blindés.
