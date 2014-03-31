@@ -19,7 +19,7 @@ void GraphvizOutput::affiche(std::streambuf* sortie, bool avecColoriage)
     {
         for(int sommet = 0; sommet < graphe.getSommetNumber(); sommet++)
         {
-            out << sommet + 1 << " [color=\"" << ((float) getCouleur(sommet)) / k << ",0.5,1\",style=filled];\n";
+            out << sommet + 1 << " [color=\"" << static_cast<float>(getCouleur(sommet)) / k << ",0.5,1\",style=filled];\n";
         }
     }
 
@@ -34,7 +34,9 @@ int GraphvizOutput::getCouleur(int sommet)
         couleur *= 2;
         ostringstream os;
         os << sommet << '-' << bit;
-        if(formule.getVar(correspondances[os.str()])->getVal())
+        int varId = correspondances[os.str()];
+        //on met la variable a 0 si elle n'existe pas (pas de contrainte dessus et 0 permet de rester en dessous de k)
+        if(varId != 0 && formule.getVar(varId)->getVal())
             couleur += 1;
     }
 
