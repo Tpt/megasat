@@ -6,7 +6,7 @@
 
 using namespace std;
 
-LanceurSolveur::LanceurSolveur(ArgumentsParser& arguments_) : arguments(arguments_)
+LanceurSolveur::LanceurSolveur(ArgumentsParser& arguments_, string debutCommentaire_) : arguments(arguments_), debutCommentaire(debutCommentaire_)
 {}
 
 LanceurSolveur::~LanceurSolveur()
@@ -15,30 +15,30 @@ LanceurSolveur::~LanceurSolveur()
 Formule LanceurSolveur::execute(Formule& formule)
 {
     VariableNonAssigneeProvider* heuristique = new VariableNonAssigneeProviderSimple();
+    string comment = "Choix des variables non assignées par défaut.";
+
     if(arguments.getOption("rand"))
     {
-        cout << "c Choix des variables non assignées de manière aléatoire." << endl;
+        comment = "Choix des variables non assignées de manière aléatoire.";
         heuristique = new VariableNonAssigneeProviderRand();
     }
     else if(arguments.getOption("malin"))
     {
-        cout << "c Choix des variables non assignées suivant leur fréquence d'apparition." << endl;
+        comment = "Choix des variables non assignées suivant leur fréquence d'apparition.";
         heuristique = new VariableNonAssigneeProviderMalin();
     }
     else if(arguments.getOption("moms"))
     {
-        cout << "c Choix des variables non assignées avec l'heuristique MOMS." << endl;
+        comment = "Choix des variables non assignées avec l'heuristique MOMS.";
         heuristique = new VariableNonAssigneeProviderMOMS();
     }
     else if(arguments.getOption("dlis"))
     {
-        cout << "c Choix des variables non assignées avec l'heuristique DLIS." << endl;
+        comment = "Choix des variables non assignées avec l'heuristique DLIS.";
         heuristique = new VariableNonAssigneeProviderDLIS();
     }
-    else
-    {
-        cout << "c Choix des variables non assignées par défaut." << endl;
-    }
+    ostream out(getBufferSortie());
+    out << debutCommentaire << ' ' << comment << endl;
 
     Solveur* solveur = nullptr;
     if(arguments.getOption("dp"))

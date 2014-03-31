@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 1);
     arguments.parse(argc, argv);
 
-    LanceurSolveur lanceur(arguments);
+    LanceurSolveur lanceur(arguments, "c");
 
     Formule formule = parseCnfFile(arguments.getArgument("inputFile"));
     ostream out(lanceur.getBufferSortie());
