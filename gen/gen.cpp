@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
 
     if(L>V)
     {
-        cout<<"What ! Tes paramètre incorrects, je m'en badigeonne allègrement les gonades avec le pinceau de l'indifférence !"<<endl;
+        cerr<<"What ! Tes paramètre incorrects, je m'en badigeonne allègrement les gonades avec le pinceau de l'indifférence !"<<endl;
         exit(EXIT_FAILURE);
     }
     ofstream file(filename);

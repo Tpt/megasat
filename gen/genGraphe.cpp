@@ -26,13 +26,11 @@ pair<int, int> next(int n, pair<int, int> e)
         return e;
     }
     else if(e.first<n-2)
-    {
         e.first++;
-        e.second=e.first+1;
-        return e;
-    }
-    e.first=1;
-    e.second=2;
+    else
+        e.first=1;
+    
+    e.second=e.first+1;
     return e;
 }
 
@@ -91,7 +89,7 @@ int main(int argc, char* argv[])
         adj[e.first].insert(e.second);
     }
     
-    file<<"c Créé aléatoirement par notre programme de génération de graphe"<<endl;
+    file<<"c Créé aléatoirement par notre superbe programme de génération de graphe"<<endl;
     file<<"c Il contient "<<n<<" sommets et "<<m<<" arêtes distinctes."<<endl;
     file<<"c Passez le bonjour à MM Blot et Hirschkoff"<<endl;
     file<<"p edge"<<n<<" "<<m<<endl;    
