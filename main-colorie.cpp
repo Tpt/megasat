@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 2);
     arguments.parse(argc, argv);
 
-    LanceurSolveur lanceur(arguments);
+    LanceurSolveur lanceur(arguments, "//");
     ostream out(lanceur.getBufferSortie());
 
     Graphe graphe = parseColFile(arguments.getArgument("inputFile"));
@@ -48,28 +48,30 @@ int main(int argc, char *argv[])
     FormuleTseitin* formuleTseitin = createurContraintes.cree();
 
     if(arguments.getOption("v"))
+    {
+        cout << "/*" << endl;
         formuleTseitin->print();
-
+        cout << "*/" << endl;
+    }
     TransformationTseitin normalisateur(formuleTseitin);
 
     Formule formule(normalisateur.normaliser());
 
+    bool afficheAvecColoriage = false;
     try
     {
         formule = lanceur.execute(formule);
-
-        for(auto e : normalisateur.getCorrespondance())
-            out << e.first << " " << (formule.getVar(e.second)->getVal() ? e.second : -e.second) << endl;
+        afficheAvecColoriage = true;
     }
     catch(InsatisfiableException)
     {
-        out << "s UNSATISFIABLE" << endl;
+        out << "// UNSATISFIABLE" << endl;
     }
 
     GraphvizOutput output(graphe, formule, normalisateur.getCorrespondance(), k);
-    output.affiche(lanceur.getBufferSortie());
+    output.affiche(lanceur.getBufferSortie(), afficheAvecColoriage);
 
-    out << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
+    out << "// Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
 
     return EXIT_SUCCESS;
 }

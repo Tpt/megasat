@@ -10,7 +10,7 @@ class GraphvizOutput
 {
 public:
     GraphvizOutput(Graphe& graphe, Formule& formule, std::map<std::string, int> correspondances, int k);
-    void affiche(std::streambuf* sortie);
+    void affiche(std::streambuf* sortie, bool avecColoriage = false);
 private:
     int getCouleur(int sommet);
     Graphe graphe;

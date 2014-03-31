@@ -7,19 +7,22 @@ GraphvizOutput::GraphvizOutput(Graphe& graphe_, Formule& formule_, map<string, i
 graphe(graphe_), formule(formule_), k(k_), tailleCodeCouleurSommet(static_cast<int>(ceil(log2(k_)))), correspondances(correspondances_)
 {}
 
-void GraphvizOutput::affiche(std::streambuf* sortie)
+void GraphvizOutput::affiche(std::streambuf* sortie, bool avecColoriage)
 {
     ostream out(sortie);
-    out << "digraph G {\n";
+    out << "graph G {\n";
 
     for(Arete arete : graphe.getAretes())
         out << arete.getExtremiteGauche() + 1 << " -- " << arete.getExtremiteDroite() + 1 << ";\n";
 
-    for(int sommet = 0; sommet < graphe.getSommetNumber(); sommet++)
+    if(avecColoriage)
     {
-        out << sommet + 1 << " [color=" << getCouleur(sommet) << "];\n";
+        for(int sommet = 0; sommet < graphe.getSommetNumber(); sommet++)
+        {
+            out << sommet + 1 << " [color=\"" << ((float) getCouleur(sommet)) / k << ",0.5,1\",style=filled];\n";
+        }
     }
-    cout << "0-0 " << formule.getVar(correspondances["0-0"])->getVal() << "1-0 " << formule.getVar(correspondances["1-0"])->getVal() << endl;
+
     out << "}\n";
 }
 
@@ -34,5 +37,6 @@ int GraphvizOutput::getCouleur(int sommet)
         if(formule.getVar(correspondances[os.str()])->getVal())
             couleur += 1;
     }
+
     return couleur;
 }

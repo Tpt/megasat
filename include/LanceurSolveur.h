@@ -7,7 +7,7 @@
 class LanceurSolveur
 {
 public:
-    LanceurSolveur(ArgumentsParser& arguments_);
+    LanceurSolveur(ArgumentsParser& arguments_, std::string debutCommentaire);
     ~LanceurSolveur();
     Formule execute(Formule& formule);
     std::streambuf* getBufferSortie();
@@ -15,6 +15,7 @@ public:
 
 private:
     ArgumentsParser arguments;
+    std::string debutCommentaire;
 };
 
 #endif // LANCEURSOLVEUR_H

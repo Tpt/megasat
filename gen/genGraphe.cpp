@@ -92,13 +92,13 @@ int main(int argc, char* argv[])
     file<<"c Créé aléatoirement par notre superbe programme de génération de graphe"<<endl;
     file<<"c Il contient "<<n<<" sommets et "<<m<<" arêtes distinctes."<<endl;
     file<<"c Passez le bonjour à MM Blot et Hirschkoff"<<endl;
-    file<<"p edge"<<n<<" "<<m<<endl;    
+    file<<"p edge "<<n<<" "<<m<<endl;    
 
     for(int i=0;i<n;++i)
     {
         for(int w : adj[i])
         {
-            file<<"e "<<i<<" "<<w<<endl;
+            file<<"e "<<i+1<<" "<<w+1<<endl;
         }
     }
     

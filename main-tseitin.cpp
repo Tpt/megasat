@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 1);
     arguments.parse(argc, argv);
 
-    LanceurSolveur lanceur(arguments);
+    LanceurSolveur lanceur(arguments, "c");
     ostream out(lanceur.getBufferSortie());
 
     FormuleTseitin* formuleTseitin = new FormuleTseitin(parseFormuleFile(arguments.getArgument("inputFile")));

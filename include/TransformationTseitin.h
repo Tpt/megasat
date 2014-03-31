@@ -18,7 +18,8 @@ public:
 private:
     int creerCorrespondance();
     int compterVariablesAux();
-    void addClausesVariable(int varCourrante, std::string name);
+    void addClausesVariable(int varCourante, std::string name);
+    void addClausesRacine(int varCourante);
     void addClausesNon(int pere, int fils);
     void addClausesEt(int pere, int filsG, int filsD);
     void addClausesOu(int pere, int filsG, int filsD);
