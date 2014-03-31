@@ -25,7 +25,7 @@ void ArgumentsParser::parse(int argc, char* argv[])
         }
         else
         {
-            if(compteurArguments >= nomsArguments.size())
+            if(compteurArguments >= static_cast<int>(nomsArguments.size()))
             {
                 cerr << "c L'argument " << argv[i] << " est en trop" << endl;
             }
