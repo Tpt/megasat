@@ -5,11 +5,9 @@
 using namespace std;
 
 CreateurContraintesColoriage::CreateurContraintesColoriage(Graphe &graphe_, int k_)
-: graphe(graphe_), k(k_)
+: graphe(graphe_), k(k_), tailleCodeCouleurSommet(1)
 {
-    if(k_ <= 1)
-        tailleCodeCouleurSommet = 1;
-    else
+    if(k_ > 1)
         tailleCodeCouleurSommet = static_cast<int>(ceil(log2(k_)));
 }
 
