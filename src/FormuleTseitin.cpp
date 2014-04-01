@@ -211,3 +211,18 @@ void FormuleTseitin::print() const
 {
     cout << toString() << endl;
 }
+
+
+void FormuleTseitin::free()
+{
+    if(getArite() >= 1)
+    {
+        operandeG->free();
+        delete operandeG;
+    }
+    if(getArite() >= 2)
+    {
+        operandeD->free();
+        delete operandeD;
+    }
+}

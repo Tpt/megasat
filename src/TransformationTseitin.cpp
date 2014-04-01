@@ -31,7 +31,6 @@ TransformationTseitin& TransformationTseitin::operator= (const TransformationTse
 
 TransformationTseitin::~TransformationTseitin()
 {
-    delete formule;
     delete formuleNormalisee;
 }
 

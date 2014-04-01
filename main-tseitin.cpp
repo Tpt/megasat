@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
 
     auto beginTime = system_clock::now();
     Formule formule(normalisateur.normaliser());
+    formuleTseitin->free();
+    delete formuleTseitin;
 
     if(arguments.getOption("v"))
         formule.print();

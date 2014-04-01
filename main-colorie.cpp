@@ -56,6 +56,8 @@ int main(int argc, char *argv[])
     TransformationTseitin normalisateur(formuleTseitin);
 
     Formule formule(normalisateur.normaliser());
+    formuleTseitin->free();
+    delete formuleTseitin;
 
     bool afficheAvecColoriage = false;
     try
