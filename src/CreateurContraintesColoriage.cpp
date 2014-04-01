@@ -5,13 +5,18 @@
 using namespace std;
 
 CreateurContraintesColoriage::CreateurContraintesColoriage(Graphe &graphe_, int k_)
-: graphe(graphe_), k(k_), tailleCodeCouleurSommet(static_cast<int>(ceil(log2(k_))))
-{}
+: graphe(graphe_), k(k_)
+{
+    if(k_ <= 1)
+        tailleCodeCouleurSommet = 1;
+    else
+        tailleCodeCouleurSommet = static_cast<int>(ceil(log2(k_)));
+}
 
 FormuleTseitin* CreateurContraintesColoriage::cree() const
 {
     //initialisation toujours vrai (simplifie concidérablement l'écriture du code)
-    FormuleTseitin* formule = new FormuleTseitin(FormuleTseitin::OU, creeVariable(0, 0), new FormuleTseitin( FormuleTseitin::NON, creeVariable(0, 0)));
+    FormuleTseitin* formule = new FormuleTseitin(FormuleTseitin::OU, creeVariable(0, 0), new FormuleTseitin(FormuleTseitin::NON, creeVariable(0, 0)));
 
     for(int i = 0; i < graphe.getSommetNumber(); i++)
     {
@@ -30,16 +35,19 @@ FormuleTseitin* CreateurContraintesColoriage::creeContrainteInferieurK(int somme
 {
     FormuleTseitin* formule = nullptr;
     int reste = k;
+
     for(int i = 0; i < tailleCodeCouleurSommet; i++)
     {
         if(formule == nullptr)
         {
-            if(k % 2 == 1)
+            if(reste % 2 == 1)
+            {
                 formule = new FormuleTseitin(FormuleTseitin::NON, creeVariable(sommet, i));
+            }
         }
         else
         {
-            if(k % 2 == 1)
+            if(reste % 2 == 1)
                 formule = new FormuleTseitin(
                     FormuleTseitin::OU,
                     new FormuleTseitin(FormuleTseitin::NON, creeVariable(sommet, i)),

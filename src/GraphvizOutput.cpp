@@ -15,11 +15,11 @@ void GraphvizOutput::affiche(std::streambuf* sortie, bool avecColoriage)
     for(Arete arete : graphe.getAretes())
         out << arete.getExtremiteGauche() + 1 << " -- " << arete.getExtremiteDroite() + 1 << ";\n";
 
-    if(avecColoriage)
+    if(avecColoriage && k > 1)
     {
         for(int sommet = 0; sommet < graphe.getSommetNumber(); sommet++)
         {
-            out << sommet + 1 << " [color=\"" << static_cast<float>(getCouleur(sommet)) / k << ",0.5,1\",style=filled];\n";
+            out << sommet + 1 << " [color=\"" << static_cast<float>(getCouleur(sommet)) / (k - 1) << ",0.5,1\",style=filled];\n";
         }
     }
 
@@ -29,7 +29,7 @@ void GraphvizOutput::affiche(std::streambuf* sortie, bool avecColoriage)
 int GraphvizOutput::getCouleur(int sommet)
 {
     int couleur = 0;
-    for(int bit = 0; bit < tailleCodeCouleurSommet; bit++)
+    for(int bit = tailleCodeCouleurSommet - 1; bit >= 0; bit--)
     {
         couleur *= 2;
         ostringstream os;
