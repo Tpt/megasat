@@ -59,11 +59,13 @@ Formule LanceurSolveur::execute(Formule& formule)
     {
         formule = solveur->getFomule();
         delete solveur;
+        delete heuristique;
         return formule;
     }
     else
     {
         delete solveur;
+        delete heuristique;
         throw InsatisfiableException();
     }
 }

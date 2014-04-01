@@ -171,123 +171,123 @@ void TransformationTseitin::parcours()
 
 void TransformationTseitin::addClausesRacine(int varCourante)
 {
-    Clause c(V+nbrVariableAux);
-    c.addLiteral(formuleNormalisee->getLiteral(varCourante));
-    formuleNormalisee->addClause(new Clause(c));
+    Clause* c = new Clause(V+nbrVariableAux);
+    c->addLiteral(formuleNormalisee->getLiteral(varCourante));
+    formuleNormalisee->addClause(c);
 }
 
 void TransformationTseitin::addClausesVariable(int varCourante, string name)
 {
-    Clause c1(V+nbrVariableAux);
-    Clause c2(V+nbrVariableAux);
+    Clause* c1 = new Clause(V+nbrVariableAux);
+    Clause* c2 = new Clause(V+nbrVariableAux);
 
-    c1.addLiteral(formuleNormalisee->getLiteral(-varCourante));
-    c1.addLiteral(formuleNormalisee->getLiteral(correspondanceDesVariables[name]));
-    c2.addLiteral(formuleNormalisee->getLiteral(varCourante));
-    c2.addLiteral(formuleNormalisee->getLiteral(-correspondanceDesVariables[name]));
+    c1->addLiteral(formuleNormalisee->getLiteral(-varCourante));
+    c1->addLiteral(formuleNormalisee->getLiteral(correspondanceDesVariables[name]));
+    c2->addLiteral(formuleNormalisee->getLiteral(varCourante));
+    c2->addLiteral(formuleNormalisee->getLiteral(-correspondanceDesVariables[name]));
 
-    formuleNormalisee->addClause(new Clause(c1));
-    formuleNormalisee->addClause(new Clause(c2));
+    formuleNormalisee->addClause(c1);
+    formuleNormalisee->addClause(c2);
 }
 
 void TransformationTseitin::addClausesNon(int pere, int fils)
 {
-    Clause c1(V+nbrVariableAux);
-    Clause c2(V+nbrVariableAux);
+    Clause* c1 = new Clause(V+nbrVariableAux);
+    Clause* c2 = new Clause(V+nbrVariableAux);
 
-    c1.addLiteral(formuleNormalisee->getLiteral(-pere));
-    c1.addLiteral(formuleNormalisee->getLiteral(-fils));
-    c2.addLiteral(formuleNormalisee->getLiteral(pere));
-    c2.addLiteral(formuleNormalisee->getLiteral(fils));
+    c1->addLiteral(formuleNormalisee->getLiteral(-pere));
+    c1->addLiteral(formuleNormalisee->getLiteral(-fils));
+    c2->addLiteral(formuleNormalisee->getLiteral(pere));
+    c2->addLiteral(formuleNormalisee->getLiteral(fils));
 
-    formuleNormalisee->addClause(new Clause(c1));
-    formuleNormalisee->addClause(new Clause(c2));
+    formuleNormalisee->addClause(c1);
+    formuleNormalisee->addClause(c2);
 }
 
 void TransformationTseitin::addClausesEt(int pere, int filsG, int filsD)
 {
-    Clause c1(V+nbrVariableAux);
-    Clause c2(V+nbrVariableAux);
-    Clause c3(V+nbrVariableAux);
+    Clause* c1 = new Clause(V+nbrVariableAux);
+    Clause* c2 = new Clause(V+nbrVariableAux);
+    Clause* c3 = new Clause(V+nbrVariableAux);
 
-    c1.addLiteral(formuleNormalisee->getLiteral(-pere));
-    c1.addLiteral(formuleNormalisee->getLiteral(filsG));
-    c2.addLiteral(formuleNormalisee->getLiteral(-pere));
-    c2.addLiteral(formuleNormalisee->getLiteral(filsD));
-    c3.addLiteral(formuleNormalisee->getLiteral(pere));
-    c3.addLiteral(formuleNormalisee->getLiteral(-filsD));
-    c3.addLiteral(formuleNormalisee->getLiteral(-filsG));
+    c1->addLiteral(formuleNormalisee->getLiteral(-pere));
+    c1->addLiteral(formuleNormalisee->getLiteral(filsG));
+    c2->addLiteral(formuleNormalisee->getLiteral(-pere));
+    c2->addLiteral(formuleNormalisee->getLiteral(filsD));
+    c3->addLiteral(formuleNormalisee->getLiteral(pere));
+    c3->addLiteral(formuleNormalisee->getLiteral(-filsD));
+    c3->addLiteral(formuleNormalisee->getLiteral(-filsG));
 
-    formuleNormalisee->addClause(new Clause(c1));
-    formuleNormalisee->addClause(new Clause(c2));
-    formuleNormalisee->addClause(new Clause(c3));
+    formuleNormalisee->addClause(c1);
+    formuleNormalisee->addClause(c2);
+    formuleNormalisee->addClause(c3);
 }
 
 void TransformationTseitin::addClausesOu(int pere, int filsG, int filsD)
 {
-    Clause c1(V+nbrVariableAux);
-    Clause c2(V+nbrVariableAux);
-    Clause c3(V+nbrVariableAux);
+    Clause* c1 = new Clause(V+nbrVariableAux);
+    Clause* c2 = new Clause(V+nbrVariableAux);
+    Clause* c3 = new Clause(V+nbrVariableAux);
 
-    c1.addLiteral(formuleNormalisee->getLiteral(pere));
-    c1.addLiteral(formuleNormalisee->getLiteral(-filsG));
-    c2.addLiteral(formuleNormalisee->getLiteral(pere));
-    c2.addLiteral(formuleNormalisee->getLiteral(-filsD));
-    c3.addLiteral(formuleNormalisee->getLiteral(-pere));
-    c3.addLiteral(formuleNormalisee->getLiteral(filsD));
-    c3.addLiteral(formuleNormalisee->getLiteral(filsG));
+    c1->addLiteral(formuleNormalisee->getLiteral(pere));
+    c1->addLiteral(formuleNormalisee->getLiteral(-filsG));
+    c2->addLiteral(formuleNormalisee->getLiteral(pere));
+    c2->addLiteral(formuleNormalisee->getLiteral(-filsD));
+    c3->addLiteral(formuleNormalisee->getLiteral(-pere));
+    c3->addLiteral(formuleNormalisee->getLiteral(filsD));
+    c3->addLiteral(formuleNormalisee->getLiteral(filsG));
 
-    formuleNormalisee->addClause(new Clause(c1));
-    formuleNormalisee->addClause(new Clause(c2));
-    formuleNormalisee->addClause(new Clause(c3));
+    formuleNormalisee->addClause(c1);
+    formuleNormalisee->addClause(c2);
+    formuleNormalisee->addClause(c3);
 }
 
 void TransformationTseitin::addClausesXor(int pere, int filsG, int filsD)
 {
-    Clause c1(V+nbrVariableAux);
-    Clause c2(V+nbrVariableAux);
-    Clause c3(V+nbrVariableAux);
-    Clause c4(V+nbrVariableAux);
+    Clause* c1 = new Clause(V+nbrVariableAux);
+    Clause* c2 = new Clause(V+nbrVariableAux);
+    Clause* c3 = new Clause(V+nbrVariableAux);
+    Clause* c4 = new Clause(V+nbrVariableAux);
 
-    c1.addLiteral(formuleNormalisee->getLiteral(-pere));
-    c1.addLiteral(formuleNormalisee->getLiteral(filsG));
-    c1.addLiteral(formuleNormalisee->getLiteral(filsD));
+    c1->addLiteral(formuleNormalisee->getLiteral(-pere));
+    c1->addLiteral(formuleNormalisee->getLiteral(filsG));
+    c1->addLiteral(formuleNormalisee->getLiteral(filsD));
 
-    c2.addLiteral(formuleNormalisee->getLiteral(pere));
-    c2.addLiteral(formuleNormalisee->getLiteral(-filsG));
-    c2.addLiteral(formuleNormalisee->getLiteral(filsD));
+    c2->addLiteral(formuleNormalisee->getLiteral(pere));
+    c2->addLiteral(formuleNormalisee->getLiteral(-filsG));
+    c2->addLiteral(formuleNormalisee->getLiteral(filsD));
 
-    c3.addLiteral(formuleNormalisee->getLiteral(pere));
-    c3.addLiteral(formuleNormalisee->getLiteral(filsD));
-    c3.addLiteral(formuleNormalisee->getLiteral(-filsG));
+    c3->addLiteral(formuleNormalisee->getLiteral(pere));
+    c3->addLiteral(formuleNormalisee->getLiteral(filsD));
+    c3->addLiteral(formuleNormalisee->getLiteral(-filsG));
 
-    c4.addLiteral(formuleNormalisee->getLiteral(-pere));
-    c4.addLiteral(formuleNormalisee->getLiteral(-filsD));
-    c4.addLiteral(formuleNormalisee->getLiteral(-filsG));
+    c4->addLiteral(formuleNormalisee->getLiteral(-pere));
+    c4->addLiteral(formuleNormalisee->getLiteral(-filsD));
+    c4->addLiteral(formuleNormalisee->getLiteral(-filsG));
 
-    formuleNormalisee->addClause(new Clause(c1));
-    formuleNormalisee->addClause(new Clause(c2));
-    formuleNormalisee->addClause(new Clause(c3));
-    formuleNormalisee->addClause(new Clause(c4));
+    formuleNormalisee->addClause(c1);
+    formuleNormalisee->addClause(c2);
+    formuleNormalisee->addClause(c3);
+    formuleNormalisee->addClause(c4);
 }
 
 void TransformationTseitin::addClausesImplique(int pere, int filsG, int filsD)
 {
-    Clause c1(V+nbrVariableAux);
-    Clause c2(V+nbrVariableAux);
-    Clause c3(V+nbrVariableAux);
+    Clause* c1 = new Clause(V+nbrVariableAux);
+    Clause* c2 = new Clause(V+nbrVariableAux);
+    Clause* c3 = new Clause(V+nbrVariableAux);
 
-    c1.addLiteral(formuleNormalisee->getLiteral(-pere));
-    c1.addLiteral(formuleNormalisee->getLiteral(-filsG));
-    c1.addLiteral(formuleNormalisee->getLiteral(filsD));
+    c1->addLiteral(formuleNormalisee->getLiteral(-pere));
+    c1->addLiteral(formuleNormalisee->getLiteral(-filsG));
+    c1->addLiteral(formuleNormalisee->getLiteral(filsD));
 
-    c2.addLiteral(formuleNormalisee->getLiteral(pere));
-    c2.addLiteral(formuleNormalisee->getLiteral(filsG));
+    c2->addLiteral(formuleNormalisee->getLiteral(pere));
+    c2->addLiteral(formuleNormalisee->getLiteral(filsG));
 
-    c3.addLiteral(formuleNormalisee->getLiteral(pere));
-    c3.addLiteral(formuleNormalisee->getLiteral(-filsD));
+    c3->addLiteral(formuleNormalisee->getLiteral(pere));
+    c3->addLiteral(formuleNormalisee->getLiteral(-filsD));
 
-    formuleNormalisee->addClause(new Clause(c1));
-    formuleNormalisee->addClause(new Clause(c2));
-    formuleNormalisee->addClause(new Clause(c3));
+    formuleNormalisee->addClause(c1);
+    formuleNormalisee->addClause(c2);
+    formuleNormalisee->addClause(c3);
 }
