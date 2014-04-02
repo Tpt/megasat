@@ -6,7 +6,7 @@
 
 using namespace std;
 
-LanceurSolveur::LanceurSolveur(ArgumentsParser& arguments_, string debutCommentaire_) : arguments(arguments_), debutCommentaire(debutCommentaire_)
+LanceurSolveur::LanceurSolveur(ArgumentsParser& arguments_, string debutCommentaire_, Heuristique heuristiqueParDefaut_) : arguments(arguments_), debutCommentaire(debutCommentaire_), heuristiqueParDefaut(heuristiqueParDefaut_)
 {}
 
 LanceurSolveur::~LanceurSolveur()
@@ -14,31 +14,25 @@ LanceurSolveur::~LanceurSolveur()
 
 Formule LanceurSolveur::execute(Formule& formule)
 {
-    VariableNonAssigneeProvider* heuristique = new VariableNonAssigneeProviderSimple();
-    string comment = "Choix des variables non assignées par défaut.";
-
-    if(arguments.getOption("rand"))
+    VariableNonAssigneeProvider* heuristique = nullptr;
+    switch(getHeuristique())
     {
-        comment = "Choix des variables non assignées de manière aléatoire.";
-        heuristique = new VariableNonAssigneeProviderRand();
+        case SIMPLE:
+            heuristique = new VariableNonAssigneeProviderSimple();
+            break;
+        case RAND:
+            heuristique = new VariableNonAssigneeProviderRand();
+            break;
+        case MALIN:
+            heuristique = new VariableNonAssigneeProviderMalin();
+            break;
+        case MOMS:
+            heuristique = new VariableNonAssigneeProviderMOMS();
+            break;
+        case DLIS:
+            heuristique = new VariableNonAssigneeProviderDLIS();
+            break;
     }
-    else if(arguments.getOption("malin"))
-    {
-        comment = "Choix des variables non assignées suivant leur fréquence d'apparition.";
-        heuristique = new VariableNonAssigneeProviderMalin();
-    }
-    else if(arguments.getOption("moms"))
-    {
-        comment = "Choix des variables non assignées avec l'heuristique MOMS.";
-        heuristique = new VariableNonAssigneeProviderMOMS();
-    }
-    else if(arguments.getOption("dlis"))
-    {
-        comment = "Choix des variables non assignées avec l'heuristique DLIS.";
-        heuristique = new VariableNonAssigneeProviderDLIS();
-    }
-    ostream out(getBufferSortie());
-    out << debutCommentaire << ' ' << comment << endl;
 
     Solveur* solveur = nullptr;
     if(arguments.getOption("dp"))
@@ -68,6 +62,56 @@ Formule LanceurSolveur::execute(Formule& formule)
         delete heuristique;
         throw InsatisfiableException();
     }
+}
+
+Heuristique LanceurSolveur::getHeuristique()
+{
+    Heuristique heuristique = heuristiqueParDefaut;
+
+    string comment = "Choix des variables non assignées par défaut.";
+    
+    if(arguments.getOption("rand"))
+    {
+        heuristique = RAND;
+    }
+    else if(arguments.getOption("malin"))
+    {
+        heuristique = MALIN;
+    }
+    else if(arguments.getOption("moms"))
+    {
+        heuristique = MOMS;
+    }
+    else if(arguments.getOption("dlis"))
+    {
+        heuristique = DLIS;
+    }
+
+    if(arguments.getOption("v"))
+    {
+        ostream out(getBufferSortie());
+
+        switch(heuristique)
+        {
+            case SIMPLE:
+                out << debutCommentaire << " Choix des variables non assignées par défaut." << endl;
+                break;
+            case RAND:
+                out << debutCommentaire << " Choix des variables non assignées de manière aléatoire." << endl;
+                break;
+            case MALIN:
+                out << debutCommentaire << " Choix des variables non assignées suivant leur fréquence d'apparition." << endl;
+                break;
+            case MOMS:
+                out << debutCommentaire << " Choix des variables non assignées avec l'heuristique MOMS." << endl;
+                break;
+            case DLIS:
+                out << debutCommentaire << " Choix des variables non assignées avec l'heuristique DLIS." << endl;
+                break;
+        }
+    }
+
+    return heuristique;
 }
 
 streambuf* LanceurSolveur::getBufferSortie()
