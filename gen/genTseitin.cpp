@@ -104,7 +104,7 @@ int main(int argc, char* argv[])
     }
     else
     {
-        filename=argv[5];
+        filename=argv[4];
     }
 
 
