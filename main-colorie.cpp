@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 2);
     arguments.parse(argc, argv);
 
-    LanceurSolveur lanceur(arguments, "//");
+    LanceurSolveur lanceur(arguments, "//", SolveurType::WATCHED_LITERALS, HeuristiqueType::MOMS);
     ostream out(lanceur.getBufferSortie());
 
     Graphe graphe = parseColFile(arguments.getArgument("inputFile"));
