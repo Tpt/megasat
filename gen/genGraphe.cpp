@@ -83,8 +83,18 @@ int main(int argc, char* argv[])
     
     for(int i=0;i<m;++i)
     {
-        e.first=rand()%(n-1);
-        e.second=(rand()%(n-1-e.first))+e.first+1;
+        int a=rand()%n;
+        int b=rand()%n;
+        if(a==b)
+        {
+            if(b==n-1)
+                b=0;
+            else
+                b++;
+        }
+        
+        e.first=min(a,b);
+        e.second=max(a,b);
         for(;adj[e.first].find(e.second)!=adj[e.first].end();e=next(n,e));
         adj[e.first].insert(e.second);
     }
