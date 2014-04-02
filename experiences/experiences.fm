@@ -1,0 +1,65 @@
+Parmi la corbeille de test, nous vous proposons :
+
+D'un point de vue très général, pour chaque graphe, il y a 3 versions. Celle qui compare toutes les heuristiques, les deux suivantes sélectionnent les meilleurs en deux étapes.
+
+NB : Le paramètre vide "" des tests correspond à dpll simple même pour colorie et tseitin (contrairement à ce qu'on peut avoir envie de comprendre). Les tests ont étés fait avec un programme ne choisissant pas d'heuristique par défaut autre qu'un dpll simple. Avec la version actuelle du programme, il suffit de remplacer "" dans les codes python par "dpll".
+
+    1/ Les formules CNF.
+    
+On fait varier le nombre de variables. Le nombre de clauses n'a pas de sens à faire varier seul. On a étudier 3 cas :
+        
+        1.1/ 3-SAT
+    
+    On teste une formule 3-SAT sous CNF avec un nombre fixe de clauses. On voit immédiatement que -wl, -rand-wl et -malin-wl sont terriblement inefficaces.
+    Le second test montre que -dlis-wl et -moms-wl sont pas très efficaces.
+    Enfin, on observe que tous les autres heuristiques (sans wl) sont équivalentes. Cela confirme ce qui a été observé lors du premier rendu.
+    On observe aussi que 3-SAT est en moyenne linéaire pour ces heuristiques (jusqu'à au moins 50 000 variables).
+    
+    
+        1.2/ 3-300-SAT
+    
+    On teste des clauses de longueur comprise entre 3 et 300. On a un premier résultat fort curieux. Curieux au point qu'il est accompagné de son propre fichier        d'explication.
+    On trouve tout de suite les heuristiques efficaces. -dlis-wl et -moms-wl sont clairement les meilleurs et rendent 3-300-SAT linéaire en moyenne.
+    
+    
+        1.3/ 3-SAT avec beaucoup de clauses
+        
+    On teste des formules 3-SAT avec 3 fois plus de clauses que de variables. Le but de cette manoeuvre est de simuler la forme d'une formule après la transformation de Tseitin.
+    On observe, divine surprise, que les heuristiques efficaces sont -dlis-wl et -moms-wl, en particulier -moms-wl qui donne d'excellents résultats.
+    Suite à ce test, et avant de pouvoir tester la coloration de graphe ou les formules générales, on a choisi -moms-wl comme heuristique par défaut pour colorie et tseitin.
+    Le résultat est surprenant car malgré le fait que la formule ne contienne que des clauses courtes, ce sont les heuristiques avec -wl qui sont les plus efficaces. le phénomène reste inexpliqué pour le moment.
+    
+    
+    
+    
+    2/ Les formules logiques générales
+    
+On observe que, quelque soit les intervales de profondeur utilisée pour la formule, toutes les heuristiques avec -wl reste les meilleures. Ceci confirme partiellement l'extrapolation faite ci-dessus et nous encourage à continuer sur cette voie pour les graphes.
+
+
+    
+    3/ La coloration de graphe
+    
+On a étudié 3 cas,  correspondant à des densités différentes. On a aussi cherché la limite de coloriabilité. On sait que le nombre chromatique est inférieure au plus grand degré plus un. On sait que la somme des degres est 2m. Aussi, le degre moyen d est d=2m/n. On utilise ce degré moyen pour colorier le graphe pour tenter de mettre le programme en difficulté.
+
+
+
+        3.1/ m=2*n
+    
+    On a un graphe peu connecté. Eventuellement même pas connexe. La densité (4/(n-1)) tend vers 0. Les heuristiques sans -wl sont tellement mauvaises qu'elle n'ont même pas pu être testées sur un nombre suffisant de point pour en faire un graphe (2 points au plus en fait). -moms-wl semble asymptotiquement la meilleure. Ce qui est rassurant.
+    
+        3.2/ m=n*n/10
+    On teste un graphe à densité constante (ou presque). On observe une divergence très rapide. Typiquement :
+    n=14 -> 0.02 s.
+    n=16 -> 7.4 s.
+    n=18 -> J'en ai jamais vu la fin...
+    
+    Toutes les heuristiques sont exponentielles. Mais -moms-wl est encore la meilleure !
+    
+    
+        3.3/ m=n*(n-1)/2
+        
+    On étudie le cas d'une clique. On a un comportement encore plus exponentiel. Encore une fois -moms-wl reste la meilleure.
+    
+
+Le fait que la coloration de graphe soit exponentielle en moyenne alors que SAT semble linéaire est intéressant. On peut supposer que SAT est effectivement linéaire en moyenne mais que la NP complétude vient des pires instances, des cas difficiles. Or la réduction de coloriage vers SAT envoie probablement le cas moyen de la coloration sur les pires cas de SAT. On a un comportement de pire cas-cas moyen.
