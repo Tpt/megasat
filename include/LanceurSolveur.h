@@ -4,7 +4,7 @@
 #include "Solveur.h"
 #include "ArgumentsParser.h"
 
-enum Heuristique {
+enum HeuristiqueType {
     SIMPLE,
     RAND,
     MALIN,
@@ -12,20 +12,28 @@ enum Heuristique {
     DLIS
 };
 
+enum SolveurType {
+    DPLL,
+    WATCHED_LITERALS,
+    DAVIS_PUTNAM
+};
+
 class LanceurSolveur
 {
 public:
-    LanceurSolveur(ArgumentsParser& arguments_, std::string debutCommentaire, Heuristique heuristiqueParDefaut = SIMPLE);
+    LanceurSolveur(ArgumentsParser& arguments_, std::string debutCommentaire, SolveurType solveurParDefaut = DPLL, HeuristiqueType heuristiqueParDefaut = SIMPLE);
     ~LanceurSolveur();
     Formule execute(Formule& formule);
     std::streambuf* getBufferSortie();
     static std::vector<std::string> getNomsOptions();
 
 private:
-    Heuristique getHeuristique();
+    SolveurType getSolveur();
+    HeuristiqueType getHeuristique();
     ArgumentsParser arguments;
     std::string debutCommentaire;
-    Heuristique heuristiqueParDefaut;
+    SolveurType solveurParDefaut;
+    HeuristiqueType heuristiqueParDefaut;
 };
 
 #endif // LANCEURSOLVEUR_H

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-LanceurSolveur::LanceurSolveur(ArgumentsParser& arguments_, string debutCommentaire_, Heuristique heuristiqueParDefaut_) : arguments(arguments_), debutCommentaire(debutCommentaire_), heuristiqueParDefaut(heuristiqueParDefaut_)
+LanceurSolveur::LanceurSolveur(ArgumentsParser& arguments_, string debutCommentaire_, SolveurType solveurParDefaut_, HeuristiqueType heuristiqueParDefaut_) : arguments(arguments_), debutCommentaire(debutCommentaire_), solveurParDefaut(solveurParDefaut_), heuristiqueParDefaut(heuristiqueParDefaut_)
 {}
 
 LanceurSolveur::~LanceurSolveur()
@@ -35,19 +35,18 @@ Formule LanceurSolveur::execute(Formule& formule)
     }
 
     Solveur* solveur = nullptr;
-    if(arguments.getOption("dp"))
+    switch(getSolveur())
     {
-        solveur = new DavisPutnamSolveur(formule);
+        case DPLL:
+            solveur = new DPLLSolveur(formule, *heuristique);
+            break;
+        case WATCHED_LITERALS:
+            solveur = new DPLLSurveilleSolveur(formule, *heuristique);
+            break;
+        case DAVIS_PUTNAM:
+            solveur = new DavisPutnamSolveur(formule);
+            break;
     }
-    else if(arguments.getOption("wl"))
-    {
-        solveur = new DPLLSurveilleSolveur(formule, *heuristique);
-    }
-    else
-    {
-        solveur = new DPLLSolveur(formule, *heuristique);
-    }
-
 
     if(solveur->isSatifiable())
     {
@@ -64,11 +63,47 @@ Formule LanceurSolveur::execute(Formule& formule)
     }
 }
 
-Heuristique LanceurSolveur::getHeuristique()
+SolveurType LanceurSolveur::getSolveur()
 {
-    Heuristique heuristique = heuristiqueParDefaut;
+    SolveurType solveur = solveurParDefaut;
 
-    string comment = "Choix des variables non assignées par défaut.";
+    if(arguments.getOption("dpll"))
+    {
+        solveur = DPLL;
+    }
+    else if(arguments.getOption("wl"))
+    {
+        solveur = WATCHED_LITERALS;
+    }
+    else if(arguments.getOption("dp"))
+    {
+        solveur = DAVIS_PUTNAM;
+    }
+    
+    if(arguments.getOption("v"))
+    {
+        ostream out(getBufferSortie());
+        
+        switch(solveur)
+        {
+            case DPLL:
+                out << debutCommentaire << " Utilisation de PDLL." << endl;
+                break;
+            case WATCHED_LITERALS:
+                out << debutCommentaire << " Utilisation des Watched Literals." << endl;
+                break;
+            case DAVIS_PUTNAM:
+                out << debutCommentaire << " Utilisation de Davis Putnam." << endl;
+                break;
+        }
+    }
+
+    return solveur;
+}
+
+HeuristiqueType LanceurSolveur::getHeuristique()
+{
+    HeuristiqueType heuristique = heuristiqueParDefaut;
     
     if(arguments.getOption("rand"))
     {
@@ -131,14 +166,15 @@ streambuf* LanceurSolveur::getBufferSortie()
 
 vector<string> LanceurSolveur::getNomsOptions()
 {
-    vector<string> liste(8);
-    liste[0]="wl";
-    liste[1]="dp";
-    liste[2]="rand";
-    liste[3]="malin";
-    liste[4]="moms";
-    liste[5]="dlis";
-    liste[6]="v";
-    liste[7]="s";
+    vector<string> liste(9);
+    liste[0]="dpll";
+    liste[1]="wl";
+    liste[2]="dp";
+    liste[3]="rand";
+    liste[4]="malin";
+    liste[5]="moms";
+    liste[6]="dlis";
+    liste[7]="v";
+    liste[8]="s";
     return liste;
 }
