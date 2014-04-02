@@ -104,7 +104,11 @@ SolveurType LanceurSolveur::getSolveur()
 HeuristiqueType LanceurSolveur::getHeuristique()
 {
     HeuristiqueType heuristique = heuristiqueParDefaut;
-    
+
+    if(arguments.getOption("simple"))
+    {
+        heuristique = SIMPLE;
+    }
     if(arguments.getOption("rand"))
     {
         heuristique = RAND;
@@ -166,15 +170,16 @@ streambuf* LanceurSolveur::getBufferSortie()
 
 vector<string> LanceurSolveur::getNomsOptions()
 {
-    vector<string> liste(9);
+    vector<string> liste(10);
     liste[0]="dpll";
     liste[1]="wl";
     liste[2]="dp";
-    liste[3]="rand";
-    liste[4]="malin";
-    liste[5]="moms";
-    liste[6]="dlis";
-    liste[7]="v";
-    liste[8]="s";
+    liste[3]="simple";
+    liste[4]="rand";
+    liste[5]="malin";
+    liste[6]="moms";
+    liste[7]="dlis";
+    liste[8]="v";
+    liste[9]="s";
     return liste;
 }
