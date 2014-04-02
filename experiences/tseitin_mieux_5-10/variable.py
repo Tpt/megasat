@@ -39,7 +39,7 @@ while nbVar <= maxVar :
             temps = time.time()
             popen("./../../tseitin temp_var.txt "+heuristiques[h]+" "+wl[w])
             total += time.time()-temps
-            popen("rm -f temp_var.cnf")
+            popen("rm -f temp_var.txt")
             it += 1
         temps = total/itMax
         write(fichier,str(temps)+" ")

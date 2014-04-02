@@ -28,7 +28,7 @@ pair<int, int> next(int n, pair<int, int> e)
     else if(e.first<n-2)
         e.first++;
     else
-        e.first=1;
+        e.first=0;
     
     e.second=e.first+1;
     return e;
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
         
         e.first=min(a,b);
         e.second=max(a,b);
-        for(;adj[e.first].find(e.second)!=adj[e.first].end();e=next(n,e));
+        for(;adj[e.first].find(e.second)!=adj[e.first].end();e=next(n,e))cout<<e.first<<" "<<e.second<<endl;
         adj[e.first].insert(e.second);
     }
     
