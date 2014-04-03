@@ -2,6 +2,8 @@ Parmi la corbeille de test, nous vous proposons :
 
 D'un point de vue très général, pour chaque graphe, il y a 3 versions. Celle qui compare toutes les heuristiques, les deux suivantes sélectionnent les meilleurs en deux étapes.
 
+Les tests ont été faits avec des scripts python, avec la philosohpie : un test = un script. Ca les rend facile à refaire, très spécifique. Le python a été choisi après un échec remarquable en bash. On trouve d'ailleurs les restes dans bash_fail. Je ne garantie pas qu'ils fonctionnent (même en mettant les chemins à jour) mais c'est une belle expérience d'archéologie.
+
 NB : Le paramètre vide "" des tests correspond à dpll simple même pour colorie et tseitin (contrairement à ce qu'on peut avoir envie de comprendre). Les tests ont étés fait avec un programme ne choisissant pas d'heuristique par défaut autre qu'un dpll simple. Avec la version actuelle du programme, il suffit de remplacer "" dans les codes python par "dpll".
 
     1/ Les formules CNF.
