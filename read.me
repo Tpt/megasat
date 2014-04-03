@@ -7,20 +7,27 @@ Au menu :
 - Les graphes recouverts d'un fin coulis de coloriage
 - La corbeille de tests
 
-Tout d'abord une option "-v" (comme verbose) a été ajouté pour afficher des données sur le calcul courant (choix de l'heuristique, formule en forme normale conjonctive pour la résolution d'une formule générale...).
+Tout d'abord une option "-v" (comme verbose) a été ajoutée pour afficher des données sur le calcul courant (choix de l'heuristique, formule en forme normale conjonctive pour la résolution d'une formule générale...).
 
 Pour les heuristiques elles sont chacune implémentées dans une classe séparée implémentant dans même interface VariableNonAssigneeProvider puis injectées à la construction du solveur.
 Les heuristiques disponibles sont :
-- simple : la première variable non assigné trouvé en l'assignant à true en premier (option -simple)
+- simple : la première variable non assignée trouvée en l'assignant à true en premier (option -simple)
 - rand : une variable libre prise au hasard en l'assignant à true en premier (option -rand)
 - malin : une variable libre prise au hasard en l'assignant à la polarité la plus présente dans les clauses (option -malin)
 - MOMS : heuristique MOMS (option -moms)
 - DLIS : heuristique DLIS (option -dlis)
-Les options de systèmes de résolution et d'heuristique sont disponibles pour les 3 exécutables (resol, tseitin et colorie).
+On rappelle que les trois algorithmes de résolutions sont :
+- DPLL simple (option -dpll)
+- DPLL avec Watched Literals (option -wl)
+- Davis-Putnam (option -dp, n'utilise pas les heuristiques)
+Les options de choix de système de résolution et d'heuristique sont disponibles pour les 3 exécutables (resol, tseitin et colorie).
 
-Les formules logiques générales on eu droit à leur parseur fait avec flex/bison (code dans /logique_parser). Elle sont représentées par un arbre de FormuleTseitin. On a préféré ne pas utiliser d'héritage ici pour éviter de nombreux cast dans les transformations.
+Les formules logiques générales on eu droit à leur parseur fait avec Flex et GNU Bison (code dans /logique_parser). Elle sont représentées par un arbre de FormuleTseitin. On a préféré ne pas utiliser d'héritage ici pour éviter de nombreux cast dans les transformations.
 La transformation de Tseitin est exécutée, suivant la spécification, par TransformationTseitin qui fournis une table de correspondance entre les noms de variables dans la formule vers les identifiants numériques utilisés par la structure de données Formule.
-L'exécution du SAT-solveur se fait comme d'habitude, puis la table de correspondance est utilisé pour la sortie.
+L'exécution du SAT-solveur se fait comme d'habitude, puis la table de correspondance est utilisée pour la sortie.
+
+Pour utiliser le solveur de formule logique, il suffit de passer la formule dans un fichier à l'exécutable "tseitin" :
+   ./tseitin exemple.txt
 
 Pour les graphes, un petit parseur se charge de créer une structure de donnée Graphe sans grand intérêt (les graphes sont codés par la liste de arêtes).
 Ensuite, CreateurContraintesColoriage se charge de crée une formule représentant les contraintes de coloriages.
@@ -33,10 +40,16 @@ Les contraintes sont :
   Récurrence :
     - si k_i = 1 alors on a contrainte(s,i) = non("s i") ou contraintes(s, i-1) (si le i ème bit est à 0 c'est bon, sinon les bits i..l sont identiques).
     - si k_i = 0 alors contraintes contrainte(s,i) = non("s i") et contraintes(s, i-1) (il ne faut pas que le i ème bit soit à 1 et on a les bits i..l identiques).
-Ensuite, on appel la transformation de Tseitin et le solveur. Cela fait, on retourne le graphe colorié en calculant les couleurs à partir des variables de la formule.
+Ensuite, on appelle la transformation de Tseitin et le solveur (utilisant par défaut les Watched-Literals avec l'heuristique MOMS). Cela fait, on retourne le graphe colorié en calculant les couleurs à partir des variables de la formule.
 Pour les couleurs, on utilise le format Teinte-Saturation-Valeur avec une teinte répartie régulièrement entre 0 et 1 (la couleur 0 a pour teinte 0 et la couleur k-1 la teinte 1) et une saturation-valeur fixé astucieusement.
 
+Exemple d'utilisation du coloriage de graphe :
+On cherche un 5-coloriage du graphe contenu dans le fichier test.col et on place la sortie au format dot/graphviz dans test.dot.
+    ./colorie 5 test.col > test.dot
+On affiche la sortie dans un fichier pdf (nécessite Graphviz, d'autre formats comme png ou svg sont supportés) :
+    dot test.dot -Tpdf > test.pdf
 
+Pour la corbeille d'expériences, se référer à experiences/experiences.fm
 
 === Rendu 1 ===
 Oyez, oyez ! Tant de nouveautés !

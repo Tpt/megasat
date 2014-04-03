@@ -22,7 +22,7 @@ public:
     FormuleTseitin(FormuleTypeSimple type_, std::string name_);
     FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* op);
     FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* opG, FormuleTseitin* opD);
-    ~FormuleTseitin();
+    ~FormuleTseitin(); //Ne détruit pas récursivement. Pour ce faire, il faut utiliser la méthode free()
     std::string getName() const;
     int getArite() const;
     FormuleTseitin::FormuleTypeSimple getType() const;
