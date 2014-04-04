@@ -5,7 +5,7 @@ NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -W
 CFLAGS=$(NAZI)
 LDFLAGS= 
 SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o
-EXEC=resol tseitin colorie
+EXEC=setup resol tseitin colorie
 LEX=flex
 YACC=bison
 
@@ -19,6 +19,9 @@ purge: clean all
 clang: CC=clang++
 clang: C11=-std=c++11
 clang: $(EXEC)
+
+setup:
+	mkdir -p obj
 
 colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/GraphvizOutput.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-colorie.o
 	$(CC) -o $@ $^ $(LDFLAGS)

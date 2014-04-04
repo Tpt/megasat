@@ -4,7 +4,7 @@ FLAGSBASE= -O3 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpoin
 NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused
 CFLAGS=$(NAZI)
 LDFLAGS=
-EXEC=gen genTseitin genGraphe
+EXEC=setup gen genTseitin genGraphe
 
 all: $(EXEC)
 
@@ -16,6 +16,9 @@ clang: C11=-std=c++11
 clang: $(EXEC)
 
 purge: clean all
+
+setup:
+	mkdir -p obj
 
 gen: obj/gen.o
 	$(CC) -o $@ $^ $(LDFLAGS)
