@@ -36,12 +36,12 @@ On a n*log2(n) variables "i j" codant le j ème bit de la couleur du sommet i.
 Les contraintes sont :
 - Que pour chaque arêtes (i,j), les couleurs soient différentes, i.e. qu'il existe un bit différent donc que (("i 0" xor "j 0") ou .. ou ("i log2(k)" xor "j log2(k)")) soit vrai.
 - Que la couleur des sommets s soient < k (on les codes de 0 à k-1). On note k = k_l...k_0 en base 2. On construit la contraintes par récurrence avec contrainte(s,i) la contrainte en supposant que les bits (i+1)...l de la couleur et de k sont égaux.
-  Initialisation : contrainte(s,0) = false (il faut que la couleur soit < k)
+  Initialisation : contrainte(s,0) = false (il faut que la couleur soit strictement inférieure à k)
   Récurrence :
     - si k_i = 1 alors on a contrainte(s,i) = non("s i") ou contraintes(s, i-1) (si le i ème bit est à 0 c'est bon, sinon les bits i..l sont identiques).
     - si k_i = 0 alors contraintes contrainte(s,i) = non("s i") et contraintes(s, i-1) (il ne faut pas que le i ème bit soit à 1 et on a les bits i..l identiques).
 Ensuite, on appelle la transformation de Tseitin et le solveur (utilisant par défaut les Watched-Literals avec l'heuristique MOMS). Cela fait, on retourne le graphe colorié en calculant les couleurs à partir des variables de la formule.
-Pour les couleurs, on utilise le format Teinte-Saturation-Valeur avec une teinte répartie régulièrement entre 0 et 1 (la couleur 0 a pour teinte 0 et la couleur k-1 la teinte 1) et une saturation-valeur fixé astucieusement.
+Pour les couleurs, on utilise le format Teinte-Saturation-Valeur avec une teinte répartie régulièrement entre 0 et 1 (la couleur 0 a pour teinte 0 et la couleur k-1 la teinte 1) et une saturation-valeur fixée astucieusement.
 Si le graphe n'est pas k-coloriable alors il reste coloré en blanc.
 Attention, si k devient grand (dès 5 ou 6) quelques couleurs peuvent se ressembler. Ne pas hésiter à regarder la source du graphe au format dot/graphviz pour lever les ambiguïtés.
 
