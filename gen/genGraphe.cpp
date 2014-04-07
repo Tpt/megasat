@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
     {
         cout<<"Nombre de sommets : ";
         cin>>n;
-        cout<<"Nombre d'arêtes': ";
+        cout<<"Nombre d'arêtes : ";
         cin>>m;
     }
     else
@@ -95,7 +95,7 @@ int main(int argc, char* argv[])
         
         e.first=min(a,b);
         e.second=max(a,b);
-        for(;adj[e.first].find(e.second)!=adj[e.first].end();e=next(n,e))cout<<e.first<<" "<<e.second<<endl;
+        for(;adj[e.first].find(e.second)!=adj[e.first].end();e=next(n,e));
         adj[e.first].insert(e.second);
     }
     
