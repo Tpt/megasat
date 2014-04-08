@@ -4,7 +4,7 @@
 using namespace std;
 
 TransformationTseitin::TransformationTseitin(FormuleTseitin* formule_) :
-formule(formule_), formuleNormalisee(nullptr), V(0), nbrVariableAux(0), correspondanceDesVariables(map<string,int>())
+formule(formule_), formuleNormalisee(nullptr), V(0), nbrVariableAux(0), correspondanceDesVariables(unordered_map<string,int>())
 {
     V = creerCorrespondance();
     nbrVariableAux = compterVariablesAux();

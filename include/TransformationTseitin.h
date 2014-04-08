@@ -3,7 +3,7 @@
 
 #include "Formule.h"
 #include "FormuleTseitin.h"
-#include<map>
+#include<unordered_map>
 
 class TransformationTseitin
 {
@@ -13,7 +13,7 @@ public:
     TransformationTseitin(const TransformationTseitin& other);
     TransformationTseitin& operator=(const TransformationTseitin& other);
     Formule normaliser();
-    std::map<std::string, int> getCorrespondance() const {return correspondanceDesVariables;};
+    std::unordered_map<std::string, int> getCorrespondance() const {return correspondanceDesVariables;};
 
 private:
     int creerCorrespondance();
@@ -33,7 +33,7 @@ private:
     Formule* formuleNormalisee;
     int V;
     int nbrVariableAux;
-    std::map<std::string, int> correspondanceDesVariables;
+    std::unordered_map<std::string, int> correspondanceDesVariables;
 };
 
 #endif // TRANSFORMATIONTSEITIN_H
