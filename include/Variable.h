@@ -8,11 +8,11 @@ class Variable
 {
 public:
     Variable(int id_);
-    int getId() const;
-    bool isAssignee() const;
-    bool getVal() const;
+    int getId() const __attribute__((pure));
+    bool isAssignee() const __attribute__((pure));
+    bool getVal() const __attribute__((pure));
     void setVal(bool e);
-    ResultatEvaluation eval() const;
+    ResultatEvaluation eval() const __attribute__((pure));
 
 private:
     int id;         /// Le numéro de la variable compté à partir de 1

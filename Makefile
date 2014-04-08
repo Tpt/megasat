@@ -1,7 +1,7 @@
 CC=g++
 C11= -std=c++0x
 FLAGSBASE= -O3 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat -Werror-implicit-function-declaration -Wmain -Wmissing-braces -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wuninitialized -Wreorder -Wundef -Wshadow -Wwrite-strings -Wsign-compare -Wmissing-declarations 
-NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused
+NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused -Wsuggest-attribute=const -Wsuggest-attribute=noreturn -Wsuggest-attribute=pure -Wsign-conversion -Wunused -Wstrict-aliasing -Wstrict-overflow -Wunsafe-loop-optimizations -Wconversion -Wlogical-op -Wdisabled-optimization
 CFLAGS=$(NAZI)
 LDFLAGS= 
 SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o
@@ -93,10 +93,10 @@ logique_parser/logiqueLexer.cpp: logique_parser/logique.lex
 	$(LEX) -o $@ $<
 
 obj/LogiqueParserDriver.o: logique_parser/driver.cpp
-	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 obj/LogiqueParserLexer.o: logique_parser/lexer.cpp
-	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 obj/Arete.o: src/Arete.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)

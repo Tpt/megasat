@@ -273,8 +273,8 @@ void Formule::supprimerSurclauses(const Clause* cl)
         if(c->estSurclause(cl))
             aSupprimer.push_back(c);
 
-    for(Clause* c : aSupprimer)
-        clauses.erase(c);
+    for(unsigned int m = 0 ; m < aSupprimer.size() ; ++m)
+        clauses.erase(aSupprimer[m]);
 }
 
 bool Formule::aSousclauses(const Clause* cl) const

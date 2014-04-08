@@ -17,7 +17,7 @@ private:
     Clause* resolution(const Clause* c1, Clause* c2, const int id) const;
     bool contient(const std::unordered_set<Clause*> seau, const Clause* clause) const;
     bool aSousclauses(const std::unordered_set<Clause*> seau, const Clause* cl) const;
-    ResultatEvaluation eval(const std::unordered_set<Clause*>& seau) const;
+    ResultatEvaluation eval(const std::unordered_set<Clause*>& seau) const __attribute__((pure));
 };
 
 #endif

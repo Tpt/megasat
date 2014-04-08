@@ -14,17 +14,17 @@ public:
     Formule(const Formule& formule);
     Formule& operator= (const Formule& other);
     ~Formule();
-    int size() const;
-    int getNombreDeVariables() const;
+    int size() const __attribute__((pure));
+    int getNombreDeVariables() const __attribute__((pure));
     void setLiteral(int id, bool polarite, bool val);
     void setVar(int id, bool val); //id est le numéro de la variable compté à partir de 1
-    bool contientClauseVide() const;
+    bool contientClauseVide() const __attribute__((pure));
     void addClause(Clause* c);
     void addClauses(const std::unordered_set<Clause*>& c);
     void supprimerClause(Clause* c);
-    bool isVide() const;
+    bool isVide() const __attribute__((pure));
     std::unordered_set<Clause*> getClauses() const;
-    ResultatEvaluation eval() const;
+    ResultatEvaluation eval() const __attribute__((pure));
     void print() const;
     bool contient(const Clause* c) const;
     void supprimerSurclauses(const Clause* cl);
@@ -32,8 +32,8 @@ public:
     std::vector<Variable*> getVars() const;
     std::vector<Literal*> getLiterauxPositifs() const;
     std::vector<Literal*> getLiterauxNegatifs() const;
-    Variable* getVar(int id) const; //id est le numéro de la variable compté à partir de 1
-    Literal* getLiteral(int id) const; /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)
+    Variable* getVar(int id) const __attribute__((pure)); //id est le numéro de la variable compté à partir de 1
+    Literal* getLiteral(int id) const __attribute__((pure)); /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)
     void simplifier();
     void supprimerTautologies();
 

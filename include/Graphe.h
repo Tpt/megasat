@@ -9,7 +9,7 @@ class Graphe
 public:
     Graphe(int sommetNumber);
     void addArete(Arete arete);
-    int getSommetNumber() const;
+    int getSommetNumber() const __attribute__((pure));
     std::unordered_set<Arete,AreteHash> getAretes() const;
 private:
     int sommetNumber;

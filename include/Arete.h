@@ -8,11 +8,11 @@ class Arete
 public:
     Arete(int extremiteGauche, int extremiteDroite);
 
-    int getExtremiteGauche() const;
-    int getExtremiteDroite() const;
+    int getExtremiteGauche() const __attribute__((pure));
+    int getExtremiteDroite() const __attribute__((pure));
 
-    bool operator==(Arete that) const;
-    size_t hash() const;
+    bool operator==(Arete that) const __attribute__((pure));
+    size_t hash() const __attribute__((pure));
 
 private:
     int extremiteGauche;

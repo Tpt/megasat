@@ -9,15 +9,15 @@ class Literal
 public:
     Literal(Variable* var_, bool polarite_);
     Literal& operator=(const Literal& other);
-    int getId() const;
-    int getAbsId() const;
-    bool isAssigne() const;
-    bool getVal() const;
-    bool getPolarite() const;
-    Variable* getVar() const;
+    int getId() const __attribute__((pure));
+    int getAbsId() const __attribute__((pure));
+    bool isAssigne() const __attribute__((pure));
+    bool getVal() const __attribute__((pure));
+    bool getPolarite() const __attribute__((pure));
+    Variable* getVar() const __attribute__((pure));
     void setVal(bool e);
     void print() const;
-    ResultatEvaluation eval() const;
+    ResultatEvaluation eval() const __attribute__((pure));
 
 private:
     Variable* var; /// Le pointeur vers la variable correspondante.

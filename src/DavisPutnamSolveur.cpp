@@ -107,8 +107,8 @@ unordered_set<Clause*> DavisPutnamSolveur::resoudreSeau(const unordered_set<Clau
                     if(c->estSurclause(work))
                         aSupprimer.push_back(c);
 
-                for(Clause* c : aSupprimer)
-                    sortie.erase(c);
+                for(unsigned int m = 0 ; m < aSupprimer.size() ; ++m)
+                    sortie.erase(aSupprimer[m]);
 
                 sortie.insert(work);
             }
