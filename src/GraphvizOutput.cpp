@@ -3,7 +3,7 @@
 
 using namespace std;
 
-GraphvizOutput::GraphvizOutput(Graphe& graphe_, Formule& formule_, map<string, int> correspondances_, int k_) :
+GraphvizOutput::GraphvizOutput(Graphe& graphe_, Formule& formule_, unordered_map<string, int> correspondances_, int k_) :
 graphe(graphe_), formule(formule_), k(k_), tailleCodeCouleurSommet(static_cast<int>(ceil(log2(k_)))), correspondances(correspondances_)
 {}
 

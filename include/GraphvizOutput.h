@@ -4,12 +4,12 @@
 #include"Graphe.h"
 #include"Formule.h"
 #include<streambuf>
-#include<map>
+#include<unordered_map>
 
 class GraphvizOutput
 {
 public:
-    GraphvizOutput(Graphe& graphe, Formule& formule, std::map<std::string, int> correspondances, int k);
+    GraphvizOutput(Graphe& graphe, Formule& formule, std::unordered_map<std::string, int> correspondances, int k);
     void affiche(std::streambuf* sortie, bool avecColoriage = false);
 private:
     int getCouleur(int sommet);
@@ -17,7 +17,7 @@ private:
     Formule formule;
     int k;
     int tailleCodeCouleurSommet;
-    std::map<std::string, int> correspondances;
+    std::unordered_map<std::string, int> correspondances;
 };
 
 #endif
