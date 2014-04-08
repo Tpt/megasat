@@ -16,7 +16,7 @@ using namespace std;
    return ss.str();
 }*/
 
-pair<int, int> next(int n, pair<int, int> e);
+pair<int, int> next(int n, pair<int, int> e) __attribute__((pure));
 
 pair<int, int> next(int n, pair<int, int> e)
 {
@@ -29,7 +29,7 @@ pair<int, int> next(int n, pair<int, int> e)
         e.first++;
     else
         e.first=0;
-    
+
     e.second=e.first+1;
     return e;
 }
@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 {
     int n;
     int m;
-    
+
     if(argc<3)
     {
         cout<<"Nombre de sommets : ";
@@ -51,7 +51,7 @@ int main(int argc, char* argv[])
         n=atoi(argv[1]);
         m=atoi(argv[2]);
     }
-    
+
     if(n*(n-1)<2*m)
     {
         cerr<<"Trop d'arêtes ! "<<endl;
@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
 
     vector<unordered_set<int>> adj(static_cast<size_t>(n));
     pair<int, int> e;
-    
+
     for(int i=0;i<m;++i)
     {
         int a=rand()%n;
@@ -92,17 +92,17 @@ int main(int argc, char* argv[])
             else
                 b++;
         }
-        
+
         e.first=min(a,b);
         e.second=max(a,b);
         for(;adj[static_cast<size_t>(e.first)].find(e.second)!=adj[static_cast<size_t>(e.first)].end();e=next(n,e));
         adj[static_cast<size_t>(e.first)].insert(e.second);
     }
-    
+
     file<<"c Créé aléatoirement par notre superbe programme de génération de graphe"<<endl;
     file<<"c Il contient "<<n<<" sommets et "<<m<<" arêtes distinctes."<<endl;
     file<<"c Passez le bonjour à MM Blot et Hirschkoff"<<endl;
-    file<<"p edge "<<n<<" "<<m<<endl;    
+    file<<"p edge "<<n<<" "<<m<<endl;
 
     for(int i=0;i<n;++i)
     {
@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
             file<<"e "<<i+1<<" "<<w+1<<endl;
         }
     }
-    
+
 
     file.close();
 
