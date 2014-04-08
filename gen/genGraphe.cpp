@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
     ofstream file(filename);
 
 
-    vector<unordered_set<int>> adj(n);
+    vector<unordered_set<int>> adj(static_cast<size_t>(n));
     pair<int, int> e;
     
     for(int i=0;i<m;++i)
@@ -95,8 +95,8 @@ int main(int argc, char* argv[])
         
         e.first=min(a,b);
         e.second=max(a,b);
-        for(;adj[e.first].find(e.second)!=adj[e.first].end();e=next(n,e));
-        adj[e.first].insert(e.second);
+        for(;adj[static_cast<size_t>(e.first)].find(e.second)!=adj[static_cast<size_t>(e.first)].end();e=next(n,e));
+        adj[static_cast<size_t>(e.first)].insert(e.second);
     }
     
     file<<"c Créé aléatoirement par notre superbe programme de génération de graphe"<<endl;
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
 
     for(int i=0;i<n;++i)
     {
-        for(int w : adj[i])
+        for(int w : adj[static_cast<size_t>(i)])
         {
             file<<"e "<<i+1<<" "<<w+1<<endl;
         }

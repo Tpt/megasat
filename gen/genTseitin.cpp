@@ -36,7 +36,7 @@ string next_string(string s)
 string gen(int prof_min, int prof_max, vector<string>& vars)
 {
     if(prof_max==0)
-        return vars[rand()%vars.size()];
+        return vars[static_cast<size_t>(static_cast<size_t>(rand())%(static_cast<size_t>(vars.size())))];
     
     if(prof_min<0)
     {
@@ -51,7 +51,7 @@ string gen(int prof_min, int prof_max, vector<string>& vars)
             case 3:
                 return "~"+gen(prof_min-1,prof_max-1,vars);
             default:
-                return vars[rand()%vars.size()];
+                return vars[static_cast<size_t>(static_cast<size_t>(rand())%static_cast<size_t>(vars.size()))];
         }
     }
     switch(rand()%4)
