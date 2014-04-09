@@ -14,27 +14,28 @@ public:
     Formule(const Formule& formule);
     Formule& operator= (const Formule& other);
     ~Formule();
-    int size() const __attribute__((pure));
-    int getNombreDeVariables() const __attribute__((pure));
-    void setLiteral(int id, bool polarite, bool val);
-    void setVar(int id, bool val); //id est le numéro de la variable compté à partir de 1
-    bool contientClauseVide() const __attribute__((pure));
+
     void addClause(Clause* c);
     void addClauses(const std::unordered_set<Clause*>& c);
-    void supprimerClause(Clause* c);
-    bool isVide() const __attribute__((pure));
-    std::unordered_set<Clause*> getClauses() const;
-    ResultatEvaluation eval() const __attribute__((pure));
-    void print() const;
-    bool contient(const Clause* c) const;
-    void supprimerSurclauses(const Clause* cl);
     bool aSousclauses(const Clause* cl) const;
-    std::vector<Variable*> getVars() const;
-    std::vector<Literal*> getLiterauxPositifs() const;
-    std::vector<Literal*> getLiterauxNegatifs() const;
-    Variable* getVar(int id) const __attribute__((pure)); //id est le numéro de la variable compté à partir de 1
+    bool contient(const Clause* c) const;
+    bool contientClauseVide() const __attribute__((pure));
+    ResultatEvaluation eval() const __attribute__((pure));
+    std::unordered_set<Clause*> getClauses() const;
     Literal* getLiteral(int id) const __attribute__((pure)); /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)
+    std::vector<Literal*> getLiterauxNegatifs() const;
+    std::vector<Literal*> getLiterauxPositifs() const;
+    int getNombreDeVariables() const __attribute__((pure));
+    Variable* getVar(int id) const __attribute__((pure)); //id est le numéro de la variable compté à partir de 1
+    std::vector<Variable*> getVars() const;
+    bool isVide() const __attribute__((pure));
+    void print() const;
+    void setLiteral(int id, bool polarite, bool val);
+    void setVar(int id, bool val); //id est le numéro de la variable compté à partir de 1
     void simplifier();
+    int size() const __attribute__((pure));
+    void supprimerClause(Clause* c);
+    void supprimerSurclauses(const Clause* cl);
     void supprimerTautologies();
 
 private:
