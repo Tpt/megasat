@@ -14,27 +14,29 @@ class Clause
 public:
     Clause(int variableNumber);
     Clause(int variableNumber, int uid);
-    int size() const __attribute__((pure));
-    bool simplificationUnitaire() const;
-    bool isVide() const __attribute__((pure));
-    int eval() const __attribute__((pure));
-    int indiceMax() const __attribute__((pure));
-    bool literalPresent(Literal* literal) const __attribute__((pure));
-    void literalPresent(int id, bool& found_pos, bool& found_neg) const;
-    bool isTautologie() const __attribute__((pure));
+
     void addLiteral(Literal* literal);
     void addLiteraux(std::unordered_set<Literal*> nouveauxLiteraux);
+    bool contientLiteralVrai() const __attribute__((pure));
+    int eval() const __attribute__((pure));
+    int indiceMax() const __attribute__((pure));
+    bool estSurclause(const Clause* c) const;
+    bool isTautologie() const __attribute__((pure));
+    bool isVide() const __attribute__((pure));
     void fusionner(Clause* c);
     std::unordered_set<Literal*> getLiteraux() const;
-    void supprimerLiteraux(std::list<Literal*> literauxASupprimer);
-    void supprimer(Literal* l);
+    int getNombreDeVariables() const __attribute__((pure));
+    int getUid() const __attribute__((pure));
+    bool literalPresent(Literal* literal) const __attribute__((pure));
+    void literalPresent(int id, bool& found_pos, bool& found_neg) const;
     Polarite polariteLiteral(int id) const __attribute__((pure));
     void print() const;
-    int getNombreDeVariables() const __attribute__((pure));
-    bool estSurclause(const Clause* c) const;
-    bool contientLiteralVrai() const __attribute__((pure));
+    bool simplificationUnitaire() const;
+    void supprimer(Literal* l);
+    void supprimerLiteraux(std::list<Literal*> literauxASupprimer);
     void supprimerLiterauxFaux();
-    int getUid() const __attribute__((pure));
+    int size() const __attribute__((pure));
+
 
     static int genUid();
     static int nextUid;
