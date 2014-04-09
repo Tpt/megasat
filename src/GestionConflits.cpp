@@ -7,6 +7,9 @@ GestionConflits::GestionConflits(int prochainConflit_)
 : conflitsNum(0), prochainConflit(prochainConflit_)
 {}
 
+GestionConflits::~GestionConflits()
+{}
+
 void GestionConflits::onConflit()
 {
     conflitsNum++;
@@ -18,7 +21,7 @@ int GestionConflits::getConflitsNum() const
 }
 
 
-GestionConflitsApprentissage::GestionConflitsApprentissage(int prochainConflit) : GestionConflits(prochainConflit)
+GestionConflitsApprentissage::GestionConflitsApprentissage(int prochainConflit_) : GestionConflits(prochainConflit_)
 {}
 
 void GestionConflitsApprentissage::onConflit()
@@ -31,7 +34,7 @@ void GestionConflitsApprentissage::onConflit()
 
 void GestionConflitsApprentissage::displayInterface()
 {
-    cout << conflitsNum << " conflit !" << endl;
+    cout << conflitsNum << "° conflit !" << endl;
 
     char ch;
     while(cin >> ch)

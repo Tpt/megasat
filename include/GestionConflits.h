@@ -5,6 +5,7 @@ class GestionConflits
 {
 public:
     GestionConflits(int prochainConflit = 0);
+    virtual ~GestionConflits();
     void onConflit();
     int getConflitsNum() const __attribute__((pure));
 protected:
