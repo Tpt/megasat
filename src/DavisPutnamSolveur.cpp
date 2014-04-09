@@ -104,7 +104,7 @@ unordered_set<Clause*> DavisPutnamSolveur::resoudreSeau(const unordered_set<Clau
                 vector<Clause*> aSupprimer(0);/// On enlève toutes les surclauses qui sont nécessairement vérifiées.
 
                 for(Clause* c : sortie)
-                    if(c->estSurclause(work))
+                    if(c->isSurclause(work))
                         aSupprimer.push_back(c);
 
                 for(unsigned int m = 0 ; m < aSupprimer.size() ; ++m)
@@ -153,7 +153,7 @@ Clause* DavisPutnamSolveur::resolution(const Clause* c1, Clause* c2, const int i
 bool DavisPutnamSolveur::aSousclauses(const unordered_set<Clause*> seau, const Clause* cl) const
 {
     for(Clause* c : seau)
-        if(cl->estSurclause(c))
+        if(cl->isSurclause(c))
             return true;
 
     return false;
