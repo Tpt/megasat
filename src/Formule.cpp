@@ -91,42 +91,6 @@ void Formule::setVar(int id, bool val)
     vars[static_cast<size_t>(id-1)]->setVal(val);
 }
 
-void Formule::simplifier() ///Arret mortellement dangereux ! Mais garanti 100% safe (a quelques exceptions près).
-{
-    compacter();
-    while(eliminationLiterauxPurs() || propagationUnitaire())
-        compacter();
-}
-
-bool Formule::simplificationLiteralPur(int id)
-{
-    bool found_pos=false;
-    bool found_neg=false;
-    Polarite res;
-
-    for(Clause* c : clauses)
-    {
-        res=c->polariteLiteral(id);
-        if(res==POSITIF)
-            found_pos=true;
-        else if(res==NEGATIF)
-            found_neg=true;
-    }
-
-    if(!found_neg && found_pos)
-    {
-        lits_pos[static_cast<size_t>(id-1)]->setVal(true);
-        return true;
-    }
-    else if(found_neg && !found_pos)
-    {
-        lits_neg[static_cast<size_t>(id-1)]->setVal(true);
-        return true;
-    }
-
-    return false;
-}
-
 void Formule::supprimerTautologies()
 {
     vector<Clause*> aSupprimer;
@@ -138,52 +102,10 @@ void Formule::supprimerTautologies()
         clauses.erase(aSupprimer[i]);
 }
 
-bool Formule::eliminationLiterauxPurs()
-{
-    bool modif=false;
-
-    for(int id=1; id<V+1; ++id)
-        if(simplificationLiteralPur(id))
-            modif=true;
-
-    return modif;
-}
-
-void Formule::compacter()
-{
-    list<Clause*> clausesASupprimer;
-    for(Clause* c : clauses)
-    {
-        c->supprimerLiterauxFaux();
-        if(c->contientLiteralVrai())
-            clausesASupprimer.push_front(c); //on ne peut supprimer directement car cela invaliderait l'itérateur
-    }
-
-    for(Clause* c : clausesASupprimer)
-        clauses.erase(c);
-}
-
-bool Formule::propagationUnitaire()
-{
-    bool modif=false;
-
-    for(Clause* c : clauses)
-    {
-        if(c->simplificationUnitaire())
-            modif=true;
-    }
-
-    if(modif)
-        propagationUnitaire();
-
-    return modif;
-}
-
 vector<Variable*> Formule::getVars() const
 {
     return vars;
 }
-
 
 vector<Literal*> Formule::getLiterauxPositifs() const
 {
@@ -216,22 +138,9 @@ void Formule::print() const
     cout<<endl;
 }
 
-int Formule::size() const
-{
-    return static_cast<int>(clauses.size());
-}
-
 bool Formule::isVide() const
 {
     return clauses.size() == 0;
-}
-
-bool Formule::contientClauseVide() const
-{
-    for(Clause* c : clauses)
-        if(c->isVide())
-            return true;
-    return false;
 }
 
 void Formule::addClause(Clause* clause) ///malgre la structure d'ensemble, le test est indispensable. En effet c'est un pointeur et non l'élément
@@ -263,38 +172,4 @@ bool Formule::contient(const Clause* clause) const
             return true;
 
     return false;
-}
-
-void Formule::supprimerSurclauses(const Clause* cl)
-{
-    vector<Clause*> aSupprimer(0);
-
-    for(Clause* c : clauses)
-        if(c->isSurclause(cl))
-            aSupprimer.push_back(c);
-
-    for(unsigned int m = 0 ; m < aSupprimer.size() ; ++m)
-        clauses.erase(aSupprimer[m]);
-}
-
-bool Formule::aSousclauses(const Clause* cl) const
-{
-    for(Clause* c : clauses)
-        if(cl->isSurclause(c))
-            return true;
-
-    return false;
-}
-
-ResultatEvaluation Formule::eval() const
-{
-    for(Clause* c : clauses)
-    {
-        int tmp=c->eval();
-        if(tmp==2)
-            return INCONNU;
-        else if(tmp==0)
-            return FAUX;
-    }
-    return VRAI;
 }

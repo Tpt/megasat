@@ -17,10 +17,7 @@ public:
 
     void addClause(Clause* c);
     void addClauses(const std::unordered_set<Clause*>& c);
-    bool aSousclauses(const Clause* cl) const;
     bool contient(const Clause* c) const;
-    bool contientClauseVide() const __attribute__((pure));
-    ResultatEvaluation eval() const __attribute__((pure));
     std::unordered_set<Clause*> getClauses() const;
     Literal* getLiteral(int id) const __attribute__((pure)); /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)
     std::vector<Literal*> getLiterauxNegatifs() const;
@@ -32,19 +29,11 @@ public:
     void print() const;
     void setLiteral(int id, bool polarite, bool val);
     void setVar(int id, bool val); //id est le numéro de la variable compté à partir de 1
-    void simplifier();
-    int size() const __attribute__((pure));
     void supprimerClause(Clause* c);
-    void supprimerSurclauses(const Clause* cl);
     void supprimerTautologies();
 
 private:
     void initLits();
-    void compacter();
-    bool simplificationLiteralPur(int id);
-    bool propagationUnitaire();
-    bool eliminationLiterauxPurs();
-
 
     int V; ///Nombre de variables
     std::unordered_set<Clause*> clauses;

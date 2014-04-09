@@ -12,6 +12,11 @@ public:
 private:
     void assigneVariable(int varId, bool val);
     bool aClauseVide();
+    void simplifier();
+    void compacter();
+    bool eliminationLiterauxPurs();
+    bool propagationUnitaire();
+    bool simplificationLiteralPur(int id);
 };
 
 #endif
