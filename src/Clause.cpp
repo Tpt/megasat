@@ -129,7 +129,7 @@ int Clause::eval() const
     return contientInconnu ? INCONNU : FAUX;
 }
 
-bool Clause::estSurclause(const Clause* c) const ///Test si la clause est une surclause de la clause donnée en argument.
+bool Clause::isSurclause(const Clause* c) const ///Test si la clause est une surclause de la clause donnée en argument.
 {
     unordered_set<Literal*> lit(c->getLiteraux());
 

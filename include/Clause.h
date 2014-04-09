@@ -20,7 +20,7 @@ public:
     bool contientLiteralVrai() const __attribute__((pure));
     int eval() const __attribute__((pure));
     int indiceMax() const __attribute__((pure));
-    bool estSurclause(const Clause* c) const;
+    bool isSurclause(const Clause* c) const;
     bool isTautologie() const __attribute__((pure));
     bool isVide() const __attribute__((pure));
     void fusionner(Clause* c);

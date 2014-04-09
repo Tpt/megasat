@@ -270,7 +270,7 @@ void Formule::supprimerSurclauses(const Clause* cl)
     vector<Clause*> aSupprimer(0);
 
     for(Clause* c : clauses)
-        if(c->estSurclause(cl))
+        if(c->isSurclause(cl))
             aSupprimer.push_back(c);
 
     for(unsigned int m = 0 ; m < aSupprimer.size() ; ++m)
@@ -280,7 +280,7 @@ void Formule::supprimerSurclauses(const Clause* cl)
 bool Formule::aSousclauses(const Clause* cl) const
 {
     for(Clause* c : clauses)
-        if(cl->estSurclause(c))
+        if(cl->isSurclause(c))
             return true;
 
     return false;
