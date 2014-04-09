@@ -3,7 +3,7 @@
 
 using namespace std;
 
-DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_) : AbstractDPLLSolveur(formule_, variableNonAssigneeProvider_), literauxSurveilles(unordered_map<int,pair<int,int>>())
+DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_, GestionConflits& gestionConflits_) : AbstractDPLLSolveur(formule_, variableNonAssigneeProvider_, gestionConflits_), literauxSurveilles(unordered_map<int,pair<int,int>>())
 {}
 
 bool DPLLSurveilleSolveur::isSatifiable()

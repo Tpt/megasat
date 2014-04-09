@@ -7,7 +7,7 @@
 class DPLLSurveilleSolveur : public AbstractDPLLSolveur
 {
 public:
-    DPLLSurveilleSolveur(Formule& formule, VariableNonAssigneeProvider& variableNonAssigneeProvider_);
+    DPLLSurveilleSolveur(Formule& formule, VariableNonAssigneeProvider& variableNonAssigneeProvider, GestionConflits& gestionConflits);
     bool isSatifiable();
 private:
     std::unordered_map<int,std::pair<int,int>> literauxSurveilles; //on ne peut stocker des Literal* car il changent lors d'un backtrack

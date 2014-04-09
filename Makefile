@@ -9,7 +9,7 @@ else
 endif
 CFLAGS=$(NAZI)
 LDFLAGS= 
-SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o
+SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o obj/GestionConflits.o
 EXEC=setup resol tseitin colorie
 LEX=flex
 YACC=bison
@@ -68,6 +68,9 @@ obj/DPLLSurveilleSolveur.o: src/DPLLSurveilleSolveur.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/VariableNonAssigneeProvider.o: src/VariableNonAssigneeProvider.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+
+obj/GestionConflits.o: src/GestionConflits.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/FormuleTseitin.o: src/FormuleTseitin.cpp

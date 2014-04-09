@@ -34,14 +34,28 @@ Formule LanceurSolveur::execute(Formule& formule)
             break;
     }
 
+    GestionConflits* gestionConflits = nullptr;
+    if(arguments.getOption("cl-interac"))
+    {
+        gestionConflits = new GestionConflitsApprentissage(1);
+    }
+    else if(arguments.getOption("cl"))
+    {
+        gestionConflits = new GestionConflitsApprentissage();
+    }
+    else
+    {
+        gestionConflits = new GestionConflits();
+    }
+
     Solveur* solveur = nullptr;
     switch(getSolveur())
     {
         case DPLL:
-            solveur = new DPLLSolveur(formule, *heuristique);
+            solveur = new DPLLSolveur(formule, *heuristique, *gestionConflits);
             break;
         case WATCHED_LITERALS:
-            solveur = new DPLLSurveilleSolveur(formule, *heuristique);
+            solveur = new DPLLSurveilleSolveur(formule, *heuristique, *gestionConflits);
             break;
         case DAVIS_PUTNAM:
             solveur = new DavisPutnamSolveur(formule);
@@ -79,7 +93,7 @@ SolveurType LanceurSolveur::getSolveur()
     {
         solveur = DAVIS_PUTNAM;
     }
-    
+
     if(arguments.getOption("v"))
     {
         ostream out(getBufferSortie());
@@ -170,7 +184,7 @@ streambuf* LanceurSolveur::getBufferSortie()
 
 vector<string> LanceurSolveur::getNomsOptions()
 {
-    vector<string> liste(10);
+    vector<string> liste(12);
     liste[0]="dpll";
     liste[1]="wl";
     liste[2]="dp";
@@ -181,5 +195,7 @@ vector<string> LanceurSolveur::getNomsOptions()
     liste[7]="dlis";
     liste[8]="v";
     liste[9]="s";
+    liste[10]="cl";
+    liste[11]="cl-interac";
     return liste;
 }

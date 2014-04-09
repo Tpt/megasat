@@ -6,7 +6,7 @@
 
 using namespace std;
 
-AbstractDPLLSolveur::AbstractDPLLSolveur(Formule& formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_) : Solveur(formule_), variableNonAssigneeProvider(variableNonAssigneeProvider_)
+AbstractDPLLSolveur::AbstractDPLLSolveur(Formule& formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_, GestionConflits& gestionConflits_) : Solveur(formule_), variableNonAssigneeProvider(variableNonAssigneeProvider_), gestionConflits(gestionConflits_)
 {}
 
 AbstractDPLLSolveur::~AbstractDPLLSolveur()
