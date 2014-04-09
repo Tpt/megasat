@@ -20,7 +20,6 @@ public:
     int eval() const __attribute__((pure));
     int indiceMax() const __attribute__((pure));
     bool literalPresent(Literal* literal) const __attribute__((pure));
-    void literauxPresents(std::vector<bool>& found_pos, std::vector<bool>& found_neg) const __attribute__((pure));
     void literalPresent(int id, bool& found_pos, bool& found_neg) const;
     bool isTautologie() const __attribute__((pure));
     void addLiteral(Literal* literal);

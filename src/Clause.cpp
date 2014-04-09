@@ -105,19 +105,6 @@ On obtient le retour grace aux références en argument. On obtient ainsi la pol
     }
 }
 
-void Clause::literauxPresents(vector<bool>& foundPos, vector<bool>& foundNeg) const /** Idem que précédemment mais avec
-toutes les variables
-**/
-{
-    for(Literal* l : literaux)
-    {
-        if(l->getPolarite())
-            foundPos[static_cast<size_t>(l->getId()-1)]=true;
-        else
-            foundNeg[static_cast<size_t>(-l->getId()-1)]=true;
-    }
-}
-
 int Clause::indiceMax() const ///Donne l'indice maximum des variables de la clause (pour ranger dans les seaux).
 {
     int sup = 0;
