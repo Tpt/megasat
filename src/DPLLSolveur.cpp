@@ -12,6 +12,8 @@ DPLLSolveur::~DPLLSolveur()
 
 bool DPLLSolveur::isSatifiable()
 {
+    gestionConflits.onBeggining(&formule);
+
     //on fait quelques simplifications préliminaires
     formule.supprimerTautologies();
     simplifier();
@@ -54,7 +56,10 @@ bool DPLLSolveur::aClauseVide()
     for(auto clause : formule.getClauses())
     {
         if(clause->isVide())
+        {
+            gestionConflits.onConflit(clause->getUid());
             return true;
+        }
     }
     return false;
 }
@@ -82,23 +87,23 @@ void DPLLSolveur::compacter()
 
 bool DPLLSolveur::eliminationLiterauxPurs()
 {
-    bool modif=false;
+    bool modif = false;
 
-    for(int id=1; id < formule.getNombreDeVariables()+1; ++id)
+    for(int id = 1; id <= formule.getNombreDeVariables(); ++id)
         if(simplificationLiteralPur(id))
-            modif=true;
+            modif = true;
 
     return modif;
 }
 
 bool DPLLSolveur::propagationUnitaire()
 {
-    bool modif=false;
+    bool modif = false;
 
     for(Clause* c : formule.getClauses())
     {
-        if(c->simplificationUnitaire())
-            modif=true;
+        if(simplificationUnitaire(c))
+            modif = true;
     }
 
     if(modif)
@@ -107,19 +112,36 @@ bool DPLLSolveur::propagationUnitaire()
     return modif;
 }
 
+bool DPLLSolveur::simplificationUnitaire(Clause* clause)
+{
+    if(clause->size() != 1)
+        return false;
+    
+    for( Literal* literal : clause->getLiteraux())
+    {
+        if(!literal->isAssigne())
+        {
+            gestionConflits.onDeduction(literal, clause->getUid());
+            literal->setVal(true);
+            return true;
+        }
+    }
+    return false;
+}
+
 bool DPLLSolveur::simplificationLiteralPur(int id)
 {
-    bool found_pos=false;
-    bool found_neg=false;
+    bool found_pos = false;
+    bool found_neg = false;
     Polarite res;
 
     for(Clause* c : formule.getClauses())
     {
-        res=c->polariteLiteral(id);
-        if(res==POSITIF)
-            found_pos=true;
-        else if(res==NEGATIF)
-            found_neg=true;
+        res = c->polariteLiteral(id);
+        if(res == POSITIF)
+            found_pos = true;
+        else if(res == NEGATIF)
+            found_neg = true;
     }
 
     if(!found_neg && found_pos)

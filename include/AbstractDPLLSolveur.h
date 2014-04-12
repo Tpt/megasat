@@ -12,6 +12,7 @@ public:
     AbstractDPLLSolveur(Formule &formule, VariableNonAssigneeProvider& variableNonAssigneeProvider, GestionConflits& gestionConflits);
     ~AbstractDPLLSolveur();
 protected:
+    Formule* formuleInitiale;
     VariableNonAssigneeProvider& variableNonAssigneeProvider;
     GestionConflits& gestionConflits;
     void assigneUneVariable();

@@ -31,7 +31,6 @@ public:
     void literalPresent(int id, bool& found_pos, bool& found_neg) const;
     Polarite polariteLiteral(int id) const __attribute__((pure));
     void print() const;
-    bool simplificationUnitaire() const;
     void supprimer(Literal* l);
     void supprimerLiteraux(std::list<Literal*> literauxASupprimer);
     void supprimerLiterauxFaux();

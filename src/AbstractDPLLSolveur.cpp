@@ -31,12 +31,14 @@ void AbstractDPLLSolveur::assigneUneVariable()
 
     try
     {
+        gestionConflits.onChoix(val ? varId : -varId);
         assigneVariable(varId, val);
     }
     catch(InsatisfiableException)
     {
         //backtrack
         formule = save;
+        gestionConflits.onChoix(val ? -varId : varId);
         assigneVariable(varId, !val);
     }
 }

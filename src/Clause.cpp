@@ -139,19 +139,6 @@ bool Clause::isSurclause(const Clause* c) const ///Test si la clause est une sur
     return lit.size() == 0;
 }
 
-bool Clause::simplificationUnitaire() const
-{
-    if(size() != 1)
-        return false;
-
-    Literal* literal = *literaux.begin();
-    if(literal->isAssigne())
-        return false;
-
-    literal->setVal(true);
-    return true;
-}
-
 int Clause::size() const
 {
     return static_cast<int>(literaux.size());

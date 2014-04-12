@@ -16,6 +16,7 @@ private:
     void compacter();
     bool eliminationLiterauxPurs();
     bool propagationUnitaire();
+    bool simplificationUnitaire(Clause* clause);
     bool simplificationLiteralPur(int id);
 };
 
