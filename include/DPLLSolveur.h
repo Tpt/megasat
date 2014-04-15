@@ -10,7 +10,7 @@ public:
     ~DPLLSolveur();
     bool isSatifiable();
 private:
-    void assigneVariable(int varId, bool val);
+    void assigneLiteral(int literalId);
     bool aClauseVide();
     void simplifier();
     void compacter();

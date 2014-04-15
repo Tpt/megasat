@@ -16,7 +16,7 @@ protected:
     VariableNonAssigneeProvider& variableNonAssigneeProvider;
     GestionConflits& gestionConflits;
     void assigneUneVariable();
-    virtual void assigneVariable(int varId, bool val) = 0;
+    virtual void assigneLiteral(int literalId) = 0;
 };
 
 #endif

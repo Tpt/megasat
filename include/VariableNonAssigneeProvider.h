@@ -7,38 +7,38 @@ class VariableNonAssigneeProvider
 {
 public:
     virtual ~VariableNonAssigneeProvider() {}
-    virtual std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const = 0; //retourne une variable non assignée
+    virtual int getVariableNonAssignee(const Formule& formule) const = 0; //retourne une variable non assignée
 };
 
 class VariableNonAssigneeProviderSimple : public VariableNonAssigneeProvider
 {
 public:
-    std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const;
+    int getVariableNonAssignee(const Formule& formule) const;
 };
 
 class VariableNonAssigneeProviderRand : public VariableNonAssigneeProvider
 {
 public:
     VariableNonAssigneeProviderRand();
-    std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const;
+    int getVariableNonAssignee(const Formule& formule) const;
 };
 
 class VariableNonAssigneeProviderMalin : public VariableNonAssigneeProviderRand
 {
 public:
-    std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const;
+    int getVariableNonAssignee(const Formule& formule) const;
 };
 
 class VariableNonAssigneeProviderMOMS : public VariableNonAssigneeProvider
 {
 public:
-    std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const;
+    int getVariableNonAssignee(const Formule& formule) const;
 };
 
 class VariableNonAssigneeProviderDLIS : public VariableNonAssigneeProvider
 {
 public:
-    std::pair<int, bool> getVariableNonAssignee(const Formule& formule) const;
+    int getVariableNonAssignee(const Formule& formule) const;
 };
 
 class PlusDeVariablesAAssigner : public std::exception
