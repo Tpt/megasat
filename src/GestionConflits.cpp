@@ -1,4 +1,5 @@
 #include "../include/GestionConflits.h"
+#include "../include/GraphvizConflitOutput.h"
 #include<iostream>
 
 using namespace std;
@@ -57,7 +58,7 @@ void GestionConflitsApprentissage::onChoix(int literalId)
 void GestionConflitsApprentissage::onConflit(int clauseUid)
 {
     GestionConflits::onConflit(clauseUid);
-    pileDeDeductions.push_back(pair<int,vector<int>>(-1, clauses[clauseUid])); //TODO: quel variable ?
+    pileDeDeductions.push_back(pair<int,vector<int>>(0, clauses[clauseUid])); //TODO: quel variable ?
 
     if(conflitsNum == prochainConflit)
         displayInterface();
@@ -73,9 +74,12 @@ void GestionConflitsApprentissage::displayInterface()
         switch(ch)
         {
             case 'g':
+            {
                 cout << "Sortie du graphe des conflits." << endl;
-                //TODO
+                GraphvizConflitOutput graphvizOut(pileDeDeductions);
+                graphvizOut.affiche(cout.rdbuf());
                 break;
+            }
             case 'c':
                 cout << "Affichage lors du prochain conflit." << endl;
                 prochainConflit++;

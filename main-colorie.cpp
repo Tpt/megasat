@@ -4,7 +4,7 @@
 #include"include/CreateurContraintesColoriage.h"
 #include"include/TransformationTseitin.h"
 #include"include/InsatisfiableException.h"
-#include"include/GraphvizOutput.h"
+#include"include/GraphvizColoriageOutput.h"
 #include<chrono>
 
 using namespace std;
@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
         out << "// UNSATISFIABLE" << endl;
     }
 
-    GraphvizOutput output(graphe, formule, normalisateur.getCorrespondance(), k);
+    GraphvizColoriageOutput output(graphe, formule, normalisateur.getCorrespondance(), k);
     output.affiche(lanceur.getBufferSortie(), afficheAvecColoriage);
 
     out << "// Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;

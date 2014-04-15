@@ -9,7 +9,7 @@ else
 endif
 CFLAGS=$(NAZI)
 LDFLAGS= 
-SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o obj/GestionConflits.o
+SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o obj/GestionConflits.o obj/GraphvizConflitOutput.o
 EXEC=setup resol tseitin colorie
 LEX=flex
 YACC=bison
@@ -28,7 +28,7 @@ clang: $(EXEC)
 setup:
 	mkdir -p obj
 
-colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/GraphvizOutput.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-colorie.o
+colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/GraphvizColoriageOutput.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-colorie.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-tseitin.o 
@@ -118,7 +118,10 @@ obj/ColParser.o: src/ColParser.cpp
 obj/CreateurContraintesColoriage.o: src/CreateurContraintesColoriage.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
-obj/GraphvizOutput.o: src/GraphvizOutput.cpp
+obj/GraphvizColoriageOutput.o: src/GraphvizColoriageOutput.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+
+obj/GraphvizConflitOutput.o: src/GraphvizConflitOutput.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/main-resol.o: main-resol.cpp
