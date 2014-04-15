@@ -30,6 +30,7 @@ public:
 private:
     void displayInterface();
     void addClause(Clause* clause);
+    int getLiteralConflictuel(int clauseUid) const;
     std::vector<std::vector<int>> clauses;
     std::vector<std::pair<int,std::vector<int>>> pileDeDeductions;
 };

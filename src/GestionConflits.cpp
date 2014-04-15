@@ -58,10 +58,24 @@ void GestionConflitsApprentissage::onChoix(int literalId)
 void GestionConflitsApprentissage::onConflit(int clauseUid)
 {
     GestionConflits::onConflit(clauseUid);
-    pileDeDeductions.push_back(pair<int,vector<int>>(0, clauses[clauseUid])); //TODO: quel variable ?
+    pileDeDeductions.push_back(pair<int,vector<int>>(getLiteralConflictuel(clauseUid), clauses[clauseUid]));
 
     if(conflitsNum == prochainConflit)
         displayInterface();
+}
+
+int GestionConflitsApprentissage::getLiteralConflictuel(int clauseUid) const
+{
+    for(int literalId : clauses[clauseUid])
+    {
+        for(auto deduction : pileDeDeductions)
+        {
+            if(deduction.first == -literalId)
+                return literalId;
+        }
+    }
+
+    return 0;
 }
 
 void GestionConflitsApprentissage::displayInterface()
