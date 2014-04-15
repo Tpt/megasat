@@ -164,7 +164,7 @@ int Clause::getNombreDeVariables() const
 
 bool Clause::isVide() const
 {
-    return (size() == 0);
+    return size() == 0;
 }
 
 bool Clause::contientLiteralVrai() const

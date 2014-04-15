@@ -9,7 +9,7 @@ else
 endif
 CFLAGS=$(NAZI)
 LDFLAGS= 
-SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o obj/GestionConflits.o
+SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/clause.o obj/formule.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o obj/GestionConflits.o obj/Preuve.o obj/LatexPrinter.o obj/ConstructeurPreuve.o
 EXEC=setup resol tseitin colorie
 LEX=flex
 YACC=bison
@@ -119,6 +119,15 @@ obj/CreateurContraintesColoriage.o: src/CreateurContraintesColoriage.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/GraphvizOutput.o: src/GraphvizOutput.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+
+obj/Preuve.o: src/Preuve.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+	
+obj/LatexPrinter.o: src/LatexPrinter.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+	
+obj/ConstructeurPreuve.o: src/ConstructeurPreuve.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/main-resol.o: main-resol.cpp
