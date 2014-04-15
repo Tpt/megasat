@@ -62,16 +62,16 @@ Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* 
 }
 
 
-void DPLLSurveilleSolveur::assigneVariable(int varId, bool val)
+void DPLLSurveilleSolveur::assigneLiteral(int literalId)
 {
-    Variable* var = formule.getVar(varId);
-    var->setVal(val);
+    Variable* var = formule.getVar(abs(literalId));
+    var->setVal(literalId > 0);
 
 #ifdef DEBUG
     cout << "c assigne " << var->getId() << " a " << var->getVal() << endl;
 #endif
 
-    Literal* literal = formule.getLiteral(val ? varId : -varId);
+    Literal* literal = formule.getLiteral(literalId);
     onLiteralAssigne(literal);
 
     return assigneUneVariable();

@@ -10,12 +10,13 @@ public:
     ~DPLLSolveur();
     bool isSatifiable();
 private:
-    void assigneVariable(int varId, bool val);
+    void assigneLiteral(int literalId);
     bool aClauseVide();
     void simplifier();
     void compacter();
     bool eliminationLiterauxPurs();
     bool propagationUnitaire();
+    bool simplificationUnitaire(Clause* clause);
     bool simplificationLiteralPur(int id);
 };
 

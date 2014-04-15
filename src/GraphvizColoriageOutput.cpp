@@ -1,13 +1,13 @@
-#include "../include/GraphvizOutput.h"
+#include "../include/GraphvizColoriageOutput.h"
 #include<sstream>
 
 using namespace std;
 
-GraphvizOutput::GraphvizOutput(Graphe& graphe_, Formule& formule_, unordered_map<string, int> correspondances_, int k_) :
+GraphvizColoriageOutput::GraphvizColoriageOutput(Graphe& graphe_, Formule& formule_, unordered_map<string, int>& correspondances_, int k_) :
 graphe(graphe_), formule(formule_), k(k_), tailleCodeCouleurSommet(static_cast<int>(ceil(log2(k_)))), correspondances(correspondances_)
 {}
 
-void GraphvizOutput::affiche(std::streambuf* sortie, bool avecColoriage)
+void GraphvizColoriageOutput::affiche(std::streambuf* sortie, bool avecColoriage)
 {
     ostream out(sortie);
     out << "graph G {\n";
@@ -29,7 +29,7 @@ void GraphvizOutput::affiche(std::streambuf* sortie, bool avecColoriage)
     out << "}\n";
 }
 
-int GraphvizOutput::getCouleur(int sommet)
+int GraphvizColoriageOutput::getCouleur(int sommet)
 {
     int couleur = 0;
     for(int bit = tailleCodeCouleurSommet - 1; bit >= 0; bit--)

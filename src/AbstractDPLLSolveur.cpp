@@ -14,29 +14,28 @@ AbstractDPLLSolveur::~AbstractDPLLSolveur()
 
 void AbstractDPLLSolveur::assigneUneVariable()
 {
-    pair<int, bool> varIdEtValeurAAssigner;
+    int literalId;
     try
     {
-        varIdEtValeurAAssigner = variableNonAssigneeProvider.getVariableNonAssignee(formule);
+        literalId = variableNonAssigneeProvider.getVariableNonAssignee(formule);
     }
     catch(PlusDeVariablesAAssigner)
     {
         return;
     }
 
-    int varId = varIdEtValeurAAssigner.first;
-    bool val = varIdEtValeurAAssigner.second;
-
     Formule save = formule;
 
     try
     {
-        assigneVariable(varId, val);
+        gestionConflits.onChoix(literalId);
+        assigneLiteral(literalId);
     }
     catch(InsatisfiableException)
     {
         //backtrack
         formule = save;
-        assigneVariable(varId, !val);
+        gestionConflits.onChoix(literalId);
+        assigneLiteral(-literalId);
     }
 }

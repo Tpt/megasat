@@ -1,12 +1,18 @@
 #ifndef GestionConflits_H
 #define GestionConflits_H
 
+#include<vector>
+#include "Formule.h"
+
 class GestionConflits
 {
 public:
     GestionConflits(int prochainConflit = 0);
     virtual ~GestionConflits();
-    void onConflit();
+    virtual void onBeggining(Formule* formule);
+    virtual void onDeduction(Literal* literal, int clauseUid);
+    virtual void onChoix(int literalId);
+    virtual void onConflit(int clauseUid);
     int getConflitsNum() const __attribute__((pure));
 protected:
     int conflitsNum;
@@ -17,9 +23,16 @@ class GestionConflitsApprentissage : public GestionConflits
 {
 public:
     GestionConflitsApprentissage(int prochainConflit = 0);
-    void onConflit();
+    void onBeggining(Formule* formule);
+    void onDeduction(Literal* literal, int clauseUid);
+    void onChoix(int literal);
+    void onConflit(int clauseUid);
 private:
     void displayInterface();
+    void addClause(Clause* clause);
+    int getLiteralConflictuel(int clauseUid) const;
+    std::vector<std::vector<int>> clauses;
+    std::vector<std::pair<int,std::vector<int>>> pileDeDeductions;
 };
 
 #endif

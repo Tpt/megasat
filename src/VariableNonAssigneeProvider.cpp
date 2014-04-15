@@ -6,12 +6,12 @@
 
 using namespace std;
 
-pair<int, bool> VariableNonAssigneeProviderSimple::getVariableNonAssignee(const Formule& formule) const
+int VariableNonAssigneeProviderSimple::getVariableNonAssignee(const Formule& formule) const
 {
     for(Variable* var : formule.getVars())
     {
         if(!var->isAssignee())
-            return pair<int, bool>(var->getId(), true);
+            return var->getId();
     }
     throw PlusDeVariablesAAssigner();
 }
@@ -21,7 +21,7 @@ VariableNonAssigneeProviderRand::VariableNonAssigneeProviderRand()
     srand(static_cast<unsigned int>(time(NULL)));
 }
 
-pair<int, bool> VariableNonAssigneeProviderRand::getVariableNonAssignee(const Formule& formule) const
+int VariableNonAssigneeProviderRand::getVariableNonAssignee(const Formule& formule) const
 {
     vector<int> variablesPossibles;
 
@@ -32,13 +32,12 @@ pair<int, bool> VariableNonAssigneeProviderRand::getVariableNonAssignee(const Fo
     if(variablesPossibles.empty())
         throw PlusDeVariablesAAssigner();
 
-    return pair<int, bool>(variablesPossibles[static_cast<unsigned long>(rand()) % variablesPossibles.size()], true);
+    return variablesPossibles[static_cast<unsigned long>(rand()) % variablesPossibles.size()];
 }
 
-pair<int, bool> VariableNonAssigneeProviderMalin::getVariableNonAssignee(const Formule& formule) const
+int VariableNonAssigneeProviderMalin::getVariableNonAssignee(const Formule& formule) const
 {
-    pair<int, bool> resultat = VariableNonAssigneeProviderRand::getVariableNonAssignee(formule);
-    int varId = resultat.first;
+    int varId = VariableNonAssigneeProviderRand::getVariableNonAssignee(formule);
 
     int differenceOccurences = 0;
     for(Clause* c : formule.getClauses())
@@ -48,10 +47,10 @@ pair<int, bool> VariableNonAssigneeProviderMalin::getVariableNonAssignee(const F
                     differenceOccurences += (l->getPolarite() ? 1 : -1);
 
 
-    return pair<int, bool>(varId, differenceOccurences >= 0);
+    return (differenceOccurences >= 0) ? varId : -varId;
 }
 
-pair<int, bool> VariableNonAssigneeProviderMOMS::getVariableNonAssignee(const Formule& formule) const
+int VariableNonAssigneeProviderMOMS::getVariableNonAssignee(const Formule& formule) const
 {
     int tailleMin = INT_MAX;
 
@@ -75,10 +74,10 @@ pair<int, bool> VariableNonAssigneeProviderMOMS::getVariableNonAssignee(const Fo
     if(literalDOccurenceMaximale == 0)
         throw PlusDeVariablesAAssigner();
 
-    return pair<int, bool>(abs(literalDOccurenceMaximale), literalDOccurenceMaximale > 0);
+    return literalDOccurenceMaximale;
 }
 
-pair<int, bool> VariableNonAssigneeProviderDLIS::getVariableNonAssignee(const Formule& formule) const
+int VariableNonAssigneeProviderDLIS::getVariableNonAssignee(const Formule& formule) const
 {
     unordered_map<int, int> nombreDeClausesSatisfaitesParLiteral;
 
@@ -98,5 +97,5 @@ pair<int, bool> VariableNonAssigneeProviderDLIS::getVariableNonAssignee(const Fo
     if(literalDOccurenceMaximale == 0)
          throw PlusDeVariablesAAssigner();
 
-    return pair<int, bool>(abs(literalDOccurenceMaximale), nombreDeClausesSatisfaitesParLiteral[literalDOccurenceMaximale] > 0);
+    return literalDOccurenceMaximale;
 }

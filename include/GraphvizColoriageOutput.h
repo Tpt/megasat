@@ -1,15 +1,15 @@
-#ifndef GRAPHVIZOUTPUT_H
-#define GRAPHVIZOUTPUT_H
+#ifndef GraphvizColoriageOutput_H
+#define GraphvizColoriageOutput_H
 
 #include"Graphe.h"
 #include"Formule.h"
 #include<streambuf>
 #include<unordered_map>
 
-class GraphvizOutput
+class GraphvizColoriageOutput
 {
 public:
-    GraphvizOutput(Graphe& graphe, Formule& formule, std::unordered_map<std::string, int> correspondances, int k);
+    GraphvizColoriageOutput(Graphe& graphe, Formule& formule, std::unordered_map<std::string, int>& correspondances, int k);
     void affiche(std::streambuf* sortie, bool avecColoriage = false);
 private:
     int getCouleur(int sommet);

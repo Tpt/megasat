@@ -12,10 +12,11 @@ public:
     AbstractDPLLSolveur(Formule &formule, VariableNonAssigneeProvider& variableNonAssigneeProvider, GestionConflits& gestionConflits);
     ~AbstractDPLLSolveur();
 protected:
+    Formule* formuleInitiale;
     VariableNonAssigneeProvider& variableNonAssigneeProvider;
     GestionConflits& gestionConflits;
     void assigneUneVariable();
-    virtual void assigneVariable(int varId, bool val) = 0;
+    virtual void assigneLiteral(int literalId) = 0;
 };
 
 #endif

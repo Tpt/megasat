@@ -1,4 +1,5 @@
 #include "../include/GestionConflits.h"
+#include "../include/GraphvizConflitOutput.h"
 #include<iostream>
 
 using namespace std;
@@ -10,7 +11,16 @@ GestionConflits::GestionConflits(int prochainConflit_)
 GestionConflits::~GestionConflits()
 {}
 
-void GestionConflits::onConflit()
+void GestionConflits::onBeggining(Formule* formule)
+{}
+
+void GestionConflits::onDeduction(Literal* literal, int clauseUid)
+{}
+
+void GestionConflits::onChoix(int literalId)
+{}
+
+void GestionConflits::onConflit(int clauseUid)
 {
     conflitsNum++;
 }
@@ -21,15 +31,51 @@ int GestionConflits::getConflitsNum() const
 }
 
 
-GestionConflitsApprentissage::GestionConflitsApprentissage(int prochainConflit_) : GestionConflits(prochainConflit_)
+GestionConflitsApprentissage::GestionConflitsApprentissage(int prochainConflit_)
+ : GestionConflits(prochainConflit_), clauses(vector<vector<int>>()), pileDeDeductions(vector<pair<int,vector<int>>>())
 {}
 
-void GestionConflitsApprentissage::onConflit()
+void GestionConflitsApprentissage::onBeggining(Formule* formule)
 {
-    GestionConflits::onConflit();
+    clauses = vector<vector<int>>();
+    for(Clause* clause : formule->getClauses())
+    {
+        addClause(clause);
+    }
+}
+
+void GestionConflitsApprentissage::onDeduction(Literal* literal, int clauseUid)
+{
+    pileDeDeductions.push_back(pair<int,vector<int>>(literal->getId(), clauses[clauseUid]));
+}
+
+void GestionConflitsApprentissage::onChoix(int literalId)
+{
+    pileDeDeductions = vector<pair<int,vector<int>>>();
+    pileDeDeductions.push_back(pair<int,vector<int>>(literalId, vector<int>()));
+}
+
+void GestionConflitsApprentissage::onConflit(int clauseUid)
+{
+    GestionConflits::onConflit(clauseUid);
+    pileDeDeductions.push_back(pair<int,vector<int>>(getLiteralConflictuel(clauseUid), clauses[clauseUid]));
 
     if(conflitsNum == prochainConflit)
         displayInterface();
+}
+
+int GestionConflitsApprentissage::getLiteralConflictuel(int clauseUid) const
+{
+    for(int literalId : clauses[clauseUid])
+    {
+        for(auto deduction : pileDeDeductions)
+        {
+            if(deduction.first == -literalId)
+                return literalId;
+        }
+    }
+
+    return 0;
 }
 
 void GestionConflitsApprentissage::displayInterface()
@@ -42,9 +88,12 @@ void GestionConflitsApprentissage::displayInterface()
         switch(ch)
         {
             case 'g':
+            {
                 cout << "Sortie du graphe des conflits." << endl;
-                //TODO
+                GraphvizConflitOutput graphvizOut(pileDeDeductions);
+                graphvizOut.affiche(cout.rdbuf());
                 break;
+            }
             case 'c':
                 cout << "Affichage lors du prochain conflit." << endl;
                 prochainConflit++;
@@ -62,4 +111,19 @@ void GestionConflitsApprentissage::displayInterface()
                 cout << "Option inconnu : " << ch << endl;
         }
     }
+}
+
+void GestionConflitsApprentissage::addClause(Clause* clause)
+{
+    if(clause->getUid() >= clauses.size())
+    {
+        clauses.resize(clause->getUid() + 1);
+    }
+
+    vector<int> literaux;
+    for(Literal* literal : clause->getLiteraux())
+    {
+        literaux.push_back(literal->getId());
+    }
+    clauses[clause->getUid()] = literaux;
 }
