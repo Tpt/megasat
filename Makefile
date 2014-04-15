@@ -71,7 +71,7 @@ obj/VariableNonAssigneeProvider.o: src/VariableNonAssigneeProvider.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/GestionConflits.o: src/GestionConflits.cpp
-	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 obj/FormuleTseitin.o: src/FormuleTseitin.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)

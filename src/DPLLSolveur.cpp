@@ -4,7 +4,8 @@
 
 using namespace std;
 
-DPLLSolveur::DPLLSolveur(Formule& formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_, GestionConflits& gestionConflits_) : AbstractDPLLSolveur(formule_, variableNonAssigneeProvider_, gestionConflits_)
+DPLLSolveur::DPLLSolveur(Formule& formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_, GestionConflits& gestionConflits_) :
+AbstractDPLLSolveur(formule_, variableNonAssigneeProvider_, gestionConflits_)
 {}
 
 DPLLSolveur::~DPLLSolveur()
@@ -116,7 +117,7 @@ bool DPLLSolveur::simplificationUnitaire(Clause* clause)
 {
     if(clause->size() != 1)
         return false;
-    
+
     for( Literal* literal : clause->getLiteraux())
     {
         if(!literal->isAssigne())

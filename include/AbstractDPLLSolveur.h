@@ -9,6 +9,8 @@
 class AbstractDPLLSolveur : public Solveur
 {
 public:
+    AbstractDPLLSolveur(const AbstractDPLLSolveur& other);
+    AbstractDPLLSolveur& operator=(const AbstractDPLLSolveur& other);
     AbstractDPLLSolveur(Formule &formule, VariableNonAssigneeProvider& variableNonAssigneeProvider, GestionConflits& gestionConflits);
     ~AbstractDPLLSolveur();
 protected:

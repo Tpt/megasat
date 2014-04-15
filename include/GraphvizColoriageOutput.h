@@ -9,7 +9,7 @@
 class GraphvizColoriageOutput
 {
 public:
-    GraphvizColoriageOutput(Graphe& graphe, Formule& formule, std::unordered_map<std::string, int>& correspondances, int k);
+    GraphvizColoriageOutput(Graphe& graphe, Formule& formule, const std::unordered_map<std::string, int>& correspondances, int k);
     void affiche(std::streambuf* sortie, bool avecColoriage = false);
 private:
     int getCouleur(int sommet);

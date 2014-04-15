@@ -15,7 +15,7 @@ void GraphvizConflitOutput::affiche(std::streambuf* sortie)
     map<int, pair<int, string>> sommets; //id => label + color
 
     //les déductions
-    for(int i = 0; i < pile.size() - 1; i++)
+    for(unsigned int i = 0; i < pile.size() - 1; i++)
     {
         auto deduction = pile[i];
         int sommet = abs(deduction.first);
@@ -43,8 +43,8 @@ void GraphvizConflitOutput::affiche(std::streambuf* sortie)
             out << pere << " -> " << -sommet << ";\n";
     }
 
-    for(auto sommet : sommets)
-        out << sommet.first << " [color=\"" << sommet.second.second << "\",style=filled,label=\"" << sommet.second.first << "\"];\n";
+    for(auto sommet_ : sommets)
+        out << sommet_.first << " [color=\"" << sommet_.second.second << "\",style=filled,label=\"" << sommet_.second.first << "\"];\n";
 
     out << "}\n";
 }

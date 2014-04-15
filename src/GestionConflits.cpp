@@ -115,7 +115,7 @@ void GestionConflitsApprentissage::displayInterface()
 
 void GestionConflitsApprentissage::addClause(Clause* clause)
 {
-    if(clause->getUid() >= clauses.size())
+    if(clause->getUid() >= static_cast<int>(clauses.size()))
     {
         clauses.resize(clause->getUid() + 1);
     }
