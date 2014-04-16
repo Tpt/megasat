@@ -5,6 +5,7 @@
 
 using namespace std;
 
+string genTitle();
 map<unsigned int, int> LatexPrinter::nextUid = map<unsigned int, int>();
 
 LatexPrinter::LatexPrinter(Preuve preuve_) :
@@ -55,7 +56,7 @@ void LatexPrinter::initCodeMinimal()
            "\\newcommand{\\varf}[1]{\\non{\\varv{#1}}}\n"
            "\\newcommand{\\cl}[1]{\\mathtt{C_{#1}}:~}\n"
            "\\newcommand{\\preuve}[1]{\\mathtt{\\Pi_{#1}}}\n"
-           "\\title{Une preuve !}\n"
+           "\\title{"+genTitle()+"}\n"
            "\\author{Marc \\textsc{Chevalier}\\\\ Thomas \\textsc{Pellissier Tanon}}"
            "\\begin{document}\n"
            "\\maketitle\n"
