@@ -51,6 +51,7 @@ void LatexPrinter::initCodeMinimal()
            "\\usepackage{mathpartir}\n"
            "\\usepackage[utf8]{inputenc}\n"
            "\\usepackage[francais]{babel}\n"
+           "\\usepackage{amsmath}\n"
            "\\newcommand{\\non}[1]{\\overline{#1}}\n"
            "\\newcommand{\\varv}[1]{x_{#1}}\n"
            "\\newcommand{\\varf}[1]{\\non{\\varv{#1}}}\n"

@@ -63,6 +63,14 @@ string genTitle()
     titles.push_back("Parais à ta fenêtre, ma voix t’implore ; pour apaiser mon coeur, réponds à ma voix.");
     titles.push_back("Non so più cosa son, cosa faccio...");
     titles.push_back("Il n'y a pas de plus grande douleur que de se souvenir des temps heureux");
-    return titles[titles.size()-1];
+    titles.push_back("Bla bli bla");
+    titles.push_back("Essaie de prononcer \"Dijkstra\"");
+    titles.push_back("Plus il y a de littéraux, plus on rit");
+    titles.push_back("La déduction, c'est vraiment pas naturel");
+    titles.push_back("Un arbre pas vraiment équilibré");
+    titles.push_back("Déduire ou ne pas déduire, tel est la question");
+    titles.push_back("$++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.$");
+    titles.push_back("$$\\int_{C^+}{P\\,\\mathrm dx + Q\\,\\mathrm dy} = \\iint_D\\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}\\right)  \\mathrm dx\\mathrm dy$$");
+    //return titles[titles.size()-1];
     return titles[rd()%titles.size()];
 }
