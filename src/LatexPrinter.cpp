@@ -70,17 +70,7 @@ string LatexPrinter::decouperPreuveEtLatex(Preuve p) const
         sortie+=preuveToLatex(t[i].first, t.size()-static_cast<unsigned int>(t[i].second), (t.size()-static_cast<unsigned int>(t[i].second)+1)%t.size(), pos);
         pos+=static_cast<unsigned int>(t[i].first.getPremisses().size());
     }
-/**
-4
-1 3 0
-2 2 3
-3 1 2
-4 0 1
-i
-size-i
-(size-i+1) % size
 
-**/
     return sortie;
 }
 

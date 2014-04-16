@@ -13,6 +13,7 @@ resol
 tseitin
 colorie
 core
+*.sty
 
 # Compiled Dynamic libraries
 *.so
