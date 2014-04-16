@@ -29,8 +29,8 @@ private:
     std::string clauseToLatex(const std::vector<int>& clause) const;
     std::string litToLatex(int literal) const;
     std::string toString(int v) const;
-    std::string preuveToLatex(Preuve p, int pos) const;
-    std::string preuveToLatex(Preuve p, long unsigned int numPreuve, long unsigned int preuveUtilisee, int pos) const;
+    std::string preuveToLatex(Preuve p, unsigned int pos) const;
+    std::string preuveToLatex(Preuve p, long unsigned int numPreuve, long unsigned int preuveUtilisee, unsigned int pos) const;
     std::string decouperPreuveEtLatex(Preuve p) const;
     std::vector<std::pair<Preuve,int>> decouperPreuve(Preuve p) const;
 

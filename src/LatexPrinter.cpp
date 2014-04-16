@@ -63,12 +63,12 @@ string LatexPrinter::decouperPreuveEtLatex(Preuve p) const
 {
     vector<pair<Preuve,int>> t(decouperPreuve(p));
     string sortie="";
-    int pos=0;
+    unsigned int pos=0;
 
     for(unsigned int i=0; i < t.size(); ++i)
     {
         sortie+=preuveToLatex(t[i].first, t.size()-static_cast<unsigned int>(t[i].second), (t.size()-static_cast<unsigned int>(t[i].second)+1)%t.size(), pos);
-        pos+=t[i].first.getPremisses().size();
+        pos+=static_cast<unsigned int>(t[i].first.getPremisses().size());
     }
 /**
 4
@@ -120,7 +120,7 @@ vector<pair<Preuve,int>> LatexPrinter::decouperPreuve(Preuve p) const
     return sortie;
 }
 
-string LatexPrinter::preuveToLatex(Preuve p, long unsigned int numPreuve, long unsigned int preuveUtilisee, int pos) const
+string LatexPrinter::preuveToLatex(Preuve p, long unsigned int numPreuve, long unsigned int preuveUtilisee, unsigned int pos) const
 {
     vector<vector<int>> premisses=p.getPremisses();
     vector<vector<int>> conclusions=p.getConclusions();
@@ -151,7 +151,7 @@ string LatexPrinter::preuveToLatex(Preuve p, long unsigned int numPreuve, long u
     return sortie;
 }
 
-string LatexPrinter::preuveToLatex(Preuve p, int pos) const
+string LatexPrinter::preuveToLatex(Preuve p, unsigned int pos) const
 {
 
     vector<vector<int>> premisses=p.getPremisses();
