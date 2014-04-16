@@ -17,23 +17,6 @@ premisses(vector<vector<int>>(1,premisse)), conclusions(vector<vector<int>>(1,co
     conclusions.push_back(resolution(premisse, conclusion, id));
 }
 
-Preuve::Preuve(const Preuve& arbre, const vector<int>& premisse, const vector<int>& conclusion) :
-premisses(arbre.getPremisses()), conclusions(arbre.getConclusions())
-{
-    premisses.push_back(premisse);
-    conclusions.push_back(conclusion);
-}
-
-Preuve::Preuve(const vector<int>& arbre, const vector<int>& premisse, const vector<int>& conclusion) :
-premisses(vector<vector<int>>(1,premisse)), conclusions(vector<vector<int>>(1,arbre))
-{
-    conclusions.push_back(conclusion);
-}
-
-Preuve::Preuve(const vector<int>& arbre) :
-premisses(vector<vector<int>>()), conclusions(vector<vector<int>>(1,arbre))
-{}
-
 Preuve::Preuve(const Preuve& other) :
 premisses(other.premisses), conclusions(other.conclusions)
 {}
@@ -51,10 +34,10 @@ Preuve& Preuve::operator= (const Preuve& other)
 Preuve::Preuve(const std::vector<std::vector<int>>& conclusions_, const std::vector<std::vector<int>>& premisses_) :
 premisses(premisses_), conclusions(conclusions_)
 {
-    if(premisses_.size()>conclusions_.size())
+    if(premisses_.size() > conclusions_.size())
     {
-        premisses=conclusions_;
-        conclusions=premisses_;
+        premisses = conclusions_;
+        conclusions = premisses_;
     }
 }
 
@@ -65,17 +48,17 @@ vector<int> Preuve::resolution(const vector<int>& c1, const vector<int>& c2, int
 {
     unordered_set<int> temp;
 
-    for(int literal : c1)
-        if(literal!=id && literal!=-id)
+for(int literal : c1)
+        if(literal != id && literal != -id)
             temp.insert(literal);
 
-    for(int literal : c2)
-        if(literal!=id && literal!=-id)
+for(int literal : c2)
+        if(literal != id && literal != -id)
             temp.insert(literal);
 
     vector<int> sortie;
 
-    for(int literal : temp)
+for(int literal : temp)
         sortie.push_back(literal);
 
     return sortie;

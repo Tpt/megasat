@@ -6,24 +6,6 @@
 
 using namespace std;
 
-AbstractDPLLSolveur::AbstractDPLLSolveur(const AbstractDPLLSolveur& other) :
-Solveur(other.formule), formuleInitiale(other.formuleInitiale), variableNonAssigneeProvider(other.variableNonAssigneeProvider), gestionConflits(other.gestionConflits)
-{}
-
-AbstractDPLLSolveur& AbstractDPLLSolveur::operator= (const AbstractDPLLSolveur& other)
-{
-    if(this != &other)
-    {
-        delete formuleInitiale;
-        formuleInitiale=other.formuleInitiale;
-        formule=other.formule;
-        variableNonAssigneeProvider=other.variableNonAssigneeProvider;
-        gestionConflits=other.gestionConflits;
-    }
-
-    return *this;
-}
-
 AbstractDPLLSolveur::AbstractDPLLSolveur(Formule& formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_, GestionConflits& gestionConflits_) :
 Solveur(formule_), variableNonAssigneeProvider(variableNonAssigneeProvider_), gestionConflits(gestionConflits_)
 {}
