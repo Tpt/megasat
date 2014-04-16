@@ -45,7 +45,24 @@ string genTitle()
     titles.push_back("Oui, la vengeance, une terrible vengeance, c'est la seule chose que mon âme désire");
     titles.push_back("Libiamo, libiamo ne' lieti calici,\\\\ che la bellezza infiora;\\\\e la fuggevol, fuggevol ora\\\\s'inebri a voluttà.");
     titles.push_back("Des dieux, l'immortelle sagesse, me réserve un drôle d'emploi. S'il en faut un à la déesse, pourquoi faut-il que ce soit moi ? Son mari lui devrait suffire.");
-    titles.push_back("");
+    titles.push_back("Ô mon Olympia !... Laisse-moi t’admirer !... De ton regard charmant laisse-moi m’enivrer.");
+    titles.push_back("Moi je voudrais voir les théâtres, pas ceux où l’on s’embête mais ceux où des actrices folâtres offrent aux regards mille attraits.");
+    titles.push_back("Il ne put ressentir l’essence du danger quand il toucha du doigt le miroir envouté.");
+    titles.push_back("Que l’Averne, que le Ténare, le Cocyte, le Phlégéthon, par ce qu’ils ont de plus barbare vengent Proserpine et Pluton.");
+    titles.push_back("Ce projet est riant. Mercure vous proteste d’en amuser la cour céleste ; j’en attends un succès heureux.");
+    titles.push_back("Viens chez le psy, c’est ton ami. Vas-y, viens me voir. Raconte-moi tes conneries.");
+    titles.push_back("Où en est le cocotier ?");
+    titles.push_back("Je crois qu’on peut vous applaudir, ces crimes sont exemplaires");
+    titles.push_back("Généralement quand un suicidaire menace de sauter, moi je lui dit de laisser tomber.");
+    titles.push_back("Les filaments Duchmont sont les meilleurs du monde. Les filaments Duchmont toutes les ampoules en demandent");
+    titles.push_back("Nous avons retrouvé cette tablette faisant référence à un astre brillant apparu dans le ciel le temps d’une nuit d’été australe. Les indigènes l’appelèrent Xantahouhastikatiimaritatouhoupetchiikahmaal. Ce qui signifie \"astre brillant apparu dans le ciel le temps d’une nuit d’été australe\"");
+    titles.push_back("Vous, les Dieux, qui vivez là-haut, frôlés par les caresses des brises, ivres de joie, pâmés d’amour ! avec ma poigne d’Or, je vous subjuguerai tous !");
+    titles.push_back("Nothung ! Nothung ! Neidliches Schwert !");
+    titles.push_back("La fidélité des femmes est comme le phénix d’Arabie, tout le monde vous dit qu’elle existe... mais où se niche-t-elle personne ne le sait.");
+    titles.push_back("Ein Weib tut wenig, plaudert viel.");
+    titles.push_back("Parais à ta fenêtre, ma voix t’implore ; pour apaiser mon coeur, réponds à ma voix.");
+    titles.push_back("Non so più cosa son, cosa faccio...");
+    titles.push_back("Il n'y a pas de plus grande douleur que de se souvenir des temps heureux");
     return titles[titles.size()-1];
     return titles[rd()%titles.size()];
 }
