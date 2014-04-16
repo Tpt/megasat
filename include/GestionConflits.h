@@ -3,6 +3,7 @@
 
 #include<vector>
 #include "Formule.h"
+#include "ConstructeurPreuve.h"
 
 class GestionConflits
 {
@@ -28,7 +29,7 @@ public:
     void onChoix(int literal);
     void onConflit(int clauseUid);
 private:
-    void displayInterface();
+    void displayInterface(ConstructeurPreuve constructeurPreuve);
     void addClause(Clause* clause);
     int getLiteralConflictuel(int clauseUid) const;
     std::vector<std::vector<int>> clauses;

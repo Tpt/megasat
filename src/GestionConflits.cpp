@@ -1,5 +1,6 @@
 #include "../include/GestionConflits.h"
 #include "../include/GraphvizConflitOutput.h"
+#include "../include/LatexPrinter.h"
 #include<iostream>
 
 using namespace std;
@@ -59,9 +60,10 @@ void GestionConflitsApprentissage::onConflit(int clauseUid)
 {
     GestionConflits::onConflit(clauseUid);
     pileDeDeductions.push_back(pair<int,vector<int>>(getLiteralConflictuel(clauseUid), clauses[clauseUid]));
+    ConstructeurPreuve constructeurPreuve(pileDeDeductions);
 
     if(conflitsNum == prochainConflit)
-        displayInterface();
+        displayInterface(constructeurPreuve);
 }
 
 int GestionConflitsApprentissage::getLiteralConflictuel(int clauseUid) const
@@ -78,7 +80,7 @@ int GestionConflitsApprentissage::getLiteralConflictuel(int clauseUid) const
     return 0;
 }
 
-void GestionConflitsApprentissage::displayInterface()
+void GestionConflitsApprentissage::displayInterface(ConstructeurPreuve constructeurPreuve)
 {
     cout << conflitsNum << "° conflit !" << endl;
 
@@ -96,6 +98,17 @@ void GestionConflitsApprentissage::displayInterface()
                 cout << "Sortie du graphe des conflits dans le fichier " << fileName << endl;
                 GraphvizConflitOutput graphvizOut(pileDeDeductions);
                 graphvizOut.affiche(fileName);
+                break;
+            }
+            case 'r':
+            {
+                cout << "Fichier ?" << endl;
+                string fileName;
+                cin >> fileName;
+                
+                cout << "Sortie de la preuve dans le fichier " << fileName << endl;
+                LatexPrinter latexPrinter(constructeurPreuve.getPreuve());
+                latexPrinter.saveCodeLatex(fileName);
                 break;
             }
             case 'c':
