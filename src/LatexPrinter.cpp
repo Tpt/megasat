@@ -52,21 +52,18 @@ void LatexPrinter::initCodeMinimal()
     "\\newcommand{\\preuve}[1]{\\mathtt{\\Pi_{#1}}}\n"
     "\\begin{document}\n"
     "Preuve de résolution pour la clause :\n"
-    "$$"+clauseToLatex(preuve.getConclusion())+"\\enspace .$$";
+    "$$"+clauseToLatex(preuve.getConclusion())+"\\enspace .$$ \n\n";
 }
 
 string LatexPrinter::decouperPreuveEtLatex(Preuve p) const
 {
     vector<pair<Preuve,int>> t(decouperPreuve(p));
-
     string sortie="";
 
-    sortie+="\\begin{mathpar}";
     for(unsigned int i=0;i<t.size();++i)
     {
         sortie+=preuveToLatex(t[i].first, t.size()-static_cast<unsigned int>(t[i].second), (t.size()-static_cast<unsigned int>(t[i].second)+1)%t.size());
     }
-    sortie+="\\end{mathpar}";
 
     return sortie;
 }
@@ -104,28 +101,28 @@ string LatexPrinter::preuveToLatex(Preuve p, long unsigned int numPreuve, long u
     vector<vector<int>> conclusions=p.getConclusions();
     string sortie="";
     if(numPreuve!=0)
-        sortie+="\\preuve{"+toString(static_cast<int>(preuveUtilisee))+"}:~";
-    sortie+="\\begin{mathpar}";
+        sortie+="\\preuve{"+toString(static_cast<int>(preuveUtilisee))+"}:~ \n ";
+    sortie+="\\begin{mathpar} \n ";
 
     for(unsigned int i=0;i<premisses.size();++i)
     {
-        sortie+="\\inferrule{ ";
+        sortie+="\\inferrule{ \n ";
     }
 
     if(preuveUtilisee==0)
         sortie+=clauseToLatex(conclusions[0]);
     else
-        sortie+="\\preuve{ "+toString(static_cast<int>(preuveUtilisee))+" } ";
+        sortie+="\\preuve{ "+toString(static_cast<int>(preuveUtilisee))+" } \n ";
 
     for(unsigned int i=0;i<premisses.size();++i)
     {
         sortie+=" \and ";
         sortie+=clauseToLatex(premisses[i]);
-        sortie+=" } { ";
+        sortie+=" \n } { \n ";
         sortie+=clauseToLatex(conclusions[i+1]);
-        sortie+=" } ";
+        sortie+=" } \n ";
     }
-    sortie+="\\end{mathpar}";
+    sortie+="\\end{mathpar} \n";
     return sortie;
 
     /*if(p.isAxiome() && numPreuve!=0)
@@ -205,7 +202,7 @@ string LatexPrinter::toString(int v) const
 
 void LatexPrinter::finaliseCodeMinimal()
 {
-    latex+="\\end{document}";
+    latex+="\\end{document}\n";
 }
 
 int LatexPrinter::genUid(unsigned int param)
