@@ -49,12 +49,16 @@ void LatexPrinter::initCodeMinimal()
     latex+="\\documentclass{article}\n"
            "\\usepackage{mathpartir}\n"
            "\\usepackage[utf8]{inputenc}\n"
+           "\\usepackage[francais]{babel}\n"
            "\\newcommand{\\non}[1]{\\overline{#1}}\n"
            "\\newcommand{\\varv}[1]{x_{#1}}\n"
            "\\newcommand{\\varf}[1]{\\non{\\varv{#1}}}\n"
            "\\newcommand{\\cl}[1]{\\mathtt{C_{#1}}:~}\n"
            "\\newcommand{\\preuve}[1]{\\mathtt{\\Pi_{#1}}}\n"
+           "\\title{Une preuve !}\n"
+           "\\author{Marc \\textsc{Chevalier}\\\\ Thomas \\textsc{Pellissier Tanon}}"
            "\\begin{document}\n"
+           "\\maketitle\n"
            "Preuve de résolution pour la clause :\n"
            "$$"+clauseToLatex(preuve.getConclusion())+"\\enspace .$$ \n\n";
 }
