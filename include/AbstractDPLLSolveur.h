@@ -17,15 +17,20 @@ protected:
     GestionConflits& gestionConflits;
     void assigneUneVariable();
     virtual void assigneLiteral(int literalId) = 0;
+    int profondeurPile;
 };
 
 class InsatisfiableExceptionAvecClauses : public InsatisfiableException
 {
 public:
+    InsatisfiableExceptionAvecClauses(int profondeurBacktrack = 0) noexcept;
     void addClause(const std::pair<int,std::vector<int>>& clause);
     std::map<int,std::vector<int>> getClauses() const;
     void addClausesToFormule(Formule& formule) const;
+    int getProfondeurBacktrack() const;
+    void decrementeProfondeurBacktrack();
 private:
+    int profondeurBacktrack;
     std::map<int,std::vector<int>> clausesToAdd;
 };
 

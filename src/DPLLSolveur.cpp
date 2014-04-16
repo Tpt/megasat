@@ -13,6 +13,7 @@ DPLLSolveur::~DPLLSolveur()
 
 bool DPLLSolveur::isSatifiable()
 {
+    profondeurPile = 0;
     gestionConflits.onBeggining(&formule);
 
     //on fait quelques simplifications préliminaires
@@ -57,10 +58,10 @@ void DPLLSolveur::verifierAPasClauseVide()
     {
         if(clause->isVide())
         {
-            InsatisfiableExceptionAvecClauses exception;
-            pair<int,vector<int>> clauseAAjouter = gestionConflits.onConflit(clause->getUid());
-            if(clauseAAjouter.first >= 0)
-                exception.addClause(clauseAAjouter);
+            auto retour = gestionConflits.onConflit(clause->getUid(), profondeurPile);
+            InsatisfiableExceptionAvecClauses exception(retour.first);
+            if(retour.second.first >= 0)
+                exception.addClause(retour.second);
             throw exception;
         }
     }
@@ -123,7 +124,7 @@ bool DPLLSolveur::simplificationUnitaire(Clause* clause)
     {
         if(!literal->isAssigne())
         {
-            gestionConflits.onDeduction(literal, clause->getUid());
+            gestionConflits.onDeduction(literal, clause->getUid(), profondeurPile);
             literal->setVal(true);
             return true;
         }

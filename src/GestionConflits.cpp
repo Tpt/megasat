@@ -2,6 +2,7 @@
 #include "../include/GraphvizConflitOutput.h"
 #include "../include/LatexPrinter.h"
 #include<iostream>
+#include<algorithm>
 
 using namespace std;
 
@@ -15,16 +16,16 @@ GestionConflits::~GestionConflits()
 void GestionConflits::onBeggining(Formule* formule)
 {}
 
-void GestionConflits::onDeduction(Literal* literal, int clauseUid)
+void GestionConflits::onDeduction(Literal* literal, int clauseUid, int profondeurPile)
 {}
 
-void GestionConflits::onChoix(int literalId)
+void GestionConflits::onChoix(int literalId, int profondeurPile)
 {}
 
-pair<int,vector<int>> GestionConflits::onConflit(int clauseUid)
+pair<int,pair<int,vector<int>>> GestionConflits::onConflit(int clauseUid, int profondeurPile)
 {
     conflitsNum++;
-    return pair<int,vector<int>>(-1, vector<int>(0));
+    return pair<int,pair<int,vector<int>>>(1, pair<int,vector<int>>(-1, vector<int>(0)));
 }
 
 int GestionConflits::getConflitsNum() const
@@ -32,9 +33,8 @@ int GestionConflits::getConflitsNum() const
     return conflitsNum;
 }
 
-
 GestionConflitsApprentissage::GestionConflitsApprentissage(int prochainConflit_)
- : GestionConflits(prochainConflit_), clauses(vector<vector<int>>()), pileDeDeductions(vector<pair<int,vector<int>>>())
+ : GestionConflits(prochainConflit_), clauses(vector<vector<int>>()), pileDeDeductions(vector<pair<int,vector<int>>>()), niveauChoix(vector<int>())
 {}
 
 void GestionConflitsApprentissage::onBeggining(Formule* formule)
@@ -44,23 +44,31 @@ void GestionConflitsApprentissage::onBeggining(Formule* formule)
     {
         addClause(clause);
     }
+    niveauChoix = vector<int>(formule->getNombreDeVariables(), -1);
+    for(Variable* var : formule->getVars())
+        if(var->isAssignee())
+            niveauChoix[var->getId() - 1] = 0;
 }
 
-void GestionConflitsApprentissage::onDeduction(Literal* literal, int clauseUid)
+void GestionConflitsApprentissage::onDeduction(Literal* literal, int clauseUid, int profondeurPile)
 {
     pileDeDeductions.push_back(pair<int,vector<int>>(literal->getId(), clauses[clauseUid]));
+    niveauChoix[literal->getAbsId() - 1] = profondeurPile;
 }
 
-void GestionConflitsApprentissage::onChoix(int literalId)
+void GestionConflitsApprentissage::onChoix(int literalId, int profondeurPile)
 {
     pileDeDeductions = vector<pair<int,vector<int>>>();
     pileDeDeductions.push_back(pair<int,vector<int>>(literalId, vector<int>()));
+    niveauChoix[abs(literalId) - 1] = profondeurPile;
 }
 
-pair<int,vector<int>> GestionConflitsApprentissage::onConflit(int clauseUid)
+pair<int,pair<int,vector<int>>> GestionConflitsApprentissage::onConflit(int clauseUid, int profondeurPile)
 {
-    GestionConflits::onConflit(clauseUid);
-    pileDeDeductions.push_back(pair<int,vector<int>>(getLiteralConflictuel(clauseUid), clauses[clauseUid]));
+    GestionConflits::onConflit(clauseUid, profondeurPile);
+
+    int literalConflictuel = getLiteralConflictuel(clauseUid);
+    pileDeDeductions.push_back(pair<int,vector<int>>(literalConflictuel, clauses[clauseUid]));
     ConstructeurPreuve constructeurPreuve(pileDeDeductions);
 
     if(conflitsNum == prochainConflit)
@@ -68,8 +76,15 @@ pair<int,vector<int>> GestionConflitsApprentissage::onConflit(int clauseUid)
 
     int uid = Clause::genUid();
     vector<int> clauseAAjouter = constructeurPreuve.getNouvelleClause();
+
+    int niveauBacktrack = getNiveauBacktrack(clauseAAjouter);
+    int nombreDeBacktraks = profondeurPile - niveauBacktrack;
+    nettoyageNiveaux(niveauBacktrack);
     addClause(clauseAAjouter, uid);
-    return pair<int,vector<int>>(uid, clauseAAjouter);
+#ifdef DEBUG
+    cout << "Backtrack de : " << nombreDeBacktraks << endl;
+#endif
+    return pair<int,pair<int,vector<int>>>( nombreDeBacktraks, pair<int,vector<int>>(uid, clauseAAjouter));
 }
 
 int GestionConflitsApprentissage::getLiteralConflictuel(int clauseUid) const
@@ -147,7 +162,7 @@ void GestionConflitsApprentissage::addClause(const Clause* clause)
     addClause(literaux, clause->getUid());
 }
 
-void GestionConflitsApprentissage::addClause(vector<int> clause, int uid)
+void GestionConflitsApprentissage::addClause(vector<int>& clause, int uid)
 {
     if(uid >= static_cast<int>(clauses.size()))
     {
@@ -155,4 +170,27 @@ void GestionConflitsApprentissage::addClause(vector<int> clause, int uid)
     }
 
     clauses[uid] = clause;
+}
+
+int GestionConflitsApprentissage::getNiveauBacktrack(const vector<int>& clause) const
+{
+    if(clause.size() <= 1)
+        return 0;
+
+    vector<pair<int,int>> clauseAvecProfondeur(clause.size());
+    for(int i = 0; i < clause.size(); i++) {
+        clauseAvecProfondeur[i] = pair<int,int>(niveauChoix[abs(clause[i]) - 1], clause[i]);
+    }
+    sort(clauseAvecProfondeur.begin(), clauseAvecProfondeur.end());
+
+    return clauseAvecProfondeur[clauseAvecProfondeur.size() - 1].first;
+}
+
+void GestionConflitsApprentissage::nettoyageNiveaux(int niveauFutur)
+{
+    for(auto& niveau : niveauChoix)
+    {
+        if(niveau >= niveauFutur)
+            niveau = -1;
+    }
 }

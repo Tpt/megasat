@@ -8,6 +8,7 @@ DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_, VariableNonAssigne
 
 bool DPLLSurveilleSolveur::isSatifiable()
 {
+    profondeurPile = 0;
     formule.supprimerTautologies();
 
     try
