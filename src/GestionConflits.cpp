@@ -89,9 +89,13 @@ void GestionConflitsApprentissage::displayInterface()
         {
             case 'g':
             {
-                cout << "Sortie du graphe des conflits." << endl;
+                cout << "Fichier ?" << endl;
+                string fileName;
+                cin >> fileName;
+
+                cout << "Sortie du graphe des conflits dans le fichier " << fileName << endl;
                 GraphvizConflitOutput graphvizOut(pileDeDeductions);
-                graphvizOut.affiche(cout.rdbuf());
+                graphvizOut.affiche(fileName);
                 break;
             }
             case 'c':

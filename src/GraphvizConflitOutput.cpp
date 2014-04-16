@@ -24,7 +24,11 @@ void GraphvizConflitOutput::affiche(std::streambuf* sortie)
         {
             int pere = abs(literalPere);
             if(pere != sommet)
+            {
                 out << pere << " -> " << sommet << ";\n";
+                if(sommets.count(pere) == 0)
+                    sommets[pere] = pair<int, string>(literalPere, "lightgrey");
+            }
         }
     }
 
@@ -40,11 +44,22 @@ void GraphvizConflitOutput::affiche(std::streambuf* sortie)
     {
         int pere = abs(literalPere);
         if(pere != sommet)
+        {
             out << pere << " -> " << -sommet << ";\n";
+            if(sommets.count(pere) == 0)
+                sommets[pere] = pair<int, string>(literalPere, "lightgrey");
+        }
     }
 
     for(auto sommet_ : sommets)
         out << sommet_.first << " [color=\"" << sommet_.second.second << "\",style=filled,label=\"" << sommet_.second.first << "\"];\n";
 
     out << "}\n";
+}
+
+void GraphvizConflitOutput::affiche(std::string& fichierSortie)
+{
+    ofstream of;
+    of.open(fichierSortie);
+    affiche(of.rdbuf());
 }

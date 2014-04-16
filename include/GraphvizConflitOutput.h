@@ -11,6 +11,7 @@ class GraphvizConflitOutput
 public:
     GraphvizConflitOutput(std::vector<std::pair<int,std::vector<int>>>& pile);
     void affiche(std::streambuf* sortie);
+    void affiche(std::string& fichierSortie);
 private:
     std::vector<std::pair<int,std::vector<int>>> pile;
 };
