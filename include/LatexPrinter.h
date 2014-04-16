@@ -8,7 +8,7 @@
 #define PREUVE 0
 #define CLAUSE 1
 
-#define TAILLE_MAX 20
+#define TAILLE_MAX 25
 
 class LatexPrinter //Prononcé LatechhhPrintère
 {

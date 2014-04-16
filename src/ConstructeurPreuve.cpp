@@ -34,22 +34,22 @@ void ConstructeurPreuve::print(const vector<int>& t) const
 
 Preuve ConstructeurPreuve::construirePreuve() const
 {
-    print(graphe);
+    //print(graphe);
     int literalCourant=graphe[graphe.size()-1].first;
     Preuve p=Preuve(graphe[graphe.size()-1].second, rechercherClauseAssignantLiteral(-literalCourant), literalCourant);
     vector<int> variables(variablesNiveauCourant());
     vector<int> variablesRestantes(variablesNiveauCourantRestantes(variables, p.getConclusion()));
 
-    cout<<"!";print(variables);
-    cout<<"?";print(variablesRestantes);
+    /*cout<<"!";print(variables);
+    cout<<"?";print(variablesRestantes);*/
 
     while(variablesRestantes.size()>0)
     {
         literalCourant=variablesRestantes[variablesRestantes.size()-1];
         p=Preuve(p, rechercherClauseAssignantLiteral(-literalCourant), literalCourant);
         variablesRestantes=variablesNiveauCourantRestantes(variables, p.getConclusion());
-        cout<<"?"<<literalCourant<<"     ";print(variablesRestantes);
-        p.print();
+        /*cout<<"?"<<literalCourant<<"     ";print(variablesRestantes);
+        p.print();*/
     }
 
     return p;

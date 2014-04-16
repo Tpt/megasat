@@ -11,8 +11,8 @@ map<unsigned int, int> LatexPrinter::nextUid = map<unsigned int, int>();
 LatexPrinter::LatexPrinter(Preuve preuve_) :
 preuve(preuve_), latex(""), literauxResolus(preuve_.getLiterauxResolus())
 {
-    cout<<"Vous qui arrivez dans cette fonction, abandonnez toute espérance !"<<endl;
-    preuve.print();
+    //cout<<"Vous qui arrivez dans cette fonction, abandonnez toute espérance !"<<endl;
+    //preuve.print();
     genCodeLatex();
     literauxResolus.push_back(0);
 }
@@ -33,6 +33,8 @@ long unsigned int LatexPrinter::largeurDeLaPreuve(Preuve p) const
     for(vector<int> e : p.getPremisses())
         total+=e.size()+2;
 
+    total+=p.getConclusions()[0].size()+4;
+
     return total;
 }
 
@@ -51,6 +53,7 @@ void LatexPrinter::initCodeMinimal()
            "\\usepackage{mathpartir}\n"
            "\\usepackage[utf8]{inputenc}\n"
            "\\usepackage[francais]{babel}\n"
+           "\\usepackage[top=30mm, bottom=30mm, left=15mm, right=15mm]{geometry}\n"
            "\\usepackage{amsmath}\n"
            "\\newcommand{\\non}[1]{\\overline{#1}}\n"
            "\\newcommand{\\varv}[1]{x_{#1}}\n"
@@ -58,7 +61,7 @@ void LatexPrinter::initCodeMinimal()
            "\\newcommand{\\cl}[1]{\\mathtt{C_{#1}}:~}\n"
            "\\newcommand{\\preuve}[1]{\\mathtt{\\Pi_{#1}}}\n"
            "\\title{"+genTitle()+"}\n"
-           "\\author{Marc \\textsc{Chevalier}\\\\ Thomas \\textsc{Pellissier Tanon}}"
+           "\\author{Marc \\textsc{Chevalier}\\\\ Thomas \\textsc{Pellissier Tanon}}\n"
            "\\begin{document}\n"
            "\\maketitle\n"
            "Preuve de résolution pour la clause :\n"
@@ -143,7 +146,7 @@ string LatexPrinter::preuveToLatex(Preuve p, long unsigned int numPreuve, long u
         sortie+=clauseToLatex(conclusions[i+1],literauxResolus[pos+i+1]);
         sortie+=" } \n ";
     }
-    sortie+="\\end{mathpar}\\ \n \n \n";
+    sortie+="\\end{mathpar}\\\\ \n \n \n";
     return sortie;
 }
 

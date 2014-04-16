@@ -32,7 +32,7 @@ string genTitle()
     titles.push_back("Je veux un trésor qui les contient tous !... Je veux la jeunesse !");
     titles.push_back("Nos chansons feront fuir les soucis et les pleurs !");
     titles.push_back("Sie war schön, sagst du ? Sie ist schön ! Sie ist ! Sie ist !");
-    titles.push_back("Vous permettez que je machouilles mes lunettes ?");
+    titles.push_back("Vous permettez que je machouille mes lunettes ?");
     titles.push_back("Bonjour, en guise de cadeau de bienvenue, je vous offre une spécialité culinaire : une graine de sésame.");
     titles.push_back("Si tu tiens à tes rêves, personne ne peut t'empêcher de les vivre. Sauf si ces personnes ont des seringues de tranquillisant et des antipsychotiques");
     titles.push_back("T'as pas peur, toi !");
