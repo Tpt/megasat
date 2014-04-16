@@ -3,6 +3,8 @@
 *.lo
 *.o
 *.obj
+Test*
+action.in
 gen/gen
 gen/genTseitin
 gen/genGraphe
