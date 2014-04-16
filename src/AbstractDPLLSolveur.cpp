@@ -32,11 +32,40 @@ void AbstractDPLLSolveur::assigneUneVariable()
         gestionConflits.onChoix(literalId);
         assigneLiteral(literalId);
     }
-    catch(InsatisfiableException)
+    catch(InsatisfiableExceptionAvecClauses exception)
     {
         //backtrack
         formule = save;
+        exception.addClausesToFormule(formule);
         gestionConflits.onChoix(literalId);
-        assigneLiteral(-literalId);
+        try
+        {
+            assigneLiteral(-literalId);
+        }
+        catch(InsatisfiableExceptionAvecClauses exception2)
+        {
+            //propagation des clauses à ajouter
+            for(auto clause : exception.getClauses())
+                exception2.addClause(clause);
+            throw exception2;
+        }
+    }
+}
+
+void InsatisfiableExceptionAvecClauses::addClause(const pair<int,vector<int>>& clause)
+{
+    clausesToAdd[clause.first] = clause.second;
+}
+
+std::map<int,std::vector<int>> InsatisfiableExceptionAvecClauses::getClauses() const
+{
+    return clausesToAdd;
+}
+
+void InsatisfiableExceptionAvecClauses::addClausesToFormule(Formule& formule) const
+{
+    for(auto clause : clausesToAdd)
+    {
+        formule.addClause(clause.second, clause.first);
     }
 }

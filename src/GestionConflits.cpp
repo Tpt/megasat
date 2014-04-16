@@ -21,9 +21,10 @@ void GestionConflits::onDeduction(Literal* literal, int clauseUid)
 void GestionConflits::onChoix(int literalId)
 {}
 
-void GestionConflits::onConflit(int clauseUid)
+pair<int,vector<int>> GestionConflits::onConflit(int clauseUid)
 {
     conflitsNum++;
+    return pair<int,vector<int>>(-1, vector<int>(0));
 }
 
 int GestionConflits::getConflitsNum() const
@@ -56,7 +57,7 @@ void GestionConflitsApprentissage::onChoix(int literalId)
     pileDeDeductions.push_back(pair<int,vector<int>>(literalId, vector<int>()));
 }
 
-void GestionConflitsApprentissage::onConflit(int clauseUid)
+pair<int,vector<int>> GestionConflitsApprentissage::onConflit(int clauseUid)
 {
     GestionConflits::onConflit(clauseUid);
     pileDeDeductions.push_back(pair<int,vector<int>>(getLiteralConflictuel(clauseUid), clauses[clauseUid]));
@@ -64,6 +65,11 @@ void GestionConflitsApprentissage::onConflit(int clauseUid)
 
     if(conflitsNum == prochainConflit)
         displayInterface(constructeurPreuve);
+
+    int uid = Clause::genUid();
+    vector<int> clauseAAjouter = constructeurPreuve.getNouvelleClause();
+    addClause(clauseAAjouter, uid);
+    return pair<int,vector<int>>(uid, clauseAAjouter);
 }
 
 int GestionConflitsApprentissage::getLiteralConflictuel(int clauseUid) const
@@ -130,17 +136,23 @@ void GestionConflitsApprentissage::displayInterface(ConstructeurPreuve construct
     }
 }
 
-void GestionConflitsApprentissage::addClause(Clause* clause)
+void GestionConflitsApprentissage::addClause(const Clause* clause)
 {
-    if(clause->getUid() >= static_cast<int>(clauses.size()))
-    {
-        clauses.resize(clause->getUid() + 1);
-    }
-
     vector<int> literaux;
     for(Literal* literal : clause->getLiteraux())
     {
         literaux.push_back(literal->getId());
     }
-    clauses[clause->getUid()] = literaux;
+
+    addClause(literaux, clause->getUid());
+}
+
+void GestionConflitsApprentissage::addClause(vector<int> clause, int uid)
+{
+    if(uid >= static_cast<int>(clauses.size()))
+    {
+        clauses.resize(uid + 1);
+    }
+
+    clauses[uid] = clause;
 }

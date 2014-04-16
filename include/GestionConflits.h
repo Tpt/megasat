@@ -13,7 +13,7 @@ public:
     virtual void onBeggining(Formule* formule);
     virtual void onDeduction(Literal* literal, int clauseUid);
     virtual void onChoix(int literalId);
-    virtual void onConflit(int clauseUid);
+    virtual std::pair<int,std::vector<int>> onConflit(int clauseUid);
     int getConflitsNum() const __attribute__((pure));
 protected:
     int conflitsNum;
@@ -27,10 +27,11 @@ public:
     void onBeggining(Formule* formule);
     void onDeduction(Literal* literal, int clauseUid);
     void onChoix(int literal);
-    void onConflit(int clauseUid);
+    std::pair<int,std::vector<int>> onConflit(int clauseUid);
 private:
     void displayInterface(ConstructeurPreuve constructeurPreuve);
-    void addClause(Clause* clause);
+    void addClause(const Clause* clause);
+    void addClause(std::vector<int> clause, int uid);
     int getLiteralConflictuel(int clauseUid) const;
     std::vector<std::vector<int>> clauses;
     std::vector<std::pair<int,std::vector<int>>> pileDeDeductions;

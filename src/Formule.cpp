@@ -149,6 +149,19 @@ void Formule::addClause(Clause* clause) ///malgre la structure d'ensemble, le te
         clauses.insert(clause);
 }
 
+void Formule::addClause(const std::vector<int>& c, int uid)
+{
+    Clause* w = new Clause(V, uid);
+    for(int literalId : c)
+    {
+        if(literalId > 0)
+            w->addLiteral(lits_pos[literalId - 1]);
+        else
+            w->addLiteral(lits_neg[-literalId - 1]);
+    }
+    clauses.insert(w);
+}
+
 void Formule::addClauses(const unordered_set<Clause*>& clausesAAjouter) ///Le précédent en boucle
 {
     for(Clause* clause : clausesAAjouter)

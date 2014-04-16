@@ -16,6 +16,7 @@ public:
     ~Formule();
 
     void addClause(Clause* c);
+    void addClause(const std::vector<int>& c, int uid);
     void addClauses(const std::unordered_set<Clause*>& c);
     bool contient(const Clause* c) const;
     std::unordered_set<Clause*> getClauses() const;

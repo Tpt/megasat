@@ -11,7 +11,7 @@ public:
     bool isSatifiable();
 private:
     void assigneLiteral(int literalId);
-    bool aClauseVide();
+    void verifierAPasClauseVide();
     void simplifier();
     void compacter();
     bool eliminationLiterauxPurs();

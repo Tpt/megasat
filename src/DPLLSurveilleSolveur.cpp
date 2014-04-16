@@ -56,7 +56,7 @@ Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* 
     clause->supprimerLiteraux(literauxASupprimer);
 
     if(clause->isVide()) //la simplification à aboutie à une clause vide
-        throw InsatisfiableException();
+        throw InsatisfiableExceptionAvecClauses();
 
     return autreLiteral;
 }
@@ -119,7 +119,7 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
             }
             else
             {
-                throw InsatisfiableException(); //la formule n'est pas satisfiable : tout les litéraux sont à faux
+                throw InsatisfiableExceptionAvecClauses(); //la formule n'est pas satisfiable : tout les litéraux sont à faux
             }
         }
         else

@@ -18,13 +18,13 @@ bool DPLLSolveur::isSatifiable()
     //on fait quelques simplifications préliminaires
     formule.supprimerTautologies();
     simplifier();
-    if(aClauseVide())
-        return false;
+
     if(formule.isVide())
         return true;
 
     try
     {
+        verifierAPasClauseVide();
         assigneUneVariable();
         return true;
     }
@@ -44,25 +44,26 @@ void DPLLSolveur::assigneLiteral(int literalId)
 
     simplifier();
 
-    if(aClauseVide())
-        throw InsatisfiableException();
+    verifierAPasClauseVide();
     if(formule.isVide())
         return;
 
     assigneUneVariable();
 }
 
-bool DPLLSolveur::aClauseVide()
+void DPLLSolveur::verifierAPasClauseVide()
 {
     for(auto clause : formule.getClauses())
     {
         if(clause->isVide())
         {
-            gestionConflits.onConflit(clause->getUid());
-            return true;
+            InsatisfiableExceptionAvecClauses exception;
+            pair<int,vector<int>> clauseAAjouter = gestionConflits.onConflit(clause->getUid());
+            if(clauseAAjouter.first >= 0)
+                exception.addClause(clauseAAjouter);
+            throw exception;
         }
     }
-    return false;
 }
 
 void DPLLSolveur::simplifier() ///Arret mortellement dangereux ! Mais garanti 100% safe (a quelques exceptions près).
