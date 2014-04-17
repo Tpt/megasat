@@ -27,7 +27,7 @@ public:
     void addClause(const std::pair<int,std::vector<int>>& clause);
     std::map<int,std::vector<int>> getClauses() const;
     void addClausesToFormule(Formule& formule) const;
-    int getProfondeurBacktrack() const;
+    int getProfondeurBacktrack() const __attribute__((pure));
     void decrementeProfondeurBacktrack();
 private:
     int profondeurBacktrack;

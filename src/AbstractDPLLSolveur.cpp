@@ -62,7 +62,8 @@ void AbstractDPLLSolveur::assigneUneVariable()
 }
 
 
-InsatisfiableExceptionAvecClauses::InsatisfiableExceptionAvecClauses(int profondeurBacktrack_) noexcept : profondeurBacktrack(profondeurBacktrack_)
+InsatisfiableExceptionAvecClauses::InsatisfiableExceptionAvecClauses(int profondeurBacktrack_) noexcept :
+profondeurBacktrack(profondeurBacktrack_), clausesToAdd(map<int,vector<int>>())
 {}
 
 void InsatisfiableExceptionAvecClauses::addClause(const pair<int,vector<int>>& clause)

@@ -152,12 +152,12 @@ void Formule::addClause(Clause* clause) ///malgre la structure d'ensemble, le te
 void Formule::addClause(const std::vector<int>& c, int uid)
 {
     Clause* w = new Clause(V, uid);
-    for(int literalId : c)
+    for(unsigned int i=0;i<c.size();++i)
     {
-        if(literalId > 0)
-            w->addLiteral(lits_pos[literalId - 1]);
+        if(c[i] > 0)
+            w->addLiteral(lits_pos[static_cast<size_t>(c[i] - 1)]);
         else
-            w->addLiteral(lits_neg[-literalId - 1]);
+            w->addLiteral(lits_neg[static_cast<size_t>(-c[i] - 1)]);
     }
     clauses.insert(w);
 }

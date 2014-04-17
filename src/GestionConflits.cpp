@@ -178,7 +178,7 @@ int GestionConflitsApprentissage::getNiveauBacktrack(const vector<int>& clause) 
         return 0;
 
     vector<pair<int,int>> clauseAvecProfondeur(clause.size());
-    for(int i = 0; i < clause.size(); i++) {
+    for(unsigned int i = 0; i < clause.size(); i++) {
         clauseAvecProfondeur[i] = pair<int,int>(niveauChoix[abs(clause[i]) - 1], clause[i]);
     }
     sort(clauseAvecProfondeur.begin(), clauseAvecProfondeur.end());
