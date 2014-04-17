@@ -74,3 +74,19 @@ string genTitle()
     //return titles[titles.size()-1];
     return titles[rd()%titles.size()];
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Bravo, vous avez trouvez la fonctionnalite cachee ! Demandez votre oeuf de Paques au prochain cours.
