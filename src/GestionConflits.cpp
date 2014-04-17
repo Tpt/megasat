@@ -111,7 +111,7 @@ void GestionConflitsApprentissage::displayInterface(ConstructeurPreuve construct
                 cout << "Fichier ?" << endl;
                 string fileName;
                 cin >> fileName;
-                
+
                 cout << "Sortie de la preuve dans le fichier " << fileName << endl;
                 LatexPrinter latexPrinter(constructeurPreuve.getPreuve());
                 latexPrinter.saveCodeLatex(fileName);

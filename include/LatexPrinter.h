@@ -8,7 +8,7 @@
 #define PREUVE 0
 #define CLAUSE 1
 
-#define TAILLE_MAX 50
+#define TAILLE_MAX 25
 
 class LatexPrinter //Prononcé LatechhhPrintère
 {
@@ -29,14 +29,18 @@ private:
     std::string clauseToLatex(const std::vector<int>& clause) const;
     std::string litToLatex(int literal) const;
     std::string toString(int v) const;
-    std::string preuveToLatex(Preuve p) const;
-    std::string preuveToLatex(Preuve p, long unsigned int numPreuve, long unsigned int preuveUtilisee) const;
+    std::string preuveToLatex(Preuve p, unsigned int pos) const;
+    std::string preuveToLatex(Preuve p, long unsigned int numPreuve, long unsigned int preuveUtilisee, unsigned int pos) const;
     std::string decouperPreuveEtLatex(Preuve p) const;
     std::vector<std::pair<Preuve,int>> decouperPreuve(Preuve p) const;
+
+    std::string clauseToLatex(const std::vector<int>& clause, int gras) const;
+    std::string litToLatex(int literal, int gras) const;
 
 
     Preuve preuve;
     std::string latex;
+    std::vector<int> literauxResolus;
 };
 
 #endif // LATEXPRINTER

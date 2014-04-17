@@ -3,6 +3,8 @@
 *.lo
 *.o
 *.obj
+Test*
+action.in
 gen/gen
 gen/genTseitin
 gen/genGraphe
@@ -11,6 +13,7 @@ resol
 tseitin
 colorie
 core
+*.sty
 
 # Compiled Dynamic libraries
 *.so
