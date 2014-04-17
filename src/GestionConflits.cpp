@@ -25,7 +25,7 @@ void GestionConflits::onChoix(int literalId, int profondeurPile)
 pair<int,pair<int,vector<int>>> GestionConflits::onConflit(int clauseUid, int profondeurPile)
 {
     conflitsNum++;
-    return pair<int,pair<int,vector<int>>>(1, pair<int,vector<int>>(-1, vector<int>(0)));
+    return pair<int,pair<int,vector<int>>>(0, pair<int,vector<int>>(-1, vector<int>(0)));
 }
 
 int GestionConflits::getConflitsNum() const

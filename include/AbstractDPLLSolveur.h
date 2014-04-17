@@ -24,6 +24,7 @@ class InsatisfiableExceptionAvecClauses : public InsatisfiableException
 {
 public:
     InsatisfiableExceptionAvecClauses(int profondeurBacktrack = 0) noexcept;
+    ~InsatisfiableExceptionAvecClauses() noexcept {};
     void addClause(const std::pair<int,std::vector<int>>& clause);
     std::map<int,std::vector<int>> getClauses() const;
     void addClausesToFormule(Formule& formule) const;
