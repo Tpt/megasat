@@ -88,7 +88,7 @@ unordered_set<Clause*> DavisPutnamSolveur::resoudreSeau(const unordered_set<Clau
         for(unordered_set<Clause*>::iterator jt=neg.begin(); jt!=neg.end(); ++jt,++j)
         {
             work=resolution(*it, *jt, id);
-            if(work->isVide()) ///Si on a une clause si, c'est fini et on interromp avec une exception.
+            if(work->isVide()) ///Si on a une clause si, c'est fini et on interrompt avec une exception.
             {
                 for(l=0; l<58; ++l) ///Gestion du cas particulier
                     printf("\b");
