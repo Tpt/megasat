@@ -57,13 +57,7 @@ void DPLLSolveur::verifierAPasClauseVide()
     for(auto clause : formule.getClauses())
     {
         if(clause->isVide())
-        {
-            auto retour = gestionConflits.onConflit(clause->getUid(), profondeurPile);
-            InsatisfiableExceptionAvecClauses exception(retour.first);
-            if(retour.second.first >= 0)
-                exception.addClause(retour.second);
-            throw exception;
-        }
+            leveExceptionLorsConflit(clause);
     }
 }
 

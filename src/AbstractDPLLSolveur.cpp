@@ -61,6 +61,16 @@ void AbstractDPLLSolveur::assigneUneVariable()
     }
 }
 
+void AbstractDPLLSolveur::leveExceptionLorsConflit [[noreturn]] (Clause* clause)
+{
+    auto retour = gestionConflits.onConflit(clause->getUid(), profondeurPile);
+    profondeurPile--;
+    InsatisfiableExceptionAvecClauses exception(retour.first);
+    if(retour.second.first >= 0)
+        exception.addClause(retour.second);
+    throw exception;
+}
+
 
 InsatisfiableExceptionAvecClauses::InsatisfiableExceptionAvecClauses(int profondeurBacktrack_) noexcept :
 profondeurBacktrack(profondeurBacktrack_), clausesToAdd(map<int,vector<int>>())

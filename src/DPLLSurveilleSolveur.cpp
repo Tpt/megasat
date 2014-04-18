@@ -8,8 +8,10 @@ DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_, VariableNonAssigne
 
 bool DPLLSurveilleSolveur::isSatifiable()
 {
-    profondeurPile = 0;
     formule.supprimerTautologies();
+
+    profondeurPile = 0;
+    gestionConflits.onBeggining(&formule);
 
     try
     {
@@ -57,7 +59,7 @@ Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* 
     clause->supprimerLiteraux(literauxASupprimer);
 
     if(clause->isVide()) //la simplification à aboutie à une clause vide
-        throw InsatisfiableExceptionAvecClauses();
+        leveExceptionLorsConflit(clause);
 
     return autreLiteral;
 }
@@ -85,7 +87,7 @@ void DPLLSurveilleSolveur::onLiteralAssigne(Literal* literal)
     unordered_set<Clause*> clauses = formule.getClauses();
     for(Clause* clause : clauses)
     {
-        //si elle contient le litéral assigné à vrai, on a supprime
+        //si elle contient le litéral assigné à vrai, on la supprime
         if(clause->literalPresent(literal))
         {
             formule.supprimerClause(clause);
@@ -118,9 +120,9 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
             {
                 formule.supprimerClause(clause); //la clause est satisfaite
             }
-            else
+            else //la formule n'est pas satisfiable : tout les litéraux sont à faux
             {
-                throw InsatisfiableExceptionAvecClauses(); //la formule n'est pas satisfiable : tout les litéraux sont à faux
+                leveExceptionLorsConflit(clause);
             }
         }
         else
@@ -128,7 +130,7 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
 #ifdef DEBUG
             cout << "c pas de choix : " << nouveauLiteral->getId() << " true" << endl; //il n'y a plus qu'un litéral dans la clause : il faut le mettre à vrai
 #endif
-
+            gestionConflits.onDeduction(nouveauLiteral, clause->getUid(), profondeurPile);
             nouveauLiteral->setVal(true);
             onLiteralAssigne(nouveauLiteral);
         }

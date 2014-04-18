@@ -17,6 +17,7 @@ protected:
     GestionConflits& gestionConflits;
     void assigneUneVariable();
     virtual void assigneLiteral(int literalId) = 0;
+    void leveExceptionLorsConflit [[noreturn]] (Clause* clause);
     int profondeurPile;
 };
 
