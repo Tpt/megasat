@@ -64,7 +64,7 @@ void DPLLSolveur::verifierAPasClauseVide()
 void DPLLSolveur::simplifier() ///Arret mortellement dangereux ! Mais garanti 100% safe (a quelques exceptions près).
 {
     compacter();
-    while(eliminationLiterauxPurs() || propagationUnitaire())
+    while(propagationUnitaire() || eliminationLiterauxPurs())
         compacter();
 }
 
