@@ -61,7 +61,7 @@ void AbstractDPLLSolveur::assigneUneVariable()
     }
 }
 
-void AbstractDPLLSolveur::leveExceptionLorsConflit [[noreturn]] (Clause* clause)
+void __attribute__((noreturn)) AbstractDPLLSolveur::leveExceptionLorsConflit(Clause* clause)
 {
     auto retour = gestionConflits.onConflit(clause->getUid(), profondeurPile);
     profondeurPile--;
