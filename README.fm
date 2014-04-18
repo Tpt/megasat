@@ -4,7 +4,8 @@ Un rendu de Paques plus plein qu'un oeuf !
 Au programme :
 - Le clause learning et sa suite 
 - La version interactive
-- Les sorties de graphe et de LaTex
+- Des graphes
+- Du LaTex
 
 Tout d'abord, sur l'utilisation. 
 L'apprentissage de clause se fait avec -cl. A chaque conflit, la clause est générée et apprise. Il y a aussi l'option -cl-interac. Celle ci demande à chaque conflit ce qu'il faut
@@ -15,13 +16,13 @@ En ce qui concerne le fonctionnement et les structures de données.
 Une classe externe au solveur, GestionConflit, sert spécifiquement à gérer l'apprentissage de clause et tout ce qui est adjacent. Le fonctionnement est très intriqué et pas franchement passionnant en soi.
 Un point intéressant en outre est le backtracking intelligent. Il fonctionne par lancé d'exception. Chaque niveau rattrape l'exception, détermine si ça le concerne. Si oui, ça continue, sinon, il relance l'exception
 en ajustant les paramètres.
+La construction du graphe de conflit se fait à partir de la pile des déductions. La pile se fait simplement et très naturellement. Elle est générée à chaque fois mais transformée en graphe seulement lors d'un conflit.
 
-La structure du graphe de conflit est un vector<pair<int, vector<int>>>. Le vecteur a une case par noeud de la déduction. Le premier champ de la paire est le litéral déduit par propagation unitaire. Le second champ
-est la clause qui a permis la déduction. On assure que les litéraux sont dans l'ordre. Le premier est le pari réalisé. La clause correspondante est vide. Le dernier est le conflit. On assure que le litéral 
-opposé (pour avoir le conflit) est présent dans le graphe. Toutes les premiers champ des paires forment l'ensemble des litéraux déduis au niveau courant. 
+La structure du graphe de conflit est un std::vector<std::pair<int, std::vector<int>>>. Le vecteur a une case par noeud de la déduction. Le premier champ de la paire est le litéral déduit par propagation unitaire. Le second champ est la clause qui a permis la déduction. Il convient de préciser que la clause est la clause initiale de la formule (sans les simplifications qui se font au fur et à mesure). Pour cela, la classe GestionConflit conserve la formule initiale. Chaque clause est identifiée de manière unique malgré les ensembles non ordonnés utilisés grâce à un indentifiant unique à chaque clause. Cet identifiant à servi à implémenté wl et on s'en sert différement maintenant, c'est un exemple d'exaptation. On assure que les litéraux sont dans l'ordre chronologique. Le premier est le pari réalisé. La clause correspondante est vide. Le dernier est le conflit et le deuxième champ du dernier élément du vector est la clause qui est vide à l'issue des différentes déductions. On assure que le litéral opposé (pour avoir le conflit) est présent dans le graphe. Toutes les premiers champ des paires forment l'ensemble des litéraux déduis au niveau courant. 
 
 Ce graphe est celui qui peut être affiché (commande g du mode interactif) et qui permet de construire la preuve.
 
+La construction de preuve est gérée par une classe dédiée. Elle prend un graphe et construit une preuve. Elle ne sert qu'à ça. Quelle triste vie !
 La structure de preuve à été un point d'embarras et qui est à la source de bien des regrets. Utlimement, comme l'arbre est un peigne, la preuve a été représentée par deux tableaux de clauses abstraites (contenant des
 entiers qui sont des litéraux et non des litéraux) contenant les premisses et les conclusions. On dit pour cela que dans les deux premisses du haut, une des deux est la conclusion numéro 0. La difficulté de
 l'affichage en LaTex provient de la nécessité de découper les preuves. Le parti choisi consiste à estimer la largeur de la preuve grâce à la longueur des premisses et de la conclusion 0 en ajoutant des constantes
@@ -32,6 +33,15 @@ de l'arbre complet.
 
 
 
+Pour des raisons pratiques, on signale l'existance de la règle
+make purge
+équivalent à 
+make clean && make.
+
+NB : le projet devenant... grand, il est conseillé de compiler avec
+make clean
+make -j
+Permettant de compiler plusieurs fichiers en même temps. C'est clairement plus efficace.
 
 Pour ce qui est de l'ordonnancement des taches sur 2 cerveaux, 4 hémisphères cérébraux ou 16 lobes, Marc a fait ce qui concerne la sortie en LaTex, la déduction de la nouvelle clause, les expériences et l'easter egg.
 Thomas a fait le backtracking intelligent, l'apprentissage de clauses, les statistiques et à participer à l'easter egg.
