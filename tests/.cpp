@@ -71,7 +71,7 @@ string genTitle()
     titles.push_back("Polynomial !");
     titles.push_back("Scientifique !");
     titles.push_back("Plus cool que Spock !");
-    titles.push_back("\\sqrt(-1) love you !");
+    titles.push_back("$\\sqrt{-1}$ love you !");
     titles.push_back("20 GOTO 10 !");
     titles.push_back("Cogito ergo sum !");
     titles.push_back("4815162342 lignes de code !");
