@@ -55,6 +55,7 @@ void LatexPrinter::initCodeMinimal()
            "\\usepackage[francais]{babel}\n"
            "\\usepackage[top=30mm, bottom=30mm, left=15mm, right=15mm]{geometry}\n"
            "\\usepackage{amsmath}\n"
+           "\\usepackage{color}\n"
            "\\newcommand{\\non}[1]{\\overline{#1}}\n"
            "\\newcommand{\\varv}[1]{x_{#1}}\n"
            "\\newcommand{\\varf}[1]{\\non{\\varv{#1}}}\n"
