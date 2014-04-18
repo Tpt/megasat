@@ -82,17 +82,6 @@ void DPLLSolveur::compacter()
         formule.supprimerClause(c);
 }
 
-bool DPLLSolveur::eliminationLiterauxPurs()
-{
-    bool modif = false;
-
-    for(int id = 1; id <= formule.getNombreDeVariables(); ++id)
-        if(simplificationLiteralPur(id))
-            modif = true;
-
-    return modif;
-}
-
 bool DPLLSolveur::propagationUnitaire()
 {
     bool modif = false;
@@ -102,9 +91,6 @@ bool DPLLSolveur::propagationUnitaire()
         if(simplificationUnitaire(c))
             modif = true;
     }
-
-    if(modif)
-        propagationUnitaire();
 
     return modif;
 }
@@ -124,6 +110,17 @@ bool DPLLSolveur::simplificationUnitaire(Clause* clause)
         }
     }
     return false;
+}
+
+bool DPLLSolveur::eliminationLiterauxPurs()
+{
+    bool modif = false;
+    
+    for(int id = 1; id <= formule.getNombreDeVariables(); ++id)
+        if(simplificationLiteralPur(id))
+            modif = true;
+    
+    return modif;
 }
 
 bool DPLLSolveur::simplificationLiteralPur(int id)
