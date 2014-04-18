@@ -49,7 +49,7 @@ string genTitle()
     titles.push_back("$++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.$");
     titles.push_back("$$\\int_{C^+}{P\\,\\mathrm dx + Q\\,\\mathrm dy} = \\iint_D\\left( \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}\\right)  \\mathrm dx\\mathrm dy$$");
     titles.push_back(" Génial !");
-    titles.push_back("100% pur jus !");
+    titles.push_back("100\\% pur jus !");
     titles.push_back("Peut contenir des traces d'arachides !");
     titles.push_back("Sexy !");
     titles.push_back("Fabriqué par un Orang-Outan et Scrat");
@@ -85,6 +85,7 @@ string genTitle()
     titles.push_back("Quoi de neuf, docteur ?");
     titles.push_back("Contient maintenant, 32 chats journaliers aléatoires !");
     titles.push_back("Coucou, tu veux voir mon satsolver ?");
+    titles.push_back("Coucou, tu veux voir mon gros arbre de dérivation ?");
     //return titles[titles.size()-1];
     return titles[rd()%titles.size()];
 }
