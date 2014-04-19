@@ -33,8 +33,39 @@ int GestionConflits::getConflitsNum() const
     return conflitsNum;
 }
 
+void GestionConflits::afficheStatistiques(std::streambuf* sortie) const
+{}
+
+
+GestionConflitsStatistiques::GestionConflitsStatistiques() : nombreVraiBacktrack(0), profondeurCumuleBacktracks(0), nombreClausesAjoutes(0), tailleCumuleAjouts(0)
+{}
+
+void GestionConflitsStatistiques::onBacktrack(int profondeur)
+{
+    if(profondeur > 0) {
+        nombreVraiBacktrack++;
+        profondeurCumuleBacktracks += profondeur;
+    }
+}
+
+void GestionConflitsStatistiques::onAjoutClause(unsigned long tailleClause)
+{
+    nombreClausesAjoutes++;
+    tailleCumuleAjouts += tailleClause;
+}
+
+void GestionConflitsStatistiques::afficheStatistiques(std::streambuf* sortie) const
+{
+    ostream out(sortie);
+    out << "c Nombre de backtrack de profondeur supérieure à 1 : " << nombreVraiBacktrack << endl;
+    out << "c Profondeur moyenne des backtracks : " << (((float) profondeurCumuleBacktracks) / nombreVraiBacktrack) + 1 << endl;
+    out << "c Taille moyenne des clauses ajoutées : " << ((float) tailleCumuleAjouts) / nombreClausesAjoutes << endl;
+}
+
+
+
 GestionConflitsApprentissage::GestionConflitsApprentissage(int prochainConflit_)
- : GestionConflits(prochainConflit_), clauses(vector<vector<int>>()), pileDeDeductions(vector<pair<int,vector<int>>>()), niveauChoix(vector<int>())
+ : GestionConflits(prochainConflit_), clauses(vector<vector<int>>()), pileDeDeductions(vector<pair<int,vector<int>>>()), niveauChoix(vector<int>()), statistiques(GestionConflitsStatistiques())
 {}
 
 void GestionConflitsApprentissage::onBeggining(Formule* formule)
@@ -48,6 +79,7 @@ void GestionConflitsApprentissage::onBeggining(Formule* formule)
     for(Variable* var : formule->getVars())
         if(var->isAssignee())
             niveauChoix[var->getId() - 1] = 0;
+    statistiques = GestionConflitsStatistiques();
 }
 
 void GestionConflitsApprentissage::onDeduction(Literal* literal, int clauseUid, int profondeurPile)
@@ -84,6 +116,8 @@ pair<int,pair<int,vector<int>>> GestionConflitsApprentissage::onConflit(int clau
 #ifdef DEBUG
     cout << "Backtrack de : " << nombreDeBacktraks << endl;
 #endif
+    statistiques.onAjoutClause(clauseAAjouter.size());
+    statistiques.onBacktrack(nombreDeBacktraks);
     return pair<int,pair<int,vector<int>>>( nombreDeBacktraks, pair<int,vector<int>>(uid, clauseAAjouter));
 }
 
@@ -149,6 +183,11 @@ void GestionConflitsApprentissage::displayInterface(ConstructeurPreuve construct
                 cout << "Option inconnu : " << ch << endl;
         }
     }
+}
+
+void GestionConflitsApprentissage::afficheStatistiques(std::streambuf* sortie) const
+{
+    statistiques.afficheStatistiques(sortie);
 }
 
 void GestionConflitsApprentissage::addClause(const Clause* clause)
