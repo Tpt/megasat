@@ -24,7 +24,7 @@ public:
     LanceurSolveur(ArgumentsParser& arguments_, std::string debutCommentaire, SolveurType solveurParDefaut = DPLL, HeuristiqueType heuristiqueParDefaut = SIMPLE);
     ~LanceurSolveur();
     Formule execute(Formule& formule);
-    std::streambuf* getBufferSortie();
+    std::streambuf* getBufferSortie() __attribute__((pure));
     static std::vector<std::string> getNomsOptions();
 
 private:

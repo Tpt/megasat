@@ -101,7 +101,7 @@ SolveurType LanceurSolveur::getSolveur()
     if(arguments.getOption("v"))
     {
         ostream out(getBufferSortie());
-        
+
         switch(solveur)
         {
             case DPLL:
@@ -173,17 +173,7 @@ HeuristiqueType LanceurSolveur::getHeuristique()
 
 streambuf* LanceurSolveur::getBufferSortie()
 {
-    string outputFileName = arguments.getArgument("outputFile");
-    if(outputFileName != "")
-    {
-        ofstream of;
-        of.open(outputFileName);
-        return of.rdbuf();
-    }
-    else
-    {
-        return cout.rdbuf();
-    }
+    return cout.rdbuf();
 }
 
 vector<string> LanceurSolveur::getNomsOptions()
