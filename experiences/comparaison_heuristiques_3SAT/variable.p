@@ -12,8 +12,8 @@ reset
 set title "t=f(V) pour les différentes heuristiques"
 set xlabel "Nombre de variables"
 set ylabel "Temps de résolution (s)"
-set key out vert
-set key center right
+#set key out vert
+set key left
 
 
 
@@ -34,4 +34,14 @@ plot "variable.dat" using 1:2 title columnheader(2), \
      "variable.dat" using 1:8 title columnheader(8), \
      "variable.dat" using 1:9 title columnheader(9), \
      "variable.dat" using 1:10 title columnheader(10), \
-     "variable.dat" using 1:11 title columnheader(11)
+     "variable.dat" using 1:11 title columnheader(11),\
+     "variable.dat" using 1:12 title columnheader(12), \
+     "variable.dat" using 1:13 title columnheader(13), \
+     "variable.dat" using 1:14 title columnheader(14), \
+     "variable.dat" using 1:15 title columnheader(15), \
+     "variable.dat" using 1:16 title columnheader(16), \
+     "variable.dat" using 1:17 title columnheader(17), \
+     "variable.dat" using 1:18 title columnheader(18), \
+     "variable.dat" using 1:19 title columnheader(19), \
+     "variable.dat" using 1:20 title columnheader(20), \
+     "variable.dat" using 1:21 title columnheader(21)

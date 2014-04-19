@@ -25,4 +25,5 @@ set pointsize 0.2   # la taille des points
 
 # on trace deux courbes: avec les colonnes 1 et 2, avec les colonnes 1 et 3
 # a chaque fois, le nom de la courbe est lu en tete de colonne
-plot "variable.dat" using 1:2 title columnheader(2)
+plot "variable.dat" using 1:2 title columnheader(2), \
+     "variable.dat" using 1:3 title columnheader(3)

@@ -1,3 +1,41 @@
+=== Rendu 3 ===
+
+Les tests précédents ont simplemnt été rectifiés pour prendre en compte la nouvelle option -cl. 
+
+    1/ Les formles CNF
+
+        1.1/ 3-SAT
+
+    Le clause learning ne sert simplement à rien ! Les résultats du clause learning sont totalement équivalent aux résultats avec l'heuristique respective.
+
+
+        1.2/ 3-300-SAT
+
+    Les mesures nous encouragent à penser que le clause learning est précisément inutile.
+
+
+        1.3/ 3-SAT avec beaucoup de clauses
+
+    Idem. A ce demander pourquoi on nous a demander de coder ça...
+
+
+    2/ Les formules générales
+
+Je ne sais même pas pourquoi je fais ça...
+
+Expérimentalement, en effet, ça ne sert à rien !
+
+    3/ La coloration de graphe
+    
+        3.1 / m=2*n
+
+        3.2/ m=n*n/10
+
+        3.3/ m=n*(n-1)/2
+
+
+=== Rendu 2 ===
+
 Parmi la corbeille de test, nous vous proposons :
 
 D'un point de vue très général, pour chaque graphe, il y a 3 versions. Celle qui compare toutes les heuristiques, les deux suivantes sélectionnent les meilleurs en deux étapes.

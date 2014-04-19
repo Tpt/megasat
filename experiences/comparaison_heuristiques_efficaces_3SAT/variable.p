@@ -31,4 +31,11 @@ plot "variable.dat" using 1:2 title columnheader(2), \
      "variable.dat" using 1:5 title columnheader(5), \
      "variable.dat" using 1:6 title columnheader(6), \
      "variable.dat" using 1:7 title columnheader(7), \
-     "variable.dat" using 1:8 title columnheader(8)
+     "variable.dat" using 1:8 title columnheader(8), \
+     "variable.dat" using 1:9 title columnheader(9), \
+     "variable.dat" using 1:10 title columnheader(10), \
+     "variable.dat" using 1:11 title columnheader(11), \
+     "variable.dat" using 1:12 title columnheader(12), \
+     "variable.dat" using 1:13 title columnheader(13), \
+     "variable.dat" using 1:14 title columnheader(14), \
+     "variable.dat" using 1:15 title columnheader(15)

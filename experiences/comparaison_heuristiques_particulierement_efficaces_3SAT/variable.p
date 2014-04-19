@@ -28,4 +28,9 @@ plot "variable.dat" using 1:2 title columnheader(2), \
      "variable.dat" using 1:3 title columnheader(3), \
      "variable.dat" using 1:4 title columnheader(4), \
      "variable.dat" using 1:5 title columnheader(5), \
-     "variable.dat" using 1:6 title columnheader(6)
+     "variable.dat" using 1:6 title columnheader(6), \
+     "variable.dat" using 1:7 title columnheader(7), \
+     "variable.dat" using 1:8 title columnheader(8), \
+     "variable.dat" using 1:9 title columnheader(9), \
+     "variable.dat" using 1:10 title columnheader(10), \
+     "variable.dat" using 1:11 title columnheader(11)
