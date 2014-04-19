@@ -15,9 +15,24 @@ public:
     virtual void onChoix(int literalId, int profondeurPile);
     virtual std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
     int getConflitsNum() const __attribute__((pure));
+    virtual void afficheStatistiques(std::streambuf* sortie) const;
 protected:
     int conflitsNum;
     int prochainConflit;
+};
+
+class GestionConflitsStatistiques
+{
+public:
+    GestionConflitsStatistiques();
+    void onBacktrack(int profondeur);
+    void onAjoutClause(unsigned long tailleClause);
+    void afficheStatistiques(std::streambuf* sortie) const;
+private:
+    int nombreVraiBacktrack;
+    int profondeurCumuleBacktracks;
+    int nombreClausesAjoutes;
+    unsigned long tailleCumuleAjouts;
 };
 
 class GestionConflitsApprentissage : public GestionConflits
@@ -29,6 +44,7 @@ public:
     void onChoix(int literal, int profondeurPile);
     std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
     int getNiveauBacktrack(const std::vector<int>& clause) const;
+    void afficheStatistiques(std::streambuf* sortie) const;
 private:
     void displayInterface(ConstructeurPreuve constructeurPreuve);
     void addClause(const Clause* clause);
@@ -40,6 +56,6 @@ private:
     std::vector<std::vector<int>> clauses;
     std::vector<std::pair<int,std::vector<int>>> pileDeDeductions;
     std::vector<int> niveauChoix;
+    GestionConflitsStatistiques statistiques;
 };
-
 #endif

@@ -65,14 +65,18 @@ Formule LanceurSolveur::execute(Formule& formule)
     if(solveur->isSatifiable())
     {
         formule = solveur->getFomule();
+        gestionConflits->afficheStatistiques(getBufferSortie());
         delete solveur;
         delete heuristique;
+        delete gestionConflits;
         return formule;
     }
     else
     {
+        gestionConflits->afficheStatistiques(getBufferSortie());
         delete solveur;
         delete heuristique;
+        delete gestionConflits;
         throw InsatisfiableException();
     }
 }
