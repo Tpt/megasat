@@ -1,0 +1,156 @@
+On étudie la formule logique 3SAT contenant 3 variables et 8 clauses distinctes. On a évidemment une formule insatisfiable car on décrit toutes les formules possibles.
+1 2 3
+-1 2 3
+1 -2 3
+-1 -2 3
+1 2 -3
+-1 2 -3
+1 -2 -3
+-1 -2 -3
+
+
+
+On n'utilise aucune heuristique.
+
+On décide 1.
+    La formule devient
+    2 3
+    -2 3
+    2 -3
+    -2 -3
+    Aucune déduction de plus n'est possible.
+    
+    On décide 2.
+        La formule devient
+        3
+        -3
+        On fait la propagation unitaire.
+        On déduit 3 et -3. CONFLIT !
+        Les clauses amenant à cela sont :
+        -1 -2 3 et
+        -1 -2 -3
+        On résout et on obtient
+        -1 -2
+        On ajoute à la formule et on backtracke
+
+    La formule est :
+    1 2 3
+    -1 2 3
+    1 -2 3
+    -1 -2 3
+    1 2 -3
+    -1 2 -3
+    1 -2 -3
+    -1 -2 -3
+    -1 -2
+    
+    Au niveau courant, ça donne :
+    2 3
+    -2 3
+    2 -3
+    -2 -3
+    -2
+
+    On déduit -2 par propagation unitaire.
+    3
+    -3
+    On a de nouveau un conflit !
+    On résout depuis 
+    -1 2 3
+    -1 2 -3
+    et on a 
+    -1 2
+    On ajoute et on backtracke
+
+La formule actuelle est 
+1 2 3
+-1 2 3
+1 -2 3
+-1 -2 3
+1 2 -3
+-1 2 -3
+1 -2 -3
+-1 -2 -3
+-1 -2
+-1 2
+
+On décide -1 :
+    La formule devient :
+    2 3
+    -2 3
+    2 -3
+    -2 -3
+    NB : les clauses ajoutées ne servent plus à rien
+
+    On ne déduit rien de plus.
+
+    On décide 2 :
+        La formule devient
+        3
+        -3
+        CONFLIT !
+        On résout
+        1 -2 3
+        et
+        1 -2 -3
+        pour donner :
+        1 -2
+        On ajoute et on backtracke
+
+    1 2 3
+    -1 2 3
+    1 -2 3
+    -1 -2 3
+    1 2 -3
+    -1 2 -3
+    1 -2 -3
+    -1 -2 -3
+    -1 -2
+    -1 2
+    1 -2
+
+    Soit, au niveau courant :
+    2 3
+    -2 3
+    2 -3
+    -2 -3
+    -2
+
+    On déduit -2
+    On a 
+    3
+    -3
+    CONFLIT !
+    Résolution depuis :
+    1 2 -3
+    et 
+    1 2 3
+    On ajoute 1 - à la formule.
+
+    On a la formule
+    1 2 3
+    -1 2 3
+    1 -2 3
+    -1 -2 3
+    1 2 -3
+    -1 2 -3
+    1 -2 -3
+    -1 -2 -3
+    -1 -2
+    -1 2
+    1 -2
+    1 2
+    
+    Soit à ce niveau :
+    2 3
+    -2 3
+    2 -3
+    -2 -3
+    -2
+    2
+    CONFLIT !
+    BACKTRACKE !
+    FOUTU !
+
+UNSATISFIABLE !
+

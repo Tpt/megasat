@@ -15,6 +15,7 @@ preuve(preuve_), latex(""), literauxResolus(preuve_.getLiterauxResolus())
     //preuve.print();
     genCodeLatex();
     literauxResolus.push_back(0);
+    nextUid[PREUVE]=0;
 }
 
 LatexPrinter::~LatexPrinter()

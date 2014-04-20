@@ -31,6 +31,10 @@ de l'arbre complet.
 
 
 
+Pour ce qui est des tests, toujours se référer à experiences.fm contenu dans le le dossier experiences. Mais, pour vous éviter cette peine, voisi un rapide résumé : le clause learning ne sert strictement à rien et ne change aucunement les performances. Les tests ont simplement été mis à jour pour prendre en compte la nouvelle option. On se rend d'ailleurs compte que les statistiques affichés montre un nombre de backtrack intelligent souvent nul.
+
+Pour ce qui est de l'exemple didactique, on le trouve dans un dossier nommé à cet effet dans le dossier experiences.
+
 
 
 Pour des raisons pratiques, on signale l'existance de la règle
