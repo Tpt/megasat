@@ -35,19 +35,19 @@ void ConstructeurPreuve::print(const vector<int>& t) const
 Preuve ConstructeurPreuve::construirePreuve() const
 {
     //print(graphe);
-    int literalCourant=graphe[graphe.size()-1].first;
-    Preuve p=Preuve(graphe[graphe.size()-1].second, rechercherClauseAssignantLiteral(-literalCourant), literalCourant);
+    int literalCourant = graphe[graphe.size()-1].first;
+    Preuve p = Preuve(graphe[graphe.size()-1].second, rechercherClauseAssignantLiteral(-literalCourant), literalCourant);
     vector<int> variables(variablesNiveauCourant());
     vector<int> variablesRestantes(variablesNiveauCourantRestantes(variables, p.getConclusion()));
 
     /*cout<<"!";print(variables);
     cout<<"?";print(variablesRestantes);*/
 
-    while(variablesRestantes.size()>0)
+    while(variablesRestantes.size() > 0)
     {
-        literalCourant=variablesRestantes[variablesRestantes.size()-1];
-        p=Preuve(p, rechercherClauseAssignantLiteral(-literalCourant), literalCourant);
-        variablesRestantes=variablesNiveauCourantRestantes(variables, p.getConclusion());
+        literalCourant = variablesRestantes[variablesRestantes.size()-1];
+        p = Preuve(p, rechercherClauseAssignantLiteral(-literalCourant), literalCourant);
+        variablesRestantes = variablesNiveauCourantRestantes(variables, p.getConclusion());
         /*cout<<"?"<<literalCourant<<"     ";print(variablesRestantes);
         p.print();*/
     }
@@ -68,10 +68,10 @@ vector<int> ConstructeurPreuve::variablesNiveauCourant() const
 
 int ConstructeurPreuve::compterVariablesNiveauCourantRestantes(const vector<int>& variables, const vector<int>& clause) const
 {
-    int count=0;
+    int count = 0;
 
-    for(unsigned int i=0;i<clause.size();++i)
-        if(find(variables.begin(), variables.end(), clause[i])!=variables.end())
+    for(unsigned int i = 0; i < clause.size(); ++i)
+        if(find(variables.begin(), variables.end(), clause[i]) != variables.end())
             ++count;
 
     return count;
@@ -82,7 +82,7 @@ vector<int> ConstructeurPreuve::variablesNiveauCourantRestantes(const vector<int
     vector<int> sortie(0);
 
     for(int lit : clause)
-        if(find(variables.begin(), variables.end(), -lit)!=variables.end())
+        if(find(variables.begin(), variables.end(), -lit) != variables.end())
             sortie.push_back(lit);
 
     return sortie;
@@ -91,7 +91,7 @@ vector<int> ConstructeurPreuve::variablesNiveauCourantRestantes(const vector<int
 vector<int> ConstructeurPreuve::rechercherClauseAssignantLiteral(int id) const
 {
     for(pair<int,vector<int>> e : graphe)
-        if(e.first==id)
+        if(e.first == id)
             return e.second;
 
     return vector<int>(0);
