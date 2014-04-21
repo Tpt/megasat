@@ -86,7 +86,7 @@ void GestionConflitsApprentissage::onDeduction(Literal* literal, int clauseUid, 
 void GestionConflitsApprentissage::onChoix(int literalId, int profondeurPile)
 {
     pileDeDeductions = vector<pair<int,vector<int>>>();
-    pileDeDeductions.push_back(pair<int,vector<int>>(literalId, vector<int>()));
+    pileDeDeductions.push_back(pair<int,vector<int>>(literalId, vector<int>(0)));
     niveauChoix[abs(literalId) - 1] = profondeurPile;
 }
 
@@ -109,10 +109,11 @@ pair<int,pair<int,vector<int>>> GestionConflitsApprentissage::onConflit(int clau
     nettoyageNiveaux(niveauBacktrack);
     addClause(clauseAAjouter, uid);
 #ifdef DEBUG
-    cout << "Backtrack de : " << nombreDeBacktraks << endl;
+    cout << "c Backtrack de : " << nombreDeBacktraks << endl;
 #endif
     statistiques.onAjoutClause(clauseAAjouter.size());
     statistiques.onBacktrack(nombreDeBacktraks);
+
     return pair<int,pair<int,vector<int>>>(nombreDeBacktraks, pair<int,vector<int>>(uid, clauseAAjouter));
 }
 
@@ -211,13 +212,13 @@ int GestionConflitsApprentissage::getNiveauBacktrack(const vector<int>& clause) 
     if(clause.size() <= 1)
         return 0;
 
-    vector<pair<int,int>> clauseAvecProfondeur(clause.size());
+    vector<int> profondeurs(clause.size());
     for(unsigned int i = 0; i < clause.size(); i++) {
-        clauseAvecProfondeur[i] = pair<int,int>(niveauChoix[abs(clause[i]) - 1], clause[i]);
+        profondeurs[i] = niveauChoix[abs(clause[i]) - 1];
     }
-    sort(clauseAvecProfondeur.begin(), clauseAvecProfondeur.end());
+    sort(profondeurs.begin(), profondeurs.end());
 
-    return clauseAvecProfondeur[clauseAvecProfondeur.size() - 2].first;
+    return profondeurs[profondeurs.size() - 2] + 1;
 }
 
 void GestionConflitsApprentissage::nettoyageNiveaux(int niveauFutur)

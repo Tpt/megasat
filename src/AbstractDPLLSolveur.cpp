@@ -38,15 +38,16 @@ void AbstractDPLLSolveur::assigneUneVariable()
         {
             exception.decrementeProfondeurBacktrack();
             profondeurPile--;
-            throw;
+            throw exception;
         }
 
         //backtrack
         formule = save;
         exception.addClausesToFormule(formule);
-        gestionConflits.onChoix(literalId, profondeurPile);
         try
         {
+            profondeurPile++;
+            gestionConflits.onChoix(-literalId, profondeurPile);
             assigneLiteral(-literalId);
         }
         catch(InsatisfiableExceptionAvecClauses& exception2)
@@ -56,7 +57,7 @@ void AbstractDPLLSolveur::assigneUneVariable()
                 exception2.addClause(clause);
             exception2.decrementeProfondeurBacktrack();
             profondeurPile--;
-            throw;
+            throw exception2;
         }
     }
 }
