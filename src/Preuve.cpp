@@ -106,13 +106,12 @@ vector<int> Preuve::resolution(const vector<int>& c1, const vector<int>& c2, int
         sortie.push_back(literal);
 
     return sortie;
-
 }
 
 Preuve Preuve::getResteDeLArbre() const
 {
-    vector<vector<int>> premisses_temp=premisses;
-    vector<vector<int>> conclusions_temp=conclusions;
+    vector<vector<int>> premisses_temp = premisses;
+    vector<vector<int>> conclusions_temp = conclusions;
 
     premisses_temp.pop_back();
     conclusions_temp.pop_back();
