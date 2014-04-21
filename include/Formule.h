@@ -17,7 +17,6 @@ public:
 
     void addClause(Clause* c);
     void addClause(const std::vector<int>& c, int uid);
-    void addClauses(const std::unordered_set<Clause*>& c);
     bool contient(const Clause* c) const;
     std::unordered_set<Clause*> getClauses() const;
     Literal* getLiteral(int id) const __attribute__((pure)); /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)
@@ -28,7 +27,6 @@ public:
     std::vector<Variable*> getVars() const;
     bool isVide() const __attribute__((pure));
     void print() const;
-    void setLiteral(int id, bool polarite, bool val);
     void setVar(int id, bool val); //id est le numéro de la variable compté à partir de 1
     void supprimerClause(Clause* c);
     void supprimerTautologies();

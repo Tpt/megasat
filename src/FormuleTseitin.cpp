@@ -84,27 +84,6 @@ string FormuleTseitin::getName() const
     return name;
 }
 
-FormuleTseitin* FormuleTseitin::getOperandeGPointeur() const
-{
-    if(getArite()!=2)
-        throw FormuleTseitinError("Le type devrait avoir une arité 2 !");
-    return operandeG;
-}
-
-FormuleTseitin* FormuleTseitin::getOperandeDPointeur() const
-{
-    if(getArite()!=2)
-        throw FormuleTseitinError("Le type devrait avoir une arité 2 !");
-    return operandeD;
-}
-
-FormuleTseitin* FormuleTseitin::getOperandePointeur() const
-{
-    if(getArite()!=1)
-        throw FormuleTseitinError("Le type devrait avoir une arité 1 ! (ter)");
-    return operandeG;
-}
-
 FormuleTseitin FormuleTseitin::getOperandeG() const
 {
     if(getArite()!=2)
@@ -142,25 +121,18 @@ string FormuleTseitin::toStringPrefix() const
     switch(type)
     {
         case FormuleTseitin::VARIABLE :
-            //cout<<"#"<<name<<endl;
             return name;
         case FormuleTseitin::NON :
-            //cout<<"~"<<endl;
             return "~ " + operandeG->toStringPrefix();
         case FormuleTseitin::OU :
-            //cout<<"ou"<<endl;
             return "ou " + operandeG->toStringPrefix() + " " + operandeD->toStringPrefix();
         case FormuleTseitin::ET :
-            //cout<<"et"<<endl;
             return "et " + operandeG->toStringPrefix() + " " + operandeD->toStringPrefix();
         case FormuleTseitin::IMPLIQUE :
-            //cout<<"imp"<<endl;
             return "=> " + operandeG->toStringPrefix() + " " + operandeD->toStringPrefix();
         case FormuleTseitin::XOR :
-            //cout<<"xor"<<endl;
             return "xor " + operandeG->toStringPrefix() + " " + operandeD->toStringPrefix();
         default :
-            //cout<<"FAIL ! "<<endl;
             return "P'tet ben, j'en sais rien...";
     }
 }

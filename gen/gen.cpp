@@ -42,7 +42,6 @@ int main(int argc, char* argv[])
     }
 
     srand(static_cast<unsigned int>(time(NULL)));
-    int Ll;
     string filename;
     
     if(argc<6)
@@ -86,7 +85,7 @@ int main(int argc, char* argv[])
     
     for(int i=0;i<C;++i)
     {
-        Ll=(rand()%(L-l+1))+l;;
+        int Ll=(rand()%(L-l+1))+l;;
         assignation.clear();
         assignation.resize(static_cast<size_t>(V),0);
         for(int j=0;j<Ll;++j)

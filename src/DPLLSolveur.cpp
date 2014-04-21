@@ -127,11 +127,10 @@ bool DPLLSolveur::simplificationLiteralPur(int id)
 {
     bool found_pos = false;
     bool found_neg = false;
-    Polarite res;
 
     for(Clause* c : formule.getClauses())
     {
-        res = c->polariteLiteral(id);
+        Polarite res = c->polariteLiteral(id);
         if(res == POSITIF)
             found_pos = true;
         else if(res == NEGATIF)

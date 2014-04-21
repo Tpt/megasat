@@ -16,7 +16,6 @@ public:
     Clause(int variableNumber, int uid);
 
     void addLiteral(Literal* literal);
-    void addLiteraux(std::unordered_set<Literal*> nouveauxLiteraux);
     bool contientLiteralVrai() const __attribute__((pure));
     int eval() const __attribute__((pure));
     int indiceMax() const __attribute__((pure));

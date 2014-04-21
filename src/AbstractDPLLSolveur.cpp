@@ -32,13 +32,13 @@ void AbstractDPLLSolveur::assigneUneVariable()
         gestionConflits.onChoix(literalId, profondeurPile);
         assigneLiteral(literalId);
     }
-    catch(InsatisfiableExceptionAvecClauses exception)
+    catch(InsatisfiableExceptionAvecClauses& exception)
     {
         if(exception.getProfondeurBacktrack() > 0)
         {
             exception.decrementeProfondeurBacktrack();
             profondeurPile--;
-            throw exception;
+            throw;
         }
 
         //backtrack
@@ -49,14 +49,14 @@ void AbstractDPLLSolveur::assigneUneVariable()
         {
             assigneLiteral(-literalId);
         }
-        catch(InsatisfiableExceptionAvecClauses exception2)
+        catch(InsatisfiableExceptionAvecClauses& exception2)
         {
             //propagation des clauses à ajouter
             for(auto clause : exception.getClauses())
                 exception2.addClause(clause);
             exception2.decrementeProfondeurBacktrack();
             profondeurPile--;
-            throw exception2;
+            throw;
         }
     }
 }

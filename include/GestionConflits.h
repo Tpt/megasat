@@ -14,7 +14,6 @@ public:
     virtual void onDeduction(Literal* literal, int clauseUid, int profondeurPile);
     virtual void onChoix(int literalId, int profondeurPile);
     virtual std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
-    int getConflitsNum() const __attribute__((pure));
     virtual void afficheStatistiques(std::streambuf* sortie) const;
 protected:
     int conflitsNum;

@@ -81,11 +81,6 @@ int Formule::getNombreDeVariables() const
     return V;
 }
 
-void Formule::setLiteral(int id, bool polarite, bool val)
-{
-    vars[static_cast<size_t>(id-1)]->setVal( (val && polarite) || (!val && !polarite) ); /// nxor
-}
-
 void Formule::setVar(int id, bool val)
 {
     vars[static_cast<size_t>(id-1)]->setVal(val);
@@ -140,7 +135,7 @@ void Formule::print() const
 
 bool Formule::isVide() const
 {
-    return clauses.size() == 0;
+    return clauses.empty();
 }
 
 void Formule::addClause(Clause* clause) ///malgre la structure d'ensemble, le test est indispensable. En effet c'est un pointeur et non l'élément
@@ -160,12 +155,6 @@ void Formule::addClause(const std::vector<int>& c, int uid)
             w->addLiteral(lits_neg[static_cast<size_t>(-c[i] - 1)]);
     }
     clauses.insert(w);
-}
-
-void Formule::addClauses(const unordered_set<Clause*>& clausesAAjouter) ///Le précédent en boucle
-{
-    for(Clause* clause : clausesAAjouter)
-        addClause(clause);
 }
 
 void Formule::supprimerClause(Clause* c)

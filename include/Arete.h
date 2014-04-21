@@ -11,7 +11,7 @@ public:
     int getExtremiteGauche() const __attribute__((pure));
     int getExtremiteDroite() const __attribute__((pure));
 
-    bool operator==(Arete that) const __attribute__((pure));
+    bool operator==(const Arete& that) const __attribute__((pure));
     size_t hash() const __attribute__((pure));
 
 private:
@@ -21,7 +21,7 @@ private:
 
 struct AreteHash
 {
-    size_t operator()(const Arete arete) const
+    size_t operator()(const Arete& arete) const
     {
         return arete.hash();
     };

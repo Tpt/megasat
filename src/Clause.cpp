@@ -29,12 +29,6 @@ void Clause::addLiteral(Literal* nouveauLiteral)
     literaux.insert(nouveauLiteral);
 }
 
-void Clause::addLiteraux(std::unordered_set<Literal*> nouveauxLiteraux)
-{
-    for(Literal* l : nouveauxLiteraux)
-        literaux.insert(l);
-}
-
 void Clause::supprimer(Literal* l) ///Supprime toutes les occurences d'un litéral.
 {
     literaux.erase(l);
@@ -136,7 +130,7 @@ bool Clause::isSurclause(const Clause* c) const ///Test si la clause est une sur
     for(Literal* l : literaux)
         lit.erase(l);
 
-    return lit.size() == 0;
+    return lit.empty();
 }
 
 int Clause::size() const
@@ -203,5 +197,5 @@ bool operator==(Clause const &a, Clause const& b)
         if(literauxB.erase(l) == 0)
             return false;
 
-    return literauxB.size() == 0;
+    return literauxB.empty();
 }

@@ -28,11 +28,6 @@ pair<int,pair<int,vector<int>>> GestionConflits::onConflit(int clauseUid, int pr
     return pair<int,pair<int,vector<int>>>(0, pair<int,vector<int>>(-1, vector<int>(0)));
 }
 
-int GestionConflits::getConflitsNum() const
-{
-    return conflitsNum;
-}
-
 void GestionConflits::afficheStatistiques(std::streambuf* sortie) const
 {}
 
@@ -118,7 +113,7 @@ pair<int,pair<int,vector<int>>> GestionConflitsApprentissage::onConflit(int clau
 #endif
     statistiques.onAjoutClause(clauseAAjouter.size());
     statistiques.onBacktrack(nombreDeBacktraks);
-    return pair<int,pair<int,vector<int>>>( nombreDeBacktraks, pair<int,vector<int>>(uid, clauseAAjouter));
+    return pair<int,pair<int,vector<int>>>(nombreDeBacktraks, pair<int,vector<int>>(uid, clauseAAjouter));
 }
 
 int GestionConflitsApprentissage::getLiteralConflictuel(int clauseUid) const

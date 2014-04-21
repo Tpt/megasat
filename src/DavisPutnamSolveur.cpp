@@ -74,7 +74,6 @@ unordered_set<Clause*> DavisPutnamSolveur::resoudreSeau(const unordered_set<Clau
         sortie.insert(c);
 
     unsigned int i=0;
-    unsigned int j=0;
     for(unordered_set<Clause*>::iterator it=pos.begin(); it!=pos.end(); ++it,++i) ///On double-boucle pour faire toutes les résolutions...
     {
         printf("c ["); /// Affichage !
@@ -84,7 +83,7 @@ unordered_set<Clause*> DavisPutnamSolveur::resoudreSeau(const unordered_set<Clau
         for(; l<50; ++l)
             printf(" ");
         printf("] %d%%",static_cast<int>(i*100)/static_cast<int>(pos.size()));
-        j=0;
+        unsigned int j=0;
         for(unordered_set<Clause*>::iterator jt=neg.begin(); jt!=neg.end(); ++jt,++j)
         {
             work=resolution(*it, *jt, id);
@@ -95,6 +94,7 @@ unordered_set<Clause*> DavisPutnamSolveur::resoudreSeau(const unordered_set<Clau
                 if(i*100/pos.size()==100)
                     printf("\b");
                 printf("\n");
+                delete work;
                 throw InsatisfiableException();
             }
             if(!work->isTautologie() && !aSousclauses(sortie, work) && !contient(sortie, work) ) /** C'est là  que c'est un peu fin.
@@ -150,7 +150,7 @@ Clause* DavisPutnamSolveur::resolution(const Clause* c1, Clause* c2, const int i
     return sortie;
 }
 
-bool DavisPutnamSolveur::aSousclauses(const unordered_set<Clause*> seau, const Clause* cl) const
+bool DavisPutnamSolveur::aSousclauses(const unordered_set<Clause*>& seau, const Clause* cl) const
 {
     for(Clause* c : seau)
         if(cl->isSurclause(c))
@@ -159,7 +159,7 @@ bool DavisPutnamSolveur::aSousclauses(const unordered_set<Clause*> seau, const C
     return false;
 }
 
-bool DavisPutnamSolveur::contient(const unordered_set<Clause*> seau, const Clause* clause) const
+bool DavisPutnamSolveur::contient(const unordered_set<Clause*>& seau, const Clause* clause) const
 {
     for(Clause* clause2 : seau)
         if(*clause == *clause2)
