@@ -16,7 +16,7 @@ En ce qui concerne le fonctionnement et les structures de données.
 Une classe externe au solveur, GestionConflit, sert spécifiquement à gérer l'apprentissage de clause et tout ce qui est adjacent. Le fonctionnement est très intriqué et pas franchement passionnant en soi.
 Un point intéressant en outre est le backtracking intelligent. Il fonctionne par lancé d'exception. Chaque niveau rattrape l'exception, détermine si ça le concerne. Si oui, ça continue, sinon, il relance l'exception
 en ajustant les paramètres.
-La construction du graphe de conflit se fait à partir de la pile des déductions. La pile se fait simplement et très naturellement. Elle est générée à chaque fois mais transformée en graphe seulement lors d'un conflit.
+La construction du graphe de conflit se fait à partir de la pile des déductions. La pile se fait simplement et très naturellement en ajoutant le littéral déduit et la clause qui a permis la déduction. Elle est générée à chaque fois mais transformée en graphe seulement lors d'un conflit.
 
 La structure du graphe de conflit est un std::vector<std::pair<int, std::vector<int>>>. Le vecteur a une case par noeud de la déduction. Le premier champ de la paire est le litéral déduit par propagation unitaire. Le second champ est la clause qui a permis la déduction. Il convient de préciser que la clause est la clause initiale de la formule (sans les simplifications qui se font au fur et à mesure). Pour cela, la classe GestionConflit conserve la formule initiale. Chaque clause est identifiée de manière unique malgré les ensembles non ordonnés utilisés grâce à un indentifiant unique à chaque clause. Cet identifiant à servi à implémenté wl et on s'en sert différement maintenant, c'est un exemple d'exaptation. On assure que les litéraux sont dans l'ordre chronologique. Le premier est le pari réalisé. La clause correspondante est vide. Le dernier est le conflit et le deuxième champ du dernier élément du vector est la clause qui est vide à l'issue des différentes déductions. On assure que le litéral opposé (pour avoir le conflit) est présent dans le graphe. Toutes les premiers champ des paires forment l'ensemble des litéraux déduis au niveau courant. 
 
@@ -35,6 +35,7 @@ Pour ce qui est des tests, toujours se référer à experiences.fm contenu dans 
 
 Pour ce qui est de l'exemple didactique, on le trouve dans un dossier nommé à cet effet dans le dossier experiences.
 
+Le code du DPLL simple a aussi été optimisé grâce à quelques petites modifications dans l'ordre d'appel des simplifications (on gagne environ un facteur 2).
 
 
 Pour des raisons pratiques, on signale l'existance de la règle

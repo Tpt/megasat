@@ -1,6 +1,6 @@
 === Rendu 3 ===
 
-Les tests précédents ont simplemnt été rectifiés pour prendre en compte la nouvelle option -cl. 
+Les tests précédents ont simplement été rectifiés pour prendre en compte la nouvelle option -cl. 
 
     1/ Les formles CNF
 
@@ -43,8 +43,7 @@ Expérimentalement, en effet, ça ne sert à rien !
 
 
 
-Après discussions avec d'autres groupes, il s'avère que ce n'est pas un cas pasthologique. Ca n'a effectivement aucun intéret.
-
+Après discussions avec d'autres groupes, il s'avère que ce n'est pas un cas pathologique. Ca n'a effectivement aucun intéret.
 
 
 === Rendu 2 ===
