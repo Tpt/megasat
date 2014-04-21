@@ -217,7 +217,7 @@ int GestionConflitsApprentissage::getNiveauBacktrack(const vector<int>& clause) 
     }
     sort(clauseAvecProfondeur.begin(), clauseAvecProfondeur.end());
 
-    return clauseAvecProfondeur[clauseAvecProfondeur.size() - 1].first;
+    return clauseAvecProfondeur[clauseAvecProfondeur.size() - 2].first;
 }
 
 void GestionConflitsApprentissage::nettoyageNiveaux(int niveauFutur)
