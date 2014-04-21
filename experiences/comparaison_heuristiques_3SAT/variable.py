@@ -4,9 +4,9 @@ import time
 
 
 ranges=[(0,0,0),(1,0,0),(2,0,0),(3,0,0),(4,0,0),(0,1,0),(1,1,0),(2,1,0),(3,1,0),(4,1,0),(0,0,1),(1,0,1),(2,0,1),(3,0,1),(4,0,1),(0,1,1),(1,1,1),(2,1,1),(3,1,1),(4,1,1)]
-heuristiques=["-malin", "-rand", "-moms", "-dlis", ""]
+heuristiques=["-malin", "-rand", "-moms", "-dlis", "-simple"]
 cl=["","-cl"]
-wl=["","-wl"]
+wl=["-dpll","-wl"]
 nbVar=int(sys.argv[1])
 maxVar=int(sys.argv[2])
 pas=int(sys.argv[3])
@@ -38,6 +38,7 @@ while nbVar<=maxVar:
         it=0
         total=0
         temps=0
+        print(heuristiques[h]+wl[w]+cl[c])
         while it<itMax:
             popen("./../../gen/gen "+str(nbVar)+" 400 3 3 temp_var.cnf")
             temps=time.time()
