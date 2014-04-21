@@ -11,8 +11,6 @@ map<unsigned int, int> LatexPrinter::nextUid = map<unsigned int, int>();
 LatexPrinter::LatexPrinter(Preuve preuve_) :
 preuve(preuve_), latex(""), literauxResolus(preuve_.getLiterauxResolus())
 {
-    //cout<<"Vous qui arrivez dans cette fonction, abandonnez toute espérance !"<<endl;
-    //preuve.print();
     genCodeLatex();
     literauxResolus.push_back(0);
     nextUid[PREUVE]=0;
