@@ -33,7 +33,7 @@ de l'arbre complet.
 
 Pour ce qui est des tests, toujours se référer à experiences.fm contenu dans le le dossier experiences. Mais, pour vous éviter cette peine, voisi un rapide résumé : le clause learning ne sert strictement à rien et ne change aucunement les performances. Les tests ont simplement été mis à jour pour prendre en compte la nouvelle option. On se rend d'ailleurs compte que les statistiques affichés montre un nombre de backtrack intelligent souvent nul.
 
-Pour ce qui est de l'exemple didactique, on le trouve dans un dossier nommé à cet effet dans le dossier experiences.
+Pour ce qui est de l'exemple didactique, on le trouve dans un dossier nommé à cet effet dans le dossier experiences. Le fichier d'explication est nommé tuto.fm.
 
 Le code du DPLL simple a aussi été optimisé grâce à quelques petites modifications dans l'ordre d'appel des simplifications (on gagne environ un facteur 2).
 
@@ -48,10 +48,10 @@ make clean
 make -j
 Permettant de compiler plusieurs fichiers en même temps. C'est clairement plus efficace.
 
-Pour ce qui est de l'ordonnancement des taches sur 2 cerveaux, 4 hémisphères cérébraux ou 16 lobes, Marc a fait ce qui concerne la sortie en LaTex, la déduction de la nouvelle clause, les expériences et l'easter egg.
-Thomas a fait le backtracking intelligent, l'apprentissage de clauses, les statistiques et à participer à l'easter egg.
+Pour ce qui est de l'ordonnancement des taches sur 2 cerveaux, 4 hémisphères cérébraux ou 16 lobes, Marc a fait ce qui concerne la sortie en LaTex, la déduction de la nouvelle clause, les expériences et les easter eggs.
+Thomas a fait le backtracking intelligent, l'apprentissage de clauses, les statistiques et à participer aux easter eggs.
 
-Un easter egg est caché est le projet ! Saurez vous le trouver ?
+Des easter eggs sont cachés dans le projet ! Saurez vous les trouver ?
 
 === Rendu 2 ===
 Pleins de jolies petites fonctionnalités !

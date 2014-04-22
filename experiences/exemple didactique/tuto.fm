@@ -154,3 +154,6 @@ On décide -1 :
 
 UNSATISFIABLE !
 
+
+
+On remarque un phénomène général : cl a tendance à se comporter comme Davis-Putnamm dans certains cas extrême, le rendant terriblement inefficace.
