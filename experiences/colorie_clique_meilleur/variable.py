@@ -4,8 +4,8 @@ import time
 
 
 ranges = [(2,1,0),(2,1,1)]
-heuristiques = ["-malin", "-rand", "-moms", "-dlis", ""]
-wl = ["","-wl"]
+heuristiques = ["-malin", "-rand", "-moms", "-dlis", "-simple"]
+wl = ["-dpll","-wl"]
 cl = ["","-cl"]
 nbVar = int(sys.argv[1])
 maxVar = int(sys.argv[2])
@@ -22,12 +22,12 @@ for p in ranges :
         write(fichier, "defaut ")
     else :
         write(fichier,heuristiques[h]+wl[w]+cl[c]+" ")
-    
+
 write(fichier,"\n")
 popen("rm -f temp_var.col")
 
 while nbVar <= maxVar :
-    it = 0            
+    it = 0
     print("Nombre de variable "+str(nbVar))
     write(fichier,str(nbVar)+" ")
     for p in ranges :
@@ -41,7 +41,7 @@ while nbVar <= maxVar :
         while it < itMax :
             popen("./../../gen/genGraphe "+str(nbVar)+" "+str(nbVar*(nbVar-1)//2)+" temp_var.col")
             temps = time.time()
-            popen("./../../colorie "+str(nbVar//5)+" temp_var.col "+heuristiques[h]+" "+wl[w]+" "+cl[c])
+            popen("./../../colorie "+str(nbVar-1)+" temp_var.col "+heuristiques[h]+" "+wl[w]+" "+cl[c])
             total += time.time()-temps
             popen("rm -f temp_var.col")
             it += 1

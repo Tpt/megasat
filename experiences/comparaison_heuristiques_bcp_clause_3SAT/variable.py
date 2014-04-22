@@ -4,8 +4,8 @@ import time
 
 
 ranges=[(0,0,0),(1,0,0),(2,0,0),(3,0,0),(4,0,0),(0,1,0),(1,1,0),(2,1,0),(3,1,0),(4,1,0),(0,0,1),(1,0,1),(2,0,1),(3,0,1),(4,0,1),(0,1,1),(1,1,1),(2,1,1),(3,1,1),(4,1,1)]
-heuristiques=["-malin", "-rand", "-moms", "-dlis", ""]
-wl=["","-wl"]
+heuristiques=["-malin", "-rand", "-moms", "-dlis", "-simple"]
+wl=["-dpll","-wl"]
 cl=["","-cl"]
 nbVar=int(sys.argv[1])
 maxVar=int(sys.argv[2])
@@ -22,7 +22,7 @@ for p in ranges:
         write(fichier, "defaut ")
     else:
         write(fichier,heuristiques[h]+wl[w]+cl[c]+" ")
-    
+
 write(fichier,"\n")
 
 
@@ -30,7 +30,7 @@ write(fichier,"\n")
 popen("rm -f temp_var.cnf")
 
 while nbVar<=maxVar:
-    it=0            
+    it=0
     print("Nombre de variables "+str(nbVar))
     write(fichier,str(nbVar)+" ")
     for p in ranges:
