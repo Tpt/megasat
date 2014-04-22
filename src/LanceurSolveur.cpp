@@ -3,6 +3,7 @@
 #include "../include/DavisPutnamSolveur.h"
 #include "../include/DPLLSolveur.h"
 #include "../include/DPLLSurveilleSolveur.h"
+#include "../include/MinisatSolveur.h"
 
 using namespace std;
 
@@ -60,6 +61,9 @@ Formule LanceurSolveur::execute(Formule& formule)
         case DAVIS_PUTNAM:
             solveur = new DavisPutnamSolveur(formule);
             break;
+        case MINISAT:
+            solveur = new MinisatSolveur(formule);
+            break;
     }
 
     if(solveur->isSatifiable())
@@ -97,6 +101,10 @@ SolveurType LanceurSolveur::getSolveur()
     {
         solveur = DAVIS_PUTNAM;
     }
+    else if(arguments.getOption("rapide"))
+    {
+        solveur = MINISAT;
+    }
 
     if(arguments.getOption("v"))
     {
@@ -113,6 +121,8 @@ SolveurType LanceurSolveur::getSolveur()
             case DAVIS_PUTNAM:
                 out << debutCommentaire << " Utilisation de Davis Putnam." << endl;
                 break;
+            case MINISAT:
+                out << debutCommentaire << " Utilisation d'une heuristique maison." << endl;
         }
     }
 
@@ -178,7 +188,7 @@ streambuf* LanceurSolveur::getBufferSortie()
 
 vector<string> LanceurSolveur::getNomsOptions()
 {
-    vector<string> liste(12);
+    vector<string> liste(13);
     liste[0]="dpll";
     liste[1]="wl";
     liste[2]="dp";
@@ -191,5 +201,6 @@ vector<string> LanceurSolveur::getNomsOptions()
     liste[9]="s";
     liste[10]="cl";
     liste[11]="cl-interac";
+    liste[12]="rapide";
     return liste;
 }

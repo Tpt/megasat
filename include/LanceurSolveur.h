@@ -15,7 +15,8 @@ enum HeuristiqueType {
 enum SolveurType {
     DPLL,
     WATCHED_LITERALS,
-    DAVIS_PUTNAM
+    DAVIS_PUTNAM,
+    MINISAT
 };
 
 class LanceurSolveur
