@@ -24,7 +24,6 @@ public:
 private:
     void initCodeMinimal();
     void finaliseCodeMinimal();
-    long unsigned int largeurDeLaPreuve(Preuve p) const;
     void genCodeLatex();
     std::string clauseToLatex(const std::vector<int>& clause) const;
     std::string litToLatex(int literal) const;

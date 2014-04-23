@@ -12,12 +12,8 @@ public:
     Preuve getPreuve() const {return preuve;};
 
 private:
-    void print(const std::vector<std::pair<int,std::vector<int>>>& graphe) const;
-    void print(const std::vector<int>& t) const;
-
     Preuve construirePreuve() const;
     std::vector<int> variablesNiveauCourant() const;
-    int compterVariablesNiveauCourantRestantes(const std::vector<int>& variables, const std::vector<int>& clause) const;
     std::vector<int> variablesNiveauCourantRestantes(const std::vector<int>& variables, const std::vector<int>& clause) const;
     std::vector<int> rechercherClauseAssignantLiteral(int id) const;
 
