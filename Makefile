@@ -17,6 +17,7 @@ YACC=bison
 all: $(EXEC) 
 
 debug: CFLAGS = $(NAZI) -D DEBUG -g
+debug: FLAGSBASE = $(FLAGSBASE) -D DEBUG -g
 debug: $(EXEC)
 
 purge: clean all
