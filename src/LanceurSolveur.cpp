@@ -39,13 +39,13 @@ Formule LanceurSolveur::execute(Formule& formule)
     if(arguments.getOption("cl-interac"))
     {
         if(arguments.getOption("v"))
-            cout << debutCommentaire << " Utilisation du clause-learning interactif." << endl;
+            cout << debutCommentaire << " Utilisation du clause learning interactif." << endl;
         gestionConflits = new GestionConflitsApprentissage(1);
     }
     else if(arguments.getOption("cl"))
     {
         if(arguments.getOption("v"))
-            cout << debutCommentaire << " Utilisation du clause-learning." << endl;
+            cout << debutCommentaire << " Utilisation du clause learning." << endl;
         gestionConflits = new GestionConflitsApprentissage();
     }
     else
