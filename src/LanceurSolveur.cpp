@@ -122,7 +122,7 @@ SolveurType LanceurSolveur::getSolveur()
                 out << debutCommentaire << " Utilisation de Davis Putnam." << endl;
                 break;
             case MINISAT:
-                out << debutCommentaire << " Utilisation d'une heuristique maison." << endl;
+                out << debutCommentaire << " Utilisation d'un solveur maison." << endl;
         }
     }
 
