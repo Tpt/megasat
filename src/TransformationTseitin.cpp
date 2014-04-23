@@ -111,8 +111,6 @@ void TransformationTseitin::parcours()
 {
     stack<pair<FormuleTseitin,int>> pile;
     int varCourante = V + 1;
-    FormuleTseitin w;
-    int v;
 
     addClausesRacine(varCourante);
 
@@ -120,8 +118,8 @@ void TransformationTseitin::parcours()
 
     while(!pile.empty())
     {
-        v = pile.top().second;
-        w = pile.top().first;
+        int v = pile.top().second;
+        FormuleTseitin w = pile.top().first;
         
         pile.pop();
         if(w.getType()==FormuleTseitin::VARIABLE)

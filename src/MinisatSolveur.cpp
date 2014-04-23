@@ -36,7 +36,9 @@ bool MinisatSolveur::isSatifiable()
     }
     fb.close();
 
-    system(("minisat " + inputFile + ' ' + outputFile + " >/dev/null").c_str());
+    if(system(("minisat " + inputFile + ' ' + outputFile + " >/dev/null").c_str()) == -1)
+        exit(EXIT_FAILURE);
+
     remove(inputFile.c_str());
 
     if(fb.open(outputFile, ios::in) == nullptr)
