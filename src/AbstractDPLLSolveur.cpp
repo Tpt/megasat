@@ -38,7 +38,7 @@ void AbstractDPLLSolveur::assigneUneVariable()
         {
             exception.decrementeProfondeurBacktrack();
             profondeurPile--;
-            throw exception;
+            throw;
         }
 
         //backtrack
@@ -57,7 +57,7 @@ void AbstractDPLLSolveur::assigneUneVariable()
                 exception2.addClause(clause);
             exception2.decrementeProfondeurBacktrack();
             profondeurPile--;
-            throw exception2;
+            throw;
         }
     }
 }
