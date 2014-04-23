@@ -1,15 +1,26 @@
 #include "../include/MinisatSolveur.h"
 #include<cstdlib>
+#include<unistd.h>
 
 using namespace std;
 
 MinisatSolveur::MinisatSolveur(Formule& formule_) : Solveur(formule_)
 {}
 
+inline string toString(const int i);
+inline string toString(const int i) {
+    stringstream s;
+    s << i;
+    return s.str();
+}
+
 bool MinisatSolveur::isSatifiable()
 {
+    int uid = getpid();
+    string inputFile = ".temp-in-" + toString(uid) + ".cnf";
+    string outputFile = ".temp-out-" + toString(uid) + ".cnf";
     filebuf fb;
-    if(fb.open(".temp-in.cnf", ios::out) == nullptr)
+    if(fb.open(inputFile, ios::out) == nullptr)
         exit(EXIT_FAILURE);
     ostream inFileStream(&fb);
 
@@ -25,10 +36,10 @@ bool MinisatSolveur::isSatifiable()
     }
     fb.close();
 
-    system("minisat .temp-in.cnf .temp-out.cnf >/dev/null");
-    remove(".temp-in.cnf");
+    system(("minisat " + inputFile + ' ' + outputFile + " >/dev/null").c_str());
+    remove(inputFile.c_str());
 
-    if(fb.open(".temp-out.cnf", ios::in) == nullptr)
+    if(fb.open(outputFile, ios::in) == nullptr)
         exit(EXIT_FAILURE);
     istream outFileStream(&fb);
 
@@ -37,7 +48,7 @@ bool MinisatSolveur::isSatifiable()
     if(state == "UNSAT")
     {
         fb.close();
-        remove(".temp-out.cnf");
+        remove(outputFile.c_str());
         return false;
     }
     else if(state == "SAT")

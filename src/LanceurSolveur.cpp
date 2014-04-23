@@ -113,7 +113,7 @@ SolveurType LanceurSolveur::getSolveur()
         switch(solveur)
         {
             case DPLL:
-                out << debutCommentaire << " Utilisation de PDLL." << endl;
+                out << debutCommentaire << " Utilisation de DPLL." << endl;
                 break;
             case WATCHED_LITERALS:
                 out << debutCommentaire << " Utilisation des Watched Literals." << endl;
