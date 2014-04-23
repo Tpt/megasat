@@ -1,0 +1,36 @@
+A propos des générateurs.
+Il y a 3 générateurs :
+gen : pour les cnf
+genTseitin : pour les formules générales
+genGraphe : pour les graphes
+
+gen prend comme argument le nombre de variables, le nombre de clauses et des bornes sur la taille des clauses.
+
+On peut faire par exemple 
+./gen V C l L
+Le fichier sera nommé ex_V_C_l_L.cnf
+Il est aussi possible d'enregistrer dans un fichier précis :
+./gen V C l L fileName
+L'appel peut aussi être fait simplement grâce à
+./gen
+auquel cas, le programme demande ses arguments d'une façon très explicite. Dans ce cas, il n'est pas possible de spécifier un nom de fichier.
+
+On n'assure pas frand chose à propos de ce générateur. Si ce n'est qu'il utilise rand() du C (aléatoire moyen) et qu'il ne génère pas de tautologies. D'autre part, en particulier, on n'assure pas qu'on utilise toutes les variables. En outre le programme ne renvoie rien si la taille des clauses dépasse le nombre de variables.
+
+
+
+Les autres générateurs ont le même genre de fonctionnement.
+
+genTseitin demande un nombre de variable ainsi qu'une profondeur min et max de la formule. Chaque connecteur est choisi aléatoirement récursivement.
+Le fichier de sortie est nommé
+tseitin_V_p_P.txt où V, p et P sont le nombre de variables, la profondeur min et la profondeur max.
+Les variables ont des noms en lettres minuscules générées dans l'ordre d'une façon débile.
+
+genGraphe demande un nombre de sommets et le nombre d'arêtes et retourne un graphe contenant exactement ce nombre de sommets et d'arêtes.
+Il donne un message d'erreur et quitte si le nombre d'arêtes dépasse n(n-1)/2
+
+
+
+genGraphe et gen incluent des commentaires dans le fichier de sorti pour rappeler les paramètres.
+
+

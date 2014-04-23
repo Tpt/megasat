@@ -41,8 +41,9 @@ Expérimentalement, en effet, ça ne sert à rien !
     
     Idem.
 
+D'un point de vu général, aucune courbe n'a d'intéret car on y voit toujours la même chose : -cl ne sert à rien.
 
-En pratique, le programme perd pas mal de temps à apprendre des clauses et ça le ralenti considérablement.
+En pratique, le programme perd pas mal de temps à apprendre des clauses et ça le ralenti considérablement, comme on le voit dans colorie_2n_mieux qui colorie un graphe avec 2n arêtes (n = |V|).
 
 
 Après discussions avec d'autres groupes, il s'avère que ce n'est pas un cas pathologique. Ca n'a effectivement aucun intéret.
