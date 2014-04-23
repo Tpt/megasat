@@ -29,6 +29,7 @@ l'affichage en LaTex provient de la nécessité de découper les preuves. Le par
 à causes des trous. On coupe quand la preuve dépasse le largeur limite définie comme une constante de préprocesseur et qu'il y a au moins une résolution. On affiche les preuves dans l'ordre qui serait celui
 de l'arbre complet.
 
+Les statistiques présentant le nombre et la distance des backtracks intelligents ainsi que la taille des clauses ajoutées sont affichées via l'option d'affichage verbose ("-v").
 
 On remarque aussi l'existance d'un nouveau solveur ne prenant aucune heuristrique en paramètre : -malin. Il a été naturellement déduit de ce qu'on avait déjà et il est un peu plus rapide que le dpll normal (ou wl) dans certains cas.
 

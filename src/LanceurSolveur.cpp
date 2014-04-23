@@ -38,10 +38,14 @@ Formule LanceurSolveur::execute(Formule& formule)
     GestionConflits* gestionConflits = nullptr;
     if(arguments.getOption("cl-interac"))
     {
+        if(arguments.getOption("v"))
+            cout << debutCommentaire << " Utilisation du clause-learning interactif." << endl;
         gestionConflits = new GestionConflitsApprentissage(1);
     }
     else if(arguments.getOption("cl"))
     {
+        if(arguments.getOption("v"))
+            cout << debutCommentaire << " Utilisation du clause-learning." << endl;
         gestionConflits = new GestionConflitsApprentissage();
     }
     else
@@ -69,7 +73,8 @@ Formule LanceurSolveur::execute(Formule& formule)
     if(solveur->isSatifiable())
     {
         formule = solveur->getFomule();
-        gestionConflits->afficheStatistiques(getBufferSortie());
+        if(arguments.getOption("v"))
+            gestionConflits->afficheStatistiques(getBufferSortie(), debutCommentaire);
         delete solveur;
         delete heuristique;
         delete gestionConflits;
@@ -77,7 +82,8 @@ Formule LanceurSolveur::execute(Formule& formule)
     }
     else
     {
-        gestionConflits->afficheStatistiques(getBufferSortie());
+        if(arguments.getOption("v"))
+            gestionConflits->afficheStatistiques(getBufferSortie(), debutCommentaire);
         delete solveur;
         delete heuristique;
         delete gestionConflits;

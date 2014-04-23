@@ -14,7 +14,7 @@ public:
     virtual void onDeduction(Literal* literal, int clauseUid, int profondeurPile);
     virtual void onChoix(int literalId, int profondeurPile);
     virtual std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
-    virtual void afficheStatistiques(std::streambuf* sortie) const;
+    virtual void afficheStatistiques(std::streambuf* sortie, const std::string debutCommentaire) const;
 protected:
     int conflitsNum;
     int prochainConflit;
@@ -26,7 +26,7 @@ public:
     GestionConflitsStatistiques();
     void onBacktrack(int profondeur);
     void onAjoutClause(unsigned long tailleClause);
-    void afficheStatistiques(std::streambuf* sortie) const;
+    void afficheStatistiques(std::streambuf* sortie, const std::string debutCommentaire) const;
 private:
     int nombreVraiBacktrack;
     int profondeurCumuleBacktracks;
@@ -43,7 +43,7 @@ public:
     void onChoix(int literal, int profondeurPile);
     std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
     int getNiveauBacktrack(const std::vector<int>& clause) const;
-    void afficheStatistiques(std::streambuf* sortie) const;
+    void afficheStatistiques(std::streambuf* sortie, const std::string debutCommentaire) const;
 private:
     void displayInterface(ConstructeurPreuve constructeurPreuve);
     void addClause(const Clause* clause);
