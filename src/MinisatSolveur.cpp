@@ -60,7 +60,7 @@ bool MinisatSolveur::isSatifiable()
             formule.setVar(abs(i), i > 0);
         }
         fb.close();
-        remove(".temp-out.cnf");
+        remove(outputFile.c_str());
         return true;
     }
 
