@@ -65,6 +65,6 @@ bool MinisatSolveur::isSatifiable()
     }
 
     fb.close();
-    remove(".temp-out.cnf");
-    exit(EXIT_FAILURE);
+    remove(outputFile.c_str());
+exit(EXIT_FAILURE);
 }
