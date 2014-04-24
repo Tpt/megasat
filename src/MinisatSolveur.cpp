@@ -66,5 +66,5 @@ bool MinisatSolveur::isSatifiable()
 
     fb.close();
     remove(outputFile.c_str());
-exit(EXIT_FAILURE);
+    exit(EXIT_FAILURE);
 }
