@@ -9,12 +9,12 @@ class CreateurContraintesColoriage
 {
 public:
     CreateurContraintesColoriage(Graphe &graphe, int k);
-    FormuleTseitin* cree() const;
+    FormuleTseitin<std::pair<int,int>>* cree() const;
 
 private:
-    FormuleTseitin* creeContrainteInferieurK(int sommet) const;
-    FormuleTseitin* creeContrainteArete(Arete arete) const;
-    FormuleTseitin* creeVariable(int sommet, int bit) const;
+    FormuleTseitin<std::pair<int,int>>* creeContrainteInferieurK(int sommet) const;
+    FormuleTseitin<std::pair<int,int>>* creeContrainteArete(Arete arete) const;
+    inline FormuleTseitin<std::pair<int,int>>* creeVariable(int sommet, int bit) const;
     Graphe graphe;
     int k;
     int tailleCodeCouleurSommet;

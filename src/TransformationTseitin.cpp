@@ -3,8 +3,8 @@
 
 using namespace std;
 
-TransformationTseitin::TransformationTseitin(FormuleTseitin* formule_) :
-formule(formule_), formuleNormalisee(nullptr), V(0), nbrVariableAux(0), correspondanceDesVariables(unordered_map<string,int>())
+template<typename T> TransformationTseitin<T>::TransformationTseitin(FormuleTseitin<T>* formule_) :
+formule(formule_), formuleNormalisee(nullptr), V(0), nbrVariableAux(0), correspondanceDesVariables(unordered_map<T,int>())
 {
     V = creerCorrespondance();
     nbrVariableAux = compterVariablesAux();
@@ -12,11 +12,11 @@ formule(formule_), formuleNormalisee(nullptr), V(0), nbrVariableAux(0), correspo
     formuleNormalisee = new Formule(V + nbrVariableAux);
 }
 
-TransformationTseitin::TransformationTseitin(const TransformationTseitin& other) :
-formule(new FormuleTseitin(*other.formule)), formuleNormalisee(new Formule(*other.formuleNormalisee)), V(other.V), nbrVariableAux(other.nbrVariableAux), correspondanceDesVariables(other.correspondanceDesVariables)
+template<typename T> TransformationTseitin<T>::TransformationTseitin(const TransformationTseitin& other) :
+formule(new FormuleTseitin<T>(*other.formule)), formuleNormalisee(new Formule(*other.formuleNormalisee)), V(other.V), nbrVariableAux(other.nbrVariableAux), correspondanceDesVariables(other.correspondanceDesVariables)
 {}
 
-TransformationTseitin& TransformationTseitin::operator= (const TransformationTseitin& other)
+template<typename T> TransformationTseitin<T>& TransformationTseitin<T>::operator= (const TransformationTseitin& other)
 {
     TransformationTseitin Temp(other);
 
@@ -29,16 +29,16 @@ TransformationTseitin& TransformationTseitin::operator= (const TransformationTse
     return *this;
 }
 
-TransformationTseitin::~TransformationTseitin()
+template<typename T> TransformationTseitin<T>::~TransformationTseitin()
 {
     delete formuleNormalisee;
 }
 
-int TransformationTseitin::creerCorrespondance() ///Renvoie le nombre de variables
+template<typename T> int TransformationTseitin<T>::creerCorrespondance() ///Renvoie le nombre de variables
 {
     int Uid = 1;
-    stack<FormuleTseitin> pile;
-    FormuleTseitin w;
+    stack<FormuleTseitin<T>> pile;
+    FormuleTseitin<T> w;
 
     pile.push(*formule);
 
@@ -46,7 +46,7 @@ int TransformationTseitin::creerCorrespondance() ///Renvoie le nombre de variabl
     {
         w = pile.top();
         pile.pop();
-        if(w.getType() == FormuleTseitin::VARIABLE)
+        if(w.getType() == FormuleTseitin<T>::VARIABLE)
         {
             if(correspondanceDesVariables.count(w.getName()) == 0)
             {
@@ -68,11 +68,11 @@ int TransformationTseitin::creerCorrespondance() ///Renvoie le nombre de variabl
     return Uid - 1;
 }
 
-int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variables auxilliaires à créer.
+template<typename T> int TransformationTseitin<T>::compterVariablesAux() ///Renvoie le nombre de variables auxilliaires à créer.
 {
     int count = 1;
-    stack<FormuleTseitin> pile;
-    FormuleTseitin w;
+    stack<FormuleTseitin<T>> pile;
+    FormuleTseitin<T> w;
 
     pile.push(*formule);
 
@@ -80,7 +80,7 @@ int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variabl
     {
         w = pile.top();
         pile.pop();
-        if(w.getType() == FormuleTseitin::VARIABLE)
+        if(w.getType() == FormuleTseitin<T>::VARIABLE)
         {
             continue;
         }
@@ -101,80 +101,80 @@ int TransformationTseitin::compterVariablesAux() ///Renvoie le nombre de variabl
     return count;
 }
 
-Formule TransformationTseitin::normaliser()
+template<typename T> Formule TransformationTseitin<T>::normaliser()
 {
     parcours();
     return *formuleNormalisee;
 }
 
-void TransformationTseitin::parcours()
+template<typename T> void TransformationTseitin<T>::parcours()
 {
-    stack<pair<FormuleTseitin,int>> pile;
+    stack<pair<FormuleTseitin<T>,int>> pile;
     int varCourante = V + 1;
 
     addClausesRacine(varCourante);
 
-    pile.push(pair<FormuleTseitin,int>(*formule, varCourante));
+    pile.push(pair<FormuleTseitin<T>,int>(*formule, varCourante));
 
     while(!pile.empty())
     {
         int v = pile.top().second;
-        FormuleTseitin w = pile.top().first;
+        FormuleTseitin<T> w = pile.top().first;
         
         pile.pop();
-        if(w.getType()==FormuleTseitin::VARIABLE)
+        if(w.getType() == FormuleTseitin<T>::VARIABLE)
         {
             addClausesVariable(v, w.getName());
         }
-        else if(w.getType()==FormuleTseitin::NON)
+        else if(w.getType() == FormuleTseitin<T>::NON)
         {
             ++varCourante;
             addClausesNon(v,varCourante);
-            pile.push(pair<FormuleTseitin,int>(w.getOperande(),varCourante));
+            pile.push(pair<FormuleTseitin<T>,int>(w.getOperande(),varCourante));
         }
-        else if(w.getType()==FormuleTseitin::ET)
+        else if(w.getType() == FormuleTseitin<T>::ET)
         {
             ++varCourante;
             addClausesEt(v,varCourante, varCourante+1);
-            pile.push(pair<FormuleTseitin,int>(w.getOperandeD(),varCourante+1));
+            pile.push(pair<FormuleTseitin<T>,int>(w.getOperandeD(),varCourante+1));
             ++varCourante;
-            pile.push(pair<FormuleTseitin,int>(w.getOperandeG(),varCourante-1));
+            pile.push(pair<FormuleTseitin<T>,int>(w.getOperandeG(),varCourante-1));
         }
-        else if(w.getType()==FormuleTseitin::OU)
+        else if(w.getType() == FormuleTseitin<T>::OU)
         {
             ++varCourante;
             addClausesOu(v,varCourante, varCourante+1);
-            pile.push(pair<FormuleTseitin,int>(w.getOperandeD(),varCourante+1));
+            pile.push(pair<FormuleTseitin<T>,int>(w.getOperandeD(),varCourante+1));
             ++varCourante;
-            pile.push(pair<FormuleTseitin,int>(w.getOperandeG(),varCourante-1));
+            pile.push(pair<FormuleTseitin<T>,int>(w.getOperandeG(),varCourante-1));
         }
-        else if(w.getType()==FormuleTseitin::IMPLIQUE)
+        else if(w.getType() == FormuleTseitin<T>::IMPLIQUE)
         {
             ++varCourante;
             addClausesImplique(v,varCourante, varCourante+1);
-            pile.push(pair<FormuleTseitin,int>(w.getOperandeD(),varCourante+1));
+            pile.push(pair<FormuleTseitin<T>,int>(w.getOperandeD(),varCourante+1));
             ++varCourante;
-            pile.push(pair<FormuleTseitin,int>(w.getOperandeG(),varCourante-1));
+            pile.push(pair<FormuleTseitin<T>,int>(w.getOperandeG(),varCourante-1));
         }
-        else if(w.getType()==FormuleTseitin::XOR)
+        else if(w.getType() == FormuleTseitin<T>::XOR)
         {
             ++varCourante;
             addClausesXor(v,varCourante, varCourante+1);
-            pile.push(pair<FormuleTseitin,int>(w.getOperandeG(),varCourante+1));
+            pile.push(pair<FormuleTseitin<T>,int>(w.getOperandeG(),varCourante+1));
             ++varCourante;
-            pile.push(pair<FormuleTseitin,int>(w.getOperandeD(),varCourante-1));
+            pile.push(pair<FormuleTseitin<T>,int>(w.getOperandeD(),varCourante-1));
         }
     }
 }
 
-void TransformationTseitin::addClausesRacine(int varCourante)
+template<typename T> void TransformationTseitin<T>::addClausesRacine(int varCourante)
 {
     Clause* c = new Clause(V+nbrVariableAux);
     c->addLiteral(formuleNormalisee->getLiteral(varCourante));
     formuleNormalisee->addClause(c);
 }
 
-void TransformationTseitin::addClausesVariable(int varCourante, string name)
+template<typename T> void TransformationTseitin<T>::addClausesVariable(int varCourante, T name)
 {
     Clause* c1 = new Clause(V+nbrVariableAux);
     Clause* c2 = new Clause(V+nbrVariableAux);
@@ -188,7 +188,7 @@ void TransformationTseitin::addClausesVariable(int varCourante, string name)
     formuleNormalisee->addClause(c2);
 }
 
-void TransformationTseitin::addClausesNon(int pere, int fils)
+template<typename T> void TransformationTseitin<T>::addClausesNon(int pere, int fils)
 {
     Clause* c1 = new Clause(V+nbrVariableAux);
     Clause* c2 = new Clause(V+nbrVariableAux);
@@ -202,7 +202,7 @@ void TransformationTseitin::addClausesNon(int pere, int fils)
     formuleNormalisee->addClause(c2);
 }
 
-void TransformationTseitin::addClausesEt(int pere, int filsG, int filsD)
+template<typename T> void TransformationTseitin<T>::addClausesEt(int pere, int filsG, int filsD)
 {
     Clause* c1 = new Clause(V+nbrVariableAux);
     Clause* c2 = new Clause(V+nbrVariableAux);
@@ -221,7 +221,7 @@ void TransformationTseitin::addClausesEt(int pere, int filsG, int filsD)
     formuleNormalisee->addClause(c3);
 }
 
-void TransformationTseitin::addClausesOu(int pere, int filsG, int filsD)
+template<typename T> void TransformationTseitin<T>::addClausesOu(int pere, int filsG, int filsD)
 {
     Clause* c1 = new Clause(V+nbrVariableAux);
     Clause* c2 = new Clause(V+nbrVariableAux);
@@ -240,7 +240,7 @@ void TransformationTseitin::addClausesOu(int pere, int filsG, int filsD)
     formuleNormalisee->addClause(c3);
 }
 
-void TransformationTseitin::addClausesXor(int pere, int filsG, int filsD)
+template<typename T> void TransformationTseitin<T>::addClausesXor(int pere, int filsG, int filsD)
 {
     Clause* c1 = new Clause(V+nbrVariableAux);
     Clause* c2 = new Clause(V+nbrVariableAux);
@@ -269,7 +269,7 @@ void TransformationTseitin::addClausesXor(int pere, int filsG, int filsD)
     formuleNormalisee->addClause(c4);
 }
 
-void TransformationTseitin::addClausesImplique(int pere, int filsG, int filsD)
+template<typename T> void TransformationTseitin<T>::addClausesImplique(int pere, int filsG, int filsD)
 {
     Clause* c1 = new Clause(V+nbrVariableAux);
     Clause* c2 = new Clause(V+nbrVariableAux);

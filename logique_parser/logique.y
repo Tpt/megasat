@@ -19,7 +19,7 @@ namespace LogiqueParser {
 %union
 {
     std::string* d;
-    FormuleTseitin* formule;
+    FormuleTseitin<std::string>* formule;
 }
 
 %type <formule> Expression
@@ -54,11 +54,11 @@ Expression TEOF
 ;
 
 Expression:
-ID { $$=new FormuleTseitin(FormuleTseitin::VARIABLE, *$1); }
-| Expression IMPLIQUE Expression { $$ = new FormuleTseitin(FormuleTseitin::IMPLIQUE, $1, $3); }
-| Expression ET Expression { $$ = new FormuleTseitin(FormuleTseitin::ET, $1, $3); }
-| Expression OU Expression { $$ = new FormuleTseitin(FormuleTseitin::OU, $1, $3); }
-| NON Expression { $$ = new FormuleTseitin(FormuleTseitin::NON, $2); }
+ID { $$=new FormuleTseitin<std::string>(FormuleTseitin<std::string>::VARIABLE, *$1); }
+| Expression IMPLIQUE Expression { $$ = new FormuleTseitin<std::string>(FormuleTseitin<std::string>::IMPLIQUE, $1, $3); }
+| Expression ET Expression { $$ = new FormuleTseitin<std::string>(FormuleTseitin<std::string>::ET, $1, $3); }
+| Expression OU Expression { $$ = new FormuleTseitin<std::string>(FormuleTseitin<std::string>::OU, $1, $3); }
+| NON Expression { $$ = new FormuleTseitin<std::string>(FormuleTseitin<std::string>::NON, $2); }
 | PARENTHESE_GAUCHE Expression PARENTHESE_DROITE { $$=$2; }
 ;
 

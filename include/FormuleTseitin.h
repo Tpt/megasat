@@ -4,7 +4,7 @@
 #include<string>
 #include "MessageException.h"
 
-class FormuleTseitin
+template<typename T> class FormuleTseitin
 {
 public:
     enum FormuleTypeSimple
@@ -19,16 +19,16 @@ public:
     FormuleTseitin();
     FormuleTseitin(const FormuleTseitin& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
     FormuleTseitin& operator=(const FormuleTseitin& F);///Idem
-    FormuleTseitin(FormuleTypeSimple type_, std::string name_);
+    FormuleTseitin(FormuleTypeSimple type_, T name_);
     FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* op);
     FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* opG, FormuleTseitin* opD);
     ~FormuleTseitin(); //Ne détruit pas récursivement. Pour ce faire, il faut utiliser la méthode free()
-    std::string getName() const;
+    T getName() const;
     int getArite() const __attribute__((pure));
     FormuleTseitin::FormuleTypeSimple getType() const __attribute__((pure));
-    FormuleTseitin getOperandeG() const;
-    FormuleTseitin getOperandeD() const;
-    FormuleTseitin getOperande() const;
+    FormuleTseitin<T> getOperandeG() const;
+    FormuleTseitin<T> getOperandeD() const;
+    FormuleTseitin<T> getOperande() const;
     std::string toStringType() const;
     std::string toStringPrefix() const;
     std::string toString() const;
@@ -41,7 +41,7 @@ private:
     FormuleTseitin* operandeG;
     FormuleTseitin* operandeD;
     FormuleTypeSimple type;
-    std::string name;
+    T name;
 };
 
 class FormuleTseitinError : public MessageException
@@ -50,5 +50,6 @@ public:
     FormuleTseitinError(std::string message) noexcept : MessageException(message) {};
 };
 
+#include "../src/FormuleTseitin.cpp"
 
 #endif // CONNECTEURS_H_INCLUDED

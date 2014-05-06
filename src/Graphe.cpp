@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Graphe::Graphe(int sommetNumber_) : sommetNumber(sommetNumber_), aretes(unordered_set<Arete,AreteHash>())
+Graphe::Graphe(int sommetNumber_) : sommetNumber(sommetNumber_), aretes(unordered_set<Arete>())
 {}
 
 void Graphe::addArete(Arete arete)
@@ -15,7 +15,7 @@ int Graphe::getSommetNumber() const
     return sommetNumber;
 }
 
-unordered_set<Arete,AreteHash> Graphe::getAretes() const
+unordered_set<Arete> Graphe::getAretes() const
 {
     return aretes;
 }

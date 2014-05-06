@@ -9,9 +9,9 @@
 using namespace std;
 using namespace std::chrono;
 
-FormuleTseitin parseFormuleFile(string fileName);
+FormuleTseitin<string> parseFormuleFile(string fileName);
 
-FormuleTseitin parseFormuleFile(string fileName)
+FormuleTseitin<string> parseFormuleFile(string fileName)
 {
     LogiqueParser::Driver parserDriver;
     try
@@ -35,9 +35,9 @@ int main(int argc, char *argv[])
     LanceurSolveur lanceur(arguments, "c");
     ostream out(lanceur.getBufferSortie());
 
-    FormuleTseitin* formuleTseitin = new FormuleTseitin(parseFormuleFile(arguments.getArgument("inputFile")));
+    FormuleTseitin<string>* formuleTseitin = new FormuleTseitin<string>(parseFormuleFile(arguments.getArgument("inputFile")));
 
-    TransformationTseitin normalisateur(formuleTseitin);
+    TransformationTseitin<string> normalisateur(formuleTseitin);
 
     auto beginTime = system_clock::now();
     Formule formule(normalisateur.normaliser());

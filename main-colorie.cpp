@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     auto beginTime = system_clock::now();
 
     CreateurContraintesColoriage createurContraintes(graphe, k);
-    FormuleTseitin* formuleTseitin = createurContraintes.cree();
+    FormuleTseitin<pair<int,int>>* formuleTseitin = createurContraintes.cree();
 
     if(arguments.getOption("v"))
     {
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
         formuleTseitin->print();
         cout << "*/" << endl;
     }
-    TransformationTseitin normalisateur(formuleTseitin);
+    TransformationTseitin<pair<int,int>> normalisateur(formuleTseitin);
 
     Formule formule(normalisateur.normaliser());
     formuleTseitin->free();

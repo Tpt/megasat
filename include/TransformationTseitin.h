@@ -5,20 +5,20 @@
 #include "FormuleTseitin.h"
 #include<unordered_map>
 
-class TransformationTseitin
+template<typename T> class TransformationTseitin
 {
 public:
-    TransformationTseitin(FormuleTseitin* formule_);
+    TransformationTseitin(FormuleTseitin<T>* formule_);
     ~TransformationTseitin();
-    TransformationTseitin(const TransformationTseitin& other);
-    TransformationTseitin& operator=(const TransformationTseitin& other);
+    TransformationTseitin(const TransformationTseitin<T>& other);
+    TransformationTseitin& operator=(const TransformationTseitin<T>& other);
     Formule normaliser();
-    std::unordered_map<std::string, int> getCorrespondance() const {return correspondanceDesVariables;};
+    std::unordered_map<T, int> getCorrespondance() const {return correspondanceDesVariables;};
 
 private:
     int creerCorrespondance();
     int compterVariablesAux();
-    void addClausesVariable(int varCourante, std::string name);
+    void addClausesVariable(int varCourante, T name);
     void addClausesRacine(int varCourante);
     void addClausesNon(int pere, int fils);
     void addClausesEt(int pere, int filsG, int filsD);
@@ -29,11 +29,13 @@ private:
     void parcours();
 
 
-    FormuleTseitin* formule;
+    FormuleTseitin<T>* formule;
     Formule* formuleNormalisee;
     int V;
     int nbrVariableAux;
-    std::unordered_map<std::string, int> correspondanceDesVariables;
+    std::unordered_map<T, int> correspondanceDesVariables;
 };
+
+#include "../src/TransformationTseitin.cpp"
 
 #endif // TRANSFORMATIONTSEITIN_H

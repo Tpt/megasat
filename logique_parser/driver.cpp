@@ -7,7 +7,7 @@ using namespace std;
 
 namespace LogiqueParser {
 
-Driver::Driver() : lexer(new Lexer()), parser(new Parser(*this)), result(FormuleTseitin())
+Driver::Driver() : lexer(new Lexer()), parser(new Parser(*this)), result(FormuleTseitin<std::string>())
 {}
 
 Driver::Driver(const Driver& other) :
@@ -31,12 +31,12 @@ Driver::~Driver()
     delete lexer;
 }
 
-void Driver::setResult(FormuleTseitin& _result)
+void Driver::setResult(FormuleTseitin<std::string>& _result)
 {
     result = _result;
 }
 
-FormuleTseitin Driver::parse(istream& inputStream)
+FormuleTseitin<std::string> Driver::parse(istream& inputStream)
 {
     lexer->switch_streams(&inputStream, &cerr);
 
@@ -47,7 +47,7 @@ FormuleTseitin Driver::parse(istream& inputStream)
     return result;
 }
 
-FormuleTseitin Driver::parse(std::string& fileName)
+FormuleTseitin<std::string> Driver::parse(std::string& fileName)
 {
     filebuf fb;
     fb.open(fileName, std::ios::in);

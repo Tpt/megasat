@@ -1,5 +1,4 @@
 #include "../include/Arete.h"
-#include <functional>
 
 Arete::Arete(int extremiteGauche_, int extremiteDroite_) : extremiteGauche(extremiteGauche_), extremiteDroite(extremiteDroite_)
 {}

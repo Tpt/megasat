@@ -1,9 +1,8 @@
 #include "../include/GraphvizColoriageOutput.h"
-#include<sstream>
 
 using namespace std;
 
-GraphvizColoriageOutput::GraphvizColoriageOutput(Graphe& graphe_, Formule& formule_, const unordered_map<string, int>& correspondances_, int k_) :
+GraphvizColoriageOutput::GraphvizColoriageOutput(Graphe& graphe_, Formule& formule_, const unordered_map<pair<int,int>, int>& correspondances_, int k_) :
 graphe(graphe_), formule(formule_), k(k_), tailleCodeCouleurSommet(static_cast<int>(ceil(log2(k_)))), correspondances(correspondances_)
 {}
 
@@ -35,9 +34,7 @@ int GraphvizColoriageOutput::getCouleur(int sommet)
     for(int bit = tailleCodeCouleurSommet - 1; bit >= 0; bit--)
     {
         couleur *= 2;
-        ostringstream os;
-        os << sommet << '-' << bit;
-        int varId = correspondances[os.str()];
+        int varId = correspondances[pair<int,int>(sommet, bit)];
         //on met la variable a 0 si elle n'existe pas (pas de contrainte dessus et 0 permet de rester en dessous de k)
         if(varId != 0 && formule.getVar(varId)->getVal())
             couleur += 1;

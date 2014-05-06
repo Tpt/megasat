@@ -19,14 +19,14 @@ public:
     Driver& operator= (const Driver& other);
     ~Driver();
 
-    FormuleTseitin parse(std::string& fileName);
-    FormuleTseitin parse(std::istream& inputStream);
+    FormuleTseitin<std::string> parse(std::string& fileName);
+    FormuleTseitin<std::string> parse(std::istream& inputStream);
 
-    void setResult(FormuleTseitin& result);
+    void setResult(FormuleTseitin<std::string>& result);
 private:
     Lexer* lexer;
     Parser* parser;
-    FormuleTseitin result;
+    FormuleTseitin<std::string> result;
 
     friend class Parser;
     friend class Lexer;

@@ -4,34 +4,34 @@
 
 using namespace std;
 
-int FormuleTseitin::ariteDuType(const FormuleTseitin::FormuleTypeSimple& type_) const
+template<typename T> int FormuleTseitin<T>::ariteDuType(const FormuleTseitin<T>::FormuleTypeSimple& type_) const
 {
     switch(type_)
     {
-    case FormuleTseitin::VARIABLE :
+    case FormuleTseitin<T>::VARIABLE :
         return 0;
-    case FormuleTseitin::NON :
+    case FormuleTseitin<T>::NON :
         return 1;
-    case FormuleTseitin::OU :
-    case FormuleTseitin::ET :
-    case FormuleTseitin::IMPLIQUE :
-    case FormuleTseitin::XOR :
+    case FormuleTseitin<T>::OU :
+    case FormuleTseitin<T>::ET :
+    case FormuleTseitin<T>::IMPLIQUE :
+    case FormuleTseitin<T>::XOR :
     default :
         return 2;
     }
 }
 
-FormuleTseitin::FormuleTseitin() :
-operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin::VARIABLE), name("")
+template<typename T> FormuleTseitin<T>::FormuleTseitin() :
+operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin<T>::VARIABLE), name(T())
 {}
 
-FormuleTseitin::FormuleTseitin(const FormuleTseitin& F) :
+template<typename T> FormuleTseitin<T>::FormuleTseitin(const FormuleTseitin<T>& F) :
 operandeG(F.operandeG), operandeD(F.operandeD), type(F.type), name(F.name)
 {}
 
-FormuleTseitin& FormuleTseitin::operator= (const FormuleTseitin& other)
+template<typename T> FormuleTseitin<T>& FormuleTseitin<T>::operator= (const FormuleTseitin<T>& other)
 {
-    FormuleTseitin Temp(other);
+    FormuleTseitin<T> Temp(other);
 
     swap(Temp.operandeG, this->operandeG);
     swap(Temp.operandeD, this->operandeD);
@@ -41,17 +41,17 @@ FormuleTseitin& FormuleTseitin::operator= (const FormuleTseitin& other)
     return *this;
 }
 
-FormuleTseitin::FormuleTseitin(FormuleTypeSimple type_, std::string name_) :
-    operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin::VARIABLE), name("")
+template<typename T> FormuleTseitin<T>::FormuleTseitin(FormuleTypeSimple type_, T name_) :
+    operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin<T>::VARIABLE), name(T())
 {
-    if(type_ != FormuleTseitin::VARIABLE)
+    if(type_ != FormuleTseitin<T>::VARIABLE)
         throw FormuleTseitinError( "Le type devrait être une variable !");
 
     name=name_;
 }
 
-FormuleTseitin::FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* op) :
-operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin::VARIABLE), name("")
+template<typename T> FormuleTseitin<T>::FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin<T>* op) :
+operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin<T>::VARIABLE), name(T())
 {
     if(ariteDuType(type_) != 1)
         throw FormuleTseitinError( "Le type devrait avoir une arité 1 ! (bis)");
@@ -62,8 +62,8 @@ operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin::VARIABLE), name("")
 
 }
 
-FormuleTseitin::FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* opG, FormuleTseitin* opD) :
-operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin::VARIABLE), name("")
+template<typename T> FormuleTseitin<T>::FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin<T>* opG, FormuleTseitin<T>* opD) :
+operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin<T>::VARIABLE), name(T())
 {
     if(ariteDuType(type_) != 2)
         throw FormuleTseitinError( "Le type devrait avoir une arité 2 !");
@@ -74,118 +74,116 @@ operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin::VARIABLE), name("")
 
 }
 
-FormuleTseitin::~FormuleTseitin()
-{
+template<typename T> FormuleTseitin<T>::~FormuleTseitin<T>()
+{}
 
-}
-
-string FormuleTseitin::getName() const
+template<typename T> T FormuleTseitin<T>::getName() const
 {
     return name;
 }
 
-FormuleTseitin FormuleTseitin::getOperandeG() const
+template<typename T> FormuleTseitin<T> FormuleTseitin<T>::getOperandeG() const
 {
     if(getArite()!=2)
         throw FormuleTseitinError("Le type devrait avoir une arité 2 !");
     return *operandeG;
 }
 
-FormuleTseitin FormuleTseitin::getOperandeD() const
+template<typename T> FormuleTseitin<T> FormuleTseitin<T>::getOperandeD() const
 {
     if(getArite()!=2)
         throw FormuleTseitinError("Le type devrait avoir une arité 2 !");
     return *operandeD;
 }
 
-FormuleTseitin FormuleTseitin::getOperande() const
+template<typename T> FormuleTseitin<T> FormuleTseitin<T>::getOperande() const
 {
-    if(getArite()!=1)
-        throw FormuleTseitinError("Le type devrait avoir une arité 1 ! (quad)"+to_string(type)+name);
+    if(getArite() != 1)
+        throw FormuleTseitinError("Le type devrait avoir une arité 1 ! (quad)" + to_string(type));
     return *operandeG;
 }
 
-int FormuleTseitin::getArite() const
+template<typename T> int FormuleTseitin<T>::getArite() const
 {
     return ariteDuType(type);
 }
 
-FormuleTseitin::FormuleTypeSimple FormuleTseitin::getType() const
+template<typename T> typename FormuleTseitin<T>::FormuleTypeSimple FormuleTseitin<T>::getType() const
 {
     return type;
 }
 
-string FormuleTseitin::toStringPrefix() const
+template<typename T> string FormuleTseitin<T>::toStringPrefix() const
 {
 
     switch(type)
     {
-        case FormuleTseitin::VARIABLE :
+        case FormuleTseitin<T>::VARIABLE :
             return name;
-        case FormuleTseitin::NON :
+        case FormuleTseitin<T>::NON :
             return "~ " + operandeG->toStringPrefix();
-        case FormuleTseitin::OU :
+        case FormuleTseitin<T>::OU :
             return "ou " + operandeG->toStringPrefix() + " " + operandeD->toStringPrefix();
-        case FormuleTseitin::ET :
+        case FormuleTseitin<T>::ET :
             return "et " + operandeG->toStringPrefix() + " " + operandeD->toStringPrefix();
-        case FormuleTseitin::IMPLIQUE :
+        case FormuleTseitin<T>::IMPLIQUE :
             return "=> " + operandeG->toStringPrefix() + " " + operandeD->toStringPrefix();
-        case FormuleTseitin::XOR :
+        case FormuleTseitin<T>::XOR :
             return "xor " + operandeG->toStringPrefix() + " " + operandeD->toStringPrefix();
         default :
             return "P'tet ben, j'en sais rien...";
     }
 }
 
-string FormuleTseitin::toStringType() const
+template<typename T> string FormuleTseitin<T>::toStringType() const
 {
     switch(type)
     {
-        case FormuleTseitin::VARIABLE :
+        case FormuleTseitin<T>::VARIABLE :
             return "var";
-        case FormuleTseitin::NON :
+        case FormuleTseitin<T>::NON :
             return "~";
-        case FormuleTseitin::OU :
+        case FormuleTseitin<T>::OU :
             return "ou ";
-        case FormuleTseitin::ET :
+        case FormuleTseitin<T>::ET :
             return "et";
-        case FormuleTseitin::IMPLIQUE :
+        case FormuleTseitin<T>::IMPLIQUE :
             return "=>";
-        case FormuleTseitin::XOR :
+        case FormuleTseitin<T>::XOR :
             return "xor";
         default :
             return "P'tet ben, j'en sais rien...";
     }
 }
 
-string FormuleTseitin::toString() const
+template<typename T> string FormuleTseitin<T>::toString() const
 {
     switch(type)
     {
-        case FormuleTseitin::VARIABLE :
-            return name;
-        case FormuleTseitin::NON :
+        case FormuleTseitin<T>::VARIABLE :
+            return "";
+        case FormuleTseitin<T>::NON :
             return "~" + operandeG->toString();
-        case FormuleTseitin::OU :
+        case FormuleTseitin<T>::OU :
             return "(" + operandeG->toString() + " \\/ " + operandeD->toString() + ")";
-        case FormuleTseitin::ET :
+        case FormuleTseitin<T>::ET :
             return "(" + operandeG->toString() + " /\\ " + operandeD->toString() + ")";
-        case FormuleTseitin::IMPLIQUE :
+        case FormuleTseitin<T>::IMPLIQUE :
             return "(" + operandeG->toString() + " => " + operandeD->toString() + ")";
-        case FormuleTseitin::XOR :
+        case FormuleTseitin<T>::XOR :
             return "(" + operandeG->toString() + " xor " + operandeD->toString() + ")";
         default :
             return "P'tet ben, j'en sais rien...";
     }
 }
 
-void FormuleTseitin::print() const
+template<typename T> void FormuleTseitin<T>::print() const
 {
     cout << toString() << endl;
 }
 
 
-void FormuleTseitin::free()
+template<typename T> void FormuleTseitin<T>::free()
 {
     if(getArite() >= 1)
     {

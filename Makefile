@@ -29,10 +29,10 @@ clang: $(EXEC)
 setup:
 	mkdir -p obj
 
-colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/GraphvizColoriageOutput.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-colorie.o
+colorie:  $(SOLVEURS) obj/Graphe.o obj/Arete.o obj/ColParser.o obj/CreateurContraintesColoriage.o obj/GraphvizColoriageOutput.o obj/main-colorie.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/FormuleTseitin.o obj/TransformationTseitin.o obj/main-tseitin.o 
+tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueLexer.o obj/LogiqueParserDriver.o obj/LogiqueParserLexer.o obj/main-tseitin.o 
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 resol:  $(SOLVEURS) obj/CnfParser.o obj/main-resol.o

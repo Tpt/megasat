@@ -1,7 +1,8 @@
 #ifndef Arete_H
 #define Arete_H
 
-#include <cstddef>
+#include<cstddef>
+#include<functional>
 
 class Arete
 {
@@ -19,12 +20,13 @@ private:
     int extremiteDroite;
 };
 
-struct AreteHash
+namespace std
 {
-    size_t operator()(const Arete& arete) const
-    {
-        return arete.hash();
+    template<> struct hash<Arete> {
+        size_t operator()(const Arete& arete) const {
+            return arete.hash();
+        }
     };
-};
+}
 
 #endif
