@@ -22,7 +22,6 @@ public:
     FormuleTseitin(FormuleTypeSimple type_, T name_);
     FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* op);
     FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* opG, FormuleTseitin* opD);
-    ~FormuleTseitin(); //Ne détruit pas récursivement. Pour ce faire, il faut utiliser la méthode free()
     T getName() const;
     int getArite() const __attribute__((pure));
     FormuleTseitin::FormuleTypeSimple getType() const __attribute__((pure));
