@@ -74,9 +74,6 @@ operandeG(nullptr), operandeD(nullptr), type(FormuleTseitin<T>::VARIABLE), name(
 
 }
 
-template<typename T> FormuleTseitin<T>::~FormuleTseitin<T>()
-{}
-
 template<typename T> T FormuleTseitin<T>::getName() const
 {
     return name;
