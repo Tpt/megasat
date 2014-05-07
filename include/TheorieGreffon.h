@@ -6,4 +6,7 @@ class TheorieGreffon //Interface
 
 class TheorieGreffonLogique : public TheorieGreffon //Greffon pour les formule logique : chaque litéral de la Formule se représente lui même
 {};
+
+class TheorieGreffonCongruence : public TheorieGreffon //Greffon pour les formule logique : chaque litéral de la Formule se représente lui même
+{};
 #endif
