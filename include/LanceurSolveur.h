@@ -19,10 +19,14 @@ enum SolveurType {
     MINISAT
 };
 
+enum TheorieType {
+    LITERALS
+};
+
 class LanceurSolveur
 {
 public:
-    LanceurSolveur(ArgumentsParser& arguments_, std::string debutCommentaire, SolveurType solveurParDefaut = DPLL, HeuristiqueType heuristiqueParDefaut = SIMPLE);
+    LanceurSolveur(ArgumentsParser& arguments_, std::string debutCommentaire, SolveurType solveurParDefaut = DPLL, HeuristiqueType heuristiqueParDefaut = SIMPLE, TheorieType theorieType = LITERALS);
     ~LanceurSolveur();
     Formule execute(Formule& formule);
     std::streambuf* getBufferSortie() __attribute__((pure));
@@ -35,6 +39,7 @@ private:
     std::string debutCommentaire;
     SolveurType solveurParDefaut;
     HeuristiqueType heuristiqueParDefaut;
+    TheorieType theorieType;
 };
 
 #endif // LANCEURSOLVEUR_H

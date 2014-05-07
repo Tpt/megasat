@@ -5,16 +5,18 @@
 #include "InsatisfiableException.h"
 #include "VariableNonAssigneeProvider.h"
 #include "GestionConflits.h"
+#include "TheorieGreffon.h"
 #include<map>
 
 class AbstractDPLLSolveur : public Solveur
 {
 public:
-    AbstractDPLLSolveur(Formule &formule, VariableNonAssigneeProvider& variableNonAssigneeProvider, GestionConflits& gestionConflits);
+    AbstractDPLLSolveur(Formule &formule, VariableNonAssigneeProvider& variableNonAssigneeProvider, GestionConflits& gestionConflits, TheorieGreffon& theorieGreffon);
     ~AbstractDPLLSolveur();
 protected:
     VariableNonAssigneeProvider& variableNonAssigneeProvider;
     GestionConflits& gestionConflits;
+    TheorieGreffon& theorieGreffon;
     void assigneUneVariable();
     virtual void assigneLiteral(int literalId) = 0;
     void __attribute__((noreturn)) leveExceptionLorsConflit(Clause* clause);

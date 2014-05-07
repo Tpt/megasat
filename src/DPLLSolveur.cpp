@@ -4,8 +4,8 @@
 
 using namespace std;
 
-DPLLSolveur::DPLLSolveur(Formule& formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_, GestionConflits& gestionConflits_) :
-AbstractDPLLSolveur(formule_, variableNonAssigneeProvider_, gestionConflits_)
+DPLLSolveur::DPLLSolveur(Formule& formule_, VariableNonAssigneeProvider& variableNonAssigneeProvider_, GestionConflits& gestionConflits_, TheorieGreffon& theorieGreffon_) :
+AbstractDPLLSolveur(formule_, variableNonAssigneeProvider_, gestionConflits_, theorieGreffon_)
 {}
 
 DPLLSolveur::~DPLLSolveur()

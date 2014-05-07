@@ -7,7 +7,7 @@
 
 using namespace std;
 
-LanceurSolveur::LanceurSolveur(ArgumentsParser& arguments_, string debutCommentaire_, SolveurType solveurParDefaut_, HeuristiqueType heuristiqueParDefaut_) : arguments(arguments_), debutCommentaire(debutCommentaire_), solveurParDefaut(solveurParDefaut_), heuristiqueParDefaut(heuristiqueParDefaut_)
+LanceurSolveur::LanceurSolveur(ArgumentsParser& arguments_, string debutCommentaire_, SolveurType solveurParDefaut_, HeuristiqueType heuristiqueParDefaut_, TheorieType theorieType_) : arguments(arguments_), debutCommentaire(debutCommentaire_), solveurParDefaut(solveurParDefaut_), heuristiqueParDefaut(heuristiqueParDefaut_), theorieType(theorieType_)
 {}
 
 LanceurSolveur::~LanceurSolveur()
@@ -35,6 +35,13 @@ Formule LanceurSolveur::execute(Formule& formule)
             break;
     }
 
+    TheorieGreffon* theorieGreffon = nullptr;
+    switch (theorieType) {
+        case LITERALS:
+            theorieGreffon = new TheorieGreffonLogique();
+            break;
+    }
+
     GestionConflits* gestionConflits = nullptr;
     if(arguments.getOption("cl-interac"))
     {
@@ -57,10 +64,10 @@ Formule LanceurSolveur::execute(Formule& formule)
     switch(getSolveur())
     {
         case DPLL:
-            solveur = new DPLLSolveur(formule, *heuristique, *gestionConflits);
+            solveur = new DPLLSolveur(formule, *heuristique, *gestionConflits, *theorieGreffon);
             break;
         case WATCHED_LITERALS:
-            solveur = new DPLLSurveilleSolveur(formule, *heuristique, *gestionConflits);
+            solveur = new DPLLSurveilleSolveur(formule, *heuristique, *gestionConflits, *theorieGreffon);
             break;
         case DAVIS_PUTNAM:
             solveur = new DavisPutnamSolveur(formule);
@@ -78,6 +85,7 @@ Formule LanceurSolveur::execute(Formule& formule)
         delete solveur;
         delete heuristique;
         delete gestionConflits;
+        delete theorieGreffon;
         return formule;
     }
     else
@@ -87,6 +95,7 @@ Formule LanceurSolveur::execute(Formule& formule)
         delete solveur;
         delete heuristique;
         delete gestionConflits;
+        delete theorieGreffon;
         throw InsatisfiableException();
     }
 }
