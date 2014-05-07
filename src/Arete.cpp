@@ -19,7 +19,8 @@ bool Arete::operator==(const Arete& that) const
         (extremiteGauche == that.extremiteDroite && extremiteDroite == that.extremiteGauche);
 }
 
-size_t Arete::hash() const {
+size_t Arete::hash() const
+{
     std::hash<int> hasher;
     return hasher(extremiteGauche) + hasher(extremiteDroite);
 }
