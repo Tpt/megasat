@@ -22,8 +22,10 @@ private:
 
 namespace std
 {
-    template<> struct hash<Arete> {
-        size_t operator()(const Arete& arete) const {
+    template<> struct hash<Arete>
+    {
+        size_t operator()(const Arete& arete) const
+        {
             return arete.hash();
         }
     };

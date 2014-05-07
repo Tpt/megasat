@@ -8,8 +8,10 @@
 
 namespace std
 {
-    template<> struct hash<pair<int,int>> {
-        size_t operator()(const pair<int,int>& pair) const {
+    template<> struct hash<pair<int,int>>
+    {
+        size_t operator()(const pair<int,int>& pair) const
+        {
             hash<int> hasher;
             return hasher(pair.first) + hasher(pair.second);
         }
