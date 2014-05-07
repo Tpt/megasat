@@ -39,7 +39,7 @@ tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueL
 resol:  $(SOLVEURS) obj/CnfParser.o obj/main-resol.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-congruence:  $(SOLVEURS) obj/Terme.o obj/main-congruence.o
+congruence:  $(SOLVEURS) obj/Terme.o obj/AtomeCongruence.o obj/main-congruence.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 	
 obj/clause.o: src/Clause.cpp
@@ -148,6 +148,9 @@ obj/ConstructeurPreuve.o: src/ConstructeurPreuve.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/Terme.o: src/Terme.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+	
+obj/AtomeCongruence.o: src/AtomeCongruence.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/main-resol.o: main-resol.cpp
