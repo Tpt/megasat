@@ -2,12 +2,9 @@
 
 using namespace std;
 
-AtomeCongruence::AtomeCongruence()
-{
-    //ctor
-}
+AtomeCongruence::AtomeCongruence(Terme g, Terme d) :
+gauche(g), droite(d)
+{}
 
 AtomeCongruence::~AtomeCongruence()
-{
-    //dtor
-}
+{}

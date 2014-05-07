@@ -39,7 +39,7 @@ tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueL
 resol:  $(SOLVEURS) obj/CnfParser.o obj/main-resol.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-congruence:  $(SOLVEURS) obj/Terme.o obj/AtomeCongruence.o obj/main-congruence.o
+congruence:  $(SOLVEURS) obj/Terme.o obj/AtomeCongruence.o obj/TheorieGreffon.o obj/TheorieGreffonCongruence.o obj/main-congruence.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 	
 obj/clause.o: src/Clause.cpp
@@ -76,6 +76,9 @@ obj/MinisatSolveur.o: src/MinisatSolveur.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/TheorieGreffon.o: src/TheorieGreffon.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+	
+obj/TheorieGreffonCongruence.o: src/TheorieGreffonCongruence.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/VariableNonAssigneeProvider.o: src/VariableNonAssigneeProvider.cpp
