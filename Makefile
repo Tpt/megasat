@@ -39,7 +39,7 @@ tseitin:  $(SOLVEURS) obj/LogiqueParserLogiqueParser.o obj/LogiqueParserLogiqueL
 resol:  $(SOLVEURS) obj/CnfParser.o obj/main-resol.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-congruence:  $(SOLVEURS) obj/Terme.o obj/AtomeCongruence.o obj/TheorieGreffon.o obj/TheorieGreffonCongruence.o obj/main-congruence.o
+congruence:  $(SOLVEURS) obj/CongruenceParserLogiqueParser.o obj/CongruenceParserLogiqueLexer.o obj/CongruenceParserDriver.o obj/CongruenceParserLexer.o obj/Terme.o obj/AtomeCongruence.o obj/TheorieGreffon.o obj/TheorieGreffonCongruence.o obj/main-congruence.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 	
 obj/clause.o: src/Clause.cpp
@@ -105,22 +105,40 @@ obj/.o: tests/.cpp
 obj/ArgumentsParser.o: src/ArgumentsParser.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
-obj/LogiqueParserLogiqueParser.o: logique_parser/logiqueParser.cpp
+obj/LogiqueParserLogiqueParser.o: parser/logique/logiqueParser.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
-logique_parser/logiqueParser.cpp: logique_parser/logique.y
+parser/logique/logiqueParser.cpp: parser/logique/logique.y
 	$(YACC) -dv -o $@ $<
 
-obj/LogiqueParserLogiqueLexer.o: logique_parser/logiqueLexer.cpp
+obj/LogiqueParserLogiqueLexer.o: parser/logique/logiqueLexer.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
-logique_parser/logiqueLexer.cpp: logique_parser/logique.lex
+parser/logique/logiqueLexer.cpp: parser/logique/logique.lex
 	$(LEX) -o $@ $<
 
-obj/LogiqueParserDriver.o: logique_parser/driver.cpp
+obj/LogiqueParserDriver.o: parser/logique/driver.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
-obj/LogiqueParserLexer.o: logique_parser/lexer.cpp
+obj/LogiqueParserLexer.o: parser/logique/lexer.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+obj/CongruenceParserLogiqueParser.o: parser/congruence/congruenceParser.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+parser/congruence/congruenceParser.cpp: parser/congruence/congruence.y
+	$(YACC) -dv -o $@ $<
+
+obj/CongruenceParserLogiqueLexer.o: parser/congruence/congruenceLexer.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+parser/congruence/congruenceLexer.cpp: parser/congruence/congruence.lex
+	$(LEX) -o $@ $<
+
+obj/CongruenceParserDriver.o: parser/congruence/driver.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+obj/CongruenceParserLexer.o: parser/congruence/lexer.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 obj/Arete.o: src/Arete.cpp
@@ -169,8 +187,11 @@ obj/main-congruence.o: main-congruence.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 clean:
-	rm -f logique_parser/logiqueLexer.cpp
-	rm -f logique_parser/logiqueParser.cpp
-	rm -f logique_parser/logiqueParser.hpp
-	rm -f logique_parser/stack.hh
-	rm obj/*.o
+	rm -f parser/*/*Lexer.cpp
+	rm -f parser/*/*Parser.cpp
+	rm -f parser/*/*Parser.hpp
+	rm -f parser/*/*Parser.output
+	rm -f parser/*/stack.hh
+	rm -f parser/*/location.hh
+	rm -f parser/*/position.hh
+	rm -f obj/*.o

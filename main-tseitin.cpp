@@ -2,7 +2,7 @@
 #include"include/TransformationTseitin.h"
 #include"include/LanceurSolveur.h"
 #include"include/FormuleTseitin.h"
-#include"logique_parser/driver.h"
+#include"parser/logique/driver.h"
 #include"include/InsatisfiableException.h"
 #include<chrono>
 

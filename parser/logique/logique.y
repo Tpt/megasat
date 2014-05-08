@@ -1,5 +1,5 @@
 %code requires {
-    #include "../include/FormuleTseitin.h"
+    #include "../../include/FormuleTseitin.h"
 }
 
 %{
@@ -12,7 +12,7 @@ namespace LogiqueParser {
 #include "logiqueParser.hpp"
 #include "lexer.h"
 #include "driver.h"
-#include "../include/ParseError.h"
+#include "../../include/ParseError.h"
 #define yylex driver.lexer->yylex
 %}
 

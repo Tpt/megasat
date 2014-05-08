@@ -8,9 +8,10 @@ class Terme
 {
 public:
     Terme();
+    Terme(int variable);
+    Terme(std::string f, const std::vector<Terme*>& arguments);
     Terme(const Terme& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
     Terme& operator=(const Terme& F);///Idem
-    Terme(std::string f, const std::vector<Terme*>& arguments);
     ~Terme();
     bool isVariable() const {return parametres.size()==0;};
     bool isFonction() const {return !isVariable();};

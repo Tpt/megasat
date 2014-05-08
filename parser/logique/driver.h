@@ -2,8 +2,8 @@
 #define DRIVER_H
 
 #include <istream>
-#include "../include/FormuleTseitin.h"
-#include "../include/ParseError.h"
+#include "../../include/FormuleTseitin.h"
+#include "../../include/ParseError.h"
 
 namespace LogiqueParser
 {

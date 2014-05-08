@@ -2,8 +2,10 @@
 
 using namespace std;
 
-Terme::Terme() :
-parametres(vector<Terme*>(0)), symbole(""), variable(-1)
+Terme::Terme() : parametres(vector<Terme*>(0)), symbole(""), variable(-1)
+{}
+
+Terme::Terme(int variable_) : parametres(vector<Terme*>(0)), symbole(""), variable(variable_)
 {}
 
 Terme::Terme(string f, const vector<Terme*>& arguments) :
@@ -26,6 +28,4 @@ Terme& Terme::operator= (const Terme& other)
 }
 
 Terme::~Terme()
-{
-    //dtor
-}
+{}

@@ -6,6 +6,7 @@
 class AtomeCongruence
 {
 public:
+    AtomeCongruence();
     AtomeCongruence(Terme g, Terme d);
     virtual ~AtomeCongruence();
     Terme getGauche() const {return gauche;};
