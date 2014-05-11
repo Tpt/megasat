@@ -24,12 +24,50 @@ TheorieGreffonCongruence& TheorieGreffonCongruence::operator= (const TheorieGref
     return *this;
 }
 
-
-vector<int> TheorieGreffonCongruence::onAssignation(int id, int niveau)
+vector<int> TheorieGreffonCongruence::onAssignation(unsigned int id, unsigned int niveau)
 {
     (void) id;
-    (void) niveau;
+
+    if(niveau>=substitutions.size())
+    {
+        substitutions.resize(niveau+1);
+    }
+
+    appliquerSubstitutions(id);
+
     return vector<int>();
+}
+
+AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id) const
+{
+    return AtomeCongruence(*appliquerSubstitutions(atomes[id].getGauche()), *appliquerSubstitutions(atomes[id].getDroite()));
+}
+
+Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme terme) const
+{
+    return appliquerSubstitutions(&terme);
+}
+
+Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme* terme) const
+{
+    vector<Terme*> parametres;
+
+    if(terme->getParametres().size()==0)
+        goto traitement_des_variables;
+
+    for(Terme* t : terme->getParametres())
+        parametres.push_back(appliquerSubstitutions(t));
+
+    return new Terme(terme->getSymbole(), parametres);
+
+    traitement_des_variables :
+
+    for(map<int, Terme> subst : substitutions)
+        for(pair<int, Terme> s : subst)
+            if(terme->getVariable()==s.first)
+                return appliquerSubstitutions(s.second);
+
+    return terme;
 }
 
 void TheorieGreffonCongruence::onBeginning(Formule* formule_)
@@ -37,7 +75,7 @@ void TheorieGreffonCongruence::onBeginning(Formule* formule_)
     formule=formule_;
 }
 
-void TheorieGreffonCongruence::onBacktrack(int l)
+void TheorieGreffonCongruence::onBacktrack(unsigned int l)
 {
     substitutions.erase(substitutions.begin()+l, substitutions.end());
 }

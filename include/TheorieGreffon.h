@@ -9,8 +9,8 @@ class TheorieGreffon //Interface
 public:
     TheorieGreffon();
     virtual ~TheorieGreffon();
-    virtual std::vector<int> onAssignation(int id, int niveau) = 0; //Si fail, renvoie clause à apprendre
-    virtual void onBacktrack(int l) = 0; //Remonter au niveau l
+    virtual std::vector<int> onAssignation(unsigned int id, unsigned int niveau) = 0; //Si fail, renvoie clause à apprendre
+    virtual void onBacktrack(unsigned int l) = 0; //Remonter au niveau l
     virtual void onBeginning(Formule* formule) = 0;
 
 protected:
@@ -21,8 +21,8 @@ class TheorieGreffonLogique : public TheorieGreffon //Greffon pour les formule l
 public:
     TheorieGreffonLogique();
     virtual ~TheorieGreffonLogique();
-    virtual std::vector<int> onAssignation(int id, int niveau);
-    virtual void onBacktrack(int l);
+    virtual std::vector<int> onAssignation(unsigned int id, unsigned int niveau);
+    virtual void onBacktrack(unsigned int l);
     virtual void onBeginning(Formule* formule);
 
 protected:

@@ -12,8 +12,8 @@ public:
     TheorieGreffonCongruence(const TheorieGreffonCongruence& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
     TheorieGreffonCongruence& operator=(const TheorieGreffonCongruence& F);///Idem
     virtual ~TheorieGreffonCongruence();
-    virtual std::vector<int> onAssignation(int id, int niveau);
-    virtual void onBacktrack(int l);
+    virtual std::vector<int> onAssignation(unsigned int id, unsigned int niveau);
+    virtual void onBacktrack(unsigned int l);
     virtual void onBeginning(Formule* formule);
 
 private:
@@ -21,6 +21,9 @@ private:
     Terme* replace(int variable, Terme* u, Terme* filtre) const;
     std::map<int, Terme> unify(Terme gauche, Terme droite) const;
     std::map<int, Terme> iterate(std::map<int, Terme> subst, std::vector<std::pair<Terme*, Terme*>> contraintes) const;
+    AtomeCongruence appliquerSubstitutions(unsigned int id) const;
+    Terme* appliquerSubstitutions(Terme terme) const;
+    Terme* appliquerSubstitutions(Terme* terme) const;
 
     Formule* formule;
     std::vector<AtomeCongruence> atomes;

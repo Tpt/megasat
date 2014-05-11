@@ -18,6 +18,7 @@ public:
     std::string getSymbole() const {return symbole;};
     int getVariable() const {return variable;};
     std::vector<Terme*> getParametres() const {return parametres;};
+    void free();
 
 private:
     std::vector<Terme*> parametres;

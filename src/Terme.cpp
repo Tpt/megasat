@@ -29,3 +29,12 @@ Terme& Terme::operator= (const Terme& other)
 
 Terme::~Terme()
 {}
+
+void Terme::free()
+{
+    for(unsigned int i=0;i<parametres.size();++i)
+    {
+        parametres[i]->free();
+        delete parametres[i];
+    }
+}

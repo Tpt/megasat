@@ -14,14 +14,14 @@ TheorieGreffonLogique::TheorieGreffonLogique()
 TheorieGreffonLogique::~TheorieGreffonLogique()
 {}
 
-vector<int> TheorieGreffonLogique::onAssignation(int id, int niveau)
+vector<int> TheorieGreffonLogique::onAssignation(unsigned int id, unsigned int niveau)
 {
     (void) id;
     (void) niveau;
     return vector<int>();
 }
 
-void TheorieGreffonLogique::onBacktrack(int l)
+void TheorieGreffonLogique::onBacktrack(unsigned int l)
 {
     (void) l;
 }

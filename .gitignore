@@ -12,7 +12,7 @@ bin/
 resol
 tseitin
 colorie
-congruence_resol
+congruence_solver
 core
 *.sty
 
