@@ -10,7 +10,7 @@ namespace CongruenceParser {
 }
 
 #include <sstream>
-#include "CongruenceParser.hpp"
+#include "congruenceParser.hpp"
 #include "lexer.h"
 #include "driver.h"
 #include "../../include/ParseError.h"

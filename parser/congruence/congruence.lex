@@ -8,7 +8,7 @@ namespace  CongruenceParser {
     class Driver;
 }
 
-#include "CongruenceParser.hpp"
+#include "congruenceParser.hpp"
 #include "lexer.h"
 typedef CongruenceParser::Parser::token token;
 typedef CongruenceParser::Parser::token_type token_type;

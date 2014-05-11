@@ -14,7 +14,7 @@ namespace CongruenceParser {
     class Driver;
 }
 
-#include "CongruenceParser.hpp"
+#include "congruenceParser.hpp"
 
 namespace CongruenceParser {
     class Lexer : public CongruenceparserFlexLexer {
