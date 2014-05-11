@@ -54,7 +54,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(unsigned int id, unsigned in
 
     for(Variable* v : formule->getVars())
         if(static_cast<long unsigned int>(v->getId())<=A && v->getVal()==FAUX)
-            if(appliquerSubstitutions(static_cast<unsigned int>(v->getId())).isConflit())
+            if(!appliquerSubstitutions(static_cast<unsigned int>(v->getId())).isConflit())
             {
                 clauseAApprendre.push_back(v->getId());
                 return clauseAApprendre;
