@@ -33,9 +33,39 @@ vector<int> TheorieGreffonCongruence::onAssignation(unsigned int id, unsigned in
         substitutions.resize(niveau+1);
     }
 
-    appliquerSubstitutions(id);
+    AtomeCongruence atomeSubstitue(appliquerSubstitutions(id));
+
+    vector<int> clauseAApprendre;
+    long unsigned int A=atomes.size();
+    for(Variable* v : formule->getVars())
+        if(static_cast<long unsigned int>(v->getId())<=A && v->getVal()==VRAI)
+            clauseAApprendre.push_back(-v->getId());
+
+    if(atomeSubstitue.isConflit())
+    {
+
+        return clauseAApprendre;
+    }
+
+    map<int, Terme> subst=unify(appliquerSubstitutions(id));
+
+    for(pair<int, Terme> s : subst)
+        substitutions[niveau][s.first] = s.second;
+
+    for(Variable* v : formule->getVars())
+        if(static_cast<long unsigned int>(v->getId())<=A && v->getVal()==FAUX)
+            if(appliquerSubstitutions(static_cast<unsigned int>(v->getId())).isConflit())
+            {
+                clauseAApprendre.push_back(v->getId());
+                return clauseAApprendre;
+            }
 
     return vector<int>();
+}
+
+map<int, Terme> TheorieGreffonCongruence::unify(AtomeCongruence atome) const
+{
+    return unify(atome.getGauche(), atome.getDroite());
 }
 
 AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id) const

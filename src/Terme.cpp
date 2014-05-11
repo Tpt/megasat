@@ -38,3 +38,21 @@ void Terme::free()
         delete parametres[i];
     }
 }
+
+bool Terme::isConflit(Terme t) const
+{
+    if(t.getParametres().size() * parametres.size() == 0 && t.getParametres().size() + parametres.size()!=0)
+        return false;
+
+    if(t.getParametres().size() + parametres.size() == 0)
+        return variable != t.getVariable();
+
+    if(t.getParametres().size() != parametres.size())
+        return true;
+
+    for(unsigned int i=0;i<parametres.size();++i)
+        if(parametres[i]->isConflit(*(t.getParametres()[i])))
+            return true;
+
+    return false;
+}

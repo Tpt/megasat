@@ -10,3 +10,8 @@ AtomeCongruence::AtomeCongruence(Terme gauche_, Terme droite_) : gauche(gauche_)
 
 AtomeCongruence::~AtomeCongruence()
 {}
+
+bool AtomeCongruence::isConflit() const
+{
+    return gauche.isConflit(droite);
+}

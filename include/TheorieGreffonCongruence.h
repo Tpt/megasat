@@ -19,6 +19,7 @@ public:
 private:
     bool appear(int variable, Terme* terme) const;
     Terme* replace(int variable, Terme* u, Terme* filtre) const;
+    std::map<int, Terme> unify(AtomeCongruence atome) const;
     std::map<int, Terme> unify(Terme gauche, Terme droite) const;
     std::map<int, Terme> iterate(std::map<int, Terme> subst, std::vector<std::pair<Terme*, Terme*>> contraintes) const;
     AtomeCongruence appliquerSubstitutions(unsigned int id) const;

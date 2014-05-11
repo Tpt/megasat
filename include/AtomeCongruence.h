@@ -11,6 +11,7 @@ public:
     virtual ~AtomeCongruence();
     Terme getGauche() const {return gauche;};
     Terme getDroite() const {return droite;};
+    bool isConflit() const;
 
 private:
     Terme gauche;

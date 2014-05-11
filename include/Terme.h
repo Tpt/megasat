@@ -19,6 +19,7 @@ public:
     int getVariable() const {return variable;};
     std::vector<Terme*> getParametres() const {return parametres;};
     void free();
+    bool isConflit(Terme t) const;
 
 private:
     std::vector<Terme*> parametres;
