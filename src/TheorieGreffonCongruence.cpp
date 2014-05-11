@@ -3,11 +3,27 @@
 using namespace std;
 
 TheorieGreffonCongruence::TheorieGreffonCongruence() :
-atomes(vector<AtomeCongruence>()), substitutions(vector<map<int, Terme>>())
+formule(nullptr), atomes(vector<AtomeCongruence>()), substitutions(vector<map<int, Terme>>())
 {}
 
 TheorieGreffonCongruence::~TheorieGreffonCongruence()
 {}
+
+TheorieGreffonCongruence::TheorieGreffonCongruence(const TheorieGreffonCongruence& F) :
+formule(F.formule), atomes(F.atomes), substitutions(F.substitutions)
+{}
+
+TheorieGreffonCongruence& TheorieGreffonCongruence::operator= (const TheorieGreffonCongruence& other)
+{
+    TheorieGreffonCongruence Temp(other);
+
+    swap(Temp.formule, this->formule);
+    swap(Temp.atomes, this->atomes);
+    swap(Temp.substitutions, this->substitutions);
+
+    return *this;
+}
+
 
 vector<int> TheorieGreffonCongruence::onAssignation(int id, int niveau)
 {
@@ -16,9 +32,14 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, int niveau)
     return vector<int>();
 }
 
+void TheorieGreffonCongruence::onBeginning(Formule* formule_)
+{
+    formule=formule_;
+}
+
 void TheorieGreffonCongruence::onBacktrack(int l)
 {
-    (void) l;
+    substitutions.erase(substitutions.begin()+l, substitutions.end());
 }
 
 

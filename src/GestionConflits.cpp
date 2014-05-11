@@ -13,7 +13,7 @@ GestionConflits::GestionConflits(int prochainConflit_)
 GestionConflits::~GestionConflits()
 {}
 
-void GestionConflits::onBeggining(Formule* formule)
+void GestionConflits::onBeginning(Formule* formule)
 {}
 
 void GestionConflits::onDeduction(Literal* literal, int clauseUid, int profondeurPile)
@@ -63,7 +63,7 @@ GestionConflitsApprentissage::GestionConflitsApprentissage(int prochainConflit_)
  : GestionConflits(prochainConflit_), clauses(vector<vector<int>>()), pileDeDeductions(vector<pair<int,vector<int>>>()), niveauChoix(vector<int>()), statistiques(GestionConflitsStatistiques())
 {}
 
-void GestionConflitsApprentissage::onBeggining(Formule* formule)
+void GestionConflitsApprentissage::onBeginning(Formule* formule)
 {
     clauses = vector<vector<int>>();
     for(Clause* clause : formule->getClauses())

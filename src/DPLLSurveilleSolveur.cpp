@@ -11,7 +11,7 @@ bool DPLLSurveilleSolveur::isSatifiable()
     formule.supprimerTautologies();
 
     profondeurPile = 0;
-    gestionConflits.onBeggining(&formule);
+    gestionConflits.onBeginning(&formule);
 
     try
     {

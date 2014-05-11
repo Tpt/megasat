@@ -2,14 +2,16 @@
 #define TheorieGreffon_H
 
 #include<vector>
+#include "Formule.h"
 
 class TheorieGreffon //Interface
 {
 public:
     TheorieGreffon();
     virtual ~TheorieGreffon();
-    virtual std::vector<int> onAssignation(int id, int niveau) = 0; //Si fail, renvoie avec clause à apprendre
+    virtual std::vector<int> onAssignation(int id, int niveau) = 0; //Si fail, renvoie clause à apprendre
     virtual void onBacktrack(int l) = 0; //Remonter au niveau l
+    virtual void onBeginning(Formule* formule) = 0;
 
 protected:
 };
@@ -21,6 +23,7 @@ public:
     virtual ~TheorieGreffonLogique();
     virtual std::vector<int> onAssignation(int id, int niveau);
     virtual void onBacktrack(int l);
+    virtual void onBeginning(Formule* formule);
 
 protected:
 };

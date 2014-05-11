@@ -10,7 +10,7 @@ class GestionConflits
 public:
     GestionConflits(int prochainConflit = 0);
     virtual ~GestionConflits();
-    virtual void onBeggining(Formule* formule);
+    virtual void onBeginning(Formule* formule);
     virtual void onDeduction(Literal* literal, int clauseUid, int profondeurPile);
     virtual void onChoix(int literalId, int profondeurPile);
     virtual std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
@@ -38,7 +38,7 @@ class GestionConflitsApprentissage : public GestionConflits
 {
 public:
     GestionConflitsApprentissage(int prochainConflit = 0);
-    void onBeggining(Formule* formule);
+    void onBeginning(Formule* formule);
     void onDeduction(Literal* literal, int clauseUid, int profondeurPile);
     void onChoix(int literal, int profondeurPile);
     std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);

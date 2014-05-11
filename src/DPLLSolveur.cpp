@@ -14,7 +14,7 @@ DPLLSolveur::~DPLLSolveur()
 bool DPLLSolveur::isSatifiable()
 {
     profondeurPile = 0;
-    gestionConflits.onBeggining(&formule);
+    gestionConflits.onBeginning(&formule);
 
     //on fait quelques simplifications préliminaires
     formule.supprimerTautologies();
@@ -115,11 +115,11 @@ bool DPLLSolveur::simplificationUnitaire(Clause* clause)
 bool DPLLSolveur::eliminationLiterauxPurs()
 {
     bool modif = false;
-    
+
     for(int id = 1; id <= formule.getNombreDeVariables(); ++id)
         if(simplificationLiteralPur(id))
             modif = true;
-    
+
     return modif;
 }
 

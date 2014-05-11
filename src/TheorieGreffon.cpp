@@ -25,3 +25,8 @@ void TheorieGreffonLogique::onBacktrack(int l)
 {
     (void) l;
 }
+
+void TheorieGreffonLogique::onBeginning(Formule* formule)
+{
+    (void) formule;
+}
