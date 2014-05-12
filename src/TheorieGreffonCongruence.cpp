@@ -33,7 +33,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(unsigned int id, unsigned in
         substitutions.resize(niveau+1);
     }
 
-    AtomeCongruence atomeSubstitue(appliquerSubstitutions(id));
+    AtomeCongruence atomeSubstitue(appliquerSubstitutions(abs(id)));
 
     vector<int> clauseAApprendre;
     long unsigned int A=atomes.size();
@@ -43,29 +43,59 @@ vector<int> TheorieGreffonCongruence::onAssignation(unsigned int id, unsigned in
 
     if(atomeSubstitue.isConflit())
     {
-
-        return clauseAApprendre;
+        if(id>0)
+            return clauseAApprendre;
+    }
+    else
+    {
+        if(id<0)
+        {
+            clauseAApprendre.push_back(id);
+            return clauseAApprendre;
+        }
     }
 
-    map<int, Terme> subst=unify(appliquerSubstitutions(id));
+    if(id>0)
+    {
+        map<int, Terme> subst;
 
-    for(pair<int, Terme> s : subst)
-        substitutions[niveau][s.first] = s.second;
+        try
+        {
+            subst=unify(appliquerSubstitutions(id));
+        }
+        catch(nonUnifiableException& a)
+        {
+            return clauseAApprendre;
+        }
 
-    for(Variable* v : formule->getVars())
-        if(static_cast<long unsigned int>(v->getId())<=A && v->getVal()==FAUX)
-            if(!appliquerSubstitutions(static_cast<unsigned int>(v->getId())).isConflit())
-            {
-                clauseAApprendre.push_back(v->getId());
-                return clauseAApprendre;
-            }
+        for(pair<int, Terme> s : subst)
+            substitutions[niveau][s.first] = s.second;
+
+        for(Variable* v : formule->getVars())
+            if(static_cast<long unsigned int>(v->getId())<=A && v->getVal()==FAUX)
+                if(!appliquerSubstitutions(static_cast<unsigned int>(v->getId())).isConflit())
+                {
+                    clauseAApprendre.push_back(v->getId());
+                    return clauseAApprendre;
+                }
+    }
 
     return vector<int>();
 }
 
 map<int, Terme> TheorieGreffonCongruence::unify(AtomeCongruence atome) const
 {
-    return unify(atome.getGauche(), atome.getDroite());
+    map<int, Terme> sub;
+    try
+    {
+        sub = unify(atome.getGauche(), atome.getDroite());
+        return sub;
+    }
+    catch(nonUnifiableException& a)
+    {
+        throw;
+    }
+    return map<int, Terme>();
 }
 
 AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id) const
@@ -151,7 +181,7 @@ map<int, Terme> TheorieGreffonCongruence::unify(Terme gauche, Terme droite) cons
     }
     catch(nonUnifiableException& a)
     {
-
+        throw;
     }
     return map<int, Terme>();
 }
