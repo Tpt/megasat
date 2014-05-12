@@ -31,7 +31,8 @@ chars    [a-z]+
 "~"     return(token::NON);
 "x"     return(token::X);
 ","     return(token::VIRGULE);
-"="     return(token::EGALS);
+"="     return(token::EQ);
+"!="    return(token::NEQ);
 
 {entier}  {
   yylval->entier = atoi(yytext);
