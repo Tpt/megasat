@@ -39,7 +39,8 @@ int main(int argc, char *argv[])
     auto beginTime = system_clock::now();
     try
     {
-        formule = lanceur.execute(formule);
+        TheorieGreffonLogique theorieGreffon;
+        formule = lanceur.execute(formule, theorieGreffon);
 
         out << "s SATISFIABLE" << endl;
         for(int i = 1; i <= formule.getNombreDeVariables(); i++)

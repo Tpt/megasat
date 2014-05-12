@@ -49,7 +49,8 @@ int main(int argc, char *argv[])
 
     try
     {
-        formule = lanceur.execute(formule);
+        TheorieGreffonLogique theorieGreffon;
+        formule = lanceur.execute(formule, theorieGreffon);
 
         for(auto e : normalisateur.getCorrespondance())
             out << e.first << " " << (formule.getVar(e.second)->getVal() ? e.second : -e.second) << endl;

@@ -61,7 +61,8 @@ int main(int argc, char *argv[])
     bool afficheAvecColoriage = false;
     try
     {
-        formule = lanceur.execute(formule);
+        TheorieGreffonLogique theorieGreffon;
+        formule = lanceur.execute(formule, theorieGreffon);
         afficheAvecColoriage = true;
     }
     catch(InsatisfiableException)

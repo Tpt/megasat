@@ -2,6 +2,7 @@
 #define LANCEURSOLVEUR_H
 
 #include "Solveur.h"
+#include "TheorieGreffon.h"
 #include "ArgumentsParser.h"
 
 enum HeuristiqueType {
@@ -19,16 +20,12 @@ enum SolveurType {
     MINISAT
 };
 
-enum TheorieType {
-    LITERALS
-};
-
 class LanceurSolveur
 {
 public:
-    LanceurSolveur(ArgumentsParser& arguments_, std::string debutCommentaire, SolveurType solveurParDefaut = DPLL, HeuristiqueType heuristiqueParDefaut = SIMPLE, TheorieType theorieType = LITERALS);
+    LanceurSolveur(ArgumentsParser& arguments_, std::string debutCommentaire, SolveurType solveurParDefaut = DPLL, HeuristiqueType heuristiqueParDefaut = SIMPLE );
     ~LanceurSolveur();
-    Formule execute(Formule& formule);
+    Formule execute(Formule& formule, TheorieGreffon& theorieGreffon);
     std::streambuf* getBufferSortie() __attribute__((pure));
     static std::vector<std::string> getNomsOptions();
 
@@ -39,7 +36,6 @@ private:
     std::string debutCommentaire;
     SolveurType solveurParDefaut;
     HeuristiqueType heuristiqueParDefaut;
-    TheorieType theorieType;
 };
 
 #endif // LANCEURSOLVEUR_H
