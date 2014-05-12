@@ -15,6 +15,7 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
     virtual void onBeginning(Formule* formule);
+    void setCorrespondanceAtomes(const std::vector<AtomeCongruence>& corr) {atomes=corr;};
 
 private:
     bool appear(int variable, Terme* terme) const;

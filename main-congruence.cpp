@@ -48,6 +48,12 @@ int main(int argc, char *argv[])
     try
     {
         TheorieGreffonCongruence theorieGreffon;
+        vector<AtomeCongruence> correspondance(normalisateur.getCorrespondance().size());
+        for(pair<AtomeCongruence, int> t : normalisateur.getCorrespondance())
+            correspondance[static_cast<size_t>(t.second-1)]=t.first;
+
+        theorieGreffon.setCorrespondanceAtomes(correspondance);
+
         formule = lanceur.execute(formule, theorieGreffon);
     }
     catch(InsatisfiableException)
@@ -55,7 +61,7 @@ int main(int argc, char *argv[])
         out << "s UNSATISFIABLE" << endl;
     }
     out << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
-    
-    
+
+
     return EXIT_SUCCESS;
 }
