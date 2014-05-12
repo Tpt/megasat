@@ -2,22 +2,19 @@
 
 using namespace std;
 
-TheorieGreffonCongruence::TheorieGreffonCongruence() :
-formule(nullptr), atomes(vector<AtomeCongruence>()), substitutions(vector<map<int, Terme>>())
+TheorieGreffonCongruence::TheorieGreffonCongruence() : atomes(vector<AtomeCongruence>()), substitutions(vector<map<int, Terme>>())
 {}
 
 TheorieGreffonCongruence::~TheorieGreffonCongruence()
 {}
 
-TheorieGreffonCongruence::TheorieGreffonCongruence(const TheorieGreffonCongruence& F) :
-formule(F.formule), atomes(F.atomes), substitutions(F.substitutions)
+TheorieGreffonCongruence::TheorieGreffonCongruence(const TheorieGreffonCongruence& F) : atomes(F.atomes), substitutions(F.substitutions)
 {}
 
 TheorieGreffonCongruence& TheorieGreffonCongruence::operator= (const TheorieGreffonCongruence& other)
 {
     TheorieGreffonCongruence Temp(other);
 
-    swap(Temp.formule, this->formule);
     swap(Temp.atomes, this->atomes);
     swap(Temp.substitutions, this->substitutions);
 
@@ -26,38 +23,38 @@ TheorieGreffonCongruence& TheorieGreffonCongruence::operator= (const TheorieGref
 
 vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 {
-    (void) id;
+    TheorieGreffonSimple::onAssignation(id, niveau);
 
-    if(niveau>=substitutions.size())
+    if(niveau >= substitutions.size())
     {
-        substitutions.resize(niveau+1);
+        substitutions.resize(niveau + 1);
     }
 
     AtomeCongruence atomeSubstitue(appliquerSubstitutions(static_cast<unsigned int>(id > 0 ? id : -id)));
 
     vector<int> clauseAApprendre;
-    long unsigned int A=atomes.size();
-    for(Variable* v : formule->getVars())
-        if(static_cast<long unsigned int>(v->getId())<=A && v->getVal()==VRAI)
-            clauseAApprendre.push_back(-v->getId());
+    unsigned long nombreDeVariablesAtomes = (atomes.size() < valVariables.size()) ? atomes.size() : valVariables.size();
+    for(unsigned int i = 0; i < nombreDeVariablesAtomes; i++)
+        if(valVariables[i] == VRAI)
+            clauseAApprendre.push_back(-static_cast<int>(i) - 1);
 
     if(atomeSubstitue.isConflit())
     {
-        if(id>0)
+        if(id > 0)
             return clauseAApprendre;
         else
             return vector<int>();
     }
     else
     {
-        if(id<0)
+        if(id < 0)
         {
             clauseAApprendre.push_back(id);
             return clauseAApprendre;
         }
     }
 
-    if(id>0)
+    if(id > 0)
     {
         map<int, Terme> subst;
 
@@ -73,11 +70,11 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
         for(pair<int, Terme> s : subst)
             substitutions[niveau][s.first] = s.second;
 
-        for(Variable* v : formule->getVars())
-            if(static_cast<long unsigned int>(v->getId())<=A && v->getVal()==FAUX)
-                if(!appliquerSubstitutions(static_cast<unsigned int>(v->getId())).isConflit())
+        for(unsigned int i = 0; i < nombreDeVariablesAtomes; i++)
+            if(valVariables[i] == FAUX)
+                if(!appliquerSubstitutions(i).isConflit())
                 {
-                    clauseAApprendre.push_back(v->getId());
+                    clauseAApprendre.push_back(static_cast<int>(i) + 1);
                     return clauseAApprendre;
                 }
     }
@@ -102,7 +99,7 @@ map<int, Terme> TheorieGreffonCongruence::unify(AtomeCongruence atome) const
 
 AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id) const
 {
-    return AtomeCongruence(*appliquerSubstitutions(atomes[id-1].getGauche()), *appliquerSubstitutions(atomes[id-1].getDroite()));
+    return AtomeCongruence(*appliquerSubstitutions(atomes[id].getGauche()), *appliquerSubstitutions(atomes[id].getDroite()));
 }
 
 Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme terme) const
@@ -132,14 +129,10 @@ Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme* terme) const
     return terme;
 }
 
-void TheorieGreffonCongruence::onBeginning(Formule* formule_)
-{
-    formule=formule_;
-}
-
 void TheorieGreffonCongruence::onBacktrack(unsigned int l)
 {
-    substitutions.erase(substitutions.begin()+static_cast<int>(l), substitutions.end());
+    TheorieGreffonSimple::onBacktrack(l);
+    substitutions.erase(substitutions.begin() + static_cast<int>(l), substitutions.end());
 }
 
 bool TheorieGreffonCongruence::appear(int variable, Terme* terme) const

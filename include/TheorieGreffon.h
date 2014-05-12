@@ -28,4 +28,20 @@ public:
 protected:
 };
 
+class TheorieGreffonSimple : public TheorieGreffon //Greffon de base, permet d'obtenir la valuation de toutes les variables à l'instant courant
+{
+public:
+    TheorieGreffonSimple();
+    virtual ~TheorieGreffonSimple();
+    virtual std::vector<int> onAssignation(int id, unsigned int niveau);
+    virtual void onBacktrack(unsigned int l);
+    virtual void onBeginning(Formule* formule);
+
+protected:
+    ResultatEvaluation getLiteralVal(int literalId);
+    std::vector<ResultatEvaluation> valVariables;
+private:
+    std::vector<int> niveauChoix;
+};
+
 #endif

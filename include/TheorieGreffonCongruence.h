@@ -5,7 +5,7 @@
 #include "AtomeCongruence.h"
 #include<map>
 
-class TheorieGreffonCongruence : public TheorieGreffon
+class TheorieGreffonCongruence : public TheorieGreffonSimple
 {
 public:
     TheorieGreffonCongruence();
@@ -14,7 +14,6 @@ public:
     virtual ~TheorieGreffonCongruence();
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
-    virtual void onBeginning(Formule* formule);
     void setCorrespondanceAtomes(const std::vector<AtomeCongruence>& corr) {atomes=corr;};
 
 private:
@@ -27,7 +26,6 @@ private:
     Terme* appliquerSubstitutions(Terme terme) const;
     Terme* appliquerSubstitutions(Terme* terme) const;
 
-    Formule* formule;
     std::vector<AtomeCongruence> atomes;
     std::vector<std::map<int, Terme>> substitutions;
 };
