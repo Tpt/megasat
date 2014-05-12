@@ -139,9 +139,8 @@ void TheorieGreffonCongruence::onBeginning(Formule* formule_)
 
 void TheorieGreffonCongruence::onBacktrack(unsigned int l)
 {
-    substitutions.erase(substitutions.begin()+l, substitutions.end());
+    substitutions.erase(substitutions.begin()+static_cast<int>(l), substitutions.end());
 }
-
 
 bool TheorieGreffonCongruence::appear(int variable, Terme* terme) const
 {
