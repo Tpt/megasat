@@ -20,11 +20,12 @@ public:
     std::vector<Terme*> getParametres() const {return parametres;};
     void free();
     bool isConflit(Terme t) const;
+    size_t hash() const;
+    bool operator==(const Terme& that) const;
 
 private:
     std::vector<Terme*> parametres;
     std::string symbole;
     int variable;
 };
-
 #endif // TERME_H
