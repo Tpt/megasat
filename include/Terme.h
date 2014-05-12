@@ -21,7 +21,7 @@ public:
     void free();
     bool isConflit(Terme t) const;
     size_t hash() const;
-    bool operator==(const Terme& that) const;
+    bool operator==(const Terme& that) const __attribute__((pure));
 
 private:
     std::vector<Terme*> parametres;

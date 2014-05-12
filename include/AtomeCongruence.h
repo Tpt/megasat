@@ -13,7 +13,7 @@ public:
     Terme getDroite() const {return droite;};
     bool isConflit() const;
     size_t hash() const;
-    bool operator==(const AtomeCongruence& that) const;
+    bool operator==(const AtomeCongruence& that) const __attribute__((pure));
 
 private:
     Terme gauche;

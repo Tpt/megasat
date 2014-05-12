@@ -60,12 +60,12 @@ bool Terme::isConflit(Terme t) const
 
 size_t Terme::hash() const //TODO : mettre le hash en cache dans AtomeCongruance pour éviter trop d'appels ???
 {
-    size_t hash = std::hash<int>()(variable) + std::hash<string>()(symbole);
+    size_t hash_ = std::hash<int>()(variable) + std::hash<string>()(symbole);
 
     for(unsigned int i = 0; i < parametres.size(); i++)
-        hash += parametres[i]->hash() * 31^(i+1);
+        hash_ += parametres[i]->hash() * 31^(i+1);
 
-    return hash;
+    return hash_;
 }
 
 bool Terme::operator==(const Terme& that) const
