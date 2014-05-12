@@ -45,6 +45,8 @@ vector<int> TheorieGreffonCongruence::onAssignation(unsigned int id, unsigned in
     {
         if(id>0)
             return clauseAApprendre;
+        else
+            return vector<int>();
     }
     else
     {
