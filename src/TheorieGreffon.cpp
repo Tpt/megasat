@@ -14,7 +14,7 @@ TheorieGreffonLogique::TheorieGreffonLogique()
 TheorieGreffonLogique::~TheorieGreffonLogique()
 {}
 
-vector<int> TheorieGreffonLogique::onAssignation(unsigned int id, unsigned int niveau)
+vector<int> TheorieGreffonLogique::onAssignation(int id, unsigned int niveau)
 {
     (void) id;
     (void) niveau;

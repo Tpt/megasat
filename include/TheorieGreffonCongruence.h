@@ -12,7 +12,7 @@ public:
     TheorieGreffonCongruence(const TheorieGreffonCongruence& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
     TheorieGreffonCongruence& operator=(const TheorieGreffonCongruence& F);///Idem
     virtual ~TheorieGreffonCongruence();
-    virtual std::vector<int> onAssignation(unsigned int id, unsigned int niveau);
+    virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
     virtual void onBeginning(Formule* formule);
 

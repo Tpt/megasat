@@ -24,7 +24,7 @@ TheorieGreffonCongruence& TheorieGreffonCongruence::operator= (const TheorieGref
     return *this;
 }
 
-vector<int> TheorieGreffonCongruence::onAssignation(unsigned int id, unsigned int niveau)
+vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 {
     (void) id;
 
@@ -33,7 +33,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(unsigned int id, unsigned in
         substitutions.resize(niveau+1);
     }
 
-    AtomeCongruence atomeSubstitue(appliquerSubstitutions(abs(id)));
+    AtomeCongruence atomeSubstitue(appliquerSubstitutions(static_cast<unsigned int>(id > 0 ? id : -id)));
 
     vector<int> clauseAApprendre;
     long unsigned int A=atomes.size();
@@ -63,7 +63,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(unsigned int id, unsigned in
 
         try
         {
-            subst=unify(appliquerSubstitutions(id));
+            subst=unify(appliquerSubstitutions(static_cast<unsigned int>(id)));
         }
         catch(nonUnifiableException& a)
         {
