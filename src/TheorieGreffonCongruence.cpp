@@ -102,7 +102,7 @@ map<int, Terme> TheorieGreffonCongruence::unify(AtomeCongruence atome) const
 
 AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id) const
 {
-    return AtomeCongruence(*appliquerSubstitutions(atomes[id].getGauche()), *appliquerSubstitutions(atomes[id].getDroite()));
+    return AtomeCongruence(*appliquerSubstitutions(atomes[id-1].getGauche()), *appliquerSubstitutions(atomes[id-1].getDroite()));
 }
 
 Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme terme) const
