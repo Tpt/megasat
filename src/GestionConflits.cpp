@@ -22,6 +22,12 @@ void GestionConflits::onDeduction(Literal* literal, int clauseUid, int profondeu
 void GestionConflits::onChoix(int literalId, int profondeurPile)
 {}
 
+void GestionConflits::onBacktrack(int nouvelleProfondeur)
+{}
+
+void GestionConflits::addClause(std::vector<int>& clause, int uid)
+{}
+
 pair<int,pair<int,vector<int>>> GestionConflits::onConflit(int clauseUid, int profondeurPile)
 {
     conflitsNum++;
@@ -106,8 +112,6 @@ pair<int,pair<int,vector<int>>> GestionConflitsApprentissage::onConflit(int clau
 
     int niveauBacktrack = getNiveauBacktrack(clauseAAjouter);
     int nombreDeBacktraks = profondeurPile - niveauBacktrack;
-    nettoyageNiveaux(niveauBacktrack);
-    addClause(clauseAAjouter, uid);
 #ifdef DEBUG
     cout << "c Backtrack de : " << nombreDeBacktraks << endl;
 #endif
@@ -221,7 +225,7 @@ int GestionConflitsApprentissage::getNiveauBacktrack(const vector<int>& clause) 
     return profondeurs[profondeurs.size() - 2] + 1;
 }
 
-void GestionConflitsApprentissage::nettoyageNiveaux(int niveauFutur)
+void GestionConflitsApprentissage::onBacktrack(int niveauFutur)
 {
     for(auto& niveau : niveauChoix)
     {

@@ -13,18 +13,10 @@ DPLLSolveur::~DPLLSolveur()
 
 bool DPLLSolveur::isSatifiable()
 {
-    profondeurPile = 0;
-    gestionConflits.onBeginning(&formule);
-
-    //on fait quelques simplifications préliminaires
-    formule.supprimerTautologies();
-    simplifier();
-
-    if(formule.isVide())
-        return true;
-
     try
     {
+        AbstractDPLLSolveur::initialisation();
+        simplifier();
         verifierAPasClauseVide();
         assigneUneVariable();
         return true;
@@ -104,7 +96,7 @@ bool DPLLSolveur::simplificationUnitaire(Clause* clause)
     {
         if(!literal->isAssigne())
         {
-            gestionConflits.onDeduction(literal, clause->getUid(), profondeurPile);
+            onDeduction(literal, clause->getUid(), profondeurPile);
             literal->setVal(true);
             return true;
         }
@@ -114,6 +106,9 @@ bool DPLLSolveur::simplificationUnitaire(Clause* clause)
 
 bool DPLLSolveur::eliminationLiterauxPurs()
 {
+    if(!theorieGreffon.avecEliminationLiterauxPurs())
+        return false;
+
     bool modif = false;
 
     for(int id = 1; id <= formule.getNombreDeVariables(); ++id)

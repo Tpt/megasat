@@ -17,8 +17,15 @@ protected:
     VariableNonAssigneeProvider& variableNonAssigneeProvider;
     GestionConflits& gestionConflits;
     TheorieGreffon& theorieGreffon;
+    void initialisation();
     void assigneUneVariable();
     virtual void assigneLiteral(int literalId) = 0;
+    void onChoix(int literalId, int profondeurPile);
+    void onDeduction(Literal* literal, int clauseUid, int profondeurPile);
+    void onAssignation(int literalId, int profondeurPile);
+    void addClauses(std::map<int,std::vector<int>> clausesToAdd);
+    virtual Clause* addClause(std::vector<int> clause, int uid);
+
     void __attribute__((noreturn)) leveExceptionLorsConflit(Clause* clause);
     int profondeurPile;
 };
@@ -30,7 +37,6 @@ public:
     ~InsatisfiableExceptionAvecClauses() noexcept {};
     void addClause(const std::pair<int,std::vector<int>>& clause);
     std::map<int,std::vector<int>> getClauses() const;
-    void addClausesToFormule(Formule& formule) const;
     int getProfondeurBacktrack() const __attribute__((pure));
     void decrementeProfondeurBacktrack();
 private:

@@ -16,7 +16,7 @@ public:
     ~Formule();
 
     void addClause(Clause* c);
-    void addClause(const std::vector<int>& c, int uid);
+    Clause* addClause(const std::vector<int>& c, int uid);
     bool contient(const Clause* c) const;
     std::unordered_set<Clause*> getClauses() const;
     Literal* getLiteral(int id) const __attribute__((pure)); /// retourne le litéral d'identifiant i (si i > 0 cela correspond à x_i et si i < 0 à -x_(-i)

@@ -144,7 +144,7 @@ void Formule::addClause(Clause* clause) ///malgre la structure d'ensemble, le te
         clauses.insert(clause);
 }
 
-void Formule::addClause(const std::vector<int>& c, int uid)
+Clause* Formule::addClause(const std::vector<int>& c, int uid)
 {
     Clause* w = new Clause(V, uid);
     for(unsigned int i=0;i<c.size();++i)
@@ -155,6 +155,7 @@ void Formule::addClause(const std::vector<int>& c, int uid)
             w->addLiteral(lits_neg[static_cast<size_t>(-c[i] - 1)]);
     }
     clauses.insert(w);
+    return w;
 }
 
 void Formule::supprimerClause(Clause* c)

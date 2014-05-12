@@ -8,13 +8,9 @@ DPLLSurveilleSolveur::DPLLSurveilleSolveur(Formule &formule_, VariableNonAssigne
 
 bool DPLLSurveilleSolveur::isSatifiable()
 {
-    formule.supprimerTautologies();
-
-    profondeurPile = 0;
-    gestionConflits.onBeginning(&formule);
-
     try
     {
+        AbstractDPLLSolveur::initialisation();
         initialiserLiterauxSurveilles();
         assigneUneVariable();
         return true;
@@ -27,13 +23,22 @@ bool DPLLSurveilleSolveur::isSatifiable()
 
 void DPLLSurveilleSolveur::initialiserLiterauxSurveilles()
 {
-    unordered_set<Clause*> clauses = formule.getClauses();
-    for(Clause* clause : clauses)
-    {
-        Literal* premierLiteral = trouveLiteralASurveille(clause);
-        Literal* secondLiteral = trouveLiteralASurveille(clause, premierLiteral);
-        literauxSurveilles[clause->getUid()] = pair<int,int>(premierLiteral->getId(), secondLiteral->getId());
-    }
+    for(Clause* clause : formule.getClauses())
+        initialiseClauseWatchedLiterals(clause);
+}
+
+Clause* DPLLSurveilleSolveur::addClause(std::vector<int> clause, int uid)
+{
+    Clause* clauseObj = AbstractDPLLSolveur::addClause(clause, uid);
+    initialiseClauseWatchedLiterals(clauseObj);
+    return clauseObj;
+}
+
+void DPLLSurveilleSolveur::initialiseClauseWatchedLiterals(Clause* clause)
+{
+    Literal* premierLiteral = trouveLiteralASurveille(clause);
+    Literal* secondLiteral = trouveLiteralASurveille(clause, premierLiteral);
+    literauxSurveilles[clause->getUid()] = pair<int,int>(premierLiteral->getId(), secondLiteral->getId());
 }
 
 Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* autreLiteral)
@@ -130,7 +135,7 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
 #ifdef DEBUG
             cout << "c pas de choix : " << nouveauLiteral->getId() << " true" << endl; //il n'y a plus qu'un litéral dans la clause : il faut le mettre à vrai
 #endif
-            gestionConflits.onDeduction(nouveauLiteral, clause->getUid(), profondeurPile);
+            onDeduction(nouveauLiteral, clause->getUid(), profondeurPile);
             nouveauLiteral->setVal(true);
             onLiteralAssigne(nouveauLiteral);
         }

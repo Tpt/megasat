@@ -12,6 +12,7 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau) = 0; //Si fail, renvoie clause à apprendre
     virtual void onBacktrack(unsigned int l) = 0; //Remonter au niveau l
     virtual void onBeginning(Formule* formule) = 0;
+    virtual bool avecEliminationLiterauxPurs() const = 0;
 
 protected:
 };
@@ -24,6 +25,7 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
     virtual void onBeginning(Formule* formule);
+    virtual bool avecEliminationLiterauxPurs() const;
 
 protected:
 };
@@ -36,9 +38,9 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
     virtual void onBeginning(Formule* formule);
+    virtual bool avecEliminationLiterauxPurs() const;
 
 protected:
-    ResultatEvaluation getLiteralVal(int literalId);
     std::vector<ResultatEvaluation> valVariables;
 private:
     std::vector<int> niveauChoix;

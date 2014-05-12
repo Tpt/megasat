@@ -1,4 +1,5 @@
 #include "../include/TheorieGreffon.h"
+#include "../include/InsatisfiableException.h"
 
 using namespace std;
 
@@ -31,6 +32,11 @@ void TheorieGreffonLogique::onBeginning(Formule* formule)
     (void) formule;
 }
 
+bool TheorieGreffonLogique::avecEliminationLiterauxPurs() const
+{
+    return true;
+}
+
 
 TheorieGreffonSimple::TheorieGreffonSimple()
 {}
@@ -41,11 +47,17 @@ TheorieGreffonSimple::~TheorieGreffonSimple()
 void TheorieGreffonSimple::onBeginning(Formule* formule)
 {
     auto vars = formule->getVars();
-    valVariables = vector<ResultatEvaluation>(vars.size());
+    valVariables = vector<ResultatEvaluation>(vars.size(), INCONNU);
     niveauChoix = vector<int>(vars.size());
     for(unsigned int i = 0; i < vars.size(); i++)
     {
-        valVariables[i] = vars[i]->eval();
+        ResultatEvaluation eval = vars[i]->eval();
+        if(eval != INCONNU)
+        {
+            vector<int> clauseAAjouter = onAssignation( (eval == VRAI) ? i + 1 : -i - 1, 0 );
+            if(clauseAAjouter.size() > 0)
+                throw InsatisfiableException();
+        }
     }
 }
 
@@ -62,7 +74,7 @@ void TheorieGreffonSimple::onBacktrack(unsigned int l)
 {
     for(unsigned int i = 0; i < valVariables.size(); i++)
     {
-        if(niveauChoix[i] > l)
+        if(niveauChoix[i] >= l)
         {
             niveauChoix[i] = 0;
             valVariables[i] = INCONNU;
@@ -70,12 +82,7 @@ void TheorieGreffonSimple::onBacktrack(unsigned int l)
     }
 }
 
-ResultatEvaluation TheorieGreffonSimple::getLiteralVal(int literalId)
+bool TheorieGreffonSimple::avecEliminationLiterauxPurs() const
 {
-    ResultatEvaluation res = valVariables[abs(literalId) - 1];
-    if( res == INCONNU || literalId > 0 ) {
-        return res;
-    } else {
-        return (res == VRAI) ? FAUX : VRAI;
-    }
+    return false;
 }
