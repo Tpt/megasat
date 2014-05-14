@@ -22,7 +22,6 @@ public:
     bool isConflit(Terme t) const;
     size_t hash() const;
     bool operator==(const Terme& that) const __attribute__((pure));
-
     std::string toString();
 
 private:

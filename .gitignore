@@ -13,6 +13,7 @@ resol
 tseitin
 colorie
 congruence_solver
+difference_solver
 core
 *.sty
 

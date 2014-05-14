@@ -25,6 +25,28 @@ FormuleTseitin<AtomeCongruence> parseFormuleFile(string fileName)
         exit(EXIT_FAILURE);
     }
 }
+string toString(FormuleTseitin<AtomeCongruence> t);
+string toString(FormuleTseitin<AtomeCongruence> t)
+{
+    switch(t.getType())
+    {
+        case FormuleTseitin<AtomeCongruence>::VARIABLE :
+            return t.getName().toString();
+        case FormuleTseitin<AtomeCongruence>::NON :
+            return "~" + toString(t.getOperandeG());
+        case FormuleTseitin<AtomeCongruence>::OU :
+            return "(" + toString(t.getOperandeG()) + " \\/ " + toString(t.getOperandeD()) + ")";
+        case FormuleTseitin<AtomeCongruence>::ET :
+            return "(" + toString(t.getOperandeG()) + " /\\ " + toString(t.getOperandeD()) + ")";
+        case FormuleTseitin<AtomeCongruence>::IMPLIQUE :
+            return "(" + toString(t.getOperandeG()) + " => " + toString(t.getOperandeD()) + ")";
+        case FormuleTseitin<AtomeCongruence>::XOR :
+            return "(" + toString(t.getOperandeG()) + " xor " + toString(t.getOperandeD()) + ")";
+        default :
+            return "P'tet ben, j'en sais rien...";
+    }
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -37,6 +59,8 @@ int main(int argc, char *argv[])
     ostream out(lanceur.getBufferSortie());
 
     FormuleTseitin<AtomeCongruence>* formuleTseitin = new FormuleTseitin<AtomeCongruence>(parseFormuleFile(arguments.getArgument("inputFile")));
+
+    cout<<toString(*formuleTseitin)<<endl;
 
     TransformationTseitin<AtomeCongruence> normalisateur(formuleTseitin);
 
@@ -55,6 +79,18 @@ int main(int argc, char *argv[])
         theorieGreffon.setCorrespondanceAtomes(correspondance);
 
         formule = lanceur.execute(formule, theorieGreffon);
+
+        vector<map<int, Terme>> unificateur(theorieGreffon.getSubstitutions());
+
+        out << "s SATISFIABLE" << endl;
+
+        for(map<int, Terme> t : unificateur)
+        {
+            for(pair<int, Terme> s : t)
+            {
+                out <<"x"<<s.first<<" -> "<<s.second.toString()<<endl;
+            }
+        }
     }
     catch(InsatisfiableException)
     {
