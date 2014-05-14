@@ -1,10 +1,12 @@
 #include "../include/TheorieGreffonDifference.h"
+#include<climits>
 
 using namespace std;
 
 typedef vector<vector<vector<pair<unsigned int,int>>>> type_adjacence;
 
-TheorieGreffonDifference::TheorieGreffonDifference() : atomes(vector<AtomeDifference>()), adjacence(type_adjacence()), varIdMax(0)
+TheorieGreffonDifference::TheorieGreffonDifference() :
+atomes(vector<AtomeDifference>()), literalPerAtome(unordered_map<AtomeDifference,int>()), adjacence(type_adjacence()), varIdMax(0)
 {}
 
 void TheorieGreffonDifference::setCorrespondanceAtomes(const std::vector<AtomeDifference>& corr) {
@@ -26,7 +28,7 @@ void TheorieGreffonDifference::setCorrespondanceAtomes(const std::vector<AtomeDi
     }
 
     adjacence = type_adjacence(varIdMax + 1);
-};
+}
 
 vector<int> TheorieGreffonDifference::onAssignation(int id, unsigned int niveau)
 {
@@ -61,7 +63,7 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
     vector<int> poids(varIdMax + 1, INT_MAX);
     poids[depart] = 0;
     vector<unsigned int> changes(varIdMax + 1, 0);
-    
+
     for(unsigned int i = 1; i <= varIdMax; i++) {
         bool nothingChanged = true;
         for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)

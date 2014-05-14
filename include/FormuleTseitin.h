@@ -23,7 +23,7 @@ public:
     FormuleTseitin(FormuleTypeSimple type_, T name_);
     FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* op);
     FormuleTseitin(FormuleTypeSimple type_, FormuleTseitin* opG, FormuleTseitin* opD);
-    T getName() const;
+    T getName() const __attribute__((pure));
     int getArite() const __attribute__((pure));
     FormuleTseitin::FormuleTypeSimple getType() const __attribute__((pure));
     FormuleTseitin<T> getOperandeG() const;
