@@ -23,37 +23,65 @@ TheorieGreffonCongruence& TheorieGreffonCongruence::operator= (const TheorieGref
 
 vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 {
+    cout<<"entre ici :"<<id<<" "<<niveau<<endl;
+    for(unsigned int i=0;i<atomes.size();++i)
+        cout<<i<<" "<<atomes[i].toString()<<endl;
+
     TheorieGreffonSimple::onAssignation(id, niveau);
+    if(static_cast<unsigned int>(id > 0 ? id : -id) > atomes.size())
+        return vector<int>();
 
     if(niveau >= substitutions.size())
     {
         substitutions.resize(niveau + 1);
     }
-
+    cout<<"B"<<endl;
     AtomeCongruence atomeSubstitue(appliquerSubstitutions(static_cast<unsigned int>(id > 0 ? id : -id)));
+    cout<<"B"<<endl;
 
     vector<int> clauseAApprendre;
     unsigned long nombreDeVariablesAtomes = (atomes.size() < valVariables.size()) ? atomes.size() : valVariables.size();
     for(unsigned int i = 0; i < nombreDeVariablesAtomes; i++)
         if(valVariables[i] == VRAI)
             clauseAApprendre.push_back(-static_cast<int>(i) - 1);
+    cout<<"B"<<endl;
+
+    for(unsigned int i=0;i<substitutions.size();++i)
+    {
+        cout<<i<<": "<<endl;
+        for(pair<int, Terme> t : substitutions[i])
+            cout<<"    "<<t.first<<" "<<t.second.toString()<<endl;
+    }
+
+    cout<<atomeSubstitue.toString()<<endl;
+    cout<<atomeSubstitue.isConflit()<<endl;
 
     if(atomeSubstitue.isConflit())
     {
+        cout<<"Il y a un conflit !"<<endl;
         if(id > 0)
+        {
+            cout<<"id > 0"<<endl;
             return clauseAApprendre;
+        }
         else
+        {
+            cout<<"id < 0"<<endl;
             return vector<int>();
+        }
     }
     else
     {
+        cout<<"Il n'y a pas de conflit !"<<endl;
         if(id < 0)
         {
+            cout<<"id < 0"<<endl;
             clauseAApprendre.push_back(id);
+            cout<<"Et tout va très bien !"<<endl;
             return clauseAApprendre;
         }
     }
-
+    cout<<"B"<<endl;
     if(id > 0)
     {
         map<int, Terme> subst;
@@ -78,7 +106,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
                     return clauseAApprendre;
                 }
     }
-
+    cout<<"B"<<endl;
     return vector<int>();
 }
 
@@ -99,11 +127,13 @@ map<int, Terme> TheorieGreffonCongruence::unify(AtomeCongruence atome) const
 
 AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id) const
 {
-    return AtomeCongruence(*appliquerSubstitutions(atomes[id].getGauche()), *appliquerSubstitutions(atomes[id].getDroite()));
+    cout<<"C "<<id<<" "<<atomes.size()<<endl;
+    return AtomeCongruence(*appliquerSubstitutions(atomes[id-1].getGauche()), *appliquerSubstitutions(atomes[id-1].getDroite()));
 }
 
 Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme terme) const
 {
+    cout<<"D"<<endl;
     return appliquerSubstitutions(&terme);
 }
 
@@ -132,7 +162,7 @@ Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme* terme) const
 void TheorieGreffonCongruence::onBacktrack(unsigned int l)
 {
     TheorieGreffonSimple::onBacktrack(l);
-    substitutions.erase(substitutions.begin() + static_cast<int>(l - 1), substitutions.end());
+    substitutions.erase(substitutions.begin() + static_cast<int>(l), substitutions.end());
 }
 
 bool TheorieGreffonCongruence::appear(int variable, Terme* terme) const

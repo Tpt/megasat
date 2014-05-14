@@ -80,3 +80,31 @@ bool Terme::operator==(const Terme& that) const
 
     return true;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+string Terme::toString()
+{
+    if(parametres.size()==0)
+        return "x_"+to_string(variable);
+
+    string sortie=symbole+"(";
+    for(unsigned int i=0;i<parametres.size();++i)
+        if(i==0)
+            sortie+=parametres[i]->toString();
+        else
+            sortie+=", "+parametres[i]->toString();
+
+    return sortie+")";
+}
