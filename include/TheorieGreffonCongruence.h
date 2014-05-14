@@ -15,6 +15,7 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
     void setCorrespondanceAtomes(const std::vector<AtomeCongruence>& corr) {atomes=corr;};
+    std::vector<std::map<int, Terme>> getSubstitutions() const {return substitutions;};
 
 private:
     bool appear(int variable, Terme* terme) const;

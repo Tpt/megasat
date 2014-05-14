@@ -3,6 +3,7 @@
 
 #include<string>
 #include "MessageException.h"
+#include "Terme.h"
 
 template<typename T> class FormuleTseitin
 {

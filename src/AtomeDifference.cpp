@@ -23,7 +23,7 @@ int AtomeDifference::getN() const
 
 size_t AtomeDifference::hash() const
 {
-    return std::hash<int>()(i)*31 + std::hash<int>()(j)*31^2 + std::hash<int>()(n)*31^3;
+    return std::hash<int>()(i)*31 + std::hash<int>()(j)*31*31 + std::hash<int>()(n)*31*31*31;
 }
 
 bool AtomeDifference::operator==(const AtomeDifference& that) const

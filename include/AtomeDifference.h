@@ -8,10 +8,10 @@ class AtomeDifference
 {
 public:
     AtomeDifference(int i, int j, int n);
-    int getI() const;
-    int getJ() const;
-    int getN() const;
-    size_t hash() const;
+    int getI() const __attribute__((pure));
+    int getJ() const __attribute__((pure));
+    int getN() const __attribute__((pure));
+    size_t hash() const __attribute__((pure));
     bool operator==(const AtomeDifference& that) const __attribute__((pure));
 
 private:
