@@ -3,6 +3,9 @@
 
 using namespace std;
 
+AtomeDifference::AtomeDifference() : i(-1), j(-1), n(0)
+{}
+
 AtomeDifference::AtomeDifference(int i_, int j_, int n_) : i(i_), j(j_), n(n_)
 {}
 

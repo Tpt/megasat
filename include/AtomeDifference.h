@@ -4,9 +4,11 @@
 #include "Terme.h"
 
 //Représente xi - xj <= n
+//Note : On a la variable spéciale x-1 qui vaut toujours 0
 class AtomeDifference
 {
 public:
+    AtomeDifference();
     AtomeDifference(int i, int j, int n);
     int getI() const;
     int getJ() const;

@@ -42,7 +42,7 @@ resol:  $(SOLVEURS) obj/CnfParser.o obj/main-resol.o
 congruence_solver:  $(SOLVEURS) obj/CongruenceParserLogiqueParser.o obj/CongruenceParserLogiqueLexer.o obj/CongruenceParserDriver.o obj/CongruenceParserLexer.o obj/Terme.o obj/AtomeCongruence.o obj/TheorieGreffon.o obj/TheorieGreffonCongruence.o obj/main-congruence.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-difference_solver:  $(SOLVEURS) obj/AtomeDifference.o obj/TheorieGreffon.o obj/main-difference.o
+difference_solver:  $(SOLVEURS) obj/DifferenceParserLogiqueParser.o obj/DifferenceParserLogiqueLexer.o obj/DifferenceParserDriver.o obj/DifferenceParserLexer.o obj/AtomeDifference.o obj/TheorieGreffon.o obj/main-difference.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/clause.o: src/Clause.cpp
@@ -142,6 +142,24 @@ obj/CongruenceParserDriver.o: parser/congruence/driver.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 obj/CongruenceParserLexer.o: parser/congruence/lexer.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+obj/DifferenceParserLogiqueParser.o: parser/difference/differenceParser.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+parser/difference/differenceParser.cpp: parser/difference/difference.y
+	$(YACC) -dv -o $@ $<
+
+obj/DifferenceParserLogiqueLexer.o: parser/difference/differenceLexer.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+parser/difference/differenceLexer.cpp: parser/difference/difference.lex
+	$(LEX) -o $@ $<
+
+obj/DifferenceParserDriver.o: parser/difference/driver.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+obj/DifferenceParserLexer.o: parser/difference/lexer.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 obj/Arete.o: src/Arete.cpp
