@@ -48,7 +48,7 @@ void TheorieGreffonSimple::onBeginning(Formule* formule)
 {
     auto vars = formule->getVars();
     valVariables = vector<ResultatEvaluation>(vars.size(), INCONNU);
-    niveauChoix = vector<int>(vars.size());
+    niveauChoix = vector<unsigned int>(vars.size());
     for(unsigned int i = 0; i < vars.size(); i++)
     {
         ResultatEvaluation eval = vars[i]->eval();

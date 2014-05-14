@@ -71,29 +71,29 @@ void AbstractDPLLSolveur::assigneUneVariable()
     }
 }
 
-void AbstractDPLLSolveur::onChoix(int literalId, int profondeurPile)
+void AbstractDPLLSolveur::onChoix(int literalId, int profondeurPile_)
 {
-    gestionConflits.onChoix(literalId, profondeurPile);
-    onAssignation(literalId, profondeurPile);
+    gestionConflits.onChoix(literalId, profondeurPile_);
+    onAssignation(literalId, profondeurPile_);
 }
 
-void AbstractDPLLSolveur::onDeduction(Literal* literal, int clauseUid, int profondeurPile)
+void AbstractDPLLSolveur::onDeduction(Literal* literal, int clauseUid, int profondeurPile_)
 {
-    gestionConflits.onDeduction(literal, clauseUid, profondeurPile);
-    onAssignation(literal->getId(), profondeurPile);
+    gestionConflits.onDeduction(literal, clauseUid, profondeurPile_);
+    onAssignation(literal->getId(), profondeurPile_);
 }
 
-void AbstractDPLLSolveur::onAssignation(int literalId, int profondeurPile)
+void AbstractDPLLSolveur::onAssignation(int literalId, int profondeurPile_)
 {
-    vector<int> clauseAAjouter = theorieGreffon.onAssignation(literalId, profondeurPile);
-    
+    vector<int> clauseAAjouter = theorieGreffon.onAssignation(literalId, static_cast<unsigned int>(profondeurPile_));
+
     if(clauseAAjouter.size() > 0)
     {
         InsatisfiableExceptionAvecClauses exception(0);
         exception.addClause(pair<int,vector<int>>(Clause::genUid(), clauseAAjouter));
-        gestionConflits.onBacktrack(profondeurPile);
-        theorieGreffon.onBacktrack(profondeurPile);
-        profondeurPile--;
+        gestionConflits.onBacktrack(profondeurPile_);
+        theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile_));
+        profondeurPile_--;
         throw exception;
     }
 }
@@ -102,7 +102,7 @@ void __attribute__((noreturn)) AbstractDPLLSolveur::leveExceptionLorsConflit(Cla
 {
     auto retour = gestionConflits.onConflit(clause->getUid(), profondeurPile);
     gestionConflits.onBacktrack(profondeurPile);
-    theorieGreffon.onBacktrack(profondeurPile);
+    theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile));
     profondeurPile--;
     InsatisfiableExceptionAvecClauses exception(retour.first);
     if(retour.second.first >= 0)

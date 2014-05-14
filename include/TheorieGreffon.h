@@ -43,7 +43,7 @@ public:
 protected:
     std::vector<ResultatEvaluation> valVariables;
 private:
-    std::vector<int> niveauChoix;
+    std::vector<unsigned int> niveauChoix;
 };
 
 #endif

@@ -15,6 +15,8 @@ public:
     size_t hash() const;
     bool operator==(const AtomeCongruence& that) const __attribute__((pure));
 
+    std::string toString();
+
 private:
     Terme gauche;
     Terme droite;
