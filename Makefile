@@ -42,7 +42,7 @@ resol:  $(SOLVEURS) obj/CnfParser.o obj/main-resol.o
 congruence_solver:  $(SOLVEURS) obj/CongruenceParserLogiqueParser.o obj/CongruenceParserLogiqueLexer.o obj/CongruenceParserDriver.o obj/CongruenceParserLexer.o obj/Terme.o obj/AtomeCongruence.o obj/TheorieGreffon.o obj/TheorieGreffonCongruence.o obj/main-congruence.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-difference_solver:  $(SOLVEURS) obj/DifferenceParserLogiqueParser.o obj/DifferenceParserLogiqueLexer.o obj/DifferenceParserDriver.o obj/DifferenceParserLexer.o obj/AtomeDifference.o obj/TheorieGreffon.o obj/main-difference.o
+difference_solver:  $(SOLVEURS) obj/DifferenceParserLogiqueParser.o obj/DifferenceParserLogiqueLexer.o obj/DifferenceParserDriver.o obj/DifferenceParserLexer.o obj/AtomeDifference.o obj/TheorieGreffon.o obj/TheorieGreffonDifference.o obj/main-difference.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/clause.o: src/Clause.cpp
@@ -84,6 +84,9 @@ obj/TheorieGreffon.o: src/TheorieGreffon.cpp
 obj/TheorieGreffonCongruence.o: src/TheorieGreffonCongruence.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
+obj/TheorieGreffonDifference.o: src/TheorieGreffonDifference.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+	
 obj/VariableNonAssigneeProvider.o: src/VariableNonAssigneeProvider.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 

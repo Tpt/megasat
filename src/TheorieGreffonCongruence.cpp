@@ -28,7 +28,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
         cout<<i<<" "<<atomes[i].toString()<<endl;
 
     TheorieGreffonSimple::onAssignation(id, niveau);
-    if(static_cast<unsigned int>(id > 0 ? id : -id) > atomes.size())
+    if(static_cast<unsigned int>(abs(id)) > atomes.size())
         return vector<int>();
 
     if(niveau >= substitutions.size())
