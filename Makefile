@@ -11,7 +11,7 @@ CFLAGS=$(NAZI)
 LDFLAGS= 
 SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/MinisatSolveur.o obj/clause.o obj/formule.o obj/.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o obj/GestionConflits.o obj/Preuve.o obj/LatexPrinter.o obj/ConstructeurPreuve.o obj/GraphvizConflitOutput.o obj/TheorieGreffon.o
 EXEC=setup resol tseitin colorie
-EXEC=setup resol tseitin colorie congruence_solver
+EXEC=setup resol tseitin colorie congruence_solver difference_solver
 LEX=flex
 YACC=bison
 
@@ -41,7 +41,10 @@ resol:  $(SOLVEURS) obj/CnfParser.o obj/main-resol.o
 
 congruence_solver:  $(SOLVEURS) obj/CongruenceParserLogiqueParser.o obj/CongruenceParserLogiqueLexer.o obj/CongruenceParserDriver.o obj/CongruenceParserLexer.o obj/Terme.o obj/AtomeCongruence.o obj/TheorieGreffon.o obj/TheorieGreffonCongruence.o obj/main-congruence.o
 	$(CC) -o $@ $^ $(LDFLAGS)
-	
+
+difference_solver:  $(SOLVEURS) obj/AtomeDifference.o obj/TheorieGreffon.o obj/main-difference.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
 obj/clause.o: src/Clause.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
@@ -174,6 +177,9 @@ obj/Terme.o: src/Terme.cpp
 obj/AtomeCongruence.o: src/AtomeCongruence.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
+obj/AtomeDifference.o: src/AtomeDifference.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+
 obj/main-resol.o: main-resol.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
@@ -184,6 +190,9 @@ obj/main-colorie.o: main-colorie.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/main-congruence.o: main-congruence.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+	
+obj/main-difference.o: main-difference.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 clean:
