@@ -64,8 +64,8 @@ Expression TEOF
 ;
 
 Expression:
-Formule EQ Formule { $$ = new FormuleTseitin<AtomeCongruence>(FormuleTseitin<AtomeCongruence>::NON, new FormuleTseitin<AtomeCongruence>(FormuleTseitin<AtomeCongruence>::VARIABLE, AtomeCongruence(*$1, *$3))); }
-| Formule NEQ Formule { $$ = new FormuleTseitin<AtomeCongruence>(FormuleTseitin<AtomeCongruence>::VARIABLE, AtomeCongruence(*$1, *$3)); }
+Formule NEQ Formule { $$ = new FormuleTseitin<AtomeCongruence>(FormuleTseitin<AtomeCongruence>::NON, new FormuleTseitin<AtomeCongruence>(FormuleTseitin<AtomeCongruence>::VARIABLE, AtomeCongruence(*$1, *$3))); }
+| Formule EQ Formule { $$ = new FormuleTseitin<AtomeCongruence>(FormuleTseitin<AtomeCongruence>::VARIABLE, AtomeCongruence(*$1, *$3)); }
 | Expression IMPLIQUE Expression { $$ = new FormuleTseitin<AtomeCongruence>(FormuleTseitin<AtomeCongruence>::IMPLIQUE, $1, $3); }
 | Expression ET Expression { $$ = new FormuleTseitin<AtomeCongruence>(FormuleTseitin<AtomeCongruence>::ET, $1, $3); }
 | Expression OU Expression { $$ = new FormuleTseitin<AtomeCongruence>(FormuleTseitin<AtomeCongruence>::OU, $1, $3); }
