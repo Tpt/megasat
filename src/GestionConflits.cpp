@@ -34,7 +34,7 @@ pair<int,pair<int,vector<int>>> GestionConflits::onConflit(int clauseUid, int pr
     return pair<int,pair<int,vector<int>>>(0, pair<int,vector<int>>(-1, vector<int>(0)));
 }
 
-void GestionConflits::afficheStatistiques(std::streambuf* sortie, const string debutCommentaire) const
+void GestionConflits::afficheStatistiques(std::streambuf* sortie, const string& debutCommentaire) const
 {}
 
 
@@ -55,7 +55,7 @@ void GestionConflitsStatistiques::onAjoutClause(unsigned long tailleClause)
     tailleCumuleAjouts += tailleClause;
 }
 
-void GestionConflitsStatistiques::afficheStatistiques(std::streambuf* sortie, const string debutCommentaire) const
+void GestionConflitsStatistiques::afficheStatistiques(std::streambuf* sortie, const string& debutCommentaire) const
 {
     ostream out(sortie);
     out << debutCommentaire << " Nombre de backtrack de profondeur supérieure à 1 : " << nombreVraiBacktrack << endl;
@@ -185,7 +185,7 @@ void GestionConflitsApprentissage::displayInterface(ConstructeurPreuve construct
     }
 }
 
-void GestionConflitsApprentissage::afficheStatistiques(std::streambuf* sortie, const string debutCommentaire) const
+void GestionConflitsApprentissage::afficheStatistiques(std::streambuf* sortie, const string& debutCommentaire) const
 {
     statistiques.afficheStatistiques(sortie, debutCommentaire);
 }

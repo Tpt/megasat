@@ -16,7 +16,7 @@ public:
     virtual void onBacktrack(int niveauFutur);
     virtual void addClause(std::vector<int>& clause, int uid);
     virtual std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
-    virtual void afficheStatistiques(std::streambuf* sortie, const std::string debutCommentaire) const;
+    virtual void afficheStatistiques(std::streambuf* sortie, const std::string& debutCommentaire) const;
 protected:
     int conflitsNum;
     int prochainConflit;
@@ -28,7 +28,7 @@ public:
     GestionConflitsStatistiques();
     void onBacktrack(int profondeur);
     void onAjoutClause(unsigned long tailleClause);
-    void afficheStatistiques(std::streambuf* sortie, const std::string debutCommentaire) const;
+    void afficheStatistiques(std::streambuf* sortie, const std::string& debutCommentaire) const;
 private:
     int nombreVraiBacktrack;
     int profondeurCumuleBacktracks;
@@ -47,7 +47,7 @@ public:
     void addClause(std::vector<int>& clause, int uid);
     std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
     int getNiveauBacktrack(const std::vector<int>& clause) const;
-    void afficheStatistiques(std::streambuf* sortie, const std::string debutCommentaire) const;
+    void afficheStatistiques(std::streambuf* sortie, const std::string& debutCommentaire) const;
 private:
     void displayInterface(ConstructeurPreuve constructeurPreuve);
     void addClause(const Clause* clause);

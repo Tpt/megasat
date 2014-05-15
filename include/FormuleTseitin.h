@@ -29,7 +29,6 @@ public:
     FormuleTseitin<T> getOperandeG() const;
     FormuleTseitin<T> getOperandeD() const;
     FormuleTseitin<T> getOperande() const;
-    std::string toStringType() const;
     std::string toStringPrefix() const;
     std::string toString() const;
     void print() const;

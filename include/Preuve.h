@@ -12,7 +12,6 @@ public:
     Preuve(const std::vector<int>& arbre, const std::vector<int>& premisse, int id);
     Preuve(const std::vector<std::vector<int>>& conclusions, const std::vector<std::vector<int>>& premisses);
     ~Preuve();
-    Preuve getResteDeLArbre() const;
     std::vector<std::vector<int>> getPremisses() const {return premisses;};
     std::vector<std::vector<int>> getConclusions() const {return conclusions;};
     std::vector<int> getPremisse() const {return premisses[premisses.size()-1];};

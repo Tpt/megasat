@@ -132,27 +132,6 @@ template<typename T> string FormuleTseitin<T>::toStringPrefix() const
     }
 }
 
-template<typename T> string FormuleTseitin<T>::toStringType() const
-{
-    switch(type)
-    {
-        case FormuleTseitin<T>::VARIABLE :
-            return "var";
-        case FormuleTseitin<T>::NON :
-            return "~";
-        case FormuleTseitin<T>::OU :
-            return "ou ";
-        case FormuleTseitin<T>::ET :
-            return "et";
-        case FormuleTseitin<T>::IMPLIQUE :
-            return "=>";
-        case FormuleTseitin<T>::XOR :
-            return "xor";
-        default :
-            return "P'tet ben, j'en sais rien...";
-    }
-}
-
 template<typename T> string FormuleTseitin<T>::toString() const
 {
     switch(type)
