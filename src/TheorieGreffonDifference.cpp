@@ -6,13 +6,13 @@ using namespace std;
 typedef vector<vector<vector<pair<unsigned int,int>>>> type_adjacence;
 
 TheorieGreffonDifference::TheorieGreffonDifference() :
-atomes(vector<AtomeDifference>()), literalPerAtome(unordered_map<AtomeDifference,int>()), adjacence(type_adjacence()), varIdMax(0)
+atomes(vector<AtomeDifference>()), literalPerAtome(unordered_map<AtomeDifference,int>()), adjacence(type_adjacence(0)), varIdMax(0)
 {}
 
 void TheorieGreffonDifference::setCorrespondanceAtomes(const std::vector<AtomeDifference>& corr) {
     atomes = corr;
 
-    for(unsigned int i = 0; i <= atomes.size(); i++)
+    for(unsigned int i = 0; i < atomes.size(); i++)
     {
         AtomeDifference atome = atomes[i];
         literalPerAtome[atome] = static_cast<int>(i) + 1;

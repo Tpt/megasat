@@ -12,13 +12,14 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
     void setCorrespondanceAtomes(const std::vector<AtomeDifference>& corr);
-    std::vector<AtomeDifference> testePresenceCycleDePoidsNegatif(unsigned int depart);
 
 private:
     std::vector<AtomeDifference> atomes;
     std::unordered_map<AtomeDifference,int> literalPerAtome;
     std::vector<std::vector<std::vector<std::pair<unsigned int,int>>>> adjacence;
     unsigned int varIdMax;
+
+    std::vector<AtomeDifference> testePresenceCycleDePoidsNegatif(unsigned int depart);
 };
 
 #endif
