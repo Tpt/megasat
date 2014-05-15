@@ -124,16 +124,22 @@ Nous avons simplement rendu les classes TransformationTseitin et FormuleTseitin 
 
 
 
+Pour les exemples et expériences... On n'a pas trouvé de tests intéressants. De plus, plusieurs chose nous on fait juger les tests automatisés comme peu utiles. Notamment le fait qu'on génrère aléatoirement beaucoup de contradictions peu intéressantes à résoudres.
+Et peu de chronométrages. Aucun rigoureux en réalité. Si ce n'est que l'utilisateur se lasse vite lors de l'exécution d'un testcase un peu gros.
+
+
+
+
 
 
 En ce qui concerne la répartition du travail.
-Marc a fait le présent fm, le solveur de congruence, le -h, un bout de la TPropagation.
-Tpt a fait le solveur d'égalité, le solveur de différence, l'autre bout de la TPropagation et les exemples.
+Marc a fait le présent fm, le solveur de congruence, le -h, la TPropagation pour dpll.
+Tpt a fait le solveur d'égalité, le solveur de différence, de la TPropagation pour wl et les exemples.
 Le tout étant débuggué avec un arrache de cheveux commun.
 
 
 Avant la fin.
-On signale l'existance de -h et --help.
+On signale l'existance de -h et --help adapté à chaque programme.
 L'option -rapide peut être donné pour accélerer la résolution. Cela correspond à un solveur spécifique et overoptimisé.
 
 
@@ -142,6 +148,7 @@ L'option -rapide peut être donné pour accélerer la résolution. Cela correspo
 Messieurs, la session est clause (ahahahah !).
 
 
+Et pour ce dernier rendu, live long and prosper.
 
 === Rendu 3 ===
 Un rendu de Paques plus plein qu'un oeuf !
