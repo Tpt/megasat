@@ -42,7 +42,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 #ifdef DEBUG
     cout<<"B"<<endl;
 #endif
-    AtomeCongruence atomeSubstitue(appliquerSubstitutions(abs(id)));
+    AtomeCongruence atomeSubstitue(appliquerSubstitutions(static_cast<unsigned int>(abs(id))));
 #ifdef DEBUG
     cout<<"B"<<endl;
 #endif
@@ -145,7 +145,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 
         for(unsigned int i = 0; i < nombreDeVariablesAtomes; i++)
             if(valVariables[i] == FAUX)
-                if(!appliquerSubstitutions(i).isConflit())
+                if(!appliquerSubstitutions(i+1).isConflit())
                 {
                     clauseAApprendre.push_back(static_cast<int>(i) + 1);
                     return clauseAApprendre;
@@ -177,7 +177,7 @@ AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id
 #ifdef DEBUG
     cout<<"C "<<id<<" "<<atomes.size()<<endl;
 #endif
-    return AtomeCongruence(*appliquerSubstitutions(atomes[id].getGauche()), *appliquerSubstitutions(atomes[id].getDroite()));
+    return AtomeCongruence(*appliquerSubstitutions(atomes[id-1].getGauche()), *appliquerSubstitutions(atomes[id-1].getDroite()));
 }
 
 Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme terme) const
