@@ -156,8 +156,14 @@ bool DPLLSolveur::TPropagation()
     if(literauxAAssigner.empty())
         return false;
 
-    for(int lit : literauxAAssigner)
-        formule.setVar(lit, true);
+    for(int literalId : literauxAAssigner)
+    {
+#ifdef DEBUG
+        cout << "c deduction de la théorie : " << literalId << " vrai." << endl;
+#endif
+
+        formule.setVar(literalId, true);
+    }
 
     return true;
 }

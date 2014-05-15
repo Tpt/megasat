@@ -82,6 +82,7 @@ void DPLLSurveilleSolveur::assigneLiteral(int literalId)
     Literal* literal = formule.getLiteral(literalId);
     onLiteralAssigne(literal);
 
+    TPropagation();
     return assigneUneVariable();
 }
 
@@ -89,8 +90,7 @@ void DPLLSurveilleSolveur::onLiteralAssigne(Literal* literal)
 {
     int literalId = literal->getId();
 
-    unordered_set<Clause*> clauses = formule.getClauses();
-    for(Clause* clause : clauses)
+    for(Clause* clause : formule.getClauses())
     {
         //si elle contient le litéral assigné à vrai, on la supprime
         if(clause->literalPresent(literal))
@@ -147,5 +147,26 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
 #ifdef DEBUG
         cout << "c nouveaux literaux " << nouveauLiteral->getId() << ' ' << autreLiteralId << " a la place de " << literalId << ' ' << autreLiteralId << endl;
 #endif
+    }
+}
+
+void DPLLSurveilleSolveur::TPropagation()
+{
+    if(!gestionConflits.isCompatibleAvecTPropagation())
+        return;
+    
+    vector<int> literauxAAssigner = theorieGreffon.getTPropagations(static_cast<unsigned int>(profondeurPile));
+    
+    if(literauxAAssigner.empty())
+        return;
+    
+    for(int literalId : literauxAAssigner)
+    {
+#ifdef DEBUG
+        cout << "c deduction de la théorie : " << literalId << " vrai." << endl;
+#endif
+        Literal* literal = formule.getLiteral(literalId);
+        literal->setVal(true);
+        onLiteralAssigne(literal);
     }
 }
