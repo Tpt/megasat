@@ -1,10 +1,11 @@
 A propos des générateurs.
-Il y a 3 générateurs :
+Il y a 4 générateurs :
 gen : pour les cnf
 genTseitin : pour les formules générales
 genGraphe : pour les graphes
+ordonnancement : pour transcrire un problème d'ordonnancement en une formule pour le solveur de la théorie de différence
 
-gen prend comme argument le nombre de variables, le nombre de clauses et des bornes sur la taille des clauses.
+            gen prend comme argument le nombre de variables, le nombre de clauses et des bornes sur la taille des clauses.
 
 On peut faire par exemple 
 ./gen V C l L
@@ -19,18 +20,51 @@ On n'assure pas frand chose à propos de ce générateur. Si ce n'est qu'il util
 
 
 
-Les autres générateurs ont le même genre de fonctionnement.
+            Les 2 générateurs suivant ont le même genre de fonctionnement.
 
-genTseitin demande un nombre de variable ainsi qu'une profondeur min et max de la formule. Chaque connecteur est choisi aléatoirement récursivement.
+        genTseitin demande un nombre de variable ainsi qu'une profondeur min et max de la formule. Chaque connecteur est choisi aléatoirement récursivement.
 Le fichier de sortie est nommé
 tseitin_V_p_P.txt où V, p et P sont le nombre de variables, la profondeur min et la profondeur max.
 Les variables ont des noms en lettres minuscules générées dans l'ordre d'une façon débile.
 
-genGraphe demande un nombre de sommets et le nombre d'arêtes et retourne un graphe contenant exactement ce nombre de sommets et d'arêtes.
+        genGraphe demande un nombre de sommets et le nombre d'arêtes et retourne un graphe contenant exactement ce nombre de sommets et d'arêtes.
 Il donne un message d'erreur et quitte si le nombre d'arêtes dépasse n(n-1)/2
 
 
 
 genGraphe et gen incluent des commentaires dans le fichier de sorti pour rappeler les paramètres.
+
+
+
+            ordonnancement a une syntaxe bizarre à l'emploi.
+            
+On l'appelle avec la commande
+./ordonnancement
+Cela transcrit un problème d'ordonnancement dans un format curieux en une formule compréhensible par le solveur de différence. C'est un problème d'ordonnancement sur un seul processeur.
+Ensuite on lui donne une entrée dans le format suivant
+
+N 
+    un entier désignant le nombre de tâches. 1<=N<2^32
+    Sur les N lignes suivantes :
+délivré durée deadline
+    délivré : integer : 0<=délivré<2^31
+    durée : integer : 0<=délivré<2^31
+    deadline : integer : 0<=délivré<2^31
+    La ligne i décrit la tâche numéro i.
+    Elle est délivrée au moment délivré et peut être traité dès ce moment.
+    La tâche prend un temps durée d'exécution.
+    Et elle doit être exécutée avant 
+M
+    M un entier : 0<=M<2^32
+    Sur les M lignes suivantes :
+i j
+    où i et j sont des entiers 
+    1<=i<=N
+    1<=j<=N
+    i != j
+    i et j sont des numéros de tâches
+    une telle ligne signifie que la tâche i doit être exécutée avant la tâche j.
+
+
 
 

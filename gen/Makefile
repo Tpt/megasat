@@ -4,7 +4,7 @@ FLAGSBASE= -O3 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpoin
 NAZI= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused -Wsuggest-attribute=const -Wsuggest-attribute=noreturn -Wsuggest-attribute=pure -Wsign-conversion -Wunused -Wstrict-aliasing -Wstrict-overflow -Wunsafe-loop-optimizations -Wconversion -Wlogical-op -Wdisabled-optimization
 CFLAGS=$(NAZI)
 LDFLAGS=
-EXEC=setup gen genTseitin genGraphe
+EXEC=setup gen genTseitin genGraphe ordonnancement
 
 all: $(EXEC)
 
@@ -36,6 +36,12 @@ genGraphe: obj/genGraphe.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/genGraphe.o: genGraphe.cpp
+	$(CC) -o $@ -c $< $(C11) $(NAZI)
+	
+ordonnancement: obj/ordonnancement.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+	
+obj/ordonnancement.o: ordonnancement.cpp
 	$(CC) -o $@ -c $< $(C11) $(NAZI)
 
 clean:

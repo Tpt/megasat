@@ -15,6 +15,7 @@ colorie
 congruence_solver
 difference_solver
 egalite_solver
+ordonnancement
 core
 *.sty
 
