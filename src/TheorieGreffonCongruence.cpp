@@ -196,7 +196,7 @@ Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme* terme) const
 
     vector<Terme*> parametres(0);
 
-    if(terme->getParametres().size()==0)
+    if(terme->getParametres().empty())
         goto traitement_des_variables;
 
     for(Terme* t : terme->getParametres())
@@ -271,7 +271,7 @@ map<int, Terme> TheorieGreffonCongruence::unify(Terme gauche, Terme droite) cons
 
 map<int, Terme> TheorieGreffonCongruence::iterate(map<int, Terme> subst, vector<pair<Terme*, Terme*>> contraintes) const
 {
-    if(contraintes.size()==0)
+    if(contraintes.empty())
         return subst;
 
     pair<Terme*, Terme*> ab = contraintes[contraintes.size()-1];

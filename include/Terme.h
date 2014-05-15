@@ -13,7 +13,7 @@ public:
     Terme(const Terme& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
     Terme& operator=(const Terme& F);///Idem
     ~Terme();
-    bool isVariable() const {return parametres.size()==0;};
+    bool isVariable() const {return parametres.empty();};
     bool isFonction() const {return !isVariable();};
     std::string getSymbole() const {return symbole;};
     int getVariable() const {return variable;};
