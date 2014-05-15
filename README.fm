@@ -1,3 +1,139 @@
+=== Rendu 4 ===
+Ceci n'est pas un readme.
+
+\`{A} l'ordre du jour, nous avons :
+- Le solveur de la théorie de congruence
+- Le solveur de la théorie de différence
+- Le solveur de la théorie d'égalité
+- Ce qui les fait fonctionner (Tseitin notamment)
+
+Je vous préviens tout de suite, vous allez bouffer du conteneur template du C++ !
+
+
+
+Monsieur le président, si vous permettez, j'aimerais que nous commencions par la congruence. (Bien sûr, faites. Merci.)
+Le principe est de trouver une unification qui ne marche que où il faut.
+
+On commence par représenter les termes. Un terme est une variable (int) ou un symbole de fonction et un vector de Terme*. Un vector de taille nulle indique qu'on a une vraible, sinon c'est une fonction. La classe Terme est donc dangeureusement récursive ! Un atome de différence est une classe qui contient deux Termes et qui représente l'égalité. En effet on traite t_1 != t_2 comme non(t_1 = t_2).
+
+Un substitution est un pair<int, Terme> : la variable x_i (où i est le premier champ) se remplace en le terme du second champ.
+
+Un vector identifie les identifiant des variables correspondantes aux atomes de la théorie. En effet, ces identifiants sont consécutifs et sont les premiers. Aussi l'atome correspondant à la variable i est atomes[i-1] (car les variables sont numérotés depuis 1). Si i>atomes.size() alors ça ne correspond à rien et il s'agit juste d'une variable intermédiaire de la transformation de Tseitin.
+
+La structure retenant les substitutions est vector<map<int, Terme>>. Le vector sert à indexer les substitutions par leur niveau de décision. La map sert à regrouper toutes les substitutions d'un niveau.
+
+Lorsqu'on assigne un litéral, que ce soit par décision ou déduction, on en fait part au solveur de théorie. Il renvoie ensuite une clause à apprendre en cas de conflit. Une clause vide signale un absence de conflit. 
+Si la variable ne correspond pas à un atome de la formule, on arrête immédiatement en renvoyant une clause vide.
+Si la variable correspond à un atome, on disjoncte (encore) des cas :
+    - on assigne la variable de l'atome à vrai.
+        On substitue tout ce qu'on peut avec les substitutions passées. 
+            Si ça provoque un conflit on échoue et on renvoie la clause constituée de la disjonction de la négation de tous les litéraux vrais qui correspondent à des atomes.
+            Sinon, on continue.
+        On resoud le problème d'unification laissé.
+            S'il n'y pas de solution en renvoie la clause à apprendre constituée de la disjonction de la négation de tous les litéraux vrais qui correspondent à des atomes.
+            S'il on a réussi l'unification, on l'ajoute à la liste des substitutions du niveau courant. Puis on applique ces substitutions aux atomes dont la variable correspondante est couramment fausse. Et on cherche les conflits.
+                Si on a des conflits partout, on réussi et on renvoie une clause vide.
+                Si un atome n'a pas de conflit, il est donc vrai et donc n'a rien à faire en tant que faux. On échoue donc. Et on renvoie la clause constituée de la clause précédente à laquelle on ajoute la négation du litéral faux où il n'y a pas eu de conflit.
+                
+    - on assigne la variable de l'atome à faux.
+        On applique toutes les substitutions. Et on cherche les conflits.
+            Aucun conflit : comme précédemmment (opposées des litéraux vrais et de celui là)
+            
+            Un conflit : C'est bon et on renvoie une clause vide.
+            
+            
+La structure de données utilisée est clairement incrémentale. De plus, elle est persistante car, lors d'un backtrack, il suffit de supprimer toutes les cases du vector qui correspondent aux niveaux de décision supérieurs. 
+
+Il est long et couteux de faire de la T-propagation (propagation dans la théorie) de façon exhaustive. Comme nous n'avons pas trouvé plus intelligent, nous avons décider de ne pas la tenter.
+
+(Merci. [Clap clap clap])
+
+
+
+
+
+
+La parole est désormais au chargé des affaires de différences. (Merci, messieurs.)
+
+Les structures :
+    Un atome de différence est une classe contenant deux unsigned int représentant les indices des x_i et x_j et un int pour représenter n dans l'expression x_i - x_j <=n. Par des transformations à la portée du premier lycéen venu (jusqu'à la prochaine réforme des programmes...), on se ramène toujours à cette forme, quitte à adjoindre une variable fictive x_0 valant 0.
+    Le solveur de théorie identifie ses atomes par un vector (comme précédemmment) et a une rétro-correspondance par une unordered_map<AtomeDifference, int>.
+    Le graphe des inagalités est représenter par des listes d'adjacence un peu customisé (un arc correspondant à x_i - x_j <= n donne l'arc i ----> j pondéré avec n).
+        C'est un vector<vector<vector<pair<unsigned int, int>>>> ! Détaillons.
+        Le premier vector correspond au sommet auquel on s'intéresse.
+        Le second vector correspond au niveau de décision auquel les adjacences contenues ont été trouvées. Encore une fois, ça permet un backtrack facile. Et la structure est rendue facilement incrémentale de la même façon.
+        Le troisième vector est la liste des adjacences d'un sommet et décidées à un niveau donnée.
+        La pair représente le niveau de décision et la pondération de l'arête (notée n depuis le début).
+        
+L'algo :
+    Il suffit de mettre les arêtes correspondantes aux décisions ou déductions. Une variable à vrai est traitée immédiatement. Une variable fausse induit une autre arête :
+        non(x_i - x_j <= n) <=> x_i - x_j > n <=> x_j - x_i < n <=> x_j - x_i <= n-1
+        
+    Ensuite, on cherche un cycle de poids strictement négatif. En effet, cela correspond à une absurdité du genre : 0 < k où k est strictement négatif. On obtient ça en sommant les inégalités du cycle.
+    La clause à apprendre est alors la disjonction de la négation des litéraux correspondant au cycle.
+    Si il n'y a pas de tel cycle, on réussit sans clause à apprendre.
+    
+    
+    
+    
+
+
+Il est l'heure maintenant d'entendre l'intervention du délégué aux égalités (et minorité). (Messieurs l'heure est grave !)
+
+La structure :
+    Une égalité (un atome) est représentée par une classe contenant deux identifiant des variables de la théorie.
+    Le solveur de théorie contient pas mal de trucs pour son bon fonctionnement.
+        Un vector de correspondance
+        Une unordered_map de retro-correspondance
+        Un vector de représentant pour l'union-find expliqué plus loin (incrémental par nature)
+        Un vector de poids pour optimisé l'union-find.
+        Un vector<vector<unsigned int>> représentant l'historique des unions : le premier indexe en fonction du nieau de décision. Le second
+        Un vector<vector<AtomeEgalite>> qui contient les égalités fausse par niveau (differencesParNiveau)
+        
+L'algo :
+    A chaque égalité confirmée par le DPLL solveur, on fusionne les arbres de façon intelligente en fonction de leur taille.
+        Et on vérifie que les inégalités sont toujours vérifiées.
+    A chaque diségalité, on ajoute comme contrainte dans differencesParNiveau au bon niveau aorès avoir vérifié qu'elle n'est pas déjà fausse.
+    En cas de conflit, on a deux cas :
+        En cas d'ajout d'une diségalité fausse : il suffit d'ajouter les négation des égalités permettant de remonter des membres de la diségalité au représentant et la négation de la diségalité fausse.
+        Dans le cas d'une égalité fausse... on fait un dessin :
+        
+        i              j
+        |              |
+        |              |
+        |              |
+       / \            / \
+      /   \          /   \
+     k     n        m     l
+    
+    On veut fusionner n et m sachant que k != l. On a un conflit. On ajoute donc à la clause la négation des égalités sur le chemin de i à n, de i à k, de j à m, de j à l, la négation de l'égalité conflictuelle et de la diségalité de discorde.
+    
+    Le backtrack est facile car on ne fait pas de compression lors des union. Il suffit alors de suivre ce que historiqueFusions nous dit.
+    
+    
+    
+    
+Enfin, écoutons M G.S. Tseitin que nous recevons aujourd'hui. (C'est un grand honneur)
+
+Nous avons simplement rendu les classes TransformationTseitin et FormuleTseitin template de façon à prendre des string comme dans le rendu 2 mais aussi des atomes des différentes théorie dans la formule générale et de pouvoir appliquer la transformation sans peine. Transformation facile et fastidieuse...
+
+
+
+
+
+
+
+
+
+En ce qui concerne la répartition du travail.
+Marc a fait le présent fm, le solveur de congruence et des exemples.
+Tpt a fait le solveur d'égalité, le solveur de différence.
+Le tout étant débuggué avec un arrache de cheveux commun.
+
+Messieurs, la session est clause (ahahahah !).
+
+
+
 === Rendu 3 ===
 Un rendu de Paques plus plein qu'un oeuf !
 
