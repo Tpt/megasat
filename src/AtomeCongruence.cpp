@@ -14,8 +14,18 @@ AtomeCongruence::~AtomeCongruence()
 
 bool AtomeCongruence::isConflit() const
 {
+#ifdef DEBUG
     cout<<"E"<<endl;
+#endif
     return gauche.isConflit(droite);
+}
+
+bool AtomeCongruence::isConflitInsurmontable() const
+{
+#ifdef DEBUG
+    cout<<"F"<<endl;
+#endif
+    return gauche.isConflitInsurmontable(droite);
 }
 
 size_t AtomeCongruence::hash() const
@@ -32,5 +42,20 @@ bool AtomeCongruence::operator==(const AtomeCongruence& that) const
 
 string AtomeCongruence::toString()
 {
-    return gauche.toString()+" = "+droite.toString();
+#ifdef DEBUG
+    cout<<"T"<<endl;
+#endif
+    string s=gauche.toString();
+#ifdef DEBUG
+    cout<<"T"<<endl;
+#endif
+    s+=" = ";
+#ifdef DEBUG
+    cout<<"T"<<endl;
+#endif
+    s+=droite.toString();
+#ifdef DEBUG
+    cout<<"T"<<endl;
+#endif
+    return s;
 }

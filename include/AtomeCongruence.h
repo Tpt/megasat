@@ -12,6 +12,7 @@ public:
     Terme getGauche() const {return gauche;};
     Terme getDroite() const {return droite;};
     bool isConflit() const;
+    bool isConflitInsurmontable() const;
     size_t hash() const;
     bool operator==(const AtomeCongruence& that) const __attribute__((pure));
 

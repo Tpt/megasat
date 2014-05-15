@@ -1,4 +1,5 @@
 #include "../include/Terme.h"
+#include <iostream>
 #include <functional>
 
 using namespace std;
@@ -10,8 +11,16 @@ Terme::Terme(int variable_) : parametres(vector<Terme*>(0)), symbole(""), variab
 {}
 
 Terme::Terme(string f, const vector<Terme*>& arguments) :
-parametres(arguments), symbole(f), variable(-1)
-{}
+parametres(vector<Terme*>()), symbole(f), variable(-1)
+{
+    for(Terme* t : arguments)
+    {
+        if(t->isVariable())
+            parametres.push_back(new Terme(t->getVariable()));
+        else
+            parametres.push_back(new Terme(t->getSymbole(), t->getParametres()));
+    }
+}
 
 Terme::Terme(const Terme& F) :
 parametres(F.parametres), symbole(F.symbole), variable(F.variable)
@@ -43,7 +52,7 @@ void Terme::free()
 bool Terme::isConflit(Terme t) const
 {
     if(t.getParametres().size() * parametres.size() == 0 && t.getParametres().size() + parametres.size()!=0)
-        return false;
+        return true;
 
     if(t.getParametres().size() + parametres.size() == 0)
         return variable != t.getVariable();
@@ -55,6 +64,47 @@ bool Terme::isConflit(Terme t) const
         if(parametres[i]->isConflit(*(t.getParametres()[i])))
             return true;
 
+    return false;
+}
+
+bool Terme::isConflitInsurmontable(Terme t) const
+{
+    if(t.getParametres().size() * parametres.size() == 0 && t.getParametres().size() + parametres.size()!=0)
+    {
+#ifdef DEBUG
+        cout<<"1"<<endl;
+#endif
+        return false;
+    }
+
+    if(t.getParametres().size() + parametres.size() == 0)
+    {
+#ifdef DEBUG
+        cout<<"2"<<endl;
+#endif
+        return false;
+    }
+
+    if(t.getParametres().size() != parametres.size())
+    {
+#ifdef DEBUG
+        cout<<"3"<<endl;
+#endif
+        return true;
+    }
+
+    for(unsigned int i = 0; i < parametres.size(); i++)
+        if(parametres[i]->isConflitInsurmontable(*(t.getParametres()[i])))
+        {
+#ifdef DEBUG
+            cout<<"4"<<endl;
+#endif
+            return true;
+        }
+
+#ifdef DEBUG
+    cout<<"5"<<endl;
+#endif
     return false;
 }
 
@@ -87,6 +137,9 @@ bool Terme::operator==(const Terme& that) const
 
 string Terme::toString()
 {
+#ifdef DEBUG
+    cout<<"S: "<<parametres.size()<<endl;
+#endif
     if(parametres.size()==0)
         return "x_"+to_string(variable);
 

@@ -88,7 +88,9 @@ int main(int argc, char *argv[])
 
     FormuleTseitin<AtomeCongruence>* formuleTseitin = new FormuleTseitin<AtomeCongruence>(parseFormuleFile(arguments.getArgument("inputFile")));
 
+#ifdef DEBUG
     cout<<toString(*formuleTseitin)<<endl;
+#endif
 
     TransformationTseitin<AtomeCongruence> normalisateur(formuleTseitin);
 
@@ -116,7 +118,7 @@ int main(int argc, char *argv[])
         {
             for(pair<int, Terme> s : t)
             {
-                out <<"x"<<s.first<<" -> "<<s.second.toString()<<endl;
+                out <<"x_"<<s.first<<" -> "<<s.second.toString()<<endl;
             }
         }
     }

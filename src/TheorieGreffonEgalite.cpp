@@ -6,7 +6,7 @@ using namespace std;
 typedef vector<vector<vector<pair<unsigned int,int>>>> type_adjacence;
 
 TheorieGreffonEgalite::TheorieGreffonEgalite() :
-atomes(vector<AtomeEgalite>()), literalPerAtome(unordered_map<AtomeEgalite,int>()), egalite(vector<unsigned int>(0)), poids(vector<unsigned int>(0)), historiqueFusions(vector<vector<unsigned int>>(0)), causesFusions(unordered_map<AtomeEgalite,int>()), varIdMax(0)
+atomes(vector<AtomeEgalite>()), literalPerAtome(unordered_map<AtomeEgalite,int>()), egalite(vector<unsigned int>(0)), poids(vector<unsigned int>(0)), historiqueFusions(vector<vector<unsigned int>>(0)), causesFusions(unordered_map<AtomeEgalite,int>()), differencesParNiveau(vector<vector<AtomeEgalite>>()), varIdMax(0)
 {}
 
 void TheorieGreffonEgalite::setCorrespondanceAtomes(const std::vector<AtomeEgalite>& corr) {

@@ -46,7 +46,7 @@ int main()
     {
         for(unsigned int j=i+1;j<N;++j)
         {
-            cout<<"/\\ (x"<<i+1<<" - x"<< j+1 << " >= " << descr[j].t << " \\/ x"<< j+1 <<" - x"<< i+1 << " <= " << descr[i].t<<") ";
+            cout<<"/\\ (x"<<i+1<<" - x"<< j+1 << " >=   " << descr[j].t << " \\/ x"<< j+1 <<" - x"<< i+1 << " <= " << descr[i].t<<") ";
         }
     }
 
