@@ -20,9 +20,9 @@ protected:
     void initialisation();
     void assigneUneVariable();
     virtual void assigneLiteral(int literalId) = 0;
-    void onChoix(int literalId, int profondeurPile);
-    void onDeduction(Literal* literal, int clauseUid, int profondeurPile);
-    void onAssignation(int literalId, int profondeurPile);
+    void onChoix(int literalId);
+    void onDeduction(Literal* literal, int clauseUid);
+    void onAssignation(int literalId);
     void addClauses(std::map<int,std::vector<int>> clausesToAdd);
     virtual Clause* addClause(std::vector<int> clause, int uid);
 

@@ -32,19 +32,19 @@ int main(int argc, char *argv[])
     nomArguments[0]="inputFile";
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 1);
     arguments.parse(argc, argv);
-    
+
     LanceurSolveur lanceur(arguments, "c");
     ostream out(lanceur.getBufferSortie());
-    
+
     FormuleTseitin<AtomeEgalite>* formuleTseitin = new FormuleTseitin<AtomeEgalite>(parseFormuleFile(arguments.getArgument("inputFile")));
-    
+
     TransformationTseitin<AtomeEgalite> normalisateur(formuleTseitin);
-    
+
     auto beginTime = system_clock::now();
     Formule formule(normalisateur.normaliser());
     formuleTseitin->free();
     delete formuleTseitin;
-    
+
     try
     {
         TheorieGreffonEgalite theorieGreffon;
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
             correspondance[static_cast<size_t>(t.second - 1)]=t.first;
         
         theorieGreffon.setCorrespondanceAtomes(correspondance);
-        
+
         formule = lanceur.execute(formule, theorieGreffon);
 
         out << "s SATISFIABLE" << endl;

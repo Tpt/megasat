@@ -6,7 +6,7 @@ using namespace std;
 typedef vector<vector<vector<pair<unsigned int,int>>>> type_adjacence;
 
 TheorieGreffonEgalite::TheorieGreffonEgalite() :
-atomes(vector<AtomeEgalite>()), egalite(vector<unsigned int>(0)), poids(vector<unsigned int>(0)), historiqueFusions(vector<vector<unsigned int>>(0)), differencesParNiveau(vector<vector<AtomeEgalite>>(0)), varIdMax(0)
+atomes(vector<AtomeEgalite>()), egalite(vector<unsigned int>(0)), poids(vector<unsigned int>(0)), historiqueFusions(vector<vector<unsigned int>>(0)), differencesParNiveau(vector<vector<AtomeEgalite>>(0)), causesFusions(unordered_map<AtomeEgalite,int>()), varIdMax(0)
 {}
 
 void TheorieGreffonEgalite::setCorrespondanceAtomes(const std::vector<AtomeEgalite>& corr) {
@@ -16,7 +16,7 @@ void TheorieGreffonEgalite::setCorrespondanceAtomes(const std::vector<AtomeEgali
         literalPerAtome[atomes[i]] = static_cast<int>(i) + 1;
 
     varIdMax = 0;
-    for(AtomeEgalite atome : atomes) {
+    for(const AtomeEgalite& atome : atomes) {
         if(atome.getI() > varIdMax)
             varIdMax = atome.getI();
         if(atome.getJ() > varIdMax)
@@ -30,6 +30,7 @@ void TheorieGreffonEgalite::setCorrespondanceAtomes(const std::vector<AtomeEgali
     poids = vector<unsigned int>(varIdMax + 1, 1);
     historiqueFusions = vector<vector<unsigned int>>();
     differencesParNiveau = vector<std::vector<AtomeEgalite>>();
+    causesFusions = unordered_map<AtomeEgalite,int>();
 }
 
 vector<int> TheorieGreffonEgalite::onAssignation(int id, unsigned int niveau)
@@ -55,7 +56,10 @@ vector<int> TheorieGreffonEgalite::onAssignation(int id, unsigned int niveau)
 
         if(representantI != representantJ)
         {
-
+            causesFusions[AtomeEgalite(representantI, representantJ)] = id;
+#ifdef DEBUG
+cout << "fusion de  w" << representantI << "avec x" << representantJ << " au niveau " << niveau << endl;
+#endif
             if(poids[representantI] < poids[representantJ])
             {
                 egalite[representantI] = representantJ;
@@ -75,14 +79,9 @@ vector<int> TheorieGreffonEgalite::onAssignation(int id, unsigned int niveau)
         differencesParNiveau[niveau].push_back(atomeAssigne);
         if(representantI == representantJ)
         {
-            vector<AtomeEgalite> chaine1 = construitChaineEgalites(atomeAssigne.getI());
-            vector<AtomeEgalite> chaine2 = construitChaineEgalites(atomeAssigne.getJ());
-            vector<int> chaine;
-            chaine.reserve(chaine1.size() + chaine2.size() + 1);
-            for(AtomeEgalite& atome : chaine1)
-                chaine.push_back(literalPerAtome[atome]);
-            for(AtomeEgalite& atome : chaine2)
-                chaine.push_back(literalPerAtome[atome]);
+            vector<int> chaine = construitChaineEgalites(atomeAssigne.getI());
+            vector<int> chaine2 = construitChaineEgalites(atomeAssigne.getJ());
+            chaine.insert(chaine.end(), chaine2.begin(), chaine2.end());
             chaine.push_back(id);
             return chaine;
         }
@@ -112,12 +111,12 @@ unsigned int TheorieGreffonEgalite::findCC(unsigned int i) const
     return i;
 }
 
-vector<AtomeEgalite> TheorieGreffonEgalite::construitChaineEgalites(unsigned int i) const
+vector<int> TheorieGreffonEgalite::construitChaineEgalites(unsigned int i)
 {
-    vector<AtomeEgalite> chaine;
+    vector<int> chaine;
     while(egalite[i] != i)
     {
-        chaine.push_back(AtomeEgalite(i, egalite[i]));
+        chaine.push_back(causesFusions[AtomeEgalite(i, egalite[i])]);
         i = egalite[i];
     }
 
@@ -133,20 +132,16 @@ std::vector<int> TheorieGreffonEgalite::testeSiUnionCCPossible(unsigned int i, u
             unsigned int repJ = findCC(atomeP.getJ());
             if((repI == repFI && repJ == repFJ) || (repI == repFJ && repJ == repFI))
             {
-                vector<AtomeEgalite> chaine1 = construitChaineEgalites(i);
-                vector<AtomeEgalite> chaine2 = construitChaineEgalites(j);
-                vector<AtomeEgalite> chaine3 = construitChaineEgalites(atomeP.getI());
-                vector<AtomeEgalite> chaine4 = construitChaineEgalites(atomeP.getJ());
+                vector<int> chaine1 = construitChaineEgalites(i);
+                vector<int> chaine2 = construitChaineEgalites(j);
+                vector<int> chaine3 = construitChaineEgalites(atomeP.getI());
+                vector<int> chaine4 = construitChaineEgalites(atomeP.getJ());
                 vector<int> chaine;
                 chaine.reserve(chaine1.size() + chaine2.size() + chaine3.size() + chaine4.size() + 2);
-                for(AtomeEgalite& atome : chaine1)
-                    chaine.push_back(literalPerAtome[atome]);
-                for(AtomeEgalite& atome : chaine2)
-                    chaine.push_back(literalPerAtome[atome]);
-                for(AtomeEgalite& atome : chaine3)
-                    chaine.push_back(literalPerAtome[atome]);
-                for(AtomeEgalite& atome : chaine4)
-                    chaine.push_back(literalPerAtome[atome]);
+                chaine.insert(chaine.end(), chaine1.begin(), chaine1.end());
+                chaine.insert(chaine.end(), chaine2.begin(), chaine2.end());
+                chaine.insert(chaine.end(), chaine3.begin(), chaine3.end());
+                chaine.insert(chaine.end(), chaine4.begin(), chaine4.end());
                 chaine.push_back(- literalPerAtome[atomeP]);
                 chaine.push_back(literalPerAtome[AtomeEgalite(i, j)]);
                 return chaine;
@@ -166,8 +161,12 @@ void TheorieGreffonEgalite::onBacktrack(unsigned int l)
         for(auto iter = historiqueFusions[niveau].rbegin(); iter != historiqueFusions[niveau].rend(); iter++)
         {
             unsigned int merge = *iter;
-            poids[egalite[merge]] -= poids[merge];
+            unsigned int other = egalite[merge];
+            poids[other] -= poids[merge];
             egalite[merge] = merge;
+#ifdef DEBUG
+            cout << "suppression de la fusion de x" << merge << " avec x" << other << endl;
+#endif
         }
     }
     historiqueFusions.erase(historiqueFusions.begin() + static_cast<int>(l), historiqueFusions.end());
@@ -179,12 +178,13 @@ pair<vector<AtomeEgalite>,vector<AtomeEgalite>> TheorieGreffonEgalite::getEtatCo
     vector<AtomeEgalite> egalites;
     for(unsigned int i = 0; i <= varIdMax; i++) {
         if(egalite[i] != i)
-            egalites.push_back(AtomeEgalite(i, egalite[i]));
+            egalites.push_back(AtomeEgalite(i, findCC(i)));
     }
 
     vector<AtomeEgalite> inegalites;
     for(auto& atomeBag : differencesParNiveau)
-        inegalites.insert(inegalites.end(), atomeBag.begin(), atomeBag.end());
+        for(const AtomeEgalite& atome : atomeBag)
+            inegalites.push_back(AtomeEgalite(findCC(atome.getI()), findCC(atome.getJ())));
 
     return pair<vector<AtomeEgalite>,vector<AtomeEgalite>>(egalites, inegalites);
 }
@@ -200,8 +200,8 @@ vector<int> TheorieGreffonEgalite::getTPropagations(unsigned int niveau)
             unsigned int representantJ = findCC(atomes[i].getJ());
             if(representantI == representantJ)
             {
-                literauxAAssigner.push_back(i + 1);
-                TheorieGreffonSimple::onAssignation(i + 1, niveau);
+                literauxAAssigner.push_back(static_cast<int>(i) + 1);
+                TheorieGreffonSimple::onAssignation(static_cast<int>(i) + 1, niveau);
             }
         }
     }

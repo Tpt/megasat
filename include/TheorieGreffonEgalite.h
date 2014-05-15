@@ -21,12 +21,13 @@ private:
     std::vector<unsigned int> egalite;
     std::vector<unsigned int> poids;
     std::vector<std::vector<unsigned int>> historiqueFusions;
+    std::unordered_map<AtomeEgalite,int> causesFusions;
     std::vector<std::vector<AtomeEgalite>> differencesParNiveau;
     unsigned int varIdMax;
 
     void unionCC(unsigned int i, unsigned int j);
     unsigned int findCC(unsigned int i) const;
-    std::vector<AtomeEgalite> construitChaineEgalites(unsigned int i) const;
+    std::vector<int> construitChaineEgalites(unsigned int i);
     std::vector<int> testeSiUnionCCPossible(unsigned int i, unsigned int j, unsigned int repFI, unsigned int repFJ);
 };
 

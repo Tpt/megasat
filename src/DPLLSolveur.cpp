@@ -96,7 +96,7 @@ bool DPLLSolveur::simplificationUnitaire(Clause* clause)
     {
         if(!literal->isAssigne())
         {
-            onDeduction(literal, clause->getUid(), profondeurPile);
+            onDeduction(literal, clause->getUid());
             literal->setVal(true);
             return true;
         }

@@ -44,8 +44,7 @@ void DPLLSurveilleSolveur::initialiseClauseWatchedLiterals(Clause* clause)
 Literal* DPLLSurveilleSolveur::trouveLiteralASurveille(Clause* clause, Literal* autreLiteral)
 {
     list<Literal*> literauxASupprimer;
-    unordered_set<Literal*> literaux = clause->getLiteraux();
-    for(Literal* literal : literaux)
+    for(Literal* literal : clause->getLiteraux())
         switch(literal->eval())
         {
         case VRAI:
@@ -135,7 +134,7 @@ void DPLLSurveilleSolveur::assigneLiteralAFauxDansClause(Clause* clause, int lit
 #ifdef DEBUG
             cout << "c pas de choix : " << nouveauLiteral->getId() << " true" << endl; //il n'y a plus qu'un litéral dans la clause : il faut le mettre à vrai
 #endif
-            onDeduction(nouveauLiteral, clause->getUid(), profondeurPile);
+            onDeduction(nouveauLiteral, clause->getUid());
             nouveauLiteral->setVal(true);
             onLiteralAssigne(nouveauLiteral);
         }

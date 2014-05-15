@@ -81,14 +81,14 @@ template<typename T> T FormuleTseitin<T>::getName() const
 
 template<typename T> FormuleTseitin<T> FormuleTseitin<T>::getOperandeG() const
 {
-    if(getArite()!=2)
+    if(getArite() != 2)
         throw FormuleTseitinError("Le type devrait avoir une arité 2 !");
     return *operandeG;
 }
 
 template<typename T> FormuleTseitin<T> FormuleTseitin<T>::getOperandeD() const
 {
-    if(getArite()!=2)
+    if(getArite() != 2)
         throw FormuleTseitinError("Le type devrait avoir une arité 2 !");
     return *operandeD;
 }
