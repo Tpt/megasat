@@ -42,7 +42,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 #ifdef DEBUG
     cout<<"B"<<endl;
 #endif
-    AtomeCongruence atomeSubstitue(appliquerSubstitutions(static_cast<unsigned int>(id > 0 ? id : -id)));
+    AtomeCongruence atomeSubstitue(appliquerSubstitutions(abs(id)));
 #ifdef DEBUG
     cout<<"B"<<endl;
 #endif
