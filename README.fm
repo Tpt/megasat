@@ -126,6 +126,7 @@ Nous avons simplement rendu les classes TransformationTseitin et FormuleTseitin 
 
 Pour les exemples et expériences... On n'a pas trouvé de tests intéressants. De plus, plusieurs chose nous on fait juger les tests automatisés comme peu utiles. Notamment le fait qu'on génrère aléatoirement beaucoup de contradictions peu intéressantes à résoudres.
 Et peu de chronométrages. Aucun rigoureux en réalité. Si ce n'est que l'utilisateur se lasse vite lors de l'exécution d'un testcase un peu gros.
+On note l'existance de ordonnancement dans les générateurs. Il prend une entrée dans un format spécifique et renvoie la formule correspondant au problème d'ordonnancement. Il est documenté dans gen/gen.fm
 
 
 
