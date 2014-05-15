@@ -18,6 +18,7 @@ private:
     void assigneLiteralAFauxDansClause(Clause* clause, int literalId, int autreLiteralId);
     virtual Clause* addClause(std::vector<int> clause, int uid);
     void initialiseClauseWatchedLiterals(Clause* clause);
+    void TPropagation();
 };
 
 #endif
