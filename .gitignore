@@ -14,6 +14,7 @@ tseitin
 colorie
 congruence_solver
 difference_solver
+egalite_solver
 core
 *.sty
 
