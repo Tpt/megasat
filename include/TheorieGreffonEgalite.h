@@ -12,6 +12,7 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
     void setCorrespondanceAtomes(const std::vector<AtomeEgalite>& corr);
+    std::pair<std::vector<AtomeEgalite>,std::vector<AtomeEgalite>> getEtatCourant() const;
 
 private:
     std::vector<AtomeEgalite> atomes;
@@ -25,7 +26,7 @@ private:
     void unionCC(unsigned int i, unsigned int j);
     unsigned int findCC(unsigned int i) const;
     std::vector<AtomeEgalite> construitChaineEgalites(unsigned int i) const;
-    std::vector<int> testeSiUnionCCPossible(unsigned int i, unsigned int j);
+    std::vector<int> testeSiUnionCCPossible(unsigned int i, unsigned int j, unsigned int repFI, unsigned int repFJ);
 };
 
 #endif

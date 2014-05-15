@@ -57,6 +57,12 @@ int main(int argc, char *argv[])
         formule = lanceur.execute(formule, theorieGreffon);
 
         out << "s SATISFIABLE" << endl;
+
+        pair<vector<AtomeEgalite>,vector<AtomeEgalite>> etat = theorieGreffon.getEtatCourant();
+        for(AtomeEgalite atome : etat.first)
+            out << "x" << atome.getI() << " = x" << atome.getJ() << endl;
+        for(AtomeEgalite atome : etat.second)
+            out << "x" << atome.getI() << " != x" << atome.getJ() << endl;
     }
     catch(InsatisfiableException)
     {
