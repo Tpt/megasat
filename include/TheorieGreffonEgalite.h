@@ -25,7 +25,7 @@ private:
     unsigned int varIdMax;
 
     void unionCC(unsigned int i, unsigned int j);
-    unsigned int findCC(unsigned int i) const;
+    unsigned int findCC(unsigned int i) const __attribute__((pure));
     std::vector<AtomeEgalite> construitChaineEgalites(unsigned int i) const;
     std::vector<int> testeSiUnionCCPossible(unsigned int i, unsigned int j, unsigned int repFI, unsigned int repFJ);
 };

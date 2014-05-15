@@ -6,7 +6,7 @@ using namespace std;
 typedef vector<vector<vector<pair<unsigned int,int>>>> type_adjacence;
 
 TheorieGreffonEgalite::TheorieGreffonEgalite() :
-atomes(vector<AtomeEgalite>()), egalite(vector<unsigned int>(0)), poids(vector<unsigned int>(0)), historiqueFusions(vector<vector<unsigned int>>(0)), differencesParNiveau(vector<vector<AtomeEgalite>>(0)), varIdMax(0)
+atomes(vector<AtomeEgalite>()),literalPerAtome(unordered_map<AtomeEgalite,int>()), egalite(vector<unsigned int>(0)), poids(vector<unsigned int>(0)), historiqueFusions(vector<vector<unsigned int>>(0)), differencesParNiveau(vector<vector<AtomeEgalite>>(0)), varIdMax(0)
 {}
 
 void TheorieGreffonEgalite::setCorrespondanceAtomes(const std::vector<AtomeEgalite>& corr) {
@@ -200,8 +200,8 @@ vector<int> TheorieGreffonEgalite::getTPropagations(unsigned int niveau)
             unsigned int representantJ = findCC(atomes[i].getJ());
             if(representantI == representantJ)
             {
-                literauxAAssigner.push_back(i + 1);
-                TheorieGreffonSimple::onAssignation(i + 1, niveau);
+                literauxAAssigner.push_back(static_cast<int>(i + 1));
+                TheorieGreffonSimple::onAssignation(static_cast<int>(i + 1), niveau);
             }
         }
     }
