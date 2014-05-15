@@ -27,7 +27,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 {
 #ifdef DEBUG
     cout<<endl<<endl<<"entre ici :"<<id<<" "<<niveau<<endl;
-    for(unsigned int i=0;i<atomes.size();++i)
+    for(unsigned int i = 0; i < atomes.size(); ++i)
         cout<<i<<" "<<atomes[i].toString()<<endl;
 #endif
 
@@ -56,7 +56,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
     cout<<"B"<<endl;
 
 
-    for(unsigned int i=0;i<substitutions.size();++i)
+    for(unsigned int i = 0; i < substitutions.size();++i)
     {
         cout<<i<<": "<<endl;
         for(pair<int, Terme> t : substitutions[i])
@@ -130,7 +130,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
         catch(nonUnifiableException& a)
         {
 #ifdef DEBUG
-            cout<<"SOS ! On a ne excepton !"<<endl;
+            cout<<"SOS ! On a une exception !"<<endl;
 #endif
             return clauseAApprendre;
         }
@@ -177,7 +177,7 @@ AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id
 #ifdef DEBUG
     cout<<"C "<<id<<" "<<atomes.size()<<endl;
 #endif
-    return AtomeCongruence(*appliquerSubstitutions(atomes[id-1].getGauche()), *appliquerSubstitutions(atomes[id-1].getDroite()));
+    return AtomeCongruence(*appliquerSubstitutions(atomes[id].getGauche()), *appliquerSubstitutions(atomes[id].getDroite()));
 }
 
 Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme terme) const
@@ -196,7 +196,7 @@ Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme* terme) const
 
     vector<Terme*> parametres(0);
 
-    if(terme->getParametres().size()==0)
+    if(terme->getParametres().empty())
         goto traitement_des_variables;
 
     for(Terme* t : terme->getParametres())
@@ -271,7 +271,7 @@ map<int, Terme> TheorieGreffonCongruence::unify(Terme gauche, Terme droite) cons
 
 map<int, Terme> TheorieGreffonCongruence::iterate(map<int, Terme> subst, vector<pair<Terme*, Terme*>> contraintes) const
 {
-    if(contraintes.size()==0)
+    if(contraintes.empty())
         return subst;
 
     pair<Terme*, Terme*> ab = contraintes[contraintes.size()-1];
