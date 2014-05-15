@@ -44,7 +44,7 @@ void ArgumentsParser::parse(int argc, char* argv[])
             }
         }
     }
-    if(compteurArguments < nombreArgumentsObligatoires && !options["h"] && !options["-help"])
+    if(compteurArguments < nombreArgumentsObligatoires && !demandeAide())
     {
         cerr << "c Seulement " << compteurArguments << " arguments ont été fournis." << endl;
         exit( EXIT_FAILURE );

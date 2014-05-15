@@ -33,7 +33,7 @@ string toString(FormuleTseitin<AtomeCongruence> t)
         case FormuleTseitin<AtomeCongruence>::VARIABLE :
             return t.getName().toString();
         case FormuleTseitin<AtomeCongruence>::NON :
-            return "~" + toString(t.getOperandeG());
+            return "~" + toString(t.getOperande());
         case FormuleTseitin<AtomeCongruence>::OU :
             return "(" + toString(t.getOperandeG()) + " \\/ " + toString(t.getOperandeD()) + ")";
         case FormuleTseitin<AtomeCongruence>::ET :

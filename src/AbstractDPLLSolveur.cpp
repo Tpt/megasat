@@ -38,7 +38,7 @@ void AbstractDPLLSolveur::assigneUneVariable()
     profondeurPile++;
     try
     {
-        onChoix(literalId, profondeurPile);
+        onChoix(literalId);
         assigneLiteral(literalId);
     }
     catch(InsatisfiableExceptionAvecClauses& exception)
@@ -56,7 +56,7 @@ void AbstractDPLLSolveur::assigneUneVariable()
         try
         {
             profondeurPile++;
-            onChoix(-literalId, profondeurPile);
+            onChoix(-literalId);
             assigneLiteral(-literalId);
         }
         catch(InsatisfiableExceptionAvecClauses& exception2)
@@ -71,29 +71,29 @@ void AbstractDPLLSolveur::assigneUneVariable()
     }
 }
 
-void AbstractDPLLSolveur::onChoix(int literalId, int profondeurPile_)
+void AbstractDPLLSolveur::onChoix(int literalId)
 {
-    gestionConflits.onChoix(literalId, profondeurPile_);
-    onAssignation(literalId, profondeurPile_);
+    gestionConflits.onChoix(literalId, profondeurPile);
+    onAssignation(literalId);
 }
 
-void AbstractDPLLSolveur::onDeduction(Literal* literal, int clauseUid, int profondeurPile_)
+void AbstractDPLLSolveur::onDeduction(Literal* literal, int clauseUid)
 {
-    gestionConflits.onDeduction(literal, clauseUid, profondeurPile_);
-    onAssignation(literal->getId(), profondeurPile_);
+    gestionConflits.onDeduction(literal, clauseUid, profondeurPile);
+    onAssignation(literal->getId());
 }
 
-void AbstractDPLLSolveur::onAssignation(int literalId, int profondeurPile_)
+void AbstractDPLLSolveur::onAssignation(int literalId)
 {
-    vector<int> clauseAAjouter = theorieGreffon.onAssignation(literalId, static_cast<unsigned int>(profondeurPile_));
+    vector<int> clauseAAjouter = theorieGreffon.onAssignation(literalId, static_cast<unsigned int>(profondeurPile));
 
     if(clauseAAjouter.size() > 0)
     {
-        InsatisfiableExceptionAvecClauses exception(0);
+        InsatisfiableExceptionAvecClauses exception;
         exception.addClause(pair<int,vector<int>>(Clause::genUid(), clauseAAjouter));
-        gestionConflits.onBacktrack(profondeurPile_);
-        theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile_));
-        profondeurPile_--;
+        gestionConflits.onBacktrack(profondeurPile);
+        theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile));
+        profondeurPile--;
         throw exception;
     }
 }
@@ -101,8 +101,8 @@ void AbstractDPLLSolveur::onAssignation(int literalId, int profondeurPile_)
 void __attribute__((noreturn)) AbstractDPLLSolveur::leveExceptionLorsConflit(Clause* clause)
 {
     auto retour = gestionConflits.onConflit(clause->getUid(), profondeurPile);
-    gestionConflits.onBacktrack(profondeurPile);
-    theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile));
+    gestionConflits.onBacktrack(profondeurPile - retour.first);
+    theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile - retour.first));
     profondeurPile--;
     InsatisfiableExceptionAvecClauses exception(retour.first);
     if(retour.second.first >= 0)
