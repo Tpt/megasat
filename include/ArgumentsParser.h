@@ -12,6 +12,7 @@ public:
     void parse(int argc, char* argv[]);
     std::string getArgument(std::string nom);
     bool getOption(std::string nom);
+    bool demandeAide();
 private:
     std::map<std::string, std::string> arguments;
     std::vector<std::string> nomsArguments;

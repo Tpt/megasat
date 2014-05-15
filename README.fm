@@ -110,6 +110,7 @@ L'algo :
     
     Le backtrack est facile car on ne fait pas de compression lors des union. Il suffit alors de suivre ce que historiqueFusions nous dit.
     
+Dans cette théorie, on fait de la TPropagation. Il suffit de trouver un arbre dont deux éléments ont une relation d'égalité inconnue (et donc nécessairement vraie). La structure renvoyée est un vector<int> des litéraux à assigner.
     
     
     
@@ -126,9 +127,17 @@ Nous avons simplement rendu les classes TransformationTseitin et FormuleTseitin 
 
 
 En ce qui concerne la répartition du travail.
-Marc a fait le présent fm, le solveur de congruence et des exemples.
+Marc a fait le présent fm, le solveur de congruence, un bout de la TPropagation et des exemples.
 Tpt a fait le solveur d'égalité, le solveur de différence.
 Le tout étant débuggué avec un arrache de cheveux commun.
+
+
+Avant la fin.
+On signale l'existance de -h et --help.
+L'option -rapide peut être donné pour accélerer la résolution. Cela correspond à un solveur spécifique et overoptimisé.
+
+
+
 
 Messieurs, la session est clause (ahahahah !).
 
