@@ -12,6 +12,7 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau) = 0; //Si fail, renvoie clause à apprendre
     virtual void onBacktrack(unsigned int l) = 0; //Remonter au niveau l
     virtual void onBeginning(Formule* formule) = 0;
+    virtual std::vector<int> getTPropagations(unsigned int niveau);
     virtual bool avecEliminationLiterauxPurs() const = 0;
 
 protected:

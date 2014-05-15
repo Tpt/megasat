@@ -56,7 +56,7 @@ void DPLLSolveur::verifierAPasClauseVide()
 void DPLLSolveur::simplifier() ///Arret mortellement dangereux ! Mais garanti 100% safe (a quelques exceptions près).
 {
     compacter();
-    while(propagationUnitaire() || eliminationLiterauxPurs())
+    while(propagationUnitaire() || eliminationLiterauxPurs() || TPropagation())
         compacter();
 }
 
@@ -144,4 +144,20 @@ bool DPLLSolveur::simplificationLiteralPur(int id)
     }
 
     return false;
+}
+
+bool DPLLSolveur::TPropagation()
+{
+    if(!gestionConflits.isCompatibleAvecTPropagation())
+        return false;
+
+    vector<int> literauxAAssigner = theorieGreffon.getTPropagations(static_cast<unsigned int>(profondeurPile));
+
+    if(literauxAAssigner.empty())
+        return false;
+
+    for(int lit : literauxAAssigner)
+        formule.setVar(lit, true);
+
+    return true;
 }

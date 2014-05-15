@@ -12,6 +12,7 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
     void setCorrespondanceAtomes(const std::vector<AtomeEgalite>& corr);
+    virtual std::vector<int> getTPropagations(unsigned int niveau);
     std::pair<std::vector<AtomeEgalite>,std::vector<AtomeEgalite>> getEtatCourant() const;
 
 private:

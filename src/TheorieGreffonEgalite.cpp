@@ -55,7 +55,7 @@ vector<int> TheorieGreffonEgalite::onAssignation(int id, unsigned int niveau)
 
         if(representantI != representantJ)
         {
-            
+
             if(poids[representantI] < poids[representantJ])
             {
                 egalite[representantI] = representantJ;
@@ -187,4 +187,23 @@ pair<vector<AtomeEgalite>,vector<AtomeEgalite>> TheorieGreffonEgalite::getEtatCo
         inegalites.insert(inegalites.end(), atomeBag.begin(), atomeBag.end());
 
     return pair<vector<AtomeEgalite>,vector<AtomeEgalite>>(egalites, inegalites);
+}
+
+vector<int> TheorieGreffonEgalite::getTPropagations(unsigned int niveau)
+{
+    vector<int> literauxAAssigner;
+    for(unsigned int i = 0; i < atomes.size(); ++i)
+    {
+        if(valVariables[i]==INCONNU)
+        {
+            unsigned int representantI = findCC(atomes[i].getI());
+            unsigned int representantJ = findCC(atomes[i].getJ());
+            if(representantI == representantJ)
+            {
+                literauxAAssigner.push_back(i+1);
+                TheorieGreffonSimple::onAssignation(i+1, niveau);
+            }
+        }
+    }
+    return literauxAAssigner;
 }

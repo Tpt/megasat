@@ -17,6 +17,7 @@ public:
     virtual void addClause(std::vector<int>& clause, int uid);
     virtual std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
     virtual void afficheStatistiques(std::streambuf* sortie, const std::string& debutCommentaire) const;
+    virtual bool isCompatibleAvecTPropagation() const {return true;};
 protected:
     int conflitsNum;
     int prochainConflit;
@@ -48,6 +49,7 @@ public:
     std::pair<int,std::pair<int,std::vector<int>>> onConflit(int clauseUid, int profondeurPile);
     int getNiveauBacktrack(const std::vector<int>& clause) const;
     void afficheStatistiques(std::streambuf* sortie, const std::string& debutCommentaire) const;
+    virtual bool isCompatibleAvecTPropagation() const {return false;};
 private:
     void displayInterface(ConstructeurPreuve constructeurPreuve);
     void addClause(const Clause* clause);

@@ -18,6 +18,7 @@ private:
     bool propagationUnitaire();
     bool simplificationUnitaire(Clause* clause);
     bool simplificationLiteralPur(int id);
+    bool TPropagation();
 };
 
 #endif

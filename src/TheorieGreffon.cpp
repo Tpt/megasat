@@ -9,6 +9,11 @@ TheorieGreffon::TheorieGreffon()
 TheorieGreffon::~TheorieGreffon()
 {}
 
+vector<int> TheorieGreffon::getTPropagations(unsigned int niveau)
+{
+    return vector<int>(0);
+}
+
 TheorieGreffonLogique::TheorieGreffonLogique()
 {}
 
