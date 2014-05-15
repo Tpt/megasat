@@ -11,7 +11,7 @@ CFLAGS=$(NAZI)
 LDFLAGS= 
 SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/MinisatSolveur.o obj/clause.o obj/formule.o obj/.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o obj/GestionConflits.o obj/Preuve.o obj/LatexPrinter.o obj/ConstructeurPreuve.o obj/GraphvizConflitOutput.o obj/TheorieGreffon.o
 EXEC=setup resol tseitin colorie
-EXEC=setup resol tseitin colorie congruence_solver difference_solver
+EXEC=setup resol tseitin colorie congruence_solver difference_solver egalite_solver
 LEX=flex
 YACC=bison
 
@@ -43,6 +43,9 @@ congruence_solver:  $(SOLVEURS) obj/CongruenceParserLogiqueParser.o obj/Congruen
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 difference_solver:  $(SOLVEURS) obj/DifferenceParserLogiqueParser.o obj/DifferenceParserLogiqueLexer.o obj/DifferenceParserDriver.o obj/DifferenceParserLexer.o obj/AtomeDifference.o obj/TheorieGreffon.o obj/TheorieGreffonDifference.o obj/main-difference.o
+	$(CC) -o $@ $^ $(LDFLAGS)
+
+egalite_solver:  $(SOLVEURS) obj/EgaliteParserLogiqueParser.o obj/EgaliteParserLogiqueLexer.o obj/EgaliteParserDriver.o obj/EgaliteParserLexer.o obj/AtomeEgalite.o obj/TheorieGreffon.o obj/TheorieGreffonEgalite.o obj/main-egalite.o
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/clause.o: src/Clause.cpp
@@ -85,6 +88,9 @@ obj/TheorieGreffonCongruence.o: src/TheorieGreffonCongruence.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 obj/TheorieGreffonDifference.o: src/TheorieGreffonDifference.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+
+obj/TheorieGreffonEgalite.o: src/TheorieGreffonEgalite.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/VariableNonAssigneeProvider.o: src/VariableNonAssigneeProvider.cpp
@@ -165,6 +171,24 @@ obj/DifferenceParserDriver.o: parser/difference/driver.cpp
 obj/DifferenceParserLexer.o: parser/difference/lexer.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
+obj/EgaliteParserLogiqueParser.o: parser/egalite/egaliteParser.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+parser/egalite/egaliteParser.cpp: parser/egalite/egalite.y
+	$(YACC) -dv -o $@ $<
+
+obj/EgaliteParserLogiqueLexer.o: parser/egalite/egaliteLexer.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+parser/egalite/egaliteLexer.cpp: parser/egalite/egalite.lex
+	$(LEX) -o $@ $<
+
+obj/EgaliteParserDriver.o: parser/egalite/driver.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
+obj/EgaliteParserLexer.o: parser/egalite/lexer.cpp
+	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+
 obj/Arete.o: src/Arete.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
@@ -201,6 +225,9 @@ obj/AtomeCongruence.o: src/AtomeCongruence.cpp
 obj/AtomeDifference.o: src/AtomeDifference.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
+obj/AtomeEgalite.o: src/AtomeEgalite.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+
 obj/main-resol.o: main-resol.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
@@ -214,6 +241,9 @@ obj/main-congruence.o: main-congruence.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/main-difference.o: main-difference.cpp
+	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
+	
+obj/main-egalite.o: main-egalite.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 
 clean:

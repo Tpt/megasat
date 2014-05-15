@@ -163,7 +163,7 @@ void DPLLSurveilleSolveur::TPropagation()
     for(int literalId : literauxAAssigner)
     {
 #ifdef DEBUG
-        cout << "c deduction de la théorie : " << literalId << " vrai." << endl;
+        cout << "c deduction de la théorie : " << literalId << " true." << endl;
 #endif
         Literal* literal = formule.getLiteral(literalId);
         literal->setVal(true);

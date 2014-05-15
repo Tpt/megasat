@@ -194,14 +194,14 @@ vector<int> TheorieGreffonEgalite::getTPropagations(unsigned int niveau)
     vector<int> literauxAAssigner;
     for(unsigned int i = 0; i < atomes.size(); ++i)
     {
-        if(valVariables[i]==INCONNU)
+        if(valVariables[i] == INCONNU)
         {
             unsigned int representantI = findCC(atomes[i].getI());
             unsigned int representantJ = findCC(atomes[i].getJ());
             if(representantI == representantJ)
             {
-                literauxAAssigner.push_back(i+1);
-                TheorieGreffonSimple::onAssignation(i+1, niveau);
+                literauxAAssigner.push_back(i + 1);
+                TheorieGreffonSimple::onAssignation(i + 1, niveau);
             }
         }
     }
