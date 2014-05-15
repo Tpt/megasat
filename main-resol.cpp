@@ -31,6 +31,12 @@ int main(int argc, char *argv[])
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 1);
     arguments.parse(argc, argv);
 
+    if(arguments.demandeAide())
+    {
+        cout<<"A l'aide !"<<endl;
+        return(EXIT_SUCCESS);
+    }
+
     LanceurSolveur lanceur(arguments, "c");
 
     Formule formule = parseCnfFile(arguments.getArgument("inputFile"));

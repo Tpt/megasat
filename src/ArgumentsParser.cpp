@@ -8,6 +8,14 @@ arguments(map<string,string>()), nomsArguments(nomsArguments_), options(map<stri
 {
     for(string option : nomsOptions)
         options[option] = false;
+
+    options["h"] = false;
+    options["-help"] = false;
+}
+
+bool ArgumentsParser::demandeAide()
+{
+    return options["h"] || options["-help"];
 }
 
 void ArgumentsParser::parse(int argc, char* argv[])
@@ -36,7 +44,7 @@ void ArgumentsParser::parse(int argc, char* argv[])
             }
         }
     }
-    if(compteurArguments < nombreArgumentsObligatoires)
+    if(compteurArguments < nombreArgumentsObligatoires && !options["h"] && !options["-help"])
     {
         cerr << "c Seulement " << compteurArguments << " arguments ont été fournis." << endl;
         exit( EXIT_FAILURE );
