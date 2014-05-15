@@ -55,7 +55,35 @@ int main(int argc, char *argv[])
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 1);
     arguments.parse(argc, argv);
 
-    LanceurSolveur lanceur(arguments, "c");
+    if(arguments.demandeAide())
+    {
+        cout<<endl<<"Syntaxe :"<<endl;
+        cout<<"./congruence_solver nom_de_fichier.txt"<<endl;
+
+        cout<<endl<<"Solveurs : "<<endl;
+        cout<<"-dp              Davis-Putnam"<<endl;
+        cout<<"-dpll            DPLL (défaut)"<<endl;
+        cout<<"-wl              Watched Literals"<<endl;
+        cout<<"-rapide          Un solveur plus rapide encore"<<endl<<endl;
+        cout<<"Heuristiques (seulement avec -dpll et -wl) : "<<endl;
+        cout<<"-simple"<<endl;
+        cout<<"-rand"<<endl;
+        cout<<"-malin"<<endl;
+        cout<<"-dlis"<<endl;
+        cout<<"-moms            (default)"<<endl<<endl;
+        cout<<"Clause Learning (seulement avec -dpll et -wl) :"<<endl;
+        cout<<"-cl              Clause Learning simple"<<endl;
+        cout<<"-cl-interac      Clause Learning interactif"<<endl<<endl;
+        cout<<"Divers :"<<endl;
+        cout<<"-v               Verbose"<<endl;
+        cout<<"-s               Silencieux"<<endl;
+        cout<<"-h               Vous y êtes"<<endl;
+        cout<<"--help           Vous y êtes"<<endl<<endl;
+        return(EXIT_SUCCESS);
+    }
+
+
+    LanceurSolveur lanceur(arguments, "c", SolveurType::DPLL, HeuristiqueType::MOMS);
     ostream out(lanceur.getBufferSortie());
 
     FormuleTseitin<AtomeCongruence>* formuleTseitin = new FormuleTseitin<AtomeCongruence>(parseFormuleFile(arguments.getArgument("inputFile")));

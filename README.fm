@@ -127,8 +127,8 @@ Nous avons simplement rendu les classes TransformationTseitin et FormuleTseitin 
 
 
 En ce qui concerne la répartition du travail.
-Marc a fait le présent fm, le solveur de congruence, un bout de la TPropagation et des exemples.
-Tpt a fait le solveur d'égalité, le solveur de différence.
+Marc a fait le présent fm, le solveur de congruence, le -h, un bout de la TPropagation.
+Tpt a fait le solveur d'égalité, le solveur de différence, l'autre bout de la TPropagation et les exemples.
 Le tout étant débuggué avec un arrache de cheveux commun.
 
 

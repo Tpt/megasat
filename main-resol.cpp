@@ -33,7 +33,29 @@ int main(int argc, char *argv[])
 
     if(arguments.demandeAide())
     {
-        cout<<"A l'aide !"<<endl;
+        cout<<endl<<"Syntaxe :"<<endl;
+        cout<<"./resol nom_de_fichier.cnf"<<endl;
+        cout<<"Où nom_de_fichier.cnf est au format CNF"<<endl;
+
+        cout<<endl<<"Solveurs : "<<endl;
+        cout<<"-dp              Davis-Putnam"<<endl;
+        cout<<"-dpll            DPLL (défaut)"<<endl;
+        cout<<"-wl              Watched Literals"<<endl;
+        cout<<"-rapide          Un solveur plus rapide encore"<<endl<<endl;
+        cout<<"Heuristiques (seulement avec -dpll et -wl) : "<<endl;
+        cout<<"-simple          (default)"<<endl;
+        cout<<"-rand"<<endl;
+        cout<<"-malin"<<endl;
+        cout<<"-dlis"<<endl;
+        cout<<"-moms"<<endl<<endl;
+        cout<<"Clause Learning (seulement avec -dpll et -wl) :"<<endl;
+        cout<<"-cl              Clause Learning simple"<<endl;
+        cout<<"-cl-interac      Clause Learning interactif"<<endl<<endl;
+        cout<<"Divers :"<<endl;
+        cout<<"-v               Verbose"<<endl;
+        cout<<"-s               Silencieux"<<endl;
+        cout<<"-h               Vous y êtes"<<endl;
+        cout<<"--help           Vous y êtes"<<endl<<endl;
         return(EXIT_SUCCESS);
     }
 

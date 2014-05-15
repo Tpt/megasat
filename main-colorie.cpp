@@ -35,6 +35,36 @@ int main(int argc, char *argv[])
     ArgumentsParser arguments(nomArguments, LanceurSolveur::getNomsOptions(), 2);
     arguments.parse(argc, argv);
 
+    if(arguments.demandeAide())
+    {
+        cout<<endl<<"Syntaxe :"<<endl;
+        cout<<"./colorie k nom_de_fichier.col"<<endl;
+        cout<<"Où k est le nombre de couleurs pour colorier le graphe"<<endl;
+
+        cout<<endl<<"Solveurs : "<<endl;
+        cout<<"-dp              Davis-Putnam"<<endl;
+        cout<<"-dpll            DPLL"<<endl;
+        cout<<"-wl              Watched Literals (défaut)"<<endl;
+        cout<<"-rapide          Un solveur plus rapide encore"<<endl<<endl;
+        cout<<"Heuristiques (seulement avec -dpll et -wl) : "<<endl;
+        cout<<"-simple"<<endl;
+        cout<<"-rand"<<endl;
+        cout<<"-malin"<<endl;
+        cout<<"-dlis"<<endl;
+        cout<<"-moms            (default)"<<endl<<endl;
+        cout<<"Clause Learning (seulement avec -dpll et -wl) :"<<endl;
+        cout<<"-cl              Clause Learning simple"<<endl;
+        cout<<"-cl-interac      Clause Learning interactif"<<endl<<endl;
+        cout<<"Divers :"<<endl;
+        cout<<"-v               Verbose"<<endl;
+        cout<<"-s               Silencieux"<<endl;
+        cout<<"-h               Vous y êtes"<<endl;
+        cout<<"--help           Vous y êtes"<<endl<<endl;
+        return(EXIT_SUCCESS);
+    }
+
+
+
     LanceurSolveur lanceur(arguments, "//", SolveurType::WATCHED_LITERALS, HeuristiqueType::MOMS);
     ostream out(lanceur.getBufferSortie());
 
