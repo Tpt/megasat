@@ -47,6 +47,7 @@ core
 #Temps trucs
 *.swp
 *~
+*.temp-*
 
 #Flex/Bison
 parser/*/location.hh
