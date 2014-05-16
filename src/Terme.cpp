@@ -103,7 +103,7 @@ bool Terme::operator==(const Terme& that) const
     return true;
 }
 
-string Terme::toString()
+string Terme::toString() const
 {
 #ifdef DEBUG
     cout<<"S: "<<parametres.size()<<endl;

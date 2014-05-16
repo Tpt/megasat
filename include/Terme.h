@@ -20,7 +20,7 @@ public:
     bool isConflitInsurmontable(Terme t) const;
     size_t hash() const;
     bool operator==(const Terme& that) const __attribute__((pure));
-    std::string toString();
+    std::string toString() const;
 
 private:
     std::vector<Terme> parametres;

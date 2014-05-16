@@ -9,8 +9,6 @@ class TheorieGreffonCongruence : public TheorieGreffonSimple
 {
 public:
     TheorieGreffonCongruence();
-    TheorieGreffonCongruence(const TheorieGreffonCongruence& F);///Obligatoire pour pouvoir utiliser un attribut pointeur
-    TheorieGreffonCongruence& operator=(const TheorieGreffonCongruence& F);///Idem
     virtual ~TheorieGreffonCongruence();
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
@@ -18,14 +16,13 @@ public:
     std::vector<std::map<int, Terme>> getSubstitutions() const {return substitutions;};
 
 private:
-    bool appear(int variable, Terme* terme) const;
-    Terme* replace(int variable, Terme* u, Terme* filtre) const;
-    std::map<int, Terme> unify(AtomeCongruence atome) const;
-    std::map<int, Terme> unify(Terme gauche, Terme droite) const;
-    std::map<int, Terme> iterate(std::map<int, Terme> subst, std::vector<std::pair<Terme*, Terme*>> contraintes) const;
+    bool appear(int variable, const Terme& terme) const;
+    Terme replace(int variable, const Terme& u, const Terme& filtre) const;
+    std::map<int, Terme> unify(const AtomeCongruence& atome) const;
+    std::map<int, Terme> unify(const Terme& gauche, const Terme& droite) const;
+    std::map<int, Terme> iterate(const std::map<int, Terme>& subst, std::vector<std::pair<Terme, Terme>> contraintes) const;
     AtomeCongruence appliquerSubstitutions(unsigned int id) const;
-    Terme* appliquerSubstitutions(Terme terme) const;
-    Terme* appliquerSubstitutions(Terme* terme) const;
+    Terme appliquerSubstitutions(const Terme terme) const;
 
     std::vector<AtomeCongruence> atomes;
     std::vector<std::map<int, Terme>> substitutions;

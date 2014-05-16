@@ -9,20 +9,6 @@ atomes(vector<AtomeCongruence>()), substitutions(vector<map<int, Terme>>())
 TheorieGreffonCongruence::~TheorieGreffonCongruence()
 {}
 
-TheorieGreffonCongruence::TheorieGreffonCongruence(const TheorieGreffonCongruence& F) :
-atomes(F.atomes), substitutions(F.substitutions)
-{}
-
-TheorieGreffonCongruence& TheorieGreffonCongruence::operator= (const TheorieGreffonCongruence& other)
-{
-    TheorieGreffonCongruence Temp(other);
-
-    swap(Temp.atomes, this->atomes);
-    swap(Temp.substitutions, this->substitutions);
-
-    return *this;
-}
-
 vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 {
 #ifdef DEBUG
@@ -157,19 +143,9 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
     return vector<int>();
 }
 
-map<int, Terme> TheorieGreffonCongruence::unify(AtomeCongruence atome) const
+map<int, Terme> TheorieGreffonCongruence::unify(const AtomeCongruence& atome) const
 {
-    map<int, Terme> sub;
-    try
-    {
-        sub = unify(atome.getGauche(), atome.getDroite());
-        return sub;
-    }
-    catch(nonUnifiableException& a)
-    {
-        throw;
-    }
-    return map<int, Terme>();
+    return unify(atome.getGauche(), atome.getDroite());
 }
 
 AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id) const
@@ -177,39 +153,31 @@ AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id
 #ifdef DEBUG
     cout<<"C "<<id<<" "<<atomes.size()<<endl;
 #endif
-    return AtomeCongruence(*appliquerSubstitutions(atomes[id-1].getGauche()), *appliquerSubstitutions(atomes[id-1].getDroite()));
+    return AtomeCongruence(appliquerSubstitutions(atomes[id-1].getGauche()), appliquerSubstitutions(atomes[id-1].getDroite()));
 }
 
-Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme terme) const
+Terme TheorieGreffonCongruence::appliquerSubstitutions(const Terme terme) const
 {
 #ifdef DEBUG
-    cout<<"D"<<endl;
-#endif
-    return appliquerSubstitutions(&terme);
-}
-
-Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme* terme) const
-{
-#ifdef DEBUG
-    cout<<" R: "<<terme->toString()<<endl;
+    cout<<" R: "<<terme.toString()<<endl;
 #endif
 
-    vector<Terme*> parametres;
+    vector<Terme> parametres;
 
-    if(terme->getParametres().empty())
+    if(terme.getParametres().empty())
         goto traitement_des_variables;
 
-    for(Terme* t : terme->getParametres())
+    for(Terme t : terme.getParametres())
         parametres.push_back(appliquerSubstitutions(t));
 
-    return new Terme(terme->getSymbole(), parametres);
+    return Terme(terme.getSymbole(), parametres);
 
     traitement_des_variables :
 
     for(map<int, Terme> subst : substitutions)
         for(pair<int, Terme> s : subst)
-            if(terme->getVariable()==s.first)
-                return appliquerSubstitutions(&s.second);
+            if(terme.getVariable() == s.first)
+                return appliquerSubstitutions(s.second);
 
     return terme;
 }
@@ -220,37 +188,37 @@ void TheorieGreffonCongruence::onBacktrack(unsigned int l)
     substitutions.erase(substitutions.begin() + static_cast<int>(l), substitutions.end());
 }
 
-bool TheorieGreffonCongruence::appear(int variable, Terme* terme) const
+bool TheorieGreffonCongruence::appear(int variable, const Terme& terme) const
 {
-    if(terme->isVariable())
-        return variable==terme->getVariable();
+    if(terme.isVariable())
+        return variable==terme.getVariable();
 
-    for(Terme* t : terme->getParametres())
+    for(Terme t : terme.getParametres())
         if(appear(variable, t))
             return true;
 
     return false;
 }
 
-Terme* TheorieGreffonCongruence::replace(int variable, Terme* u, Terme* filtre) const
+Terme TheorieGreffonCongruence::replace(int variable, const Terme& u, const Terme& filtre) const
 {
-    if(filtre->isVariable())
+    if(filtre.isVariable())
     {
-        if(filtre->getVariable() == variable)
-            return new Terme(*u);
+        if(filtre.getVariable() == variable)
+            return u;
         else
-            return new Terme(*filtre);
+            return filtre;
     }
 
-    vector<Terme*> parametres;
+    vector<Terme> parametres;
 
-    for(Terme* t : filtre->getParametres())
+    for(Terme t : filtre.getParametres())
         parametres.push_back(replace(variable, u, t));
 
-    return new Terme(filtre->getSymbole(), parametres);
+    return Terme(filtre.getSymbole(), parametres);
 }
 
-map<int, Terme> TheorieGreffonCongruence::unify(Terme gauche, Terme droite) const
+map<int, Terme> TheorieGreffonCongruence::unify(const Terme& gauche, const Terme& droite) const
 {
 #ifdef DEBUG
     cout<<gauche.toString()<<endl;
@@ -259,7 +227,7 @@ map<int, Terme> TheorieGreffonCongruence::unify(Terme gauche, Terme droite) cons
     map<int, Terme> sub;
     try
     {
-        sub = iterate(map<int, Terme>(), vector<pair<Terme*, Terme*>>(1,make_pair(&gauche, &droite)));
+        sub = iterate(map<int, Terme>(), vector<pair<Terme, Terme>>(1, make_pair(gauche, droite)));
         return sub;
     }
     catch(nonUnifiableException& a)
@@ -269,23 +237,23 @@ map<int, Terme> TheorieGreffonCongruence::unify(Terme gauche, Terme droite) cons
     return map<int, Terme>();
 }
 
-map<int, Terme> TheorieGreffonCongruence::iterate(map<int, Terme> subst, vector<pair<Terme*, Terme*>> contraintes) const
+map<int, Terme> TheorieGreffonCongruence::iterate(const map<int, Terme>& subst, vector<pair<Terme, Terme>> contraintes) const
 {
     if(contraintes.empty())
         return subst;
 
-    pair<Terme*, Terme*> ab = contraintes[contraintes.size()-1];
+    pair<Terme, Terme> ab = contraintes[contraintes.size()-1];
     contraintes.pop_back();
 
-    Terme* a = ab.first;
-    Terme* b = ab.second;
+    Terme a = ab.first;
+    Terme b = ab.second;
 
 #ifdef DEBUG
-    cout<<a->toString()<<endl;
-    cout<<b->toString()<<endl;
+    cout<<a.toString()<<endl;
+    cout<<b.toString()<<endl;
 #endif
 
-    if(a->isVariable() && b->isVariable() && a->getVariable()==b->getVariable())
+    if(a.isVariable() && b.isVariable() && a.getVariable()==b.getVariable())
     {
 #ifdef DEBUG
         cout<<"Ce sont deux variables identiques"<<endl;
@@ -293,7 +261,7 @@ map<int, Terme> TheorieGreffonCongruence::iterate(map<int, Terme> subst, vector<
         return iterate(subst, contraintes);
     }
 
-    if(a->isFonction() && b->isFonction() && a->getSymbole()!=b->getSymbole())
+    if(a.isFonction() && b.isFonction() && a.getSymbole()!=b.getSymbole())
     {
 #ifdef DEBUG
         cout<<"Ce sont deux fonctions différentes"<<endl;
@@ -302,7 +270,7 @@ map<int, Terme> TheorieGreffonCongruence::iterate(map<int, Terme> subst, vector<
     }
 
 
-    if(a->isFonction() && b->isFonction() && a->getParametres().size()!=b->getParametres().size())
+    if(a.isFonction() && b.isFonction() && a.getParametres().size()!=b.getParametres().size())
     {
 #ifdef DEBUG
         cout<<"Ce sont deux fonctions identiques mais d'arités différentes"<<endl;
@@ -311,44 +279,44 @@ map<int, Terme> TheorieGreffonCongruence::iterate(map<int, Terme> subst, vector<
     }
 
 
-    if(a->isFonction() && b->isFonction())
+    if(a.isFonction() && b.isFonction())
     {
 #ifdef DEBUG
         cout<<"Ce sont deux fonctions identiques"<<endl;
 #endif
-        for(unsigned int i=0; i<a->getParametres().size(); ++i)
-            contraintes.push_back(pair<Terme*, Terme*>(a->getParametres()[i], b->getParametres()[i]));
+        for(unsigned int i=0; i<a.getParametres().size(); ++i)
+            contraintes.push_back(pair<Terme, Terme>(a.getParametres()[i], b.getParametres()[i]));
         return iterate(subst, contraintes);
     }
 
-    if(b->isVariable())
+    if(b.isVariable())
     {
 #ifdef DEBUG
         cout<<"Seulement b est une variable"<<endl;
 #endif
-        if(appear(b->getVariable(), a))
+        if(appear(b.getVariable(), a))
             throw nonUnifiableException();
-        vector<pair<Terme*, Terme*>> nouvellesContraintes;
-        subst[b->getVariable()]=*a;
-        for(pair<Terme*, Terme*> e : contraintes)
+        vector<pair<Terme, Terme>> nouvellesContraintes;
+        subst[b.getVariable()]=a;
+        for(pair<Terme, Terme> e : contraintes)
         {
-            nouvellesContraintes.push_back(pair<Terme*, Terme*>(replace(b->getVariable(), a, e.first),replace(b->getVariable(), a, e.second)));
+            nouvellesContraintes.push_back(pair<Terme, Terme>(replace(b.getVariable(), a, e.first),replace(b.getVariable(), a, e.second)));
         }
         return iterate(subst, nouvellesContraintes);
     }
 
-    if(a->isVariable())
+    if(a.isVariable())
     {
 #ifdef DEBUG
         cout<<"Seulement a est une variable"<<endl;
 #endif
-        if(appear(a->getVariable(), b))
+        if(appear(a.getVariable(), b))
             throw nonUnifiableException();
-        vector<pair<Terme*, Terme*>> nouvellesContraintes;
-        subst[a->getVariable()]=*b;
-        for(pair<Terme*, Terme*> e : contraintes)
+        vector<pair<Terme, Terme>> nouvellesContraintes;
+        subst[a.getVariable()]=b;
+        for(pair<Terme, Terme> e : contraintes)
         {
-            nouvellesContraintes.push_back(pair<Terme*, Terme*>(replace(a->getVariable(), b, e.first),replace(a->getVariable(), b, e.second)));
+            nouvellesContraintes.push_back(pair<Terme, Terme>(replace(a.getVariable(), b, e.first),replace(a.getVariable(), b, e.second)));
         }
         return iterate(subst, nouvellesContraintes);
     }
