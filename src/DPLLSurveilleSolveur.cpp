@@ -77,7 +77,7 @@ void DPLLSurveilleSolveur::assigneLiteral(int literalId)
     var->setVal(literalId > 0);
 
 #ifdef DEBUG
-    cout << "c assigne " << var->getId() << " a " << var->getVal() << endl;
+    cout << "c assigne " << var->getId() << " à " << var->getVal() << endl;
 #endif
 
     Literal* literal = formule.getLiteral(literalId);
@@ -155,12 +155,12 @@ void DPLLSurveilleSolveur::TPropagation()
 {
     if(!gestionConflits.isCompatibleAvecTPropagation())
         return;
-    
+
     vector<int> literauxAAssigner = theorieGreffon.getTPropagations(static_cast<unsigned int>(profondeurPile));
-    
+
     if(literauxAAssigner.empty())
         return;
-    
+
     for(int literalId : literauxAAssigner)
     {
 #ifdef DEBUG
