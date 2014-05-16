@@ -237,7 +237,7 @@ map<int, Terme> TheorieGreffonCongruence::unify(const Terme& gauche, const Terme
     return map<int, Terme>();
 }
 
-map<int, Terme> TheorieGreffonCongruence::iterate(const map<int, Terme>& subst, vector<pair<Terme, Terme>> contraintes) const
+map<int, Terme> TheorieGreffonCongruence::iterate(map<int, Terme> subst, vector<pair<Terme, Terme>> contraintes) const
 {
     if(contraintes.empty())
         return subst;
