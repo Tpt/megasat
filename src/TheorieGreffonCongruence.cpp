@@ -194,7 +194,7 @@ Terme* TheorieGreffonCongruence::appliquerSubstitutions(Terme* terme) const
     cout<<" R: "<<terme->toString()<<endl;
 #endif
 
-    vector<Terme*> parametres(0);
+    vector<Terme*> parametres;
 
     if(terme->getParametres().empty())
         goto traitement_des_variables;
