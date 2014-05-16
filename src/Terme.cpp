@@ -4,50 +4,18 @@
 
 using namespace std;
 
-Terme::Terme() : parametres(vector<Terme*>(0)), symbole(""), variable(-1)
+Terme::Terme() : parametres(vector<Terme>(0)), symbole(""), variable(-1)
 {}
 
-Terme::Terme(int variable_) : parametres(vector<Terme*>(0)), symbole(""), variable(variable_)
+Terme::Terme(int variable_) : parametres(vector<Terme>(0)), symbole(""), variable(variable_)
 {}
 
-Terme::Terme(string f, const vector<Terme*>& arguments) :
-parametres(vector<Terme*>()), symbole(f), variable(-1)
-{
-    for(Terme* t : arguments)
-    {
-        if(t->isVariable())
-            parametres.push_back(new Terme(t->getVariable()));
-        else
-            parametres.push_back(new Terme(t->getSymbole(), t->getParametres()));
-    }
-}
-
-Terme::Terme(const Terme& F) :
-parametres(F.parametres), symbole(F.symbole), variable(F.variable)
+Terme::Terme(string f, const vector<Terme>& arguments) :
+parametres(arguments), symbole(f), variable(-1)
 {}
-
-Terme& Terme::operator= (const Terme& other)
-{
-    Terme Temp(other);
-
-    swap(Temp.parametres, this->parametres);
-    swap(Temp.symbole, this->symbole);
-    swap(Temp.variable, this->variable);
-
-    return *this;
-}
 
 Terme::~Terme()
 {}
-
-void Terme::free()
-{
-    for(unsigned int i=0;i<parametres.size();++i)
-    {
-        parametres[i]->free();
-        delete parametres[i];
-    }
-}
 
 bool Terme::isConflit(Terme t) const
 {
@@ -61,7 +29,7 @@ bool Terme::isConflit(Terme t) const
         return true;
 
     for(unsigned int i = 0; i < parametres.size(); i++)
-        if(parametres[i]->isConflit(*(t.getParametres()[i])))
+        if(parametres[i].isConflit(t.getParametres()[i]))
             return true;
 
     return false;
@@ -94,7 +62,7 @@ bool Terme::isConflitInsurmontable(Terme t) const
     }
 
     for(unsigned int i = 0; i < parametres.size(); i++)
-        if(parametres[i]->isConflitInsurmontable(*(t.getParametres()[i])))
+        if(parametres[i].isConflitInsurmontable(t.getParametres()[i]))
         {
 #ifdef DEBUG
             cout<<"4"<<endl;
@@ -116,7 +84,7 @@ size_t Terme::hash() const //TODO : mettre le hash en cache dans AtomeCongruance
     for(unsigned int i = 0; i < parametres.size(); i++)
     {
         temp *= 31;
-        hash_ += parametres[i]->hash() * static_cast<size_t>(temp);
+        hash_ += parametres[i].hash() * static_cast<size_t>(temp);
     }
 
     return hash_;
@@ -129,7 +97,7 @@ bool Terme::operator==(const Terme& that) const
     }
 
     for(unsigned int i = 0; i < parametres.size(); i++)
-        if(!(*this->parametres[i] == *that.parametres[i]))
+        if(!(this->parametres[i] == that.parametres[i]))
             return false;
 
     return true;
@@ -146,9 +114,9 @@ string Terme::toString()
     string sortie=symbole+"(";
     for(unsigned int i=0;i<parametres.size();++i)
         if(i==0)
-            sortie+=parametres[i]->toString();
+            sortie+=parametres[i].toString();
         else
-            sortie+=", "+parametres[i]->toString();
+            sortie+=", "+parametres[i].toString();
 
     return sortie+")";
 }
