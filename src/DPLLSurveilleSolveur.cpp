@@ -30,6 +30,8 @@ void DPLLSurveilleSolveur::initialiserLiterauxSurveilles()
 Clause* DPLLSurveilleSolveur::addClause(std::vector<int> clause, int uid)
 {
     Clause* clauseObj = AbstractDPLLSolveur::addClause(clause, uid);
+    if(clauseObj == nullptr)
+        return nullptr;
     initialiseClauseWatchedLiterals(clauseObj);
     return clauseObj;
 }

@@ -111,7 +111,7 @@ pair<int,pair<int,vector<int>>> GestionConflitsApprentissage::onConflit(int clau
     vector<int> clauseAAjouter = constructeurPreuve.getNouvelleClause();
 
     int niveauBacktrack = getNiveauBacktrack(clauseAAjouter);
-    int nombreDeBacktraks = profondeurPile - niveauBacktrack;
+    int nombreDeBacktraks = profondeurPile - niveauBacktrack - 1;
 #ifdef DEBUG
     cout << "c Backtrack de : " << nombreDeBacktraks << endl;
 #endif
@@ -222,7 +222,7 @@ int GestionConflitsApprentissage::getNiveauBacktrack(const vector<int>& clause) 
     }
     sort(profondeurs.begin(), profondeurs.end());
 
-    return profondeurs[profondeurs.size() - 2] + 1;
+    return profondeurs[profondeurs.size() - 2];
 }
 
 void GestionConflitsApprentissage::onBacktrack(int niveauFutur)

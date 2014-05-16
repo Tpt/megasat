@@ -56,9 +56,8 @@ bool Clause::literalPresent(Literal* literal) const
 
 Polarite Clause::polariteLiteral(int id) const ///Utile pour distinguer les deux parties pour les mariages.
 {
-    bool posTrouve=false;
-    bool negTrouve=false;
-    literalPresent(id, posTrouve, negTrouve);
+    bool posTrouve = literalPresent(id);
+    bool negTrouve = literalPresent(-id);
     if(posTrouve && negTrouve)
         return TAUTOLOGIE;
     if(!posTrouve && !negTrouve)
@@ -83,20 +82,13 @@ bool Clause::isTautologie() const ///Test simplement si un literal apparait avec
     return false;
 }
 
-void Clause::literalPresent(int id, bool& posTrouve, bool& negTrouve) const /**Test la présence d'une variable et de sa négation.
-On obtient le retour grace aux références en argument. On obtient ainsi la polarite.
-**/
+bool Clause::literalPresent(int id) const
 {
-    //cout<<literaux.size()<<endl;
-    auto it=literaux.begin();
-    while(it!=literaux.end())
-    {
-        if((*it)->getId() == id)
-            posTrouve = true;
-        else if((*it)->getId() == -id)
-            negTrouve = true;
-        ++it;
-    }
+    for(Literal* literal : literaux)
+        if(literal->getId() == id)
+            return true;
+
+    return false;
 }
 
 int Clause::indiceMax() const ///Donne l'indice maximum des variables de la clause (pour ranger dans les seaux).

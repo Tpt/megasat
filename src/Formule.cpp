@@ -2,6 +2,7 @@
 #include<cstdio>
 #include<cstdlib>
 #include<list>
+#include<set>
 
 using namespace std;
 
@@ -144,15 +145,26 @@ void Formule::addClause(Clause* clause) ///malgre la structure d'ensemble, le te
         clauses.insert(clause);
 }
 
-Clause* Formule::addClause(const std::vector<int>& c, int uid)
+Clause* Formule::addClause(const vector<int>& c, int uid)
 {
-    Clause* w = new Clause(V, uid);
-    for(unsigned int i=0;i<c.size();++i)
+    set<int> clauseSet;
+    for(int literalId : c)
     {
-        if(c[i] > 0)
-            w->addLiteral(lits_pos[static_cast<size_t>(c[i] - 1)]);
+        if(clauseSet.count(literalId) == 0)
+        {
+            if(clauseSet.count(-literalId) == 1)
+                return nullptr;
+            clauseSet.insert(literalId);
+        }
+    }
+
+    Clause* w = new Clause(V, uid);
+    for(int literalId : clauseSet)
+    {
+        if(literalId > 0)
+            w->addLiteral(getLiteral(literalId));
         else
-            w->addLiteral(lits_neg[static_cast<size_t>(-c[i] - 1)]);
+            w->addLiteral(getLiteral(literalId));
     }
     clauses.insert(w);
     return w;

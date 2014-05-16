@@ -35,18 +35,18 @@ void AbstractDPLLSolveur::assigneUneVariable()
     }
 
     Formule save = formule;
-    profondeurPile++;
     try
     {
+        profondeurPile++;
         onChoix(literalId);
         assigneLiteral(literalId);
     }
     catch(InsatisfiableExceptionAvecClauses& exception)
     {
+        profondeurPile--;
         if(exception.getProfondeurBacktrack() > 0)
         {
             exception.decrementeProfondeurBacktrack();
-            profondeurPile--;
             throw;
         }
 
@@ -61,11 +61,11 @@ void AbstractDPLLSolveur::assigneUneVariable()
         }
         catch(InsatisfiableExceptionAvecClauses& exception2)
         {
+            profondeurPile--;
+            exception2.decrementeProfondeurBacktrack();
             //propagation des clauses à ajouter
             for(auto clause : exception.getClauses())
                 exception2.addClause(clause);
-            exception2.decrementeProfondeurBacktrack();
-            profondeurPile--;
             throw;
         }
     }
@@ -89,11 +89,17 @@ void AbstractDPLLSolveur::onAssignation(int literalId)
 
     if(clauseAAjouter.size() > 0)
     {
-        InsatisfiableExceptionAvecClauses exception;
+#ifdef DEBUG
+        cout << "c backtrack causé par la théorie. Clause ajoutée : ";
+        for(int l : clauseAAjouter)
+            cout << l << ' ';
+        cout << endl;
+#endif
+
+        InsatisfiableExceptionAvecClauses exception(0);
         exception.addClause(pair<int,vector<int>>(Clause::genUid(), clauseAAjouter));
         gestionConflits.onBacktrack(profondeurPile);
         theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile));
-        profondeurPile--;
         throw exception;
     }
 }
@@ -103,10 +109,13 @@ void __attribute__((noreturn)) AbstractDPLLSolveur::leveExceptionLorsConflit(Cla
     auto retour = gestionConflits.onConflit(clause->getUid(), profondeurPile);
     gestionConflits.onBacktrack(profondeurPile - retour.first);
     theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile - retour.first));
-    profondeurPile--;
     InsatisfiableExceptionAvecClauses exception(retour.first);
     if(retour.second.first >= 0)
         exception.addClause(retour.second);
+
+#ifdef DEBUG
+    cout << "c backtrack de " << profondeurPile - retour.first + 1 << " niveaux vers le niveau " << profondeurPile - retour.first - 1 << endl;
+#endif
     throw exception;
 }
 
