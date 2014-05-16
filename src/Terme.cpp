@@ -76,7 +76,7 @@ bool Terme::isConflitInsurmontable(Terme t) const
     return false;
 }
 
-size_t Terme::hash() const //TODO : mettre le hash en cache dans AtomeCongruance pour éviter trop d'appels ???
+size_t Terme::hash() const
 {
     size_t hash_ = std::hash<int>()(variable) + std::hash<string>()(symbole);
     int temp = 1;

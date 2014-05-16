@@ -58,7 +58,7 @@ vector<int> TheorieGreffonEgalite::onAssignation(int id, unsigned int niveau)
         {
             causesFusions[AtomeEgalite(representantI, representantJ)] = id;
 #ifdef DEBUG
-cout << "fusion de  w" << representantI << "avec x" << representantJ << " au niveau " << niveau << endl;
+cout << "fusion de  x" << representantI << " avec x" << representantJ << " au niveau " << niveau << endl;
 #endif
             if(poids[representantI] < poids[representantJ])
             {
