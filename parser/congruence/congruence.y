@@ -24,7 +24,7 @@ namespace CongruenceParser {
     FormuleTseitin<AtomeCongruence>* formule;
     AtomeCongruence* atome;
     Terme* terme;
-    vector<Terme*>* arguments;
+    vector<Terme>* arguments;
 }
 
 %type <formule> Expression
@@ -75,13 +75,13 @@ Formule NEQ Formule { $$ = new FormuleTseitin<AtomeCongruence>(FormuleTseitin<At
 
 Formule:
 X ID { $$ = new Terme($2); }
-| SYMBOLE PARENTHESE_GAUCHE PARENTHESE_DROITE { $$ = new Terme( *$1, vector<Terme*>(0) ); }
+| SYMBOLE PARENTHESE_GAUCHE PARENTHESE_DROITE { $$ = new Terme( *$1, vector<Terme>(0) ); }
 | SYMBOLE PARENTHESE_GAUCHE ListeArguments PARENTHESE_DROITE { $$ = new Terme(*$1, *$3); }
 ;
 
 ListeArguments:
-Formule { $$ = new vector<Terme*>(); $$->push_back($1); }
-| ListeArguments VIRGULE Formule { $1->push_back($3); $$ = $1; }
+Formule { $$ = new vector<Terme>(); $$->push_back(*$1); }
+| ListeArguments VIRGULE Formule { $1->push_back(*$3); $$ = $1; }
 ;
 
 %%
