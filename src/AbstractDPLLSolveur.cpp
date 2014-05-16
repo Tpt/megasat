@@ -53,6 +53,7 @@ void AbstractDPLLSolveur::assigneUneVariable()
         //backtrack
         formule = save;
         addClauses(exception.getClauses());
+        onBacktrack();
         try
         {
             profondeurPile++;
@@ -83,6 +84,12 @@ void AbstractDPLLSolveur::onDeduction(Literal* literal, int clauseUid)
     onAssignation(literal->getId());
 }
 
+void AbstractDPLLSolveur::onBacktrack()
+{
+    gestionConflits.onBacktrack(profondeurPile + 1);
+    theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile + 1));
+}
+
 void AbstractDPLLSolveur::onAssignation(int literalId)
 {
     vector<int> clauseAAjouter = theorieGreffon.onAssignation(literalId, static_cast<unsigned int>(profondeurPile));
@@ -95,11 +102,8 @@ void AbstractDPLLSolveur::onAssignation(int literalId)
             cout << l << ' ';
         cout << endl;
 #endif
-
         InsatisfiableExceptionAvecClauses exception(0);
         exception.addClause(pair<int,vector<int>>(Clause::genUid(), clauseAAjouter));
-        gestionConflits.onBacktrack(profondeurPile);
-        theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile));
         throw exception;
     }
 }
@@ -107,8 +111,6 @@ void AbstractDPLLSolveur::onAssignation(int literalId)
 void __attribute__((noreturn)) AbstractDPLLSolveur::leveExceptionLorsConflit(Clause* clause)
 {
     auto retour = gestionConflits.onConflit(clause->getUid(), profondeurPile);
-    gestionConflits.onBacktrack(profondeurPile - retour.first);
-    theorieGreffon.onBacktrack(static_cast<unsigned int>(profondeurPile - retour.first));
     InsatisfiableExceptionAvecClauses exception(retour.first);
     if(retour.second.first >= 0)
         exception.addClause(retour.second);

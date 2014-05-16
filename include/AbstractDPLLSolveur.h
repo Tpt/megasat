@@ -23,6 +23,7 @@ protected:
     void onChoix(int literalId);
     void onDeduction(Literal* literal, int clauseUid);
     void onAssignation(int literalId);
+    void onBacktrack();
     void addClauses(std::map<int,std::vector<int>> clausesToAdd);
     virtual Clause* addClause(std::vector<int> clause, int uid);
 
