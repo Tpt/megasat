@@ -27,7 +27,7 @@ public:
     int getNombreDeVariables() const __attribute__((pure));
     int getUid() const __attribute__((pure));
     bool literalPresent(Literal* literal) const __attribute__((pure));
-    bool literalPresent(int id) const;
+    bool literalPresent(int id) const __attribute__((pure));
     Polarite polariteLiteral(int id) const __attribute__((pure));
     void print() const;
     void supprimer(Literal* l);

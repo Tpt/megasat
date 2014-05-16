@@ -22,7 +22,7 @@ public:
 
 private:
     std::vector<int> resolution(const std::vector<int>& c1, const std::vector<int>& c2, int id) const;
-    int difference(const std::vector<int>& c1, const std::vector<int>& c2) const;
+    int difference(const std::vector<int>& c1, const std::vector<int>& c2) const __attribute__((pure));
 
     std::vector<std::vector<int>> premisses;
     std::vector<std::vector<int>> conclusions;
