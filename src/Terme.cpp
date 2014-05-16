@@ -105,9 +105,6 @@ bool Terme::operator==(const Terme& that) const
 
 string Terme::toString() const
 {
-#ifdef DEBUG
-    cout<<"S: "<<parametres.size()<<endl;
-#endif
     if(parametres.size()==0)
         return "x_"+to_string(variable);
 
