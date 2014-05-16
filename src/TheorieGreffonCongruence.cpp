@@ -14,7 +14,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 #ifdef DEBUG
     cout<<endl<<endl<<"entre ici :"<<id<<" "<<niveau<<endl;
     for(unsigned int i = 0; i < atomes.size(); ++i)
-        cout<<i<<" "<<atomes[i].toString()<<endl;
+        cout<<i+1<<" "<<atomes[i].toString()<<endl;
 #endif
 
     TheorieGreffonSimple::onAssignation(id, niveau);
@@ -85,7 +85,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
 #ifdef DEBUG
             cout<<"id < 0"<<endl;
 #endif
-            clauseAApprendre.push_back(id);
+            clauseAApprendre.push_back(-id);
 #ifdef DEBUG
             cout<<"Et tout va très bien !"<<endl;
 #endif
@@ -124,7 +124,7 @@ vector<int> TheorieGreffonCongruence::onAssignation(int id, unsigned int niveau)
         for(pair<int, Terme> s : subst)
         {
 #ifdef DEBUG
-            cout<<s.first<<" "<<s.second.toString()<<endl;
+            cout<<"x_"<<s.first<<" -> "<<s.second.toString()<<endl;
 #endif
             substitutions[niveau][s.first] = s.second;
         }
