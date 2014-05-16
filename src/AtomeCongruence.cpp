@@ -42,20 +42,8 @@ bool AtomeCongruence::operator==(const AtomeCongruence& that) const
 
 string AtomeCongruence::toString()
 {
-#ifdef DEBUG
-    cout<<"T"<<endl;
-#endif
     string s=gauche.toString();
-#ifdef DEBUG
-    cout<<"T"<<endl;
-#endif
     s+=" = ";
-#ifdef DEBUG
-    cout<<"T"<<endl;
-#endif
     s+=droite.toString();
-#ifdef DEBUG
-    cout<<"T"<<endl;
-#endif
     return s;
 }
