@@ -52,7 +52,8 @@ string genTitle()
     titles.push_back("100\\% pur jus !");
     titles.push_back("Peut contenir des traces d'arachides !");
     titles.push_back("Sexy !");
-    titles.push_back("Fabriqué par un Orang-Outan et Scrat");
+    titles.push_back("Fabriqué par un Orang-Outan et Scrat.");
+    titles.push_back("Fabriqué par Spike et Rainbow Dash.");
     titles.push_back("Le meilleur de la classe !");
     titles.push_back("Excitant !");
     titles.push_back("Regarde ça !");
