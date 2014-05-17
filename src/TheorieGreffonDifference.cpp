@@ -1,5 +1,7 @@
 #include "../include/TheorieGreffonDifference.h"
 #include<climits>
+#include<stack>
+#include<set>
 
 using namespace std;
 
@@ -44,9 +46,19 @@ vector<int> TheorieGreffonDifference::onAssignation(int id, unsigned int niveau)
 
     AtomeDifference atomeAssigne = atomes[static_cast<unsigned int>(abs(id)) - 1];
     if(id > 0)
+    {
         adjacence[atomeAssigne.getI()][niveau].push_back(pair<int,int>(atomeAssigne.getJ(), atomeAssigne.getN()));
+#ifdef DEBUG
+        cout << "c ajout de x" << atomeAssigne.getI() - 1 << " - x" << atomeAssigne.getJ() - 1 << " <= " << atomeAssigne.getN() << " au niveau " << niveau << endl;
+#endif
+    }
     else //si non(xi - xj <= n) -> xi - xj > n -> xj - xi < -n -> xj - xi <= -n -1
+    {
         adjacence[atomeAssigne.getJ()][niveau].push_back(pair<int,int>(atomeAssigne.getI(), -atomeAssigne.getN() - 1));
+#ifdef DEBUG
+        cout << "c ajout de x" << atomeAssigne.getI() - 1 << " - x" << atomeAssigne.getJ() - 1 << " > " << atomeAssigne.getN() << " au niveau " << niveau << endl;
+#endif
+    }
 
     vector<AtomeDifference> cycle = testePresenceCycleDePoidsNegatif(atomeAssigne.getI());
 
@@ -63,8 +75,11 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
     vector<int> poids(varIdMax + 1, INT_MAX);
     poids[depart] = 0;
     vector<unsigned int> changes(varIdMax + 1, 0);
+    vector<pair<unsigned int, int>> pere(varIdMax + 1);
+    for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
+        pere[sommet] = pair<unsigned int,int>(sommet, 0);
 
-    for(unsigned int i = 1; i <= varIdMax; i++) {
+    for(unsigned int i = 1; i <= varIdMax + 1; i++) {
         bool nothingChanged = true;
         for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
         {
@@ -79,23 +94,56 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
                             poids[arete.first] = nouveauPoids;
                             changes[arete.first] = i;
                             nothingChanged = false;
+                            pere[arete.first] = pair<unsigned int,int>(sommet, arete.second);
                         }
                     }
             }
         }
         if(nothingChanged)
-            return vector<AtomeDifference>();
+            return vector<AtomeDifference>(0);
     }
 
-    //Recherche de cycles
-    vector<AtomeDifference> aretesProblemes;
-    for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
-        for(auto& sacNiveau : adjacence[sommet])
-            for(pair<unsigned int,int> arete : sacNiveau)
-                if(poids[sommet] + arete.second < poids[arete.first])
-                    aretesProblemes.push_back(AtomeDifference(sommet, arete.first, arete.second));
+    //Recherche de l'existance de cycles de poids negatif via un parcours en profondeur sur les parents
+    enum COLOR { BLANC, GRIS, NOIR };
+    vector<COLOR> coloriage(varIdMax + 1, BLANC);
 
-    return aretesProblemes;
+    for(unsigned int sommetDepart = 0; sommetDepart <= varIdMax; sommetDepart++)
+    {
+        if(coloriage[sommetDepart] != BLANC)
+            continue;
+        stack<pair<unsigned int,int>> parcourus;
+        parcourus.push(pair<unsigned int, int>(sommetDepart,0));
+        unsigned int prochainSommet = sommetDepart;
+        while(true) {
+            unsigned int sommet = prochainSommet;
+            coloriage[sommet] = GRIS;
+            pair<unsigned int, int> suivant = pere[sommet];
+            parcourus.push(suivant);
+            prochainSommet = suivant.first;
+            if(prochainSommet == sommet || coloriage[prochainSommet] == NOIR)
+                break;
+            if(coloriage[prochainSommet] == GRIS)
+            {
+                vector<AtomeDifference> aretesProblemes;
+                while(!parcourus.empty())
+                {
+                    pair<unsigned int, int> top = parcourus.top();
+                    parcourus.pop();
+                    if(!parcourus.empty())
+                        aretesProblemes.push_back(AtomeDifference(top.first, parcourus.top().first, top.second));
+                }
+                return aretesProblemes;
+            }
+        }
+        while(!parcourus.empty())
+        {
+            pair<unsigned int, int> fait = parcourus.top();
+            parcourus.pop();
+            coloriage[fait.first] = NOIR;
+        }
+    }
+
+    return vector<AtomeDifference>(0);
 }
 
 void TheorieGreffonDifference::onBacktrack(unsigned int l)

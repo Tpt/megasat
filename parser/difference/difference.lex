@@ -32,9 +32,9 @@ entier  [0-9]+
 "-"     return(token::MOINS);
 "="     return(token::EQ);
 "!="    return(token::NEQ);
-"<"    return(token::L);
+"<"     return(token::L);
 "<="    return(token::LEQ);
-">"    return(token::G);
+">"     return(token::G);
 ">="    return(token::GEQ);
 
 {entier}  {
