@@ -78,7 +78,7 @@ L'algo :
     
 
 
-Il est l'heure maintenant d'entendre l'intervention du délégué aux égalités (et minorité). (Messieurs l'heure est grave !)
+Il est l'heure maintenant d'entendre l'intervention du délégué aux égalités. (Messieurs l'heure est grave !)
 
 La structure :
     Une égalité (un atome) est représentée par une classe contenant deux identifiant des variables de la théorie.
@@ -134,9 +134,9 @@ On note l'existance de ordonnancement dans les générateurs. Il prend une entr�
 
 
 En ce qui concerne la répartition du travail.
-Marc a fait le présent fm, le solveur de congruence, le -h, la TPropagation pour dpll.
-Tpt a fait le solveur d'égalité, le solveur de différence, de la TPropagation pour wl et les exemples.
-Le tout étant débuggué avec un arrache de cheveux commun.
+Marc a fait le présent fm, le solveur de congruence, le -h, la Tpropagation pour dpll.
+Tpt a fait le solveur d'égalité, le solveur de différence, de la Tpropagation pour wl et les exemples.
+Le tout étant débuggué avec un arrachage de cheveux commun.
 
 
 Avant la fin.

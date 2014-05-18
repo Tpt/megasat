@@ -48,8 +48,8 @@ N
     Sur les N lignes suivantes :
 délivré durée deadline
     délivré : integer : 0<=délivré<2^31
-    durée : integer : 0<=délivré<2^31
-    deadline : integer : 0<=délivré<2^31
+    durée : integer : 0<=durée<2^31
+    deadline : integer : 0<=deadline<2^31
     La ligne i décrit la tâche numéro i.
     Elle est délivrée au moment délivré et peut être traité dès ce moment.
     La tâche prend un temps durée d'exécution.
@@ -65,6 +65,9 @@ i j
     i et j sont des numéros de tâches
     une telle ligne signifie que la tâche i doit être exécutée avant la tâche j.
 
+Pour enregistrer dans un fichier, on utilise les opérateurs sur les flux.
+
+./ordonnancement < foo.ordo > bar.txt
 
 
 
