@@ -14,17 +14,11 @@ AtomeCongruence::~AtomeCongruence()
 
 bool AtomeCongruence::isConflit() const
 {
-#ifdef DEBUG
-    cout<<"E"<<endl;
-#endif
     return gauche.isConflit(droite);
 }
 
 bool AtomeCongruence::isConflitInsurmontable() const
 {
-#ifdef DEBUG
-    cout<<"F"<<endl;
-#endif
     return gauche.isConflitInsurmontable(droite);
 }
 
