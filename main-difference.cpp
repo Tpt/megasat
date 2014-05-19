@@ -84,6 +84,16 @@ int main(int argc, char *argv[])
         formule = lanceur.execute(formule, theorieGreffon);
 
         out << "s SATISFIABLE" << endl;
+
+        for(AtomeDifference& atome : theorieGreffon.getEtatCourant())
+        {
+            if(atome.getI() == 0)
+                cout << "x" << atome.getJ() - 1 << " >= " << -atome.getN() << endl;
+            else if(atome.getJ() == 0)
+                cout << "x" << atome.getI() - 1 << " <= " << atome.getN() << endl;
+            else
+                cout << "x" << atome.getI() - 1 << " - x" << atome.getJ() - 1 << " <= " << atome.getN() << endl;
+        }
     }
     catch(InsatisfiableException)
     {

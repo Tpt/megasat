@@ -153,3 +153,13 @@ void TheorieGreffonDifference::onBacktrack(unsigned int l)
     for(unsigned int i = 0; i <= varIdMax; i++)
         adjacence[i].erase(adjacence[i].begin() + static_cast<int>(l), adjacence[i].end());
 }
+
+vector<AtomeDifference> TheorieGreffonDifference::getEtatCourant() const
+{
+    vector<AtomeDifference> etat;
+    for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
+        for(auto& sacNiveau : adjacence[sommet])
+            for(const pair<unsigned int,int>& arete : sacNiveau)
+                etat.push_back(AtomeDifference(sommet, arete.first, arete.second));
+    return etat;
+}

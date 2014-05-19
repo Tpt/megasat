@@ -12,6 +12,7 @@ public:
     virtual std::vector<int> onAssignation(int id, unsigned int niveau);
     virtual void onBacktrack(unsigned int l);
     void setCorrespondanceAtomes(const std::vector<AtomeDifference>& corr);
+    std::vector<AtomeDifference> getEtatCourant() const;
 
 private:
     std::vector<AtomeDifference> atomes;
