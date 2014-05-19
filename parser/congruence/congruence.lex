@@ -19,7 +19,7 @@ typedef CongruenceParser::Parser::token_type token_type;
 
 blancs  [ \t\n]+
 entier  [0-9]+
-chars    [a-z]+
+chars    [a-zA-Z]+
 
 %%
 
