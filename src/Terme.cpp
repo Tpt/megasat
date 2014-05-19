@@ -39,40 +39,25 @@ bool Terme::isConflitInsurmontable(Terme t) const
 {
     if(t.getParametres().size() * parametres.size() == 0 && t.getParametres().size() + parametres.size()!=0)
     {
-#ifdef DEBUG
-        cout<<"1"<<endl;
-#endif
         return false;
     }
 
     if(t.getParametres().size() + parametres.size() == 0)
     {
-#ifdef DEBUG
-        cout<<"2"<<endl;
-#endif
         return false;
     }
 
     if(t.getParametres().size() != parametres.size())
     {
-#ifdef DEBUG
-        cout<<"3"<<endl;
-#endif
         return true;
     }
 
     for(unsigned int i = 0; i < parametres.size(); i++)
         if(parametres[i].isConflitInsurmontable(t.getParametres()[i]))
         {
-#ifdef DEBUG
-            cout<<"4"<<endl;
-#endif
             return true;
         }
 
-#ifdef DEBUG
-    cout<<"5"<<endl;
-#endif
     return false;
 }
 

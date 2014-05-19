@@ -63,7 +63,8 @@ vector<int> TheorieGreffonDifference::onAssignation(int id, unsigned int niveau)
     vector<AtomeDifference> cycle = testePresenceCycleDePoidsNegatif(atomeAssigne.getI());
 
     vector<int> clauseAAjouter(cycle.size());
-    for(unsigned int i = 0; i < cycle.size(); i++) {
+    for(unsigned int i = 0; i < cycle.size(); i++)
+    {
         clauseAAjouter[i] = -literalPerAtome[cycle[i]];
     }
 
@@ -76,10 +77,11 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
     poids[depart] = 0;
     vector<unsigned int> changes(varIdMax + 1, 0);
     vector<pair<unsigned int, int>> pere(varIdMax + 1);
-    for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
+    for(unsigned int sommet = 0; sommet < varIdMax+1; ++sommet)
         pere[sommet] = pair<unsigned int,int>(sommet, 0);
 
-    for(unsigned int i = 1; i <= varIdMax + 1; i++) {
+    for(unsigned int i = 1; i <= varIdMax + 1; i++)
+    {
         bool nothingChanged = true;
         for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
         {

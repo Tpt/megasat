@@ -77,7 +77,7 @@ Affichage de sortie :
 	On convertie le graphe en un tableau d'expressions "x_i - x_j <= n" et on l'analyse pour obtenir la valeur n de quelques x_i si "xi - 0 <= n" et "0 - xi <= -n" sont dans le tableau. On remplace alors x_i par sa valeur dans toutes les autres expressions et on tente de retrouver d'autres valeurs. Quand cela n'est plus possible on affiche les valeurs des x_i obtenues et les contraintes sur les autres x_i dont on a pas la valeur.
 
 
-Il est l'heure maintenant d'entendre l'intervention du délégué aux égalités (et minorité). (Messieurs l'heure est grave !)
+Il est l'heure maintenant d'entendre l'intervention du délégué aux égalités. (Messieurs l'heure est grave !)
 
 La structure :
     Une égalité (un atome) est représentée par une classe contenant deux identifiant des variables de la théorie.
@@ -133,9 +133,9 @@ On note l'existance de ordonnancement dans les générateurs. Il prend une entr�
 
 
 En ce qui concerne la répartition du travail.
-Marc a fait le présent fm, le solveur de congruence, le -h, la TPropagation pour dpll.
-Tpt a fait le solveur d'égalité, le solveur de différence, de la TPropagation pour wl et les exemples.
-Le tout étant débuggué avec un arrache de cheveux commun.
+Marc a fait le présent fm, le solveur de congruence, le -h, la Tpropagation pour dpll.
+Tpt a fait le solveur d'égalité, le solveur de différence, de la Tpropagation pour wl et les exemples.
+Le tout étant débuggué avec un arrachage de cheveux commun.
 
 
 Avant la fin.
