@@ -1,7 +1,6 @@
 #include "../include/TheorieGreffonDifference.h"
 #include<climits>
 #include<stack>
-#include<set>
 
 using namespace std;
 
@@ -11,7 +10,8 @@ TheorieGreffonDifference::TheorieGreffonDifference() :
 atomes(vector<AtomeDifference>()), literalPerAtome(unordered_map<AtomeDifference,int>()), adjacence(type_adjacence(0)), varIdMax(0)
 {}
 
-void TheorieGreffonDifference::setCorrespondanceAtomes(const std::vector<AtomeDifference>& corr) {
+void TheorieGreffonDifference::setCorrespondanceAtomes(const vector<AtomeDifference>& corr)
+{
     atomes = corr;
 
     for(unsigned int i = 0; i < atomes.size(); i++)
@@ -154,12 +154,60 @@ void TheorieGreffonDifference::onBacktrack(unsigned int l)
         adjacence[i].erase(adjacence[i].begin() + static_cast<int>(l), adjacence[i].end());
 }
 
-vector<AtomeDifference> TheorieGreffonDifference::getEtatCourant() const
+template<typename T> inline bool vector_in(vector<T>& vector, T& elem)
 {
-    vector<AtomeDifference> etat;
+    for(T& el : vector)
+        if(el == elem)
+            return true;
+    return false;
+}
+
+pair<map<unsigned int,int>,vector<AtomeDifference>> TheorieGreffonDifference::getEtatCourant() const
+{
+    vector<AtomeDifference> differences;
     for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
         for(auto& sacNiveau : adjacence[sommet])
             for(const pair<unsigned int,int>& arete : sacNiveau)
-                etat.push_back(AtomeDifference(sommet, arete.first, arete.second));
-    return etat;
+                differences.push_back(AtomeDifference(sommet, arete.first, arete.second));
+
+    map<unsigned int,int> valeurs;
+    bool changes = true;
+    while(changes)
+    {
+        changes = false;
+        vector<AtomeDifference> differences2;
+        for(AtomeDifference atome : differences)
+        {
+            if(valeurs.count(atome.getI()) > 0)
+                atome = AtomeDifference(0, atome.getJ(), atome.getN() - valeurs[atome.getI()]);
+            if(valeurs.count(atome.getJ()) > 0)
+                atome = AtomeDifference(atome.getI(), 0, atome.getN() + valeurs[atome.getJ()]);
+            if(atome.getI() == 0 && atome.getJ() == 0)
+                continue;
+
+            if(atome.getJ() == 0)
+            {
+                AtomeDifference atome2(0, atome.getI(), -atome.getN());
+                if(vector_in<AtomeDifference>(differences, atome2))
+                {
+                    valeurs[atome.getI()] = atome.getN();
+                    changes = true;
+                    continue;
+                }
+            }
+            else if(atome.getI() == 0)
+            {
+                AtomeDifference atome2(atome.getJ(), 0, -atome.getN());
+                if(vector_in<AtomeDifference>(differences, atome2))
+                {
+                    valeurs[atome.getJ()] = -atome.getN();
+                    changes = true;
+                    continue;
+                }
+            }
+            differences2.push_back(atome);
+        }
+        differences = differences2;
+    }
+    return pair<map<unsigned int,int>,vector<AtomeDifference>>(valeurs, differences);
 }

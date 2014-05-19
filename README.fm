@@ -72,10 +72,9 @@ L'algo :
     Ensuite, on cherche un cycle de poids strictement négatif. En effet, cela correspond à une absurdité du genre : 0 < k où k est strictement négatif. On obtient ça en sommant les inégalités du cycle.
     La clause à apprendre est alors la disjonction de la négation des litéraux correspondant au cycle.
     Si il n'y a pas de tel cycle, on réussit sans clause à apprendre.
-    
-    
-    
-    
+
+Affichage de sortie :
+	On convertie le graphe en un tableau d'expressions "x_i - x_j <= n" et on l'analyse pour obtenir la valeur n de quelques x_i si "xi - 0 <= n" et "0 - xi <= -n" sont dans le tableau. On remplace alors x_i par sa valeur dans toutes les autres expressions et on tente de retrouver d'autres valeurs. Quand cela n'est plus possible on affiche les valeurs des x_i obtenues et les contraintes sur les autres x_i dont on a pas la valeur.
 
 
 Il est l'heure maintenant d'entendre l'intervention du délégué aux égalités (et minorité). (Messieurs l'heure est grave !)

@@ -85,7 +85,12 @@ int main(int argc, char *argv[])
 
         out << "s SATISFIABLE" << endl;
 
-        for(AtomeDifference& atome : theorieGreffon.getEtatCourant())
+        pair<map<unsigned int,int>,vector<AtomeDifference>> etat = theorieGreffon.getEtatCourant();
+        for(const pair<unsigned int,int>& atome : etat.first)
+        {
+            cout << "x" << atome.first - 1 << " = " << atome.second << endl;
+        }
+        for(const AtomeDifference& atome : etat.second)
         {
             if(atome.getI() == 0)
                 cout << "x" << atome.getJ() - 1 << " >= " << -atome.getN() << endl;
