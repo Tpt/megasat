@@ -140,7 +140,7 @@ Le tout étant débuggué avec un arrachage de cheveux commun.
 
 Avant la fin.
 On signale l'existance de -h et --help adapté à chaque programme.
-L'option -rapide peut être donné pour accélerer la résolution. Cela correspond à un solveur spécifique et overoptimisé.
+L'option -rapide peut être donné pour accélerer la résolution. Cela correspond à un solveur spécifique et overoptimisé. Nous tenons à remercier ici Valentin Lorentz qui est à l'origine de l'idée principale de ce solveur et de quelques optimisations réalisées.
 
 
 
