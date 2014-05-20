@@ -156,6 +156,8 @@ void TheorieGreffonDifference::onBacktrack(unsigned int l)
         adjacence[i].erase(adjacence[i].begin() + static_cast<int>(l), adjacence[i].end());
 }
 
+template<typename T> inline bool vector_in(vector<T>& vector, T& elem) __attribute__((pure));
+
 template<typename T> inline bool vector_in(vector<T>& vector, T& elem)
 {
     for(T& el : vector)
