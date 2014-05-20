@@ -61,11 +61,9 @@ int main(int argc, char *argv[])
         cout<<"./congruence_solver nom_de_fichier.txt"<<endl;
 
         cout<<endl<<"Solveurs : "<<endl;
-        cout<<"-dp              Davis-Putnam"<<endl;
         cout<<"-dpll            DPLL (défaut)"<<endl;
-        cout<<"-wl              Watched Literals"<<endl;
-        cout<<"-rapide          Un solveur plus rapide encore"<<endl<<endl;
-        cout<<"Heuristiques (seulement avec -dpll et -wl) : "<<endl;
+        cout<<"-wl              Watched Literals"<<endl<<endl;
+        cout<<"Heuristiques : "<<endl;
         cout<<"-simple"<<endl;
         cout<<"-rand"<<endl;
         cout<<"-malin"<<endl;
