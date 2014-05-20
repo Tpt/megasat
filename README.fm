@@ -80,8 +80,8 @@ Affichage de sortie :
 Il est l'heure maintenant d'entendre l'intervention du délégué aux égalités. (Messieurs l'heure est grave !)
 
 La structure :
-    Une égalité (un atome) est représentée par une classe contenant deux identifiant des variables de la théorie.
-    Le solveur de théorie contient pas mal de trucs pour son bon fonctionnement.
+    Une égalité (un atome) est représentée par une classe contenant deux identifiants des variables de la théorie.
+    Le solveur de théorie contient pas mal de trucs pour son bon fonctionnement :
         Un vector de correspondance
         Une unordered_map de retro-correspondance
         Un vector de représentant pour l'union-find expliqué plus loin (incrémental par nature)
@@ -109,7 +109,7 @@ L'algo :
 
     Le backtrack est facile car on ne fait pas de compression lors des union. Il suffit alors de suivre ce que historiqueFusions nous dit.
 
-Dans cette théorie, on fait de la TPropagation. Il suffit de trouver un arbre dont deux éléments ont une relation d'égalité inconnue (et donc nécessairement vraie). La structure renvoyée est un vector<int> des litéraux à assigner.
+    Dans cette théorie, on fait de la TPropagation. Il suffit de trouver un arbre dont deux éléments ont une relation d'égalité inconnue (et donc nécessairement vraie). La structure renvoyée est un vector<int> des litéraux à assigner.
 
 
 

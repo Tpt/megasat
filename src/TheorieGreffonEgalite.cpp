@@ -201,7 +201,8 @@ vector<int> TheorieGreffonEgalite::getTPropagations(unsigned int niveau)
             if(representantI == representantJ)
             {
                 literauxAAssigner.push_back(static_cast<int>(i) + 1);
-                TheorieGreffonSimple::onAssignation(static_cast<int>(i) + 1, niveau);            }
+                TheorieGreffonSimple::onAssignation(static_cast<int>(i) + 1, niveau);
+            }
         }
     }
     return literauxAAssigner;
