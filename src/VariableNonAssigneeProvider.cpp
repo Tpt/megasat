@@ -1,5 +1,5 @@
 #include "../include/VariableNonAssigneeProvider.h"
-#include<unordered_map>
+#include<map>
 #include<climits>
 #include<ctime>
 #include "../include/InsatisfiableException.h"
@@ -58,7 +58,7 @@ int VariableNonAssigneeProviderMOMS::getVariableNonAssignee(const Formule& formu
         if(tailleMin > c->size())
             tailleMin = c->size();
 
-    unordered_map<int, int> occurences;
+    map<int, int> occurences;
 
     for(Clause* c : formule.getClauses())
         if(c->size() == tailleMin && c->eval() == INCONNU)
@@ -79,7 +79,7 @@ int VariableNonAssigneeProviderMOMS::getVariableNonAssignee(const Formule& formu
 
 int VariableNonAssigneeProviderDLIS::getVariableNonAssignee(const Formule& formule) const
 {
-    unordered_map<int, int> nombreDeClausesSatisfaitesParLiteral;
+    map<int, int> nombreDeClausesSatisfaitesParLiteral;
 
     for(Clause* c : formule.getClauses())
         if(c->eval() == INCONNU)
