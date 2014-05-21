@@ -47,14 +47,14 @@ vector<int> TheorieGreffonDifference::onAssignation(int id, unsigned int niveau)
     AtomeDifference atomeAssigne = atomes[static_cast<unsigned int>(abs(id)) - 1];
     if(id > 0)
     {
-        adjacence[atomeAssigne.getI()][niveau].push_back(pair<int,int>(atomeAssigne.getJ(), atomeAssigne.getN()));
+        adjacence[atomeAssigne.getI()][niveau].push_back(pair<unsigned int,int>(atomeAssigne.getJ(), atomeAssigne.getN()));
 #ifdef DEBUG
         cout << "c ajout de x" << atomeAssigne.getI() - 1 << " - x" << atomeAssigne.getJ() - 1 << " <= " << atomeAssigne.getN() << " au niveau " << niveau << endl;
 #endif
     }
     else //si non(xi - xj <= n) -> xi - xj > n -> xj - xi < -n -> xj - xi <= -n -1
     {
-        adjacence[atomeAssigne.getJ()][niveau].push_back(pair<int,int>(atomeAssigne.getI(), -atomeAssigne.getN() - 1));
+        adjacence[atomeAssigne.getJ()][niveau].push_back(pair<unsigned int,int>(atomeAssigne.getI(), -atomeAssigne.getN() - 1));
 #ifdef DEBUG
         cout << "c ajout de x" << atomeAssigne.getI() - 1 << " - x" << atomeAssigne.getJ() - 1 << " > " << atomeAssigne.getN() << " au niveau " << niveau << endl;
 #endif
@@ -71,6 +71,7 @@ vector<int> TheorieGreffonDifference::onAssignation(int id, unsigned int niveau)
     return clauseAAjouter;
 }
 
+
 vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegatif(unsigned int depart)
 {
     vector<int> poids(varIdMax + 1, INT_MAX);
@@ -83,8 +84,11 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
     {
         bool nothingChanged = true;
         for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
+        {
+            if(poids[sommet] == INT_MAX)
+                continue;
             for(auto& sacNiveau : adjacence[sommet])
-                for(pair<unsigned int,int>& arete : sacNiveau)
+                for(const pair<unsigned int,int>& arete : sacNiveau)
                 {
                     int nouveauPoids = poids[sommet] + arete.second;
                     if(nouveauPoids < poids[arete.first])
@@ -94,6 +98,7 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
                         pere[arete.first] = pair<unsigned int,int>(sommet, arete.second);
                     }
                 }
+        }
         if(nothingChanged)
             return vector<AtomeDifference>(0);
     }
@@ -107,9 +112,10 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
         if(coloriage[sommetDepart] != BLANC)
             continue;
         stack<pair<unsigned int,int>> parcourus;
-        parcourus.push(pair<unsigned int, int>(sommetDepart,0));
+        parcourus.push(pair<unsigned int,int>(sommetDepart, 0));
         unsigned int prochainSommet = sommetDepart;
-        while(true) {
+        while(true)
+        {
             unsigned int sommet = prochainSommet;
             coloriage[sommet] = GRIS;
             pair<unsigned int, int> suivant = pere[sommet];
@@ -137,7 +143,6 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
             coloriage[fait.first] = NOIR;
         }
     }
-
     return vector<AtomeDifference>(0);
 }
 
@@ -176,9 +181,13 @@ pair<map<unsigned int,int>,vector<AtomeDifference>> TheorieGreffonDifference::ge
         for(AtomeDifference atome : differences)
         {
             if(valeurs.count(atome.getI()) > 0)
+            {
                 atome = AtomeDifference(0, atome.getJ(), atome.getN() - valeurs[atome.getI()]);
+            }
             if(valeurs.count(atome.getJ()) > 0)
+            {
                 atome = AtomeDifference(atome.getI(), 0, atome.getN() + valeurs[atome.getJ()]);
+            }
             if(atome.getI() == 0 && atome.getJ() == 0)
                 continue;
 

@@ -103,7 +103,7 @@ void AbstractDPLLSolveur::onAssignation(int literalId)
         cout << endl;
 #endif
         InsatisfiableExceptionAvecClauses exception(0);
-        exception.addClause(pair<int,vector<int>>(Clause::genUid(), clauseAAjouter));
+        //exception.addClause(pair<int,vector<int>>(Clause::genUid(), clauseAAjouter));
         throw exception;
     }
 }
@@ -116,7 +116,10 @@ void __attribute__((noreturn)) AbstractDPLLSolveur::leveExceptionLorsConflit(Cla
         exception.addClause(retour.second);
 
 #ifdef DEBUG
-    cout << "c backtrack de " << profondeurPile - retour.first + 1 << " niveaux vers le niveau " << profondeurPile - retour.first - 1 << endl;
+    cout << "c backtrack de " << retour.first + 1 << " niveaux vers le niveau " << profondeurPile - retour.first - 1 << ". Clause ajoutée : ";
+    for(int l : retour.second.second)
+        cout << l << ' ';
+    cout << endl;
 #endif
     throw exception;
 }
