@@ -83,6 +83,7 @@ int main(int argc, char *argv[])
 
         out << "s SATISFIABLE" << endl;
 
+        out << "c contraintes :" << endl;
         pair<map<unsigned int,int>,vector<AtomeDifference>> etat = theorieGreffon.getEtatCourant();
         for(const pair<unsigned int,int>& atome : etat.first)
         {
@@ -96,6 +97,12 @@ int main(int argc, char *argv[])
                 cout << "x" << atome.getI() - 1 << " <= " << atome.getN() << endl;
             else
                 cout << "x" << atome.getI() - 1 << " - x" << atome.getJ() - 1 << " <= " << atome.getN() << endl;
+        }
+
+        out << "c assignation :" << endl;
+        for(const pair<unsigned int,int>& atome : theorieGreffon.getAssignation())
+        {
+            cout << "x" << atome.first - 1 << " = " << atome.second << endl;
         }
     }
     catch(InsatisfiableException)

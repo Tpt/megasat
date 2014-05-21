@@ -14,6 +14,7 @@ public:
     virtual void onBacktrack(unsigned int l);
     void setCorrespondanceAtomes(const std::vector<AtomeDifference>& corr);
     std::pair<std::map<unsigned int,int>,std::vector<AtomeDifference>> getEtatCourant() const;
+    std::map<unsigned int,int> getAssignation() const;
 
 private:
     std::vector<AtomeDifference> atomes;

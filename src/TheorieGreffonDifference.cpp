@@ -75,8 +75,7 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
 {
     vector<int> poids(varIdMax + 1, INT_MAX);
     poids[depart] = 0;
-    vector<unsigned int> changes(varIdMax + 1, 0);
-    vector<pair<unsigned int, int>> pere(varIdMax + 1);
+    vector<pair<unsigned int,int>> pere(varIdMax + 1);
     for(unsigned int sommet = 0; sommet < varIdMax + 1; ++sommet)
         pere[sommet] = pair<unsigned int,int>(sommet, 0);
 
@@ -84,23 +83,17 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
     {
         bool nothingChanged = true;
         for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
-        {
-            if(changes[sommet] == i - 1)
-            {
-                for(auto& sacNiveau : adjacence[sommet])
-                    for(pair<unsigned int,int>& arete : sacNiveau)
+            for(auto& sacNiveau : adjacence[sommet])
+                for(pair<unsigned int,int>& arete : sacNiveau)
+                {
+                    int nouveauPoids = poids[sommet] + arete.second;
+                    if(nouveauPoids < poids[arete.first])
                     {
-                        int nouveauPoids = poids[sommet] + arete.second;
-                        if(nouveauPoids < poids[arete.first])
-                        {
-                            poids[arete.first] = nouveauPoids;
-                            changes[arete.first] = i;
-                            nothingChanged = false;
-                            pere[arete.first] = pair<unsigned int,int>(sommet, arete.second);
-                        }
+                        poids[arete.first] = nouveauPoids;
+                        nothingChanged = false;
+                        pere[arete.first] = pair<unsigned int,int>(sommet, arete.second);
                     }
-            }
-        }
+                }
         if(nothingChanged)
             return vector<AtomeDifference>(0);
     }
@@ -214,4 +207,69 @@ pair<map<unsigned int,int>,vector<AtomeDifference>> TheorieGreffonDifference::ge
         differences = differences2;
     }
     return pair<map<unsigned int,int>,vector<AtomeDifference>>(valeurs, differences);
+}
+
+
+map<unsigned int,int> TheorieGreffonDifference::getAssignation() const
+{
+    //init matrice d'adjacence
+    vector<vector<int>> matriceAdjacence(varIdMax + 1, vector<int>(varIdMax + 1, INT_MAX));
+    for(unsigned int sommet = 0; sommet <= varIdMax; sommet++)
+    {
+        int level = 0;
+        for(auto& sacNiveau : adjacence[sommet])
+        {
+            for(const pair<unsigned int,int>& arete : sacNiveau)
+                if(arete.second < matriceAdjacence[sommet][arete.first])
+                    matriceAdjacence[sommet][arete.first] = arete.second;
+            level++;
+        }
+    }
+
+    //Floyd-Warshall
+    for(unsigned int k = 0; k <= varIdMax; k++)
+        for(unsigned int i = 0; i <= varIdMax; i++)
+            for(unsigned int j = 0; j <= varIdMax; j++)
+            {
+                if(matriceAdjacence[i][k] != INT_MAX && matriceAdjacence[k][j] != INT_MAX)
+                {
+                    int val = matriceAdjacence[i][k] + matriceAdjacence[k][j];
+                    if(val < matriceAdjacence[i][j])
+                        matriceAdjacence[i][j] = val;
+                }
+            }
+
+    //Assignation
+    map<unsigned int,int> valeurs;
+    for(unsigned int sommetDepart = 0; sommetDepart <= varIdMax; sommetDepart++)
+    {
+        if(valeurs.count(sommetDepart) > 0)
+            continue;
+        valeurs[sommetDepart] = 0;
+
+        stack<unsigned int> aParcourir;
+        aParcourir.push(sommetDepart);
+        while(!aParcourir.empty()) {
+            unsigned int sommet = aParcourir.top();
+            aParcourir.pop();
+            for(unsigned int fils = 0; fils <= varIdMax; fils++)
+            {
+                if(valeurs.count(fils) > 0)
+                    continue;
+                if(matriceAdjacence[fils][sommet] != INT_MAX)
+                { //fils - sommet = n -> fils = sommet + n
+                    valeurs[fils] = valeurs[sommet] + matriceAdjacence[fils][sommet];
+                    aParcourir.push(fils);
+                }
+                else if(matriceAdjacence[sommet][fils] != INT_MAX)
+                { //sommet - fils = n -> fils = sommet - n
+                    valeurs[fils] = valeurs[sommet] - matriceAdjacence[sommet][fils];
+                    aParcourir.push(fils);
+                }
+            }
+        }
+    }
+
+    valeurs.erase(0);
+    return valeurs;
 }
