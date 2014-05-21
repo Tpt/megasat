@@ -89,6 +89,7 @@ string genTitle()
     titles.push_back("Coucou, tu veux voir mon gros arbre de dérivation ?");
     titles.push_back("Heisenbugs inside!");
     titles.push_back("Powered by quantum physics!");
+    titles.push_back("Curry-Howard safe!");
     //return titles[titles.size()-1];
     return titles[rd()%titles.size()];
 }
