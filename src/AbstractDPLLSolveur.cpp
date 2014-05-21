@@ -103,7 +103,7 @@ void AbstractDPLLSolveur::onAssignation(int literalId)
         cout << endl;
 #endif
         InsatisfiableExceptionAvecClauses exception(0);
-        //exception.addClause(pair<int,vector<int>>(Clause::genUid(), clauseAAjouter));
+        exception.addClause(pair<int,vector<int>>(Clause::genUid(), clauseAAjouter));
         throw exception;
     }
 }

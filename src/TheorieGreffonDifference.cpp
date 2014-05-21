@@ -29,7 +29,7 @@ void TheorieGreffonDifference::setCorrespondanceAtomes(const vector<AtomeDiffere
             varIdMax = atome.getJ();
     }
 
-    adjacence = type_adjacence(varIdMax + 1);
+    adjacence = type_adjacence(varIdMax + 1, vector<vector<pair<unsigned int,int>>>());
 }
 
 vector<int> TheorieGreffonDifference::onAssignation(int id, unsigned int niveau)
@@ -125,13 +125,21 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
                 break;
             if(coloriage[prochainSommet] == GRIS)
             {
+#ifdef DEBUG
+                cout << "c Cycle de poids negatif :" << endl;
+#endif
                 vector<AtomeDifference> aretesProblemes;
                 while(!parcourus.empty())
                 {
                     pair<unsigned int, int> top = parcourus.top();
                     parcourus.pop();
                     if(!parcourus.empty())
+                    {
                         aretesProblemes.push_back(AtomeDifference(top.first, parcourus.top().first, top.second));
+#ifdef DEBUG
+                        cout << "c    x" << top.first - 1 << " - x" << parcourus.top().first - 1 << " <= " << top.second << endl;
+#endif
+                    }
                 }
                 return aretesProblemes;
             }
@@ -149,9 +157,9 @@ vector<AtomeDifference> TheorieGreffonDifference::testePresenceCycleDePoidsNegat
 void TheorieGreffonDifference::onBacktrack(unsigned int l)
 {
     TheorieGreffonSimple::onBacktrack(l);
-
     for(unsigned int i = 0; i <= varIdMax; i++)
-        adjacence[i].erase(adjacence[i].begin() + static_cast<int>(l), adjacence[i].end());
+        if(adjacence[i].size() >= l)
+            adjacence[i].erase(adjacence[i].begin() + static_cast<int>(l), adjacence[i].end());
 }
 
 template<typename T> inline bool vector_in(vector<T>& vector, T& elem) __attribute__((pure));
