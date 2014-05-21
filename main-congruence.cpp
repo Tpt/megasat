@@ -116,7 +116,7 @@ int main(int argc, char *argv[])
         {
             for(pair<int, Terme> s : t)
             {
-                out <<"x_"<<s.first<<" -> "<<s.second.toString()<<endl;
+                out <<"x"<<s.first<<" -> "<<s.second.toString()<<endl;
             }
         }
     }

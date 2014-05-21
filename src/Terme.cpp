@@ -91,7 +91,7 @@ bool Terme::operator==(const Terme& that) const
 string Terme::toString() const
 {
     if(parametres.size()==0)
-        return "x_"+to_string(variable);
+        return "x"+to_string(variable);
 
     string sortie=symbole+"(";
     for(unsigned int i=0;i<parametres.size();++i)
