@@ -76,6 +76,20 @@ L'algo :
 Affichage de sortie :
 	On convertie le graphe en un tableau d'expressions "x_i - x_j <= n" et on l'analyse pour obtenir la valeur n de quelques x_i si "xi - 0 <= n" et "0 - xi <= -n" sont dans le tableau. On remplace alors x_i par sa valeur dans toutes les autres expressions et on tente de retrouver d'autres valeurs. Quand cela n'est plus possible on affiche les valeurs des x_i obtenues et les contraintes sur les autres x_i dont on a pas la valeur.
 
+On nous informe à l'instant qu'on a un invité de dernière minute : l'assignation dans la différence. Nous regrettons toutefois l'absence de preuve de la part de M. Hirschkoff. Nous espérons la voir bientôt. Maintenant, EXPLICATION !
+On appelle un petit emmerdeur toute paire de sommet (a,b) tel que les arcs a -> b et b -> a existent. On appelle grand emmerdeur tout cycle ne se réduisant pas au cas du petit emmerdeur.
+On commence par appliquer une fois l'algorithme de Floyd-Warshall (que Dieu les garde) sur le graphe de différence. On a alors une réduction de tout emmerdeur en un cycle de petits emmerdeurs. Aussi, il n'est pertinent de ne considérer que les petits emmerdeurs. Tous les autres cas seront indirectement traités grâce à la réduction que nous offre généreusement Floyd-Warshall.
+Ensuite, il faut faire un parcours. On choisit, par paresse et car ça ne change rien, un parcours en profondeur. Le graphe est parcouru comme s'il n'était pas orienté. Lors du parcours on rencontre 3 cas :
+    -cas de base : on va de a vers b et il n'existe que l'arc a -> b : pas de problème.
+    -cas du saumon qui remonte la rivière : on va de a vers b et il n'existe que b -> a : on inverse l'arête en opposant le poids.
+    -cas du petit emmerdeur : on va de a vers b et les arcs a -> b et b -> a existent. Dans ce cas, on retourne l'arête b -> a en opposant le poids. Après cette opération on choisit le poids le plus petit.
+    Dans tous les cas, on donne à b, le poids de a auquel on soustrait (à cause de la convention utilisée lors de l'orientation des arcs) la valeur sélectionnée (éventuellement après retournement).
+    
+A l'issue de ce parcours, on a un arbre de parcours (couvrant) qui donne a chaque sommet une assignation cohérente. La cohérence est donnée par la preuve en cours de M. Hirschkoff.
+
+
+
+
 
 Il est l'heure maintenant d'entendre l'intervention du délégué aux égalités. (Messieurs l'heure est grave !)
 
@@ -126,6 +140,7 @@ Nous avons simplement rendu les classes TransformationTseitin et FormuleTseitin 
 Pour les exemples et expériences... On n'a pas trouvé de tests intéressants. De plus, plusieurs chose nous on fait juger les tests automatisés comme peu utiles. Notamment le fait qu'on génrère aléatoirement beaucoup de contradictions peu intéressantes à résoudres.
 Et peu de chronométrages. Aucun rigoureux en réalité. Si ce n'est que l'utilisateur se lasse vite lors de l'exécution d'un testcase un peu gros.
 On note l'existance de ordonnancement dans les générateurs. Il prend une entrée dans un format spécifique et renvoie la formule correspondant au problème d'ordonnancement. Il est documenté dans gen/gen.fm
+
 
 
 
