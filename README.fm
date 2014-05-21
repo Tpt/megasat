@@ -7,7 +7,7 @@ Ceci n'est pas un readme.
 - Le solveur de la théorie d'égalité
 - Ce qui les fait fonctionner (Tseitin notamment)
 
-Je vous préviens tout de suite, vous allez bouffer du conteneur template du C++ !
+Je vous préviens tout de suite, vous allez bouffer du conteneur template du C++ ! Et seules les options données par le -h sont valides et autorisées. Elles ont été choisie de façon optimale. N'essayez pas avec autre chose, on ne répond ni du temps d'attente, ni du fonctionnement.
 
 
 
@@ -144,6 +144,7 @@ Pour les exemples et expériences... On n'a pas trouvé de tests intéressants. 
 Et peu de chronométrages. Aucun rigoureux en réalité. Si ce n'est que l'utilisateur se lasse vite lors de l'exécution d'un testcase un peu gros.
 On note l'existance de ordonnancement dans les générateurs. Il prend une entrée dans un format spécifique et renvoie la formule correspondant au problème d'ordonnancement. Il est documenté dans gen/gen.fm
 Il est notamment utilisé pour tester l'assignation.
+Ceci dit, comme on utilise des égalités pour les assignations, l'assignation donnée est procrastinante : il se débrouille pour faire les tâches aussi tard que possible.
 
 
 

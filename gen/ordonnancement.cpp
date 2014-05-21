@@ -32,7 +32,7 @@ int main()
     {
         if(i>0)
             cout<<"/\\ ";
-        cout<<"x"<<contraintes[i].first-1<<" - x"<<contraintes[i].second-1<<" <= 0 ";
+        cout<<"x"<<contraintes[i].first<<" - x"<<contraintes[i].second<<" <= 0 ";
     }
 
     for(unsigned int i=0;i<N;++i)

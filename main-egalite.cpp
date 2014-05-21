@@ -41,12 +41,6 @@ int main(int argc, char *argv[])
         cout<<endl<<"Solveurs : "<<endl;
         cout<<"-dpll            DPLL (défaut)"<<endl;
         cout<<"-wl              Watched Literals"<<endl<<endl;
-        cout<<"Heuristiques : "<<endl;
-        cout<<"-simple"<<endl;
-        cout<<"-rand"<<endl;
-        cout<<"-malin"<<endl;
-        cout<<"-dlis"<<endl;
-        cout<<"-moms            (default)"<<endl<<endl;
         cout<<"Clause Learning (seulement avec -dpll et -wl) :"<<endl;
         cout<<"-cl              Clause Learning simple"<<endl;
         cout<<"-cl-interac      Clause Learning interactif"<<endl<<endl;
