@@ -32,21 +32,21 @@ int main()
     {
         if(i>0)
             cout<<"/\\ ";
-        cout<<"x"<<contraintes[i].first<<" - x"<<contraintes[i].second<<" <= 0 ";
+        cout<<"x"<<contraintes[i].first-1<<" - x"<<contraintes[i].second-1<<" <= 0 ";
     }
 
     for(unsigned int i=0;i<N;++i)
     {
         if(i>0 || M>0)
             cout<<"/\\ ";
-        cout<<"x"<<i+1<<" <= "<<descr[i].f - descr[i].t<<" /\\ x"<<i+1<<" >= "<<descr[i].d;
+        cout<<"x"<<i<<" <= "<<descr[i].f - descr[i].t<<" /\\ x"<<i<<" >= "<<descr[i].d;
     }
 
     for(unsigned int i=0;i<N;++i)
     {
         for(unsigned int j=i+1;j<N;++j)
         {
-            cout<<"/\\ (x"<<i+1<<" - x"<< j+1 << " >= " << descr[j].t << " \\/ x"<< j+1 <<" - x"<< i+1 << " >= " << descr[i].t<<") ";
+            cout<<"/\\ (x"<<i<<" - x"<< j << " >= " << descr[j].t << " \\/ x"<< j <<" - x"<< i << " >= " << descr[i].t<<") ";
         }
     }
 

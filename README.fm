@@ -88,6 +88,9 @@ Ensuite, il faut faire un parcours. On choisit, par paresse et car ça ne change
 A l'issue de ce parcours, on a un arbre de parcours (couvrant) qui donne a chaque sommet une assignation cohérente. La cohérence est donnée par la preuve en cours de M. Hirschkoff.
 
 
+On note une chose !!!!!!! Pour des détails de facilité d'implémentation, on suppose que les variables sont contigues depuis 0. Ie. vous avez le droit et le devoir de nommer vos variables x_0, ... , x_{n-1}. Sinon, vous aurez vos variables et des variables fantomes et vous ne pourrez pas les différencier.
+
+
 
 
 
