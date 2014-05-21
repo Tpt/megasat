@@ -112,9 +112,7 @@ pair<int,pair<int,vector<int>>> GestionConflitsApprentissage::onConflit(int clau
 
     int niveauBacktrack = getNiveauBacktrack(clauseAAjouter);
     int nombreDeBacktraks = profondeurPile - niveauBacktrack - 1;
-#ifdef DEBUG
-    cout << "c Backtrack de : " << nombreDeBacktraks << endl;
-#endif
+
     statistiques.onAjoutClause(clauseAAjouter.size());
     statistiques.onBacktrack(nombreDeBacktraks);
 

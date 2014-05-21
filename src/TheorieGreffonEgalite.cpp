@@ -169,8 +169,10 @@ void TheorieGreffonEgalite::onBacktrack(unsigned int l)
 #endif
         }
     }
-    historiqueFusions.erase(historiqueFusions.begin() + static_cast<int>(l), historiqueFusions.end());
-    differencesParNiveau.erase(differencesParNiveau.begin() + static_cast<int>(l), differencesParNiveau.end());
+    if(historiqueFusions.size() >= l)
+        historiqueFusions.erase(historiqueFusions.begin() + static_cast<int>(l), historiqueFusions.end());
+    if(differencesParNiveau.size() >= l)
+        differencesParNiveau.erase(differencesParNiveau.begin() + static_cast<int>(l), differencesParNiveau.end());
 }
 
 pair<vector<AtomeEgalite>,vector<AtomeEgalite>> TheorieGreffonEgalite::getEtatCourant() const

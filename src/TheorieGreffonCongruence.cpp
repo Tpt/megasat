@@ -145,7 +145,8 @@ Terme TheorieGreffonCongruence::appliquerSubstitutions(const Terme terme) const
 void TheorieGreffonCongruence::onBacktrack(unsigned int l)
 {
     TheorieGreffonSimple::onBacktrack(l);
-    substitutions.erase(substitutions.begin() + static_cast<int>(l), substitutions.end());
+    if(substitutions.size() >= l)
+        substitutions.erase(substitutions.begin() + static_cast<int>(l), substitutions.end());
 }
 
 bool TheorieGreffonCongruence::appear(int variable, const Terme& terme) const
