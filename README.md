@@ -7,7 +7,7 @@ et autres bugs.
 Un gros README bien illisible est dispo dans le fichier README.fm (oui, c'est vraiment un
 foutu manuel...).
 
-Sa seul dépendance mis à par un compilo C++11 potable (Clang ou GCC) et une version pas trop
+Sa seul dépendance, mis à par un compilo C++11 potable (Clang ou GCC), est une version pas trop
 ancienne de GNU Bison (2.3, 2.5 ou 3.0, oui c'est un tour de force d'avoir un code compatible
 avec plus de 3 versions de Bison...).
 
