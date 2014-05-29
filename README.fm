@@ -283,7 +283,7 @@ On affiche la sortie dans un fichier pdf (nécessite Graphviz, d'autre formats c
 
 Pour la corbeille d'expériences, se référer à experiences/experiences.fm
 
-Concernant la répartition des tâches, Marc a écrit la structure de données pour les formules booléennes, la transformation de Tseitin et les générateurs ainsi que conduit les tests (scripts + commentaires) pendant que Thomas a créé le parser de formules logiques et le système de coloriage (parser, conversion et sortie) et la création du présent menu. Enfin, le travail sur les heuristiques à été fait à deux.
+Concernant la répartition des tâches, Marc a écrit la structure de données pour les formules booléennes, la transformation de Tseitin et les générateurs ainsi que conduit les tests (scripts + commentaires) pendant que Thomas a créé le parser de formules logiques et le système de coloriage (parser, conversion et sortie) et la création du présent menu. Enfin, le travail sur les heuristiques a été fait à deux.
 
 
 
