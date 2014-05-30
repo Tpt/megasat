@@ -19,7 +19,7 @@ public:
 private:
     std::vector<AtomeDifference> atomes;
     std::unordered_map<AtomeDifference,int> literalPerAtome;
-    std::vector<std::vector<std::vector<std::pair<unsigned int,int>>>> adjacence;
+    std::vector<std::vector<std::vector<std::pair<unsigned int,int> > > > adjacence;
     unsigned int varIdMax;
 
     std::vector<AtomeDifference> testePresenceCycleDePoidsNegatif(unsigned int depart);

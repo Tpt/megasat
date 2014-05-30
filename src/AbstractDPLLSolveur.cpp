@@ -94,7 +94,7 @@ void AbstractDPLLSolveur::onAssignation(int literalId)
 {
     vector<int> clauseAAjouter = theorieGreffon.onAssignation(literalId, static_cast<unsigned int>(profondeurPile));
 
-    if(clauseAAjouter.size() > 0)
+    if(!clauseAAjouter.empty())
     {
 #ifdef DEBUG
         cout << "c backtrack causé par la théorie. Clause ajoutée : ";
@@ -137,6 +137,10 @@ Clause* AbstractDPLLSolveur::addClause(std::vector<int> clause, int uid)
     gestionConflits.addClause(clause, uid);
     return formule.addClause(clause, uid);
 }
+
+InsatisfiableExceptionAvecClauses::InsatisfiableExceptionAvecClauses() :
+profondeurBacktrack(0), clausesToAdd(map<int,vector<int>>())
+{}
 
 InsatisfiableExceptionAvecClauses::InsatisfiableExceptionAvecClauses(int profondeurBacktrack_) noexcept :
 profondeurBacktrack(profondeurBacktrack_), clausesToAdd(map<int,vector<int>>())

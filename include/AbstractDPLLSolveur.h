@@ -34,6 +34,7 @@ protected:
 class InsatisfiableExceptionAvecClauses : public InsatisfiableException
 {
 public:
+    InsatisfiableExceptionAvecClauses();
     InsatisfiableExceptionAvecClauses(int profondeurBacktrack = 0) noexcept;
     ~InsatisfiableExceptionAvecClauses() noexcept {};
     void addClause(const std::pair<int,std::vector<int>>& clause);

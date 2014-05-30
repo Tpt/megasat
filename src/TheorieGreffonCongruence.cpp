@@ -120,7 +120,7 @@ AtomeCongruence TheorieGreffonCongruence::appliquerSubstitutions(unsigned int id
     return AtomeCongruence(appliquerSubstitutions(atomes[id-1].getGauche()), appliquerSubstitutions(atomes[id-1].getDroite()));
 }
 
-Terme TheorieGreffonCongruence::appliquerSubstitutions(const Terme terme) const
+Terme TheorieGreffonCongruence::appliquerSubstitutions(const Terme& terme) const
 {
     vector<Terme> parametres;
 

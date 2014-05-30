@@ -161,10 +161,7 @@ Clause* Formule::addClause(const vector<int>& c, int uid)
     Clause* w = new Clause(V, uid);
     for(int literalId : clauseSet)
     {
-        if(literalId > 0)
-            w->addLiteral(getLiteral(literalId));
-        else
-            w->addLiteral(getLiteral(literalId));
+        w->addLiteral(getLiteral(literalId));
     }
     clauses.insert(w);
     return w;

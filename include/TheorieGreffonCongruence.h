@@ -22,7 +22,7 @@ private:
     std::map<int, Terme> unify(const Terme& gauche, const Terme& droite) const;
     std::map<int, Terme> iterate(std::map<int, Terme> subst, std::vector<std::pair<Terme, Terme>> contraintes) const;
     AtomeCongruence appliquerSubstitutions(unsigned int id) const;
-    Terme appliquerSubstitutions(const Terme terme) const;
+    Terme appliquerSubstitutions(const Terme& terme) const;
 
     std::vector<AtomeCongruence> atomes;
     std::vector<std::map<int, Terme>> substitutions;

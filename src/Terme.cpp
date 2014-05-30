@@ -19,10 +19,10 @@ Terme::~Terme()
 
 bool Terme::isConflit(Terme t) const
 {
-    if(t.getParametres().size() * parametres.size() == 0 && t.getParametres().size() + parametres.size()!=0)
+    if((t.getParametres().empty() || parametres.empty()) && !(t.getParametres().size() && parametres.empty()))
         return true;
 
-    if(t.getParametres().size() + parametres.size() == 0)
+    if(t.getParametres().empty() && parametres.empty())
         return variable != t.getVariable();
 
     if(t.getParametres().size() != parametres.size())
@@ -37,12 +37,12 @@ bool Terme::isConflit(Terme t) const
 
 bool Terme::isConflitInsurmontable(Terme t) const
 {
-    if(t.getParametres().size() * parametres.size() == 0 && t.getParametres().size() + parametres.size()!=0)
+    if((t.getParametres().empty() || parametres.empty()) && !(t.getParametres().size() && parametres.empty()))
     {
         return false;
     }
 
-    if(t.getParametres().size() + parametres.size() == 0)
+    if(t.getParametres().empty() && parametres.empty())
     {
         return false;
     }
@@ -90,7 +90,7 @@ bool Terme::operator==(const Terme& that) const
 
 string Terme::toString() const
 {
-    if(parametres.size()==0)
+    if(parametres.empty())
         return "x"+to_string(variable);
 
     string sortie=symbole+"(";

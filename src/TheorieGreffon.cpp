@@ -60,7 +60,7 @@ void TheorieGreffonSimple::onBeginning(Formule* formule)
         if(eval != INCONNU)
         {
             vector<int> clauseAAjouter = onAssignation( (eval == VRAI) ? i + 1 : -i - 1, 0 );
-            if(clauseAAjouter.size() > 0)
+            if(!clauseAAjouter.empty())
                 throw InsatisfiableException();
         }
     }
