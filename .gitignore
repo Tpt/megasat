@@ -48,6 +48,8 @@ core
 *.swp
 *~
 *.temp-*
+*.tmp
+~*
 
 #Flex/Bison
 parser/*/location.hh

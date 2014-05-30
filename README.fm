@@ -1,4 +1,4 @@
-=== Rendu 4 ===
+﻿=== Rendu 4 ===
 Ceci n'est pas un readme.
 
 \`{A} l'ordre du jour, nous avons :
@@ -7,44 +7,44 @@ Ceci n'est pas un readme.
 - Le solveur de la théorie d'égalité
 - Ce qui les fait fonctionner (Tseitin notamment)
 
-Je vous préviens tout de suite, vous allez bouffer du conteneur template du C++ ! Et seules les options données par le -h sont valides et autorisées. Elles ont été choisie de façon optimale. N'essayez pas avec autre chose, on ne répond ni du temps d'attente, ni du fonctionnement.
+Je vous préviens tout de suite, vous allez bouffer du conteneur template du C++ ! Et seules les options données par le -h sont valides et autorisées. Elles ont été choisies de façon optimale. N'essayez pas avec autre chose, on ne répond ni du temps d'attente, ni du fonctionnement.
 
 
 
 Monsieur le président, si vous permettez, j'aimerais que nous commencions par la congruence. (Bien sûr, faites. Merci.)
 Le principe est de trouver une unification qui ne marche que où il faut.
 
-On commence par représenter les termes. Un terme est une variable (int) ou un symbole de fonction et un vector de Terme*. Un vector de taille nulle indique qu'on a une vraible, sinon c'est une fonction. La classe Terme est donc dangeureusement récursive ! Un atome de différence est une classe qui contient deux Termes et qui représente l'égalité. En effet on traite t_1 != t_2 comme non(t_1 = t_2).
+On commence par représenter les termes. Un terme est une variable (int) ou un symbole de fonction et un vector de Terme*. Un vector de taille nulle indique qu'on a une variable, sinon c'est une fonction. La classe Terme est donc dangereusement récursive ! Un atome de différence est une classe qui contient deux Termes et qui représente l'égalité. En effet on traite t_1 != t_2 comme non(t_1 = t_2).
 
-Un substitution est un pair<int, Terme> : la variable x_i (où i est le premier champ) se remplace en le terme du second champ.
+Une substitution est un pair<int, Terme> : la variable x_i (où i est le premier champ) se remplace en le terme du second champ.
 
 Un vector identifie les identifiant des variables correspondantes aux atomes de la théorie. En effet, ces identifiants sont consécutifs et sont les premiers. Aussi l'atome correspondant à la variable i est atomes[i-1] (car les variables sont numérotés depuis 1). Si i>atomes.size() alors ça ne correspond à rien et il s'agit juste d'une variable intermédiaire de la transformation de Tseitin.
 
 La structure retenant les substitutions est vector<map<int, Terme>>. Le vector sert à indexer les substitutions par leur niveau de décision. La map sert à regrouper toutes les substitutions d'un niveau.
 
-Lorsqu'on assigne un litéral, que ce soit par décision ou déduction, on en fait part au solveur de théorie. Il renvoie ensuite une clause à apprendre en cas de conflit. Une clause vide signale un absence de conflit.
+Lorsqu'on assigne un littéral, que ce soit par décision ou déduction, on en fait part au solveur de théorie. Il renvoie ensuite une clause à apprendre en cas de conflit. Une clause vide signale une absence de conflit.
 Si la variable ne correspond pas à un atome de la formule, on arrête immédiatement en renvoyant une clause vide.
 Si la variable correspond à un atome, on disjoncte (encore) des cas :
     - on assigne la variable de l'atome à vrai.
         On substitue tout ce qu'on peut avec les substitutions passées.
-            Si ça provoque un conflit on échoue et on renvoie la clause constituée de la disjonction de la négation de tous les litéraux vrais qui correspondent à des atomes.
+            Si ça provoque un conflit on échoue et on renvoie la clause constituée de la disjonction de la négation de tous les littéraux vrais qui correspondent à des atomes.
             Sinon, on continue.
-        On resoud le problème d'unification laissé.
-            S'il n'y pas de solution en renvoie la clause à apprendre constituée de la disjonction de la négation de tous les litéraux vrais qui correspondent à des atomes.
+        On résout le problème d'unification laissé.
+            S'il n'y pas de solution en renvoie la clause à apprendre constituée de la disjonction de la négation de tous les littéraux vrais qui correspondent à des atomes.
             S'il on a réussi l'unification, on l'ajoute à la liste des substitutions du niveau courant. Puis on applique ces substitutions aux atomes dont la variable correspondante est couramment fausse. Et on cherche les conflits.
                 Si on a des conflits partout, on réussi et on renvoie une clause vide.
-                Si un atome n'a pas de conflit, il est donc vrai et donc n'a rien à faire en tant que faux. On échoue donc. Et on renvoie la clause constituée de la clause précédente à laquelle on ajoute la négation du litéral faux où il n'y a pas eu de conflit.
+                Si un atome n'a pas de conflit, il est donc vrai et donc n'a rien à faire en tant que faux. On échoue donc. Et on renvoie la clause constituée de la clause précédente à laquelle on ajoute la négation du littéral faux où il n'y a pas eu de conflit.
 
     - on assigne la variable de l'atome à faux.
         On applique toutes les substitutions. Et on cherche les conflits.
-            Aucun conflit : comme précédemmment (opposées des litéraux vrais et de celui là)
+            Aucun conflit : comme précédemment (opposées des littéraux vrais et de celui là)
 
             Un conflit : C'est bon et on renvoie une clause vide.
 
 
 La structure de données utilisée est clairement incrémentale. De plus, elle est persistante car, lors d'un backtrack, il suffit de supprimer toutes les cases du vector qui correspondent aux niveaux de décision supérieurs.
 
-Il est long et couteux de faire de la T-propagation (propagation dans la théorie) de façon exhaustive. Comme nous n'avons pas trouvé plus intelligent, nous avons décider de ne pas la tenter.
+Il est long et couteux de faire de la T-propagation (propagation dans la théorie) de façon exhaustive. Comme nous n'avons pas trouvé plus intelligent, nous avons décidé de ne pas la tenter.
 
 (Merci. [Clap clap clap])
 
@@ -57,8 +57,8 @@ La parole est désormais au chargé des affaires de différences. (Merci, messie
 
 Les structures :
     Un atome de différence est une classe contenant deux unsigned int représentant les indices des x_i et x_j et un int pour représenter n dans l'expression x_i - x_j <=n. Par des transformations à la portée du premier lycéen venu (jusqu'à la prochaine réforme des programmes...), on se ramène toujours à cette forme, quitte à adjoindre une variable fictive x_0 valant 0.
-    Le solveur de théorie identifie ses atomes par un vector (comme précédemmment) et a une rétro-correspondance par une unordered_map<AtomeDifference, int>.
-    Le graphe des inagalités est représenter par des listes d'adjacence un peu customisé (un arc correspondant à x_i - x_j <= n donne l'arc i ----> j pondéré avec n).
+    Le solveur de théorie identifie ses atomes par un vector (comme précédemment) et a une rétro-correspondance par une unordered_map<AtomeDifference, int>.
+    Le graphe des inégalités est représenter par des listes d'adjacence un peu customisé (un arc correspondant à x_i - x_j <= n donne l'arc i ----> j pondéré avec n).
         C'est un vector<vector<vector<pair<unsigned int, int>>>> ! Détaillons.
         Le premier vector correspond au sommet auquel on s'intéresse.
         Le second vector correspond au niveau de décision auquel les adjacences contenues ont été trouvées. Encore une fois, ça permet un backtrack facile. Et la structure est rendue facilement incrémentale de la même façon.
@@ -70,11 +70,11 @@ L'algo :
         non(x_i - x_j <= n) <=> x_i - x_j > n <=> x_j - x_i < n <=> x_j - x_i <= n-1
 
     Ensuite, on cherche un cycle de poids strictement négatif. En effet, cela correspond à une absurdité du genre : 0 < k où k est strictement négatif. On obtient ça en sommant les inégalités du cycle.
-    La clause à apprendre est alors la disjonction de la négation des litéraux correspondant au cycle.
-    Si il n'y a pas de tel cycle, on réussit sans clause à apprendre.
+    La clause à apprendre est alors la disjonction de la négation des littéraux correspondants au cycle.
+    S’il n'y a pas de tel cycle, on réussit sans clause à apprendre.
 
 Affichage de sortie :
-	On convertie le graphe en un tableau d'expressions "x_i - x_j <= n" et on l'analyse pour obtenir la valeur n de quelques x_i si "xi - 0 <= n" et "0 - xi <= -n" sont dans le tableau. On remplace alors x_i par sa valeur dans toutes les autres expressions et on tente de retrouver d'autres valeurs. Quand cela n'est plus possible on affiche les valeurs des x_i obtenues et les contraintes sur les autres x_i dont on a pas la valeur.
+	On convertie le graphe en un tableau d'expressions "x_i - x_j <= n" et on l'analyse pour obtenir la valeur n de quelques x_i si "xi - 0 <= n" et "0 - xi <= -n" sont dans le tableau. On remplace alors x_i par sa valeur dans toutes les autres expressions et on tente de retrouver d'autres valeurs. Quand cela n'est plus possible on affiche les valeurs des x_i obtenues et les contraintes sur les autres x_i dont on n’a pas la valeur.
 
 On nous informe à l'instant qu'on a un invité de dernière minute : l'assignation dans la différence. Nous regrettons toutefois l'absence de preuve de la part de M. Hirschkoff. Nous espérons la voir bientôt. Maintenant, EXPLICATION !
 On appelle un petit emmerdeur toute paire de sommet (a,b) tel que les arcs a -> b et b -> a existent. On appelle grand emmerdeur tout cycle ne se réduisant pas au cas du petit emmerdeur.
@@ -85,10 +85,10 @@ Ensuite, il faut faire un parcours. On choisit, par paresse et car ça ne change
     -cas du petit emmerdeur : on va de a vers b et les arcs a -> b et b -> a existent. Dans ce cas, on retourne l'arête b -> a en opposant le poids. Après cette opération on choisit le poids le plus petit.
     Dans tous les cas, on donne à b, le poids de a auquel on soustrait (à cause de la convention utilisée lors de l'orientation des arcs) la valeur sélectionnée (éventuellement après retournement).
     
-A l'issue de ce parcours, on a un arbre de parcours (couvrant) qui donne a chaque sommet une assignation cohérente. La cohérence est donnée par la preuve en cours de M. Hirschkoff.
+A l'issue de ce parcours, on a un arbre de parcours (couvrant) qui donne à chaque sommet une assignation cohérente. La cohérence est donnée par la preuve en cours de M. Hirschkoff.
 
 
-On note une chose !!!!!!! Pour des détails de facilité d'implémentation, on suppose que les variables sont contigues depuis 0. Ie. vous avez le droit et le devoir de nommer vos variables x_0, ... , x_{n-1}. Sinon, vous aurez vos variables et des variables fantomes et vous ne pourrez pas les différencier.
+On note une chose !!!!!!! Pour des détails de facilité d'implémentation, on suppose que les variables sont contiguës depuis 0. Ie. vous avez le droit et le devoir de nommer vos variables x_0, ... , x_{n-1}. Sinon, vous aurez vos variables et des variables fantômes et vous ne pourrez pas les différencier.
 
 
 
@@ -103,15 +103,15 @@ La structure :
         Une unordered_map de retro-correspondance
         Un vector de représentant pour l'union-find expliqué plus loin (incrémental par nature)
         Un vector de poids pour optimisé l'union-find.
-        Un vector<vector<unsigned int>> représentant l'historique des unions : le premier indexe en fonction du nieau de décision. Le second
+        Un vector<vector<unsigned int>> représentant l'historique des unions : le premier indexe en fonction du niveau de décision. Le second
         Un vector<vector<AtomeEgalite>> qui contient les égalités fausse par niveau (differencesParNiveau)
 
 L'algo :
     A chaque égalité confirmée par le DPLL solveur, on fusionne les arbres de façon intelligente en fonction de leur taille.
         Et on vérifie que les inégalités sont toujours vérifiées.
-    A chaque diségalité, on ajoute comme contrainte dans differencesParNiveau au bon niveau aorès avoir vérifié qu'elle n'est pas déjà fausse.
+    A chaque diségalité, on ajoute comme contrainte dans differencesParNiveau au bon niveau après avoir vérifié qu'elle n'est pas déjà fausse.
     En cas de conflit, on a deux cas :
-        En cas d'ajout d'une diségalité fausse : il suffit d'ajouter les négation des égalités permettant de remonter des membres de la diségalité au représentant et la négation de la diségalité fausse.
+        En cas d'ajout d'une diségalité fausse : il suffit d'ajouter les négations des égalités permettant de remonter des membres de la diségalité au représentant et la négation de la diségalité fausse.
         Dans le cas d'une égalité fausse... on fait un dessin :
 
         i              j
@@ -124,15 +124,15 @@ L'algo :
 
     On veut fusionner n et m sachant que k != l. On a un conflit. On ajoute donc à la clause la négation des égalités sur le chemin de i à n, de i à k, de j à m, de j à l, la négation de l'égalité conflictuelle et de la diségalité de discorde.
 
-    Le backtrack est facile car on ne fait pas de compression lors des union. Il suffit alors de suivre ce que historiqueFusions nous dit.
+    Le backtrack est facile car on ne fait pas de compression lors des unions. Il suffit alors de suivre ce que historiqueFusions nous dit.
 
-    Dans cette théorie, on fait de la TPropagation. Il suffit de trouver un arbre dont deux éléments ont une relation d'égalité inconnue (et donc nécessairement vraie). La structure renvoyée est un vector<int> des litéraux à assigner.
+    Dans cette théorie, on fait de la TPropagation. Il suffit de trouver un arbre dont deux éléments ont une relation d'égalité inconnue (et donc nécessairement vraie). La structure renvoyée est un vector<int> des littéraux à assigner.
 
 
 
 Enfin, écoutons M G.S. Tseitin que nous recevons aujourd'hui. (C'est un grand honneur)
 
-Nous avons simplement rendu les classes TransformationTseitin et FormuleTseitin template de façon à prendre des string comme dans le rendu 2 mais aussi des atomes des différentes théorie dans la formule générale et de pouvoir appliquer la transformation sans peine. Transformation facile et fastidieuse...
+Nous avons simplement rendu les classes TransformationTseitin et FormuleTseitin template de façon à prendre des string comme dans le rendu 2 mais aussi des atomes des différentes théories dans la formule générale et de pouvoir appliquer la transformation sans peine. Transformation facile et fastidieuse...
 
 
 
@@ -140,9 +140,9 @@ Nous avons simplement rendu les classes TransformationTseitin et FormuleTseitin 
 
 
 
-Pour les exemples et expériences... On n'a pas trouvé de tests intéressants. De plus, plusieurs chose nous on fait juger les tests automatisés comme peu utiles. Notamment le fait qu'on génrère aléatoirement beaucoup de contradictions peu intéressantes à résoudres.
+Pour les exemples et expériences... On n'a pas trouvé de tests intéressants. De plus, plusieurs chose nous on fait juger les tests automatisés comme peu utiles. Notamment le fait qu'on génère aléatoirement beaucoup de contradictions peu intéressantes à résoudre.
 Et peu de chronométrages. Aucun rigoureux en réalité. Si ce n'est que l'utilisateur se lasse vite lors de l'exécution d'un testcase un peu gros.
-On note l'existance de ordonnancement dans les générateurs. Il prend une entrée dans un format spécifique et renvoie la formule correspondant au problème d'ordonnancement. Il est documenté dans gen/gen.fm
+On note l'existence de « ordonnancement » dans les générateurs. Il prend une entrée dans un format spécifique et renvoie la formule correspondant au problème d'ordonnancement. Il est documenté dans gen/gen.fm
 Il est notamment utilisé pour tester l'assignation.
 Ceci dit, comme on utilise des égalités pour les assignations, l'assignation donnée est procrastinante : il se débrouille pour faire les tâches aussi tard que possible.
 
@@ -155,12 +155,12 @@ Ceci dit, comme on utilise des égalités pour les assignations, l'assignation d
 En ce qui concerne la répartition du travail.
 Marc a fait le présent fm, le solveur de congruence, le -h, la Tpropagation pour dpll.
 Tpt a fait le solveur d'égalité, le solveur de différence, de la Tpropagation pour wl et les exemples.
-Le tout étant débuggué avec un arrachage de cheveux commun.
+Le tout étant débugué avec un arrachage de cheveux commun.
 
 
 Avant la fin.
-On signale l'existance de -h et --help adapté à chaque programme.
-L'option -rapide peut être donné pour accélerer la résolution. Cela correspond à un solveur spécifique et overoptimisé. Nous tenons à remercier ici Valentin Lorentz qui est à l'origine de l'idée principale de ce solveur et de quelques optimisations réalisées.
+On signale l'existence de -h et --help adapté à chaque programme.
+L'option -rapide peut être donnée pour accélérer la résolution. Cela correspond à un solveur spécifique et overoptimisé. Nous tenons à remercier ici Valentin Lorentz qui est à l'origine de l'idée principale de ce solveur et de quelques optimisations réalisées.
 
 
 
@@ -171,51 +171,45 @@ Messieurs, la session est clause (ahahahah !).
 Et pour ce dernier rendu, live long and prosper.
 
 === Rendu 3 ===
-Un rendu de Paques plus plein qu'un oeuf !
+Un rendu de Pâques plus plein qu'un œuf !
 
 Au programme :
 - Le clause learning et sa suite
 - La version interactive
 - Des graphes
-- Du LaTex
+- Du LaTeX
 
 Tout d'abord, sur l'utilisation.
-L'apprentissage de clause se fait avec -cl. A chaque conflit, la clause est générée et apprise. Il y a aussi l'option -cl-interac. Celle ci demande à chaque conflit ce qu'il faut
-(conformément au sujet).
+L'apprentissage de clause se fait avec -cl. A chaque conflit, la clause est générée et apprise. Il y a aussi l'option -cl-interac. Celle ci demande à chaque conflit ce qu'il faut (conformément au sujet).
 
 En ce qui concerne le fonctionnement et les structures de données.
 
 Une classe externe au solveur, GestionConflit, sert spécifiquement à gérer l'apprentissage de clause et tout ce qui est adjacent. Le fonctionnement est très intriqué et pas franchement passionnant en soi.
-Un point intéressant en outre est le backtracking intelligent. Il fonctionne par lancé d'exception. Chaque niveau rattrape l'exception, détermine si ça le concerne. Si oui, ça continue, sinon, il relance l'exception
-en ajustant les paramètres.
+Un point intéressant en outre est le backtracking intelligent. Il fonctionne par lancer d'exception. Chaque niveau rattrape l'exception, détermine si ça le concerne. Si oui, ça continue, sinon, il relance l'exception en ajustant les paramètres.
 La construction du graphe de conflit se fait à partir de la pile des déductions. La pile se fait simplement et très naturellement en ajoutant le littéral déduit et la clause qui a permis la déduction. Elle est générée à chaque fois mais transformée en graphe seulement lors d'un conflit.
 
-La structure du graphe de conflit est un std::vector<std::pair<int, std::vector<int>>>. Le vecteur a une case par noeud de la déduction. Le premier champ de la paire est le litéral déduit par propagation unitaire. Le second champ est la clause qui a permis la déduction. Il convient de préciser que la clause est la clause initiale de la formule (sans les simplifications qui se font au fur et à mesure). Pour cela, la classe GestionConflit conserve la formule initiale. Chaque clause est identifiée de manière unique malgré les ensembles non ordonnés utilisés grâce à un indentifiant unique à chaque clause. Cet identifiant à servi à implémenté wl et on s'en sert différement maintenant, c'est un exemple d'exaptation. On assure que les litéraux sont dans l'ordre chronologique. Le premier est le pari réalisé. La clause correspondante est vide. Le dernier est le conflit et le deuxième champ du dernier élément du vector est la clause qui est vide à l'issue des différentes déductions. On assure que le litéral opposé (pour avoir le conflit) est présent dans le graphe. Toutes les premiers champ des paires forment l'ensemble des litéraux déduis au niveau courant.
+La structure du graphe de conflit est un std::vector<std::pair<int, std::vector<int>>>. Le vecteur a une case par nœud de la déduction. Le premier champ de la paire est le littéral déduit par propagation unitaire. Le second champ est la clause qui a permis la déduction. Il convient de préciser que la clause est la clause initiale de la formule (sans les simplifications qui se font au fur et à mesure). Pour cela, la classe GestionConflit conserve la formule initiale. Chaque clause est identifiée de manière unique malgré les ensembles non ordonnés utilisés grâce à un identifiant unique à chaque clause. Cet identifiant à servi à implémenté wl et on s'en sert différemment maintenant, c'est un exemple d'exaptation. On assure que les littéraux sont dans l'ordre chronologique. Le premier est le pari réalisé. La clause correspondante est vide. Le dernier est le conflit et le deuxième champ du dernier élément du vector est la clause qui est vide à l'issue des différentes déductions. On assure que le littéral opposé (pour avoir le conflit) est présent dans le graphe. Tous les premiers champs des paires forment l'ensemble des littéraux déduis au niveau courant.
 
 Ce graphe est celui qui peut être affiché (commande g du mode interactif) et qui permet de construire la preuve.
 
 La construction de preuve est gérée par une classe dédiée. Elle prend un graphe et construit une preuve. Elle ne sert qu'à ça. Quelle triste vie !
-La structure de preuve à été un point d'embarras et qui est à la source de bien des regrets. Utlimement, comme l'arbre est un peigne, la preuve a été représentée par deux tableaux de clauses abstraites (contenant des
-entiers qui sont des litéraux et non des litéraux) contenant les premisses et les conclusions. On dit pour cela que dans les deux premisses du haut, une des deux est la conclusion numéro 0. La difficulté de
-l'affichage en LaTex provient de la nécessité de découper les preuves. Le parti choisi consiste à estimer la largeur de la preuve grâce à la longueur des premisses et de la conclusion 0 en ajoutant des constantes
-à causes des trous. On coupe quand la preuve dépasse le largeur limite définie comme une constante de préprocesseur et qu'il y a au moins une résolution. On affiche les preuves dans l'ordre qui serait celui
-de l'arbre complet.
+La structure de preuve à été un point d'embarras et qui est à la source de bien des regrets. Ultimement, comme l'arbre est un peigne, la preuve a été représentée par deux tableaux de clauses abstraites (contenant des entiers qui sont des littéraux et non des littéraux) contenant les prémisses et les conclusions. On dit pour cela que dans les deux prémisses du haut, une des deux est la conclusion numéro 0. La difficulté de l'affichage en LaTeX provient de la nécessité de découper les preuves. Le parti choisi consiste à estimer la largeur de la preuve grâce à la longueur des prémisses et de la conclusion 0 en ajoutant des constantes à causes des trous. On coupe quand la preuve dépasse la largeur limite définie comme une constante de préprocesseur et qu'il y a au moins une résolution. On affiche les preuves dans l'ordre qui serait celui de l'arbre complet.
 
 Les statistiques présentant le nombre et la distance des backtracks intelligents ainsi que la taille des clauses ajoutées sont affichées via l'option d'affichage verbose ("-v").
 
-On remarque aussi l'existance d'un nouveau solveur ne prenant aucune heuristrique en paramètre : -malin. Il a été naturellement déduit de ce qu'on avait déjà et il est un peu plus rapide que le dpll normal (ou wl) dans certains cas.
+On remarque aussi l'existence d'un nouveau solveur ne prenant aucune heuristique en paramètre : -malin. Il a été naturellement déduit de ce qu'on avait déjà et il est un peu plus rapide que le dpll normal (ou wl) dans certains cas.
 
 
-Pour ce qui est des tests, toujours se référer à experiences.fm contenu dans le le dossier experiences. Mais, pour vous éviter cette peine, voici un rapide résumé : le clause learning ne sert strictement à rien et ne change aucunement les performances. Les tests ont simplement été mis à jour pour prendre en compte la nouvelle option. On se rend d'ailleurs compte que les statistiques affichés montre un nombre de backtrack intelligent souvent nul.
+Pour ce qui est des tests, toujours se référer à experiences.fm contenu dans le dossier expériences. Mais, pour vous éviter cette peine, voici un rapide résumé : le clause-learning ne sert strictement à rien et ne change aucunement les performances. Les tests ont simplement été mis à jour pour prendre en compte la nouvelle option. On se rend d'ailleurs compte que les statistiques affichées montre un nombre de backtrack intelligent souvent nul.
 
-Pour ce qui est de l'exemple didactique, on le trouve dans un dossier nommé à cet effet dans le dossier experiences. Le fichier d'explication est nommé tuto.fm.
+Pour ce qui est de l'exemple didactique, on le trouve dans un dossier nommé à cet effet dans le dossier expériences. Le fichier d'explication est nommé tuto.fm.
 
 Le code du DPLL simple a aussi été optimisé grâce à quelques petites modifications dans l'ordre d'appel des simplifications (on gagne environ un facteur 2).
 
 
-Pour des raisons pratiques, on signale l'existance de la règle
+Pour des raisons pratiques, on signale l'existence de la règle
 make purge
-équivalent à
+Equivalent à
 make clean && make.
 
 NB : le projet devenant... grand, il est conseillé de compiler avec
@@ -223,10 +217,10 @@ make clean
 make -j
 Permettant de compiler plusieurs fichiers en même temps. C'est clairement plus efficace.
 
-Pour ce qui est de l'ordonnancement des taches sur 2 cerveaux, 4 hémisphères cérébraux ou 16 lobes, Marc a fait ce qui concerne la sortie en LaTex, la déduction de la nouvelle clause, les expériences et les easter eggs.
+Pour ce qui est de l'ordonnancement des taches sur 2 cerveaux, 4 hémisphères cérébraux ou 16 lobes, Marc a fait ce qui concerne la sortie en LaTeX, la déduction de la nouvelle clause, les expériences et les easter eggs.
 Thomas a fait le backtracking intelligent, l'apprentissage de clauses, les statistiques et à participer aux easter eggs.
 
-Des easter eggs sont cachés dans le projet ! Saurez vous les trouver ?
+Des easter eggs sont cachés dans le projet ! Saurez-vous les trouver ?
 
 === Rendu 2 ===
 Pleins de jolies petites fonctionnalités !
@@ -252,8 +246,8 @@ On rappelle que les trois algorithmes de résolutions sont :
 - Davis-Putnam (option -dp, n'utilise pas les heuristiques)
 Les options de choix de système de résolution et d'heuristique sont disponibles pour les 3 exécutables (resol, tseitin et colorie).
 
-Les formules logiques générales on eu droit à leur parseur fait avec Flex et GNU Bison (code dans /logique_parser). Elle sont représentées par un arbre de FormuleTseitin. On a préféré ne pas utiliser d'héritage ici pour éviter de nombreux cast dans les transformations.
-La transformation de Tseitin est exécutée, suivant la spécification, par TransformationTseitin qui fournis une table de correspondance entre les noms de variables dans la formule vers les identifiants numériques utilisés par la structure de données Formule.
+Les formules logiques générales on eu droit à leur parseur fait avec Flex et GNU Bison (code dans /logique_parser). Elles sont représentées par un arbre de FormuleTseitin. On a préféré ne pas utiliser d'héritage ici pour éviter de nombreux cast dans les transformations.
+La transformation de Tseitin est exécutée, suivant la spécification, par TransformationTseitin qui fournit une table de correspondance entre les noms de variables dans la formule vers les identifiants numériques utilisés par la structure de données Formule.
 L'exécution du SAT-solveur se fait comme d'habitude, puis la table de correspondance est utilisée pour la sortie.
 
 Pour utiliser le solveur de formule logique, il suffit de passer la formule dans un fichier à l'exécutable "tseitin" :
@@ -283,7 +277,7 @@ On affiche la sortie dans un fichier pdf (nécessite Graphviz, d'autre formats c
 
 Pour la corbeille d'expériences, se référer à experiences/experiences.fm
 
-Concernant la répartition des tâches, Marc à écrit la structure de données pour les formules booléennes, la transformation de Tseitin et les générateurs ainsi que conduit les tests (scripts + commentaires) pendant que Thomas a créé le parser de formules logiques et le système de coloriage (parser, conversion et sortie) et la création du présent menu. Enfin, le travail sur les heuristiques à été fait à deux.
+Concernant la répartition des tâches, Marc a écrit la structure de données pour les formules booléennes, la transformation de Tseitin et les générateurs ainsi que conduit les tests (scripts + commentaires) pendant que Thomas a créé le parser de formules logiques et le système de coloriage (parser, conversion et sortie) et la création du présent menu. Enfin, le travail sur les heuristiques a été fait à deux.
 
 
 
@@ -292,34 +286,33 @@ Oyez, oyez ! Tant de nouveautés !
 
 Bon, il s'agit du premier rendu implémentant DPLL et les Watched Literals. Trêve de trivialités, maintenant, détaillons.
 
-En tout premier lieu, la structure de donnée. On a repris le code du DM de Chevalier pour ça. Aussi, on a gardé la structure en couche successive de Formule->Clause->Littéral->Variable utilisant le conteneur d'ensemble non ordonné de la STL du C++11. Certaines classes ont été enrichies dans leur fonctionnement. Par exemple, on a ajouter des types énumérations pour décrire le résultat d'une évaluation : faux, vrai, inconnu. De la même façon, on a une type pour la polarité : positif, négatif, absent ou tautologie (présence des deux). Cependant, une classe a été largement allégée : la classe Formule. En effet, on a déplacé le parser et le solveur vers des classes indépendantes. Aussi, on a une classe (abstraite) dont hérite tous les solveurs : Davis-Putnamm et les solveurs DPLL. Pour ces derniers, on a une classe abstraite dont hérite le solveur DPLL simple et le DPLL avec la technique des Watched Literals. D'autre part, le backtracking se gère avec des lancés et gestions
-d'exception. D'où la déclaration de plusieurs exceptions.
+En tout premier lieu, la structure de donnée. On a repris le code du DM de Chevalier pour ça. Aussi, on a gardé la structure en couche successive de Formule->Clause->Littéral->Variable utilisant le conteneur d'ensemble non ordonné de la STL du C++11. Certaines classes ont été enrichies dans leur fonctionnement. Par exemple, on a ajouté des types énumérations pour décrire le résultat d'une évaluation : faux, vrai, inconnu. De la même façon, on a un type pour la polarité : positif, négatif, absent ou tautologie (présence des deux). Cependant, une classe a été largement allégée : la classe Formule. En effet, on a déplacé le parser et le solveur vers des classes indépendantes. Aussi, on a une classe (abstraite) dont héritent tous les solveurs : Davis-Putnamm et les solveurs DPLL. Pour ces derniers, on a une classe abstraite dont hérite le solveur DPLL simple et le DPLL avec la technique des Watched Literals. D'autre part, le backtracking se gère avec des lancés et gestions d'exception. D'où la déclaration de plusieurs exceptions.
 
 Voilà pour la structure. Suite !
 
 Du point de vue algorithmique... On a recyclé pas mal d'optimisation du Davis-Putnamm. Chaque décision sur la valeur d'une variable induit un certain nombre de propagations unitaires et d'éliminations de littéraux purs qui sont réalisés en boucle, jusqu'à point fixe. Lors de ce procédé, on supprime les clauses qui sont satisfaites (même si leur évaluation renvoie la valeur énumérée "inconnue" car toutes les variables ne sont pas encore assignées) et les littéraux qui sont assignés à false.
-Après ces simplification, on procède à la détection des clauses qui sont des surclauses d'une autre clause de la formule et on les supprime.
+Après ces simplifications, on procède à la détection des clauses qui sont des surclauses d'une autre clause de la formule et on les supprime.
 
 Un point intéressant est la gestion du backtracking. Le principe est simple : on décide, on explore, si on obtient une contradiction on lance une exception, on remonte et on teste l'autre assignation, sinon on termine et la formule contient son assignation. Pour cela il a fallut écrire un constructeur de copie pour les formules. J'attire votre attention là-dessus car, à cause de la structure de donnée, c'est loin d'être trivial. Il faut, en particulier, prendre soin de créer de nouvelles variables et de nouveaux littéraux. Ensuite, il faut entièrement reconstruire les clauses en fonction des identifiants des variables.
 
 Pour les Watched-Literals, on a implémenté simplement la méthode proposé dans les transparents. La seule optimisation ajoutée a été de supprimer dans la formule courante les clauses dont on vu qu'un littéral est à vrai et de supprimer les littéraux faux des clauses quand on les rencontres (notamment dans la recherche de nouveaux littéraux à surveiller). Cela permet de réduire le nombre d'itérations lors de simplifications suivantes.
 
-On a aussi essayé d'utiliser plus à fond les méthode de la STL, pour gagner du temps. Mais il y a sans doute encore des pistes d'amélioration de ce côté, afin d'éviter des boucles inutiles. La seconde piste d'amélioration serait de faire en sorte de limiter au maximum le coût des copies de formules causés par le système de backtracking. Enfin, une destruction fine de la mémoire inutile (clauses qui ne servirons plus...) au cours de l'algorithme permettrait de diminuer la consommation mémoire.
+On a aussi essayé d'utiliser plus à fond les méthodes de la STL, pour gagner du temps. Mais il y a sans doute encore des pistes d'amélioration de ce côté, afin d'éviter des boucles inutiles. La seconde piste d'amélioration serait de faire en sorte de limiter au maximum le coût des copies de formules causés par le système de backtracking. Enfin, une destruction fine de la mémoire inutile (clauses qui ne serviront plus...) au cours de l'algorithme permettrait de diminuer la consommation mémoire.
 
 
-En ce qui concerne l'interface... Il suffit de passer des arguments en ligne de commande. Il y a bien sûr -wl qui active une résolution avec DPLL avec les Watched Literals. L'argument -dp procède à la résolution avec Davis-Putnamm. Bien sûr, ne donner aucun argument lance un DPLL simple. Il y a aussi une version avec des sorties de débuggage. La chose se fait à la compilation. Il suffit de compiler avec la commande :
+En ce qui concerne l'interface... Il suffit de passer des arguments en ligne de commande. Il y a bien sûr -wl qui active une résolution avec DPLL avec les Watched Literals. L'argument -dp procède à la résolution avec Davis-Putnamm. Bien sûr, ne donner aucun argument lance un DPLL simple. Il y a aussi une version avec des sorties de débugage. La chose se fait à la compilation. Il suffit de compiler avec la commande :
 make debug
-La compilation donnant le programme sans les sorties de débuggages se fait toujours avec la commande :
+La compilation donnant le programme sans les sorties de débugage se fait toujours avec la commande :
 make
 On signale l'existence de :
 make clean
-pour supprimer tous les .o générés à la compilation. Il a été choisi de faire ce réglage à la compilation (via des directives de préprocesseur) pour pas perdre son temps en test lors de l'exécution pour une chose aussi futile que l'affichage...
+pour supprimer tous les .o générés à la compilation. Il a été choisi de faire ce réglage à la compilation (via des directives de préprocesseur) pour ne pas perdre son temps en test lors de l'exécution pour une chose aussi futile que l'affichage...
 Attention : pour passer du mode debug au mode normal un "make clean" est nécessaire afin de purger le cache du système de build.
 
 
 
 
-Il convient de signaler que le générateur à exemple a été refait, l'interface est la même mais le fonctionnement a complètement changé. Et ce, dans un seul but : ne pas générer de tautologies. En effet, la probabilité de générer des tautologie quand la longueur des clauses s'approche du nombre de variables explose. Aussi, pour tester la méthode de résolution avec les Watched Literals, il est intéressant d'avoir de longues clauses qui ne sont pas des tautologies.
+Il convient de signaler que le générateur à exemple a été refait, l'interface est la même mais le fonctionnement a complètement changé. Et ce, dans un seul but : ne pas générer de tautologies. En effet, la probabilité de générer des tautologies quand la longueur des clauses s'approche du nombre de variables explose. Aussi, pour tester la méthode de résolution avec les Watched Literals, il est intéressant d'avoir de longues clauses qui ne sont pas des tautologies.
 
 
 
