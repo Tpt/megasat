@@ -4,6 +4,7 @@
 #include "../include/DPLLSolveur.h"
 #include "../include/DPLLSurveilleSolveur.h"
 #include "../include/MinisatSolveur.h"
+#include "../include/ErreurResolutionException.h"
 
 using namespace std;
 
@@ -75,6 +76,18 @@ Formule LanceurSolveur::execute(Formule& formule, TheorieGreffon& theorieGreffon
         formule = solveur->getFomule();
         if(arguments.getOption("v"))
             gestionConflits->afficheStatistiques(getBufferSortie(), debutCommentaire);
+        if(arguments.getOption("c"))
+        {
+            if(!formule.isConsistant())
+            {
+                if(arguments.getOption("v"))
+                    cout << debutCommentaire << " La résolution est inconsistante." << endl;
+                throw ErreurResolutionException();
+            }
+            else if(arguments.getOption("v"))
+                cout << debutCommentaire << " La résolution est consistante." << endl;
+        }
+
         delete solveur;
         delete heuristique;
         delete gestionConflits;
@@ -194,7 +207,7 @@ streambuf* LanceurSolveur::getBufferSortie()
 
 vector<string> LanceurSolveur::getNomsOptions()
 {
-    vector<string> liste(13);
+    vector<string> liste(14);
     liste[0]="dpll";
     liste[1]="wl";
     liste[2]="dp";
@@ -208,5 +221,6 @@ vector<string> LanceurSolveur::getNomsOptions()
     liste[10]="cl";
     liste[11]="cl-interac";
     liste[12]="rapide";
+    liste[13]="c";
     return liste;
 }

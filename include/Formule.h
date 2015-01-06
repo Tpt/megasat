@@ -25,6 +25,7 @@ public:
     int getNombreDeVariables() const __attribute__((pure));
     Variable* getVar(int id) const __attribute__((pure)); //id est le numéro de la variable compté à partir de 1
     std::vector<Variable*> getVars() const;
+    bool isConsistant() const __attribute__((pure));
     bool isVide() const __attribute__((pure));
     void print() const;
     void setVar(int id, bool val); //id est le numéro de la variable compté à partir de 1

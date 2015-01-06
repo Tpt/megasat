@@ -185,3 +185,12 @@ bool Formule::contient(const Clause* clause) const
 
     return false;
 }
+
+bool Formule::isConsistant() const
+{
+    for(Clause* clause : clauses)
+        if(!clause->eval())
+            return false;
+
+    return true;
+}

@@ -2,6 +2,7 @@
 #include"include/Formule.h"
 #include"include/CnfParser.h"
 #include"include/InsatisfiableException.h"
+#include"include/ErreurResolutionException.h"
 #include<chrono>
 
 using namespace std;
@@ -54,6 +55,7 @@ int main(int argc, char *argv[])
         cout<<"Divers :"<<endl;
         cout<<"-v               Verbose"<<endl;
         cout<<"-s               Silencieux"<<endl;
+        cout<<"-c               Vérifie la solution à la fin de la résolution"<<endl;
         cout<<"-h               Vous y êtes"<<endl;
         cout<<"--help           Vous y êtes"<<endl<<endl;
         return(EXIT_SUCCESS);
@@ -82,6 +84,18 @@ int main(int argc, char *argv[])
     catch(InsatisfiableException)
     {
         out << "s UNSATISFIABLE" << endl;
+    }
+    catch(ErreurResolutionException)
+    {
+        out << "s SATISFIABLE" << endl;
+        for(int i = 1; i <= formule.getNombreDeVariables(); i++)
+        {
+            if(formule.getVar(i)->getVal())
+                out << "v " << i << endl;
+            else
+                out << "v " << -i << endl;
+        }
+        cerr << "Erreur lors de la résultion" << endl;
     }
     out << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
 
