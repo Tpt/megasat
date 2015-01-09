@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
             else
                 out << "v " << -i << endl;
         }
-        cerr << "Erreur lors de la résultion" << endl;
+        cerr << "Erreur lors de la résolution" << endl;
     }
     out << "c Resolu en : " << duration_cast<duration<double>>(system_clock::now() - beginTime).count() << " secondes" << endl;
 
