@@ -177,7 +177,7 @@ HeuristiqueType LanceurSolveur::getHeuristique()
     }
     else if(arguments.getOption("dlisVariante"))
     {
-        heuristique = DLIS;
+        heuristique = DLISVARIANTE;
     }
 
     if(arguments.getOption("v"))
