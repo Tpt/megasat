@@ -125,9 +125,9 @@ bool Clause::isSurclause(const Clause* c) const ///Test si la clause est une sur
     return lit.empty();
 }
 
-int Clause::size() const
+size_t Clause::size() const
 {
-    return static_cast<int>(literaux.size());
+    return literaux.size();
 }
 
 int Clause::getNombreDeVariables() const

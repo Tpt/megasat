@@ -41,6 +41,12 @@ public:
     int getVariableNonAssignee(const Formule& formule) const;
 };
 
+class VariableNonAssigneeProviderDLISVariante : public VariableNonAssigneeProvider
+{
+public:
+    int getVariableNonAssignee(const Formule& formule) const;
+};
+
 class PlusDeVariablesAAssigner : public std::exception
 {};
 

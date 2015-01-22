@@ -34,6 +34,9 @@ Formule LanceurSolveur::execute(Formule& formule, TheorieGreffon& theorieGreffon
         case DLIS:
             heuristique = new VariableNonAssigneeProviderDLIS();
             break;
+        case DLISVARIANTE:
+            heuristique = new VariableNonAssigneeProviderDLISVariante();
+            break;
     }
 
     GestionConflits* gestionConflits = nullptr;
@@ -172,6 +175,10 @@ HeuristiqueType LanceurSolveur::getHeuristique()
     {
         heuristique = DLIS;
     }
+    else if(arguments.getOption("dlisVariante"))
+    {
+        heuristique = DLIS;
+    }
 
     if(arguments.getOption("v"))
     {
@@ -194,6 +201,9 @@ HeuristiqueType LanceurSolveur::getHeuristique()
             case DLIS:
                 out << debutCommentaire << " Choix des variables non assignées avec l'heuristique DLIS." << endl;
                 break;
+            case DLISVARIANTE:
+                out << debutCommentaire << " Choix des variables non assignées avec la variante de l'heuristique DLIS." << endl;
+                break;
         }
     }
 
@@ -207,7 +217,7 @@ streambuf* LanceurSolveur::getBufferSortie()
 
 vector<string> LanceurSolveur::getNomsOptions()
 {
-    vector<string> liste(14);
+    vector<string> liste(15);
     liste[0]="dpll";
     liste[1]="wl";
     liste[2]="dp";
@@ -216,6 +226,7 @@ vector<string> LanceurSolveur::getNomsOptions()
     liste[5]="malin";
     liste[6]="moms";
     liste[7]="dlis";
+    liste[7]="dlisVariante";
     liste[8]="v";
     liste[9]="s";
     liste[10]="cl";

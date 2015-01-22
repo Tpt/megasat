@@ -11,6 +11,7 @@ TheorieGreffon::~TheorieGreffon()
 
 vector<int> TheorieGreffon::getTPropagations(unsigned int niveau)
 {
+    (void) niveau;
     return vector<int>(0);
 }
 

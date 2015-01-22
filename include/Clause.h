@@ -33,7 +33,7 @@ public:
     void supprimer(Literal* l);
     void supprimerLiteraux(std::list<Literal*> literauxASupprimer);
     void supprimerLiterauxFaux();
-    int size() const __attribute__((pure));
+    size_t size() const __attribute__((pure));
 
 
     static int genUid();

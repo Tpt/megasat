@@ -3,6 +3,7 @@
 #include<climits>
 #include<ctime>
 #include "../include/InsatisfiableException.h"
+#include "../include/Rationnel.h"
 
 using namespace std;
 
@@ -52,7 +53,7 @@ int VariableNonAssigneeProviderMalin::getVariableNonAssignee(const Formule& form
 
 int VariableNonAssigneeProviderMOMS::getVariableNonAssignee(const Formule& formule) const
 {
-    int tailleMin = INT_MAX;
+    size_t tailleMin = ULONG_MAX;
 
     for(Clause* c : formule.getClauses())
         if(tailleMin > c->size())
@@ -98,4 +99,27 @@ int VariableNonAssigneeProviderDLIS::getVariableNonAssignee(const Formule& formu
          throw PlusDeVariablesAAssigner();
 
     return literalDOccurenceMaximale;
+}
+
+int VariableNonAssigneeProviderDLISVariante::getVariableNonAssignee(const Formule& formule) const
+{
+    map<int, Rationnel> scores;
+
+    for(Clause* c : formule.getClauses())
+        for(Literal* l : c->getLiteraux())
+            scores[l->getId()]+=(Rationnel(1,2).power(c->size()));
+
+    int argmax = 1;
+    Rationnel sup = scores[1];
+
+    for(pair<int, Rationnel> score : scores)
+    {
+        if(sup < score.second)
+        {
+            argmax = score.first;
+            sup = score.second;
+        }
+    }
+
+    return argmax;
 }

@@ -10,7 +10,8 @@ enum HeuristiqueType {
     RAND,
     MALIN,
     MOMS,
-    DLIS
+    DLIS,
+    DLISVARIANTE
 };
 
 enum SolveurType {
