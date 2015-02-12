@@ -226,12 +226,12 @@ vector<string> LanceurSolveur::getNomsOptions()
     liste[5]="malin";
     liste[6]="moms";
     liste[7]="dlis";
-    liste[7]="dlisVariante";
-    liste[8]="v";
-    liste[9]="s";
-    liste[10]="cl";
-    liste[11]="cl-interac";
-    liste[12]="rapide";
-    liste[13]="c";
+    liste[8]="dlisVariante";
+    liste[9]="v";
+    liste[10]="s";
+    liste[11]="cl";
+    liste[12]="cl-interac";
+    liste[13]="rapide";
+    liste[14]="c";
     return liste;
 }
