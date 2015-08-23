@@ -18,6 +18,7 @@ egalite_solver
 gen/ordonnancement
 core
 *.sty
+*.gch
 
 # Compiled Dynamic libraries
 *.so
