@@ -47,8 +47,8 @@ namespace CongruenceParser {
 %start Input
 
 %language "C++"
-%define namespace "CongruenceParser"
-%define parser_class_name "Parser"
+%define api.namespace {CongruenceParser}
+%define parser_class_name {Parser}
 %parse-param {Driver &driver}
 %locations
 

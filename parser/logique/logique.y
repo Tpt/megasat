@@ -37,8 +37,8 @@ namespace LogiqueParser {
 %start Input
 
 %language "C++"
-%define namespace "LogiqueParser"
-%define parser_class_name "Parser"
+%define api.namespace {LogiqueParser}
+%define parser_class_name {Parser}
 %parse-param {Driver &driver}
 %locations
 

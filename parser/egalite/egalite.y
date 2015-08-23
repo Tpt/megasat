@@ -40,8 +40,8 @@ namespace EgaliteParser {
 %start Input
 
 %language "C++"
-%define namespace "EgaliteParser"
-%define parser_class_name "Parser"
+%define api.namespace {EgaliteParser}
+%define parser_class_name {Parser}
 %parse-param {Driver &driver}
 %locations
 

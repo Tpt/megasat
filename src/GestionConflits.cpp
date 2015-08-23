@@ -13,28 +13,28 @@ GestionConflits::GestionConflits(int prochainConflit_)
 GestionConflits::~GestionConflits()
 {}
 
-void GestionConflits::onBeginning(Formule* formule)
+void GestionConflits::onBeginning(Formule*)
 {}
 
-void GestionConflits::onDeduction(Literal* literal, int clauseUid, int profondeurPile)
+void GestionConflits::onDeduction(Literal*, int, int)
 {}
 
-void GestionConflits::onChoix(int literalId, int profondeurPile)
+void GestionConflits::onChoix(int, int)
 {}
 
-void GestionConflits::onBacktrack(int nouvelleProfondeur)
+void GestionConflits::onBacktrack(int)
 {}
 
-void GestionConflits::addClause(std::vector<int>& clause, int uid)
+void GestionConflits::addClause(std::vector<int>&, int)
 {}
 
-pair<int,pair<int,vector<int>>> GestionConflits::onConflit(int clauseUid, int profondeurPile)
+pair<int,pair<int,vector<int>>> GestionConflits::onConflit(int, int)
 {
     conflitsNum++;
     return pair<int,pair<int,vector<int>>>(0, pair<int,vector<int>>(-1, vector<int>(0)));
 }
 
-void GestionConflits::afficheStatistiques(std::streambuf* sortie, const string& debutCommentaire) const
+void GestionConflits::afficheStatistiques(std::streambuf*, const string&) const
 {}
 
 

@@ -41,9 +41,8 @@ string toString(FormuleTseitin<AtomeCongruence> t)
         case FormuleTseitin<AtomeCongruence>::IMPLIQUE :
             return "(" + toString(t.getOperandeG()) + " => " + toString(t.getOperandeD()) + ")";
         case FormuleTseitin<AtomeCongruence>::XOR :
+        default : // All cases are matched
             return "(" + toString(t.getOperandeG()) + " xor " + toString(t.getOperandeD()) + ")";
-        default :
-            return "P'tet ben, j'en sais rien...";
     }
 }
 

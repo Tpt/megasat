@@ -185,13 +185,12 @@ map<int, Terme> TheorieGreffonCongruence::unify(const Terme& gauche, const Terme
     try
     {
         sub = iterate(map<int, Terme>(), vector<pair<Terme, Terme>>(1, make_pair(gauche, droite)));
-        return sub;
     }
     catch(nonUnifiableException& a)
     {
         throw;
     }
-    return map<int, Terme>();
+    return sub;
 }
 
 map<int, Terme> TheorieGreffonCongruence::iterate(map<int, Terme> subst, vector<pair<Terme, Terme>> contraintes) const

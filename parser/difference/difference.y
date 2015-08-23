@@ -41,8 +41,8 @@ namespace DifferenceParser {
 %start Input
 
 %language "C++"
-%define namespace "DifferenceParser"
-%define parser_class_name "Parser"
+%define api.namespace {DifferenceParser}
+%define parser_class_name {Parser}
 %parse-param {Driver &driver}
 %locations
 
