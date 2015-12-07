@@ -236,7 +236,7 @@ Au menu :
 
 Tout d'abord une option "-v" (comme verbose) a été ajoutée pour afficher des données sur le calcul courant (choix de l'heuristique, formule en forme normale conjonctive pour la résolution d'une formule générale...).
 
-Pour les heuristiques elles sont chacune implémentées dans une classe séparée implémentant dans même interface VariableNonAssigneeProvider puis injectées à la construction du solveur.
+Pour les heuristiques elles sont chacune implémentée dans une classe séparée implémentant dans même interface VariableNonAssigneeProvider puis injectées à la construction du solveur.
 Les heuristiques disponibles sont :
 - simple : la première variable non assignée trouvée en l'assignant à true en premier (option -simple)
 - rand : une variable libre prise au hasard en l'assignant à true en premier (option -rand)
