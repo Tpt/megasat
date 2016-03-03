@@ -258,3 +258,5 @@ clean:
 	rm -f parser/*/location.hh
 	rm -f parser/*/position.hh
 	rm -f obj/*.o
+	rm -f resol tseitin colorie congruence_solver difference_solver egalite_solver
+
