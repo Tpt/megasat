@@ -1,5 +1,5 @@
 CC=clang++
-C11= -std=c++0x
+C11= -std=c++11
 FLAGSBASE= -O2 -W -Wextra -Wcast-qual -Wcast-align -Wfloat-equal -Wshadow -Wpointer-arith -Wunreachable-code -Wchar-subscripts -Wcomment -Wformat -Werror-implicit-function-declaration -Wmain -Wmissing-braces -Wparentheses -Wsequence-point -Wreturn-type -Wswitch -Wuninitialized -Wreorder -Wundef -Wwrite-strings -Wsign-compare -Wmissing-declarations 
 NAZIBASE= $(FLAGSBASE) -pedantic -Wconversion -Wmissing-noreturn -Wold-style-cast -Weffc++ -Wall -Wunused -Wsign-conversion -Wunused -Wstrict-aliasing -Wstrict-overflow -Wconversion -Wdisabled-optimization
 ifeq ($(CC), g++)
@@ -9,6 +9,7 @@ else
 endif
 CFLAGS=$(NAZI)
 LDFLAGS= -lgmp -lgmpxx
+LEXFLAGS= -Wno-deprecated-register
 SOLVEURS=obj/ArgumentsParser.o obj/LanceurSolveur.o obj/MessageException.o obj/Solveur.o obj/DavisPutnamSolveur.o obj/AbstractDPLLSolveur.o obj/DPLLSolveur.o obj/DPLLSurveilleSolveur.o obj/MinisatSolveur.o obj/clause.o obj/formule.o obj/.o obj/literal.o obj/variable.o obj/VariableNonAssigneeProvider.o obj/GestionConflits.o obj/Preuve.o obj/LatexPrinter.o obj/ConstructeurPreuve.o obj/GraphvizConflitOutput.o obj/TheorieGreffon.o obj/Rationnel.o
 EXEC=setup resol tseitin colorie congruence_solver difference_solver egalite_solver
 LEX=flex
@@ -117,13 +118,13 @@ obj/ArgumentsParser.o: src/ArgumentsParser.cpp
 	$(CC) -o $@ -c $< $(C11) $(CFLAGS)
 	
 obj/LogiqueParserLogiqueParser.o: parser/logique/logiqueParser.cpp
-	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11)
 
 parser/logique/logiqueParser.cpp: parser/logique/logique.y
 	$(YACC) -dv -o $@ $<
 
 obj/LogiqueParserLogiqueLexer.o: parser/logique/logiqueLexer.cpp
-	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11) $(LEXFLAGS)
 
 parser/logique/logiqueLexer.cpp: parser/logique/logique.lex
 	$(LEX) -o $@ $<
@@ -135,13 +136,13 @@ obj/LogiqueParserLexer.o: parser/logique/lexer.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 obj/CongruenceParserLogiqueParser.o: parser/congruence/congruenceParser.cpp
-	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11)
 
 parser/congruence/congruenceParser.cpp: parser/congruence/congruence.y
 	$(YACC) -dv -o $@ $<
 
 obj/CongruenceParserLogiqueLexer.o: parser/congruence/congruenceLexer.cpp
-	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11) $(LEXFLAGS)
 
 parser/congruence/congruenceLexer.cpp: parser/congruence/congruence.lex
 	$(LEX) -o $@ $<
@@ -153,13 +154,13 @@ obj/CongruenceParserLexer.o: parser/congruence/lexer.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 obj/DifferenceParserLogiqueParser.o: parser/difference/differenceParser.cpp
-	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11)
 
 parser/difference/differenceParser.cpp: parser/difference/difference.y
 	$(YACC) -dv -o $@ $<
 
 obj/DifferenceParserLogiqueLexer.o: parser/difference/differenceLexer.cpp
-	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11) $(LEXFLAGS)
 
 parser/difference/differenceLexer.cpp: parser/difference/difference.lex
 	$(LEX) -o $@ $<
@@ -171,13 +172,13 @@ obj/DifferenceParserLexer.o: parser/difference/lexer.cpp
 	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
 
 obj/EgaliteParserLogiqueParser.o: parser/egalite/egaliteParser.cpp
-	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11)
 
 parser/egalite/egaliteParser.cpp: parser/egalite/egalite.y
 	$(YACC) -dv -o $@ $<
 
 obj/EgaliteParserLogiqueLexer.o: parser/egalite/egaliteLexer.cpp
-	$(CC) -o $@ -c $< $(C11) $(FLAGSBASE)
+	$(CC) -o $@ -c $< $(C11) $(LEXFLAGS)
 
 parser/egalite/egaliteLexer.cpp: parser/egalite/egalite.lex
 	$(LEX) -o $@ $<
