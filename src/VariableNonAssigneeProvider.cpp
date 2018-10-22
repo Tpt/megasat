@@ -106,20 +106,23 @@ int VariableNonAssigneeProviderDLISVariante::getVariableNonAssignee(const Formul
     map<int, Rationnel> scores;
 
     for(Clause* c : formule.getClauses())
-        for(Literal* l : c->getLiteraux())
-            scores[l->getId()]+=(Rationnel(1,2).power(c->size()));
+        if(c->eval() == INCONNU)
+            for(Literal* l : c->getLiteraux())
+                if(!l->isAssigne())
+                    scores[l->getId()]+=(Rationnel(1,2).power(c->size()));
 
-    int argmax = 1;
-    Rationnel sup = scores[1];
+    int argmax = 0;
 
     for(pair<int, Rationnel> score : scores)
     {
-        if(sup < score.second)
+        if(argmax == 0 || scores.at(argmax) < score.second)
         {
             argmax = score.first;
-            sup = score.second;
         }
     }
+
+    if(argmax == 0)
+        throw PlusDeVariablesAAssigner();
 
     return argmax;
 }

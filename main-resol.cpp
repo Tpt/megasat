@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
         cout<<"-rand"<<endl;
         cout<<"-malin"<<endl;
         cout<<"-dlis"<<endl;
+        cout<<"-dlisVariante"<<endl;
         cout<<"-moms"<<endl<<endl;
         cout<<"Clause Learning (seulement avec -dpll et -wl) :"<<endl;
         cout<<"-cl              Clause Learning simple"<<endl;
