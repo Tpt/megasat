@@ -16,8 +16,6 @@ class Driver
 {
 public:
     Driver();
-    Driver(const Driver& other);
-    Driver& operator= (const Driver& other);
     ~Driver();
 
     FormuleTseitin<AtomeEgalite> parse(std::string& fileName);

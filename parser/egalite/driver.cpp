@@ -10,21 +10,6 @@ namespace EgaliteParser {
 Driver::Driver() : lexer(new Lexer()), parser(new Parser(*this)), result(FormuleTseitin<AtomeEgalite>())
 {}
 
-Driver::Driver(const Driver& other) :
-lexer(new Lexer(*other.lexer)), parser(other.parser), result(other.result)
-{}
-
-Driver& Driver::operator= (const Driver& other)
-{
-    Driver Temp(other);
-
-    swap(Temp.lexer, this->lexer);
-    swap(Temp.parser, this->parser);
-    swap(Temp.result, this->result);
-
-    return *this;
-}
-
 Driver::~Driver()
 {
     delete parser;

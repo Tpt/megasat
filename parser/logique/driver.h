@@ -15,8 +15,6 @@ class Driver
 {
 public:
     Driver();
-    Driver(const Driver& other);
-    Driver& operator= (const Driver& other);
     ~Driver();
 
     FormuleTseitin<std::string> parse(std::string& fileName);
